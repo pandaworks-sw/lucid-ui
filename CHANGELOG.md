@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to pandawork-ui will be documented in this file.
+All notable changes to pandaworks-ui will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
@@ -12,10 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- Merged `pandahrms-ui-registry` and `pandahrms-ui-demo` into `pandawork-ui` monorepo
+- Merged `pandahrms-ui-registry` and `pandahrms-ui-demo` into `pandaworks-ui` monorepo
 - Demo app imports components directly from registry package (no more shadcn copy workflow)
-- GitHub Pages base path changed from `/pandahrms-ui-demo/` to `/pandawork-ui/`
-- Registry URL changed from `pandahrms-ui-registry` to `pandawork-ui`
+- GitHub Pages base path changed from `/pandahrms-ui-demo/` to `/pandaworks-ui/`
+- Registry URL changed from `pandahrms-ui-registry` to `pandaworks-ui`
 - `default` button variant reverted to standard shadcn/ui style (`bg-primary shadow-xs hover:bg-primary/90`)
 - `create` and `save` action presets now use `brand` variant instead of `default`
 

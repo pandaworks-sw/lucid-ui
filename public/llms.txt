@@ -7,7 +7,7 @@
 Install any component via the shadcn CLI:
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandawork-ui/main/public/r/<component-name>.json
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/<component-name>.json
 ```
 
 Components are installed to `src/components/ui/`. Import from `@/components/ui/<name>`.
@@ -1212,9 +1212,9 @@ Each entry contains:
 
 - change: renamed
 - breaking: yes
-- details: Repository renamed from `pandahrms-ui-registry` to `pandawork-ui`. Registry URL changed. Registry key changed from `@pandahrms` to `@pandawork`.
+- details: Repository renamed from `pandahrms-ui-registry` to `pandaworks-ui`. Registry URL changed. Registry key changed from `@pandahrms` to `@pandawork`.
 - action:
-  - Update `components.json` registry URL from `pandahrms-ui-registry` to `pandawork-ui`
+  - Update `components.json` registry URL from `pandahrms-ui-registry` to `pandaworks-ui`
   - Update registry key from `@pandahrms` to `@pandawork` in `components.json`
   - Update all `npx shadcn add` commands to use new URL
 

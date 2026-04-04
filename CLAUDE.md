@@ -70,7 +70,7 @@ When committing, update both files under the `[Unreleased]` section. When cuttin
 ## Consuming
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandawork-ui/main/public/r/<component>.json
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/<component>.json
 ```
 
 ## Button Action Presets
