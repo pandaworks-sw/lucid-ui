@@ -8,7 +8,7 @@ Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
 
 ### 1. Add the registry to your project
 
-In your project's `components.json`, add the `@pandawork` registry:
+In your project's `components.json`, add the `@pandaworks` registry:
 
 ```json
 {
@@ -24,13 +24,13 @@ In your project's `components.json`, add the `@pandawork` registry:
 
 ```bash
 # Install a single component
-npx shadcn@latest add @pandawork/button
+npx shadcn@latest add @pandaworks/button
 
 # Install multiple components
-npx shadcn@latest add @pandawork/button @pandawork/card @pandawork/input
+npx shadcn@latest add @pandaworks/button @pandaworks/card @pandaworks/input
 
 # Update an existing component
-npx shadcn@latest add @pandawork/button --overwrite --yes
+npx shadcn@latest add @pandaworks/button --overwrite --yes
 ```
 
 ### Alternative: Install via direct URL

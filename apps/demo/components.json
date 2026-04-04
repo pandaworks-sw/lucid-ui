@@ -19,7 +19,7 @@
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@pandawork": {
+    "@pandaworks": {
       "url": "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/{name}.json"
     }
   }

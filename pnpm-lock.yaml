@@ -13,7 +13,7 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.1.1
         version: 5.2.2(react-hook-form@7.72.1(react@19.2.4))
-      '@pandawork-ui/registry':
+      '@pandaworks-ui/registry':
         specifier: workspace:*
         version: link:../../packages/registry
       lucide-react:

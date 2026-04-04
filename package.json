@@ -4,9 +4,9 @@
   "private": true,
   "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "dev": "pnpm --filter @pandawork-ui/demo dev",
-    "build": "pnpm registry:build && pnpm --filter @pandawork-ui/demo build",
-    "registry:build": "pnpm --filter @pandawork-ui/registry registry:build",
-    "lint": "pnpm --filter @pandawork-ui/demo lint"
+    "dev": "pnpm --filter @pandaworks-ui/demo dev",
+    "build": "pnpm registry:build && pnpm --filter @pandaworks-ui/demo build",
+    "registry:build": "pnpm --filter @pandaworks-ui/registry registry:build",
+    "lint": "pnpm --filter @pandaworks-ui/demo lint"
   }
 }
