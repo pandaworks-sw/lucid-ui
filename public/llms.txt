@@ -164,7 +164,17 @@ Each entry contains:
 
 ---
 
-### [Unreleased]
+### 2026-04-08
+
+#### detail-page
+
+- change: modified
+- breaking: no
+- details: Added `DetailPageSidebarSection` sub-component. A sidebar section with header row (label + optional action slot) and free-form children. Inspired by GitHub issue detail sidebar pattern.
+- action:
+  - Run `npx shadcn@latest add @pandaworks/detail-page --overwrite --yes` to update
+  - No code changes required. Existing `DetailPageMetaItem` usage is unaffected.
+  - New `DetailPageSidebarSection` is available for use alongside or instead of `DetailPageMetaItem`
 
 #### registry (repo rename)
 

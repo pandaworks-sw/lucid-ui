@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Building2, AlertCircle } from "lucide-react";
+import { Building2, AlertCircle, Settings } from "lucide-react";
 import { DemoSection } from "@/showcase/component-page";
 import {
   DetailPage,
@@ -8,6 +8,7 @@ import {
   DetailPageContent,
   DetailPageSidebar,
   DetailPageMetaItem,
+  DetailPageSidebarSection,
 } from "@/components/ui/detail-page";
 import { Button } from "@/components/ui/button";
 import {
@@ -286,6 +287,58 @@ import { Building2 } from "lucide-react"
   </DetailPageMain>
 </DetailPage>`}>
         <OrganizationDetailDemo />
+      </DemoSection>
+
+      <DemoSection title="Sidebar sections (GitHub-style)">
+        <DetailPage>
+          <DetailPageHeader
+            backHref="#"
+            backLabel="Issues"
+            title="Add sidebar section component"
+            subtitle="#42"
+          />
+          <DetailPageMain>
+            <DetailPageContent>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Description</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    The detail page sidebar should support a section pattern
+                    with header labels, action icons, and free-form content.
+                  </p>
+                </CardContent>
+              </Card>
+            </DetailPageContent>
+            <DetailPageSidebar>
+              <DetailPageSidebarSection
+                label="Assignees"
+                action={<button className="rounded-md p-1 hover:bg-accent"><Settings className="size-4" /></button>}
+              >
+                <p>No one – <a href="#" className="text-primary hover:underline">Assign yourself</a></p>
+              </DetailPageSidebarSection>
+              <DetailPageSidebarSection
+                label="Labels"
+                action={<button className="rounded-md p-1 hover:bg-accent"><Settings className="size-4" /></button>}
+              >
+                <p>No labels</p>
+              </DetailPageSidebarSection>
+              <DetailPageSidebarSection label="Type">
+                <p>No type</p>
+              </DetailPageSidebarSection>
+              <DetailPageSidebarSection label="Projects">
+                <p>No projects</p>
+              </DetailPageSidebarSection>
+              <DetailPageSidebarSection label="Milestone">
+                <p>No milestone</p>
+              </DetailPageSidebarSection>
+              <DetailPageSidebarSection label="Relationships">
+                <p>None yet</p>
+              </DetailPageSidebarSection>
+            </DetailPageSidebar>
+          </DetailPageMain>
+        </DetailPage>
       </DemoSection>
 
       <DemoSection title="Minimal (no sidebar)">

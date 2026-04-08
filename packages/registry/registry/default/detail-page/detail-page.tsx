@@ -170,6 +170,39 @@ const DetailPageMetaItem = forwardRef<
 ))
 DetailPageMetaItem.displayName = "DetailPageMetaItem"
 
+/* ----------------------------- Sidebar Section ----------------------------- */
+
+interface DetailPageSidebarSectionProps extends HTMLAttributes<HTMLDivElement> {
+  label: string
+  action?: ReactNode
+}
+
+const DetailPageSidebarSection = forwardRef<
+  HTMLDivElement,
+  DetailPageSidebarSectionProps
+>(({ className, label, action, children, ...props }, ref) => (
+  <div
+    data-slot="detail-page-sidebar-section"
+    ref={ref}
+    className={cn(
+      "border-b py-4 first:pt-0 last:border-b-0",
+      className
+    )}
+    {...props}
+  >
+    <div className="flex items-center justify-between">
+      <h3 className="text-sm font-semibold">{label}</h3>
+      {action && (
+        <div className="shrink-0 text-muted-foreground">{action}</div>
+      )}
+    </div>
+    {children && (
+      <div className="mt-1.5 text-sm text-muted-foreground">{children}</div>
+    )}
+  </div>
+))
+DetailPageSidebarSection.displayName = "DetailPageSidebarSection"
+
 /* -------------------------------- Exports --------------------------------- */
 
 export {
@@ -179,5 +212,6 @@ export {
   DetailPageContent,
   DetailPageSidebar,
   DetailPageMetaItem,
+  DetailPageSidebarSection,
 }
-export type { DetailPageHeaderProps, DetailPageMetaItemProps }
+export type { DetailPageHeaderProps, DetailPageMetaItemProps, DetailPageSidebarSectionProps }

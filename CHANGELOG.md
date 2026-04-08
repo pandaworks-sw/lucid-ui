@@ -4,10 +4,11 @@ All notable changes to pandaworks-ui will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## 2026-04-08
 
 ### Added
 
+- `DetailPageSidebarSection` sub-component -- GitHub-style sidebar section with header (label + action slot) and free-form children
 - `brand` button variant -- blue primary button with inset shadow styling for key actions (create, save)
 
 ### Changed
