@@ -191,7 +191,7 @@ const DetailPageSidebarSection = forwardRef<
     {...props}
   >
     <div className="flex items-center justify-between">
-      <h3 className="text-sm font-semibold">{label}</h3>
+      <h3 className="text-xs text-muted-foreground">{label}</h3>
       {action && (
         <div className="shrink-0 text-muted-foreground">{action}</div>
       )}
