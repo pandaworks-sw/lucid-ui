@@ -1,8 +1,17 @@
-# pandaworks-ui
+# pandawork-ui
 
 Shared [shadcn/ui](https://ui.shadcn.com) component registry for Pandahrms frontend projects.
 
 Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
+
+## Naming
+
+- Local workspace/package name: `pandawork-ui`
+- GitHub repo and registry URL slug: `pandaworks-ui`
+
+## Documentation Note
+
+Historical design/implementation plan files under `docs/plans/` were intentionally retired and removed.
 
 ## Using the Registry
 
@@ -13,7 +22,7 @@ In your project's `components.json`, add the `@pandaworks` registry:
 ```json
 {
   "registries": {
-    "@pandawork": {
+    "@pandaworks": {
       "url": "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/{name}.json"
     }
   }
@@ -65,6 +74,8 @@ pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software
 
 For AI agents consuming this registry, see [`public/llms.txt`](public/llms.txt) for complete component API documentation and a machine-readable changelog.
 
+For deeper component docs, see [`public/docs/`](public/docs/).
+
 ## Development
 
 ```bash
@@ -72,8 +83,9 @@ pnpm install          # Install dependencies
 pnpm dev              # Start demo showcase
 pnpm registry:build   # Build registry JSON
 pnpm build            # Build everything
+pnpm lint             # Lint demo app
 ```
 
 ## License
 
-Private -- Pandaworks Software PLT
+Private -- Pandaworks Sdn Bhd
