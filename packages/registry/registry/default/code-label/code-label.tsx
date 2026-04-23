@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 
 const codeLabelVariants = cva(
-  "inline-flex items-center gap-2 rounded-md border font-mono bg-muted/50 text-foreground dark:bg-muted/20",
+  "inline-flex items-center rounded-md font-mono bg-muted/40 text-foreground dark:bg-muted/25",
   {
     variants: {
       size: {
@@ -39,14 +39,18 @@ const CodeLabel = forwardRef<HTMLDivElement, CodeLabelProps>(
       <div
         data-slot="code-label"
         ref={ref}
-        className={cn(codeLabelVariants({ size }), className)}
+        className={cn(codeLabelVariants({ size }), "group", className)}
         {...props}
       >
         <span className="min-w-0 truncate">{value}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex shrink-0 items-center justify-center rounded text-muted-foreground transition-colors hover:text-foreground"
+          className={cn(
+            "inline-flex max-w-0 shrink-0 items-center justify-center overflow-hidden rounded text-muted-foreground transition-all duration-200 hover:text-foreground",
+            "ml-0 opacity-0 group-hover:ml-1 group-focus-within:ml-1 group-hover:max-w-4 group-focus-within:max-w-4 group-hover:opacity-100 group-focus-within:opacity-100",
+            copied && "ml-1 max-w-4 opacity-100"
+          )}
           aria-label="Copy to clipboard"
         >
           {copied ? (
