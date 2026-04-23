@@ -188,7 +188,7 @@ Each entry contains:
 
 - change: modified
 - breaking: no
-- details: `CodeLabel` now uses a subtler filled background (no outline border). The copy button is hidden by default and reveals with width/opacity expansion on hover/focus; copied state still shows immediate success feedback.
+- details: `CodeLabel` now uses a subtler filled background (no outline border). The copy button is hidden by default and reveals with width/opacity expansion on hover/focus, appears on touch/press for mobile, and stays visible briefly after touch release and copy success feedback.
 - action:
   - Run `npx shadcn@latest add @pandaworks/code-label --overwrite --yes` (or your registry URL) to get the updated behavior and styling
   - No API changes; existing `value`, `size`, and `className` usage stays the same
