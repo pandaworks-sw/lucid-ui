@@ -176,73 +176,73 @@ function SaasShell() {
 
   return (
     <>
-      <AppShell
-        branding={{
-          name: "Pandawork",
-          href: "#/dashboard",
-        }}
-        navigation={[
-          {
-            label: "Workspace",
+      <div className="min-h-svh bg-[radial-gradient(120%_120%_at_50%_0%,oklch(0.24_0.02_264)_0%,oklch(0.19_0.01_264)_42%,oklch(0.15_0.005_264)_100%)]">
+        <AppShell
+          branding={{
+            name: "Pandawork",
             href: "#/dashboard",
-            icon: LayoutDashboard,
-            active: active === "dashboard",
-          },
-          {
-            label: "Projects",
-            href: "#/projects",
-            icon: FolderKanban,
-            active: active === "projects" || active === "project",
-          },
-          {
-            label: "Team",
-            href: "#/team",
-            icon: Users,
-            active: active === "team",
-          },
-          {
-            label: "Reports",
-            href: "#/reports",
-            icon: BarChart3,
-            active: active === "reports",
-          },
-          { type: "separator" },
-          {
-            label: "Settings",
-            href: "#/settings",
-            icon: SettingsIcon,
-            active: active === "settings",
-          },
-        ]}
-        user={{
-          name: "Ahmad Razif",
-          email: "ahmad.razif@pandaworks.com",
-          actions: [
-            { label: "Profile", href: "#/settings?tab=profile", icon: User },
-            { label: "Settings", href: "#/settings", icon: SettingsIcon },
+          }}
+          navigation={[
             {
-              label: "Sign out",
-              onClick: () => toast("Signed out (demo)"),
-              icon: LogOut,
-              variant: "destructive",
+              label: "Workspace",
+              href: "#/dashboard",
+              icon: LayoutDashboard,
+              active: active === "dashboard",
             },
-          ],
-        }}
-        header={
-          <TopBar
-            onCreateProject={handleCreateProject}
-            onOpenPalette={() => setPaletteOpen(true)}
-          />
-        }
-        linkComponent={ShellLink}
-        maxWidth={1400}
-        contentClassName={cn("p-6 lg:p-8")}
-      >
-        <div className="mx-auto max-w-[1200px]">
+            {
+              label: "Projects",
+              href: "#/projects",
+              icon: FolderKanban,
+              active: active === "projects" || active === "project",
+            },
+            {
+              label: "Team",
+              href: "#/team",
+              icon: Users,
+              active: active === "team",
+            },
+            {
+              label: "Reports",
+              href: "#/reports",
+              icon: BarChart3,
+              active: active === "reports",
+            },
+            { type: "separator" },
+            {
+              label: "Settings",
+              href: "#/settings",
+              icon: SettingsIcon,
+              active: active === "settings",
+            },
+          ]}
+          user={{
+            name: "Ahmad Razif",
+            email: "ahmad.razif@pandaworks.com",
+            actions: [
+              { label: "Profile", href: "#/settings?tab=profile", icon: User },
+              { label: "Settings", href: "#/settings", icon: SettingsIcon },
+              {
+                label: "Sign out",
+                onClick: () => toast("Signed out (demo)"),
+                icon: LogOut,
+                variant: "destructive",
+              },
+            ],
+          }}
+          header={
+            <TopBar
+              onCreateProject={handleCreateProject}
+              onOpenPalette={() => setPaletteOpen(true)}
+            />
+          }
+          linkComponent={ShellLink}
+          maxWidth={1400}
+          contentClassName={cn("p-4 md:p-6 lg:p-8")}
+        >
           <DemoBanner />
           <PageRenderer />
-        </div>
-      </AppShell>
+        </AppShell>
+      </div>
 
       <ProjectFormModal
         open={createOpen}

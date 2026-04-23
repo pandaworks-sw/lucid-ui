@@ -27,7 +27,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Command` -- root panel adds `border`, `shadow-md`, and Tailwind v4 descendant variants for `cmdk` group headings
 - `DropdownMenu`, `Select` -- `border-border`, `min-w-32`, normalized shadows; disabled and placeholder states use `data-disabled` / `data-placeholder` attribute selectors; Select popper sizing uses Tailwind v4 arbitrary `h-(--radix-…)` / `min-w-(--radix-…)` forms
 - `Popover` -- explicit `border-border` on content
+- `AppShell` -- switched to inset sidebar variant for blended shell styling; inset content container now uses `rounded-3xl` with subtle border layering for a softer frame
+- SaaS demo shell (`/saas-showcase`) -- dark radial background depth refined so the page backdrop is darkest, with content surfaces layered above
 - Demo theme (`apps/demo/src/index.css`) -- slightly tinted card and popover surfaces; dark mode background and surface layering refined for depth
+- Demo theme radius token (`apps/demo/src/index.css`) -- increased global `--radius` from `0.375rem` to `0.75rem` to make default component corners rounder
 - Showcase -- richer `Form` demo examples; sidebar entry for the SaaS showcase; small copy and demo tweaks (`PageHeader`, `Sheet` demos)
 - Root `package.json` -- dev dependency on Playwright for the UI audit script; demo ESLint config aligned with `typescript-eslint`
 - Rebuilt `public/r/*.json` registry bundle outputs from sources (`pnpm registry:build`) and committed the updated JSON artifacts

@@ -252,6 +252,15 @@ Each entry contains:
 - action:
   - Run `npx shadcn@latest add @pandaworks/popover --overwrite --yes` (or your registry URL)
 
+#### app-shell
+
+- change: modified
+- breaking: no
+- details: `AppShell` now uses the inset sidebar variant by default, and the inset main surface uses a larger rounded frame (`rounded-3xl`) with existing border/shadow layering for a blended dashboard shell look.
+- action:
+  - Run `npx shadcn@latest add @pandaworks/app-shell --overwrite --yes` (or your registry URL) to pick up the updated shell framing
+  - No API changes; existing `AppShellProps` usage remains compatible
+
 #### registry batch (alert-dialog, app-shell, attachment-input, card, input, modal, selectable-card, split-button, table, textarea)
 
 - change: modified
@@ -264,7 +273,7 @@ Each entry contains:
 
 - change: added
 - breaking: no
-- details: New in-repo SaaS-style demo route at `/saas-showcase` for exercising registry components in a cohesive app shell. Added `pnpm test:ui-audit` (Playwright) and `artifacts/playwright-ui-audit/` baseline captures. Demo CSS variables tweaked for card/popover tint and dark surfaces.
+- details: New in-repo SaaS-style demo route at `/saas-showcase` for exercising registry components in a cohesive app shell. Added `pnpm test:ui-audit` (Playwright) and `artifacts/playwright-ui-audit/` baseline captures. Demo shell now uses a darker radial page backdrop with layered depth, and global demo radius token is increased (`--radius: 0.75rem`) for rounder default corners.
 - action:
   - No action for registry-only consumers. Clone/update the repo to run the demo or audit script locally.
 
