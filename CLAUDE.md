@@ -114,3 +114,7 @@ For standard user actions, use the `action` prop on `Button` instead of manually
 - Icons: Lucide
 - No `"use client"` directives -- this is not a Next.js project
 - No `import * as React from "react"` -- use named imports only (e.g. `import { forwardRef, type MouseEventHandler } from "react"`). With React 19's JSX transform, the namespace import is unnecessary.
+
+## Post-Commit Cleanup
+
+After every commit, discard any untracked `.png` files in the repo root (these are Playwright screenshots used for visual checks during development and must never be committed). Run `git clean -f -- '*.png'` (or remove them individually) so the working tree stays clean.
