@@ -12,87 +12,150 @@
   ::file-selector-button {
     border-color: var(--color-border, currentcolor);
   }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
 }
 
 @layer base {
+  /* Foundation palette: cool-neutral stone + panda-blue accent.
+     Stone (cool neutrals): stone-50 #F7F9FB → stone-950 #080B0E
+     Panda blue (accent):   panda-50 #E7F7FD → panda-900 #08323F
+     Semantic: success #4F8A52, info #3D7DD9, warning #C98A2B, danger #C8543F */
+
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.3211 0 0);
-    --card: oklch(0.985 0.0015 264);
-    --card-foreground: oklch(0.3211 0 0);
-    --popover: oklch(0.995 0.001 264);
-    --popover-foreground: oklch(0.3211 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --brand: oklch(0.6231 0.188 259.8145);
-    --brand-foreground: oklch(1 0 0);
-    --secondary: oklch(0.967 0.0029 264.5419);
-    --secondary-foreground: oklch(0.4461 0.0263 256.8018);
-    --muted: oklch(0.9846 0.0017 247.8389);
-    --muted-foreground: oklch(0.551 0.0234 264.3637);
-    --accent: oklch(0.9514 0.025 236.8242);
-    --accent-foreground: oklch(0.3791 0.1378 265.5222);
-    --destructive: oklch(0.6368 0.2078 25.3313);
-    --destructive-foreground: oklch(1 0 0);
-    --border: oklch(0.9276 0.0058 264.5313);
-    --input: oklch(0.9276 0.0058 264.5313);
-    --ring: oklch(0.205 0 0);
-    --chart-1: oklch(0.6231 0.188 259.8145);
-    --chart-2: oklch(0.5461 0.2152 262.8809);
-    --chart-3: oklch(0.4882 0.2172 264.3763);
-    --chart-4: oklch(0.4244 0.1809 265.6377);
-    --chart-5: oklch(0.3791 0.1378 265.5222);
-    --sidebar-background: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-    --font-sans: "Open Sans", sans-serif;
-    --font-mono: JetBrains Mono, monospace;
+    /* Stone scale */
+    --stone-50: #F7F9FB;
+    --stone-100: #EFF3F6;
+    --stone-150: #E5EBEF;
+    --stone-200: #D8DFE5;
+    --stone-300: #BCC5CD;
+    --stone-400: #8B97A1;
+    --stone-500: #5F6B75;
+    --stone-600: #424C55;
+    --stone-700: #2C343B;
+    --stone-800: #1C2229;
+    --stone-900: #11161B;
+    --stone-950: #080B0E;
+
+    /* Panda blue scale */
+    --panda-50: #E7F7FD;
+    --panda-100: #C7ECFA;
+    --panda-200: #92DAF3;
+    --panda-300: #54C4EB;
+    --panda-400: #20B0E0;
+    --panda-500: #0E97C7;
+    --panda-600: #0879A2;
+    --panda-700: #0A607F;
+    --panda-800: #0C495F;
+    --panda-900: #08323F;
+
+    /* Semantic */
+    --success: #4F8A52;
+    --info: #3D7DD9;
+    --warning: #C98A2B;
+    --danger: #C8543F;
+    --success-foreground: #FFFFFF;
+    --info-foreground: #FFFFFF;
+    --warning-foreground: #FFFFFF;
+    --danger-foreground: #FFFFFF;
+
+    /* shadcn semantic tokens — light mode */
+    --background: var(--stone-50);
+    --foreground: var(--stone-800);
+    --card: #FFFFFF;
+    --card-foreground: var(--stone-800);
+    --popover: #FFFFFF;
+    --popover-foreground: var(--stone-800);
+    --primary: var(--stone-800);
+    --primary-foreground: var(--stone-50);
+    --brand: var(--panda-400);
+    --brand-foreground: #FFFFFF;
+    --secondary: var(--stone-100);
+    --secondary-foreground: var(--stone-700);
+    --muted: var(--stone-100);
+    --muted-foreground: var(--stone-600);
+    --accent: var(--stone-150);
+    --accent-foreground: var(--stone-800);
+    --destructive: var(--danger);
+    --destructive-foreground: #FFFFFF;
+    --border: var(--stone-200);
+    --input: var(--stone-200);
+    --ring: var(--panda-400);
+    --chart-1: var(--panda-400);
+    --chart-2: var(--panda-600);
+    --chart-3: var(--info);
+    --chart-4: var(--success);
+    --chart-5: var(--warning);
+    --sidebar-background: var(--stone-100);
+    --sidebar-foreground: var(--stone-800);
+    --sidebar-primary: var(--stone-800);
+    --sidebar-primary-foreground: var(--stone-50);
+    --sidebar-accent: var(--stone-150);
+    --sidebar-accent-foreground: var(--stone-800);
+    --sidebar-border: var(--stone-200);
+    --sidebar-ring: var(--panda-400);
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Comfortaa", "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     --radius: 0.75rem;
   }
 
   .dark {
     color-scheme: dark;
-    --background: oklch(0.19 0.002 264);
-    --foreground: oklch(0.9219 0 0);
-    --card: oklch(0.235 0.003 264);
-    --card-foreground: oklch(0.9219 0 0);
-    --popover: oklch(0.255 0.004 264);
-    --popover-foreground: oklch(0.9219 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --brand: oklch(0.6231 0.188 259.8145);
-    --brand-foreground: oklch(1 0 0);
-    --secondary: oklch(0.2686 0 0);
-    --secondary-foreground: oklch(0.9219 0 0);
-    --muted: oklch(0.2686 0 0);
-    --muted-foreground: oklch(0.7155 0 0);
-    --accent: oklch(0.3791 0.1378 265.5222);
-    --accent-foreground: oklch(0.8823 0.0571 254.1284);
-    --destructive: oklch(0.6368 0.2078 25.3313);
-    --destructive-foreground: oklch(1 0 0);
-    --border: oklch(0.3715 0 0);
-    --input: oklch(0.3715 0 0);
-    --ring: oklch(0.985 0 0);
-    --chart-1: oklch(0.7137 0.1434 254.624);
-    --chart-2: oklch(0.6231 0.188 259.8145);
-    --chart-3: oklch(0.5461 0.2152 262.8809);
-    --chart-4: oklch(0.4882 0.2172 264.3763);
-    --chart-5: oklch(0.4244 0.1809 265.6377);
-    --sidebar-background: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.439 0 0);
-    --font-sans: "Open Sans", sans-serif;
-    --font-mono: JetBrains Mono, monospace;
+
+    /* shadcn semantic tokens — dark mode */
+    --background: var(--stone-800);
+    --foreground: var(--stone-150);
+    --card: var(--stone-700);
+    --card-foreground: var(--stone-150);
+    --popover: var(--stone-700);
+    --popover-foreground: var(--stone-150);
+    --primary: var(--stone-150);
+    --primary-foreground: var(--stone-800);
+    --brand: var(--panda-400);
+    --brand-foreground: #FFFFFF;
+    --secondary: var(--stone-700);
+    --secondary-foreground: var(--stone-150);
+    --muted: var(--stone-700);
+    --muted-foreground: var(--stone-400);
+    --accent: var(--stone-600);
+    --accent-foreground: var(--stone-50);
+    --destructive: var(--danger);
+    --destructive-foreground: #FFFFFF;
+    --border: var(--stone-600);
+    --input: var(--stone-600);
+    --ring: var(--panda-400);
+    --chart-1: var(--panda-300);
+    --chart-2: var(--panda-500);
+    --chart-3: var(--info);
+    --chart-4: var(--success);
+    --chart-5: var(--warning);
+    --sidebar-background: var(--stone-900);
+    --sidebar-foreground: var(--stone-150);
+    --sidebar-primary: var(--stone-150);
+    --sidebar-primary-foreground: var(--stone-800);
+    --sidebar-accent: var(--stone-700);
+    --sidebar-accent-foreground: var(--stone-50);
+    --sidebar-border: var(--stone-700);
+    --sidebar-ring: var(--panda-400);
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Comfortaa", "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     --radius: 0.75rem;
   }
 
@@ -132,14 +195,126 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
+    /* Foundation scales — exposed as Tailwind utilities (bg-stone-200, text-panda-500, etc.) */
+    --color-stone-50: var(--stone-50);
+    --color-stone-100: var(--stone-100);
+    --color-stone-150: var(--stone-150);
+    --color-stone-200: var(--stone-200);
+    --color-stone-300: var(--stone-300);
+    --color-stone-400: var(--stone-400);
+    --color-stone-500: var(--stone-500);
+    --color-stone-600: var(--stone-600);
+    --color-stone-700: var(--stone-700);
+    --color-stone-800: var(--stone-800);
+    --color-stone-900: var(--stone-900);
+    --color-stone-950: var(--stone-950);
+
+    --color-panda-50: var(--panda-50);
+    --color-panda-100: var(--panda-100);
+    --color-panda-200: var(--panda-200);
+    --color-panda-300: var(--panda-300);
+    --color-panda-400: var(--panda-400);
+    --color-panda-500: var(--panda-500);
+    --color-panda-600: var(--panda-600);
+    --color-panda-700: var(--panda-700);
+    --color-panda-800: var(--panda-800);
+    --color-panda-900: var(--panda-900);
+
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-danger: var(--danger);
+    --color-danger-foreground: var(--danger-foreground);
+
     --font-sans: var(--font-sans);
+    --font-display: var(--font-display);
     --font-mono: var(--font-mono);
+
+    /* Typography scale — Comfortaa across the system, JetBrains Mono for code.
+       Body sizes override Tailwind defaults; text-md is new; text-display-* are new. */
+    --text-xs: 0.6875rem;        /* 11px */
+    --text-xs--line-height: 1.5;
+    --text-xs--font-weight: 600;
+    --text-xs--letter-spacing: 0.04em;
+
+    --text-sm: 0.8125rem;        /* 13px */
+    --text-sm--line-height: 1.5;
+    --text-sm--font-weight: 500;
+
+    --text-base: 0.875rem;       /* 14px */
+    --text-base--line-height: 1.55;
+    --text-base--font-weight: 400;
+
+    --text-md: 0.9375rem;        /* 15px */
+    --text-md--line-height: 1.55;
+    --text-md--font-weight: 400;
+
+    --text-lg: 1.0625rem;        /* 17px */
+    --text-lg--line-height: 1.5;
+    --text-lg--font-weight: 500;
+
+    --text-xl: 1.25rem;          /* 20px */
+    --text-xl--line-height: 1.45;
+    --text-xl--font-weight: 500;
 
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
   }
+}
+
+/* ─── Display text utilities (Comfortaa) ─── */
+
+@utility text-display-sm {
+  font-family: var(--font-display);
+  font-size: 1.75rem;            /* 28px */
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-size: 2.5rem;             /* 40px */
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-size: 3.5rem;             /* 56px */
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: 4.5rem;             /* 72px */
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Mono text utilities ─── */
+
+@utility text-mono-sm {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;          /* 11px */
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: "calt" 0;
+}
+
+@utility text-mono-md {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;          /* 13px */
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: "calt" 0;
 }
 
 /* ─── Pattern Background Utilities ─── */
