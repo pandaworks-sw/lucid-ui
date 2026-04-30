@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - `AvatarFallback` -- new optional `colorize` boolean prop. When set, the background color is derived from the first character of the fallback text (A–Z mapped to 26 evenly spaced OKLCH hues; digits and other characters fall back to a deterministic hash). Foreground is set to white and is readable in both light and dark mode. Default behavior (without `colorize`) is unchanged: `bg-muted` with the inherited foreground
 
+### Fixed
+
+- `Table` -- when nested inside `CardContent`, the table's wrapper drops its own border, rounded corners, `bg-card`, and shadow so the surrounding card frame is the only visual boundary (no more "card within a card"). Standalone `Table` usage is unchanged. `CardContent` now exposes `data-slot="card-content"` to make the nesting detectable
+
 ## 2026-04-23
 
 ### Added

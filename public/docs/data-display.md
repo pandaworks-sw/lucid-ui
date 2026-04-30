@@ -81,6 +81,8 @@ import {
 </Table>
 ```
 
+Standalone, the table renders inside its own bordered, rounded, shadowed wrapper. When nested inside `CardContent`, the wrapper auto-drops its border, rounding, background, and shadow so the surrounding card frame is the only visual boundary -- pair `<CardContent className="p-0">` with `<Table>` for a flush card-table layout.
+
 ## Calendar
 
 ```tsx

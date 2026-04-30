@@ -176,6 +176,24 @@ Each entry contains:
   - Opt in per usage: `<AvatarFallback colorize>JD</AvatarFallback>`
   - Custom `className` / `style` still take precedence over the computed colors
 
+#### table
+
+- change: modified
+- breaking: no
+- details: `Table` wrapper drops its own border, rounded corners, `bg-card`, and shadow when nested inside `CardContent`, so the surrounding card frame is the only visual boundary (fixes "card within a card" appearance). Standalone `Table` usage is unchanged.
+- action:
+  - Run `npx shadcn@latest add @pandaworks/table --overwrite --yes` to pick up the nesting-aware wrapper
+  - Also re-add `card` (`npx shadcn@latest add @pandaworks/card --overwrite --yes`) — `CardContent` now sets `data-slot="card-content"`, which is required for the table to detect the card context
+
+#### card
+
+- change: modified
+- breaking: no
+- details: `CardContent` now sets `data-slot="card-content"` on its root element so descendant components (e.g. `Table`) can adapt their styling when nested inside.
+- action:
+  - Run `npx shadcn@latest add @pandaworks/card --overwrite --yes`
+  - No code changes required in consumers
+
 ### 2026-04-23
 
 #### tooltip

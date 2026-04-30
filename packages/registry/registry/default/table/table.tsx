@@ -6,7 +6,7 @@ const Table = forwardRef<
   HTMLTableElement,
   HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto rounded-lg border border-border/70 bg-card shadow-xs dark:border-border">
+  <div className="relative w-full overflow-auto rounded-lg border border-border/70 bg-card shadow-xs dark:border-border in-data-[slot=card-content]:rounded-none in-data-[slot=card-content]:border-0 in-data-[slot=card-content]:bg-transparent in-data-[slot=card-content]:shadow-none">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}
