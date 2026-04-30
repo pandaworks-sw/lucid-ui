@@ -89,6 +89,42 @@ export default function AvatarDemo() {
           ))}
         </div>
       </DemoSection>
+
+      <DemoSection title="Colorized" code={`<Avatar>
+  <AvatarFallback colorize>JD</AvatarFallback>
+</Avatar>`}>
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Pass <code className="font-mono text-xs">colorize</code> to derive a
+            background color from the first character (A–Z mapped to 26 evenly
+            spaced hues).
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+              <Avatar key={letter}>
+                <AvatarFallback colorize>{letter}</AvatarFallback>
+              </Avatar>
+            ))}
+          </div>
+          <div className="space-y-3 pt-2">
+            {[
+              { initials: "AR", name: "Alice Reyes" },
+              { initials: "BK", name: "Bob Kim" },
+              { initials: "CL", name: "Clara Lee" },
+              { initials: "DM", name: "Devi Marasinghe" },
+              { initials: "EN", name: "Eli Ng" },
+              { initials: "FT", name: "Farah Tan" },
+            ].map((person) => (
+              <div key={person.initials} className="flex items-center gap-3">
+                <Avatar>
+                  <AvatarFallback colorize>{person.initials}</AvatarFallback>
+                </Avatar>
+                <p className="text-sm font-medium">{person.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </DemoSection>
     </>
   );
 }

@@ -1,4 +1,10 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react"
+import {
+  forwardRef,
+  type ComponentPropsWithoutRef,
+  type CSSProperties,
+  type ElementRef,
+  type ReactNode,
+} from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
@@ -30,19 +36,71 @@ const AvatarImage = forwardRef<
 ))
 AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
+const AVATAR_HUE_STEP = 360 / 26
+
+function getColorizeChar(children: ReactNode): string | null {
+  if (typeof children === "string" || typeof children === "number") {
+    const text = String(children).trim()
+    return text.length > 0 ? text[0] : null
+  }
+  if (Array.isArray(children)) {
+    for (const child of children) {
+      const found = getColorizeChar(child)
+      if (found) return found
+    }
+  }
+  return null
+}
+
+function getAvatarHue(char: string): number {
+  const code = char.toUpperCase().charCodeAt(0)
+  let index: number
+  if (code >= 65 && code <= 90) {
+    index = code - 65
+  } else if (code >= 48 && code <= 57) {
+    index = ((code - 48) * 31) % 26
+  } else {
+    index = ((code * 7) % 26 + 26) % 26
+  }
+  return index * AVATAR_HUE_STEP
+}
+
+type AvatarFallbackProps = ComponentPropsWithoutRef<
+  typeof AvatarPrimitive.Fallback
+> & {
+  colorize?: boolean
+}
+
 const AvatarFallback = forwardRef<
   ElementRef<typeof AvatarPrimitive.Fallback>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className
-    )}
-    {...props}
-  />
-))
+  AvatarFallbackProps
+>(({ className, colorize, children, style, ...props }, ref) => {
+  let computedStyle: CSSProperties | undefined = style
+  if (colorize) {
+    const char = getColorizeChar(children)
+    if (char) {
+      const hue = getAvatarHue(char)
+      computedStyle = {
+        backgroundColor: `oklch(0.62 0.14 ${hue})`,
+        color: "#ffffff",
+        ...style,
+      }
+    }
+  }
+  return (
+    <AvatarPrimitive.Fallback
+      ref={ref}
+      className={cn(
+        "flex h-full w-full items-center justify-center rounded-full bg-muted",
+        className
+      )}
+      style={computedStyle}
+      {...props}
+    >
+      {children}
+    </AvatarPrimitive.Fallback>
+  )
+})
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 export { Avatar, AvatarImage, AvatarFallback }
