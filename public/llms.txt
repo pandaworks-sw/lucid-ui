@@ -164,6 +164,18 @@ Each entry contains:
 
 ---
 
+### 2026-05-01
+
+#### avatar
+
+- change: modified
+- breaking: no
+- details: `AvatarFallback` gains an optional `colorize` boolean prop. When passed, the background color is derived from the first character of the fallback text — A–Z map to 26 evenly spaced OKLCH hues (`oklch(0.62 0.14 hue)`), digits and other characters fall back to a deterministic hash. Foreground is set to white. The default `bg-muted` fallback styling is unchanged when `colorize` is not set.
+- action:
+  - Run `npx shadcn@latest add @pandaworks/avatar --overwrite --yes` (or your registry URL) to pick up the new prop
+  - Opt in per usage: `<AvatarFallback colorize>JD</AvatarFallback>`
+  - Custom `className` / `style` still take precedence over the computed colors
+
 ### 2026-04-23
 
 #### tooltip

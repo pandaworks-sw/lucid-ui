@@ -26,6 +26,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 </Avatar>
 ```
 
+`AvatarFallback` accepts an optional `colorize` prop. When set, the background color is derived from the first character of the fallback text — A–Z map to 26 evenly spaced OKLCH hues, digits and other characters fall back to a deterministic hash. The foreground is set to white and works in both light and dark mode.
+
+```tsx
+<Avatar>
+  <AvatarFallback colorize>JD</AvatarFallback>
+</Avatar>
+```
+
+Props (`AvatarFallback`):
+- `colorize?: boolean` -- derive background color from the first character of the children text (default: `false`)
+
+Custom `style` and `className` still take precedence — pass your own `backgroundColor`/`color` to override the computed values.
+
 ## Card
 
 ```tsx

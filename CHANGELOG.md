@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-01
+
+### Added
+
+- `AvatarFallback` -- new optional `colorize` boolean prop. When set, the background color is derived from the first character of the fallback text (A–Z mapped to 26 evenly spaced OKLCH hues; digits and other characters fall back to a deterministic hash). Foreground is set to white and is readable in both light and dark mode. Default behavior (without `colorize`) is unchanged: `bg-muted` with the inherited foreground
+
 ## 2026-04-23
 
 ### Added
