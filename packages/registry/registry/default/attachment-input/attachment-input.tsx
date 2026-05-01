@@ -468,7 +468,7 @@ function AttachmentInput(props: AttachmentInputProps) {
   }
 
   return (
-    <div data-slot="attachment-input" className={cn("flex flex-col gap-2", className)}>
+    <div data-slot="attachment-input" className={cn("relative flex flex-col gap-2", className)}>
       <input
         ref={inputRef}
         type="file"
