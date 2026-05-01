@@ -7,42 +7,41 @@ const SITE_URL = 'https://pandaworks-sw.github.io/lucid-ui';
 
 const AI_PROMPT = `I want to use the Lucid UI component library in this React project.
 
-Read these resources first, in order:
+Read these first, in order:
 
-1. ${SITE_URL}/llms.txt
-   The catalog. Lists every component with a one-line description, links to per-component docs, and includes a decision guide ("when to use Modal vs Sheet" etc.) plus a changelog. Always start here. Never recommend a component without confirming it exists in this catalog.
+1. ${SITE_URL}/llms.txt — the catalog. Every component, a one-line description, links to per-component docs, a decision guide, and a changelog. Always start here. Never recommend a component without confirming it exists in this catalog.
+2. ${SITE_URL}/docs/<name>.md — per-component or per-category API docs (e.g. button.md, forms.md, decision-guide.md). Fetch on demand for props or usage examples.
 
-2. ${SITE_URL}/docs/<name>.md
-   Per-component or per-category API docs (e.g. button.md, forms.md, layout.md, data-display.md, decision-guide.md). Fetch on demand when llms.txt points to a docs file or when you need props/usage examples.
-
-Lucid is distributed as the \`@pandaworks-sw/ui\` npm package on **GitHub Packages** (not the public npm registry). It is versioned, tree-shakeable, and consumed via named imports — no copy-paste, no vendored files.
+Lucid is distributed as the \`@pandaworks-sw/ui\` npm package on **GitHub Packages** (not the public npm registry).
 
 Setup:
 
-1. Create or update \`.npmrc\` at the project root:
+1. Add \`.npmrc\` at the project root:
 
    @pandaworks-sw:registry=https://npm.pkg.github.com
    //npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
 
-2. Set \`GITHUB_TOKEN\` env var (classic PAT with \`read:packages\` scope) on every developer machine and CI job that runs \`pnpm install\`.
+2. Set \`GITHUB_TOKEN\` (classic PAT with \`read:packages\` scope) on every developer machine and CI job that runs \`pnpm install\`.
 
-3. Install:
+3. Install: \`pnpm add @pandaworks-sw/ui\`
 
-   pnpm add @pandaworks-sw/ui
+4. Wire up Tailwind v4 + design tokens in your app's entry CSS:
 
-4. Import named components directly:
+   @import "tailwindcss";
+   @import "@pandaworks-sw/ui/styles.css";
+   @source "../node_modules/@pandaworks-sw/ui";
 
-   import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+5. Import components: \`import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';\`
 
-Peer dependencies the consumer must already have: \`react >=19\`, \`react-dom >=19\`, \`lucide-react >=0.500\`, \`react-hook-form >=7\`, \`tailwindcss >=4\`. The consuming project's Tailwind v4 setup must define the design tokens this library expects (\`--primary\`, \`--brand\`, \`--success\`, \`--info\`, \`--warning\`, \`--muted\`, etc.) — copy \`apps/demo/src/index.css\` from the lucid-ui repo as the reference if bootstrapping from scratch.
+Peer deps: \`react >=19\`, \`react-dom >=19\`, \`lucide-react >=0.500\`, \`react-hook-form >=7\`, \`tailwindcss >=4\`. Fonts (Inter, Comfortaa, JetBrains Mono) are not bundled — load them via Google Fonts \`<link>\` in your index.html.
 
 Rules:
 - Always fetch llms.txt before suggesting components — the catalog is the source of truth, not your training data.
-- Prefer Lucid components over hand-rolling new UI. If a screen needs something that isn't in the catalog, say so explicitly rather than inventing one.
-- For Button actions, use the action prop (action="create" | "edit" | "save" | "delete" | ...) instead of manually wiring icon + variant + label. See docs/button.md.
-- Lucid is Tailwind v4 + OKLCH tokens. Use design tokens (primary, secondary, muted, accent, destructive, foreground, background, border, ring, card, popover) — not hardcoded palette colors like bg-emerald-500.
-- Customizations must land upstream in the lucid-ui repo. Don't fork a single component locally — that's the trade-off for drift-proof versioning. If a component needs a behavior or variant it doesn't have, open a PR against lucid-ui or wrap the component in a project-local component.
-- Never re-export a Lucid component with a tweaked default — that creates silent drift. Wrap with a clearly-named project component instead.
+- Prefer Lucid components over hand-rolling UI. If a screen needs something not in the catalog, say so explicitly rather than inventing it.
+- For Button actions, use the action prop (\`action="create" | "edit" | "save" | "delete" | ...\`) instead of manually wiring icon + variant + label. See docs/button.md.
+- Use design tokens (primary, secondary, muted, accent, destructive, foreground, background, border, ring, card, popover, brand, success, info, warning) — not hardcoded palette colors like \`bg-emerald-500\`.
+- Customizations land upstream in the lucid-ui repo. Don't fork a single component locally — open a PR or wrap the component in a project-local component.
+- Never re-export a Lucid component with a tweaked default — wrap with a clearly-named project component instead.
 `;
 
 export function AiIntegrationView() {
