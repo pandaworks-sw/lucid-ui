@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173/pandaworks-ui';
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173/lucid-ui';
 const OUT_DIR = path.resolve('artifacts/playwright-ui-audit');
 
 const serve = process.argv.includes('--serve') || process.env.PLAYWRIGHT_UI_AUDIT_SERVE === '1';
@@ -43,7 +43,7 @@ async function snap(page, file) {
 async function run() {
   if (serve) {
     console.log('Starting Vite demo (apps/demo) on port 5173…');
-    vite = spawn('pnpm', ['--filter', '@pandaworks-ui/demo', 'exec', 'vite', '--host', '127.0.0.1', '--port', '5173'], {
+    vite = spawn('pnpm', ['--filter', '@pandaworks-sw/demo', 'exec', 'vite', '--host', '127.0.0.1', '--port', '5173'], {
       cwd: ROOT,
       stdio: 'inherit',
     });

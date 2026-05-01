@@ -1,21 +1,15 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "pandaworks-ui",
-  "homepage": "https://github.com/pandaworks-software-plt/pandaworks-ui",
+  "name": "lucid-ui",
+  "homepage": "https://github.com/pandaworks-sw/lucid-ui",
   "items": [
     {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
       "description": "A button component with action presets, icon support, auto-tooltips, and loading state.",
-      "dependencies": [
-        "@radix-ui/react-slot",
-        "class-variance-authority",
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "tooltip"
-      ],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority", "lucide-react"],
+      "registryDependencies": ["tooltip"],
       "files": [
         {
           "path": "registry/default/button/button.tsx",
@@ -56,9 +50,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A visual divider between content sections.",
-      "dependencies": [
-        "@radix-ui/react-separator"
-      ],
+      "dependencies": ["@radix-ui/react-separator"],
       "registryDependencies": [],
       "files": [
         {
@@ -72,10 +64,7 @@
       "type": "registry:ui",
       "title": "Sheet",
       "description": "A slide-out panel overlay component.",
-      "dependencies": [
-        "@radix-ui/react-dialog",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-dialog", "class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -89,9 +78,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A popup that displays information related to an element on hover or focus.",
-      "dependencies": [
-        "@radix-ui/react-tooltip"
-      ],
+      "dependencies": ["@radix-ui/react-tooltip"],
       "registryDependencies": [],
       "files": [
         {
@@ -105,9 +92,7 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A menu of actions or options triggered by a button.",
-      "dependencies": [
-        "@radix-ui/react-dropdown-menu"
-      ],
+      "dependencies": ["@radix-ui/react-dropdown-menu"],
       "registryDependencies": [],
       "files": [
         {
@@ -121,9 +106,7 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "A component that expands and collapses content.",
-      "dependencies": [
-        "@radix-ui/react-collapsible"
-      ],
+      "dependencies": ["@radix-ui/react-collapsible"],
       "registryDependencies": [],
       "files": [
         {
@@ -137,9 +120,7 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An image element with a fallback for representing a user.",
-      "dependencies": [
-        "@radix-ui/react-avatar"
-      ],
+      "dependencies": ["@radix-ui/react-avatar"],
       "registryDependencies": [],
       "files": [
         {
@@ -153,9 +134,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal dialog overlay for confirmations, forms, and focused interactions.",
-      "dependencies": [
-        "@radix-ui/react-dialog"
-      ],
+      "dependencies": ["@radix-ui/react-dialog"],
       "registryDependencies": [],
       "files": [
         {
@@ -169,12 +148,8 @@
       "type": "registry:ui",
       "title": "Modal",
       "description": "An opinionated modal with sticky header, scrollable body, and sticky footer built on Dialog.",
-      "dependencies": [
-        "@radix-ui/react-dialog"
-      ],
-      "registryDependencies": [
-        "dialog"
-      ],
+      "dependencies": ["@radix-ui/react-dialog"],
+      "registryDependencies": ["dialog"],
       "files": [
         {
           "path": "registry/default/modal/modal.tsx",
@@ -201,12 +176,8 @@
       "type": "registry:ui",
       "title": "Search Input",
       "description": "A search input with icon, optional clear button, and built-in debounce for filtering lists.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "input"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["input"],
       "files": [
         {
           "path": "registry/default/search-input/search-input.tsx",
@@ -219,10 +190,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "An accessible label for form controls.",
-      "dependencies": [
-        "@radix-ui/react-label",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-label", "class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -236,12 +204,8 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A small status indicator with multiple variants.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "tooltip"
-      ],
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["tooltip"],
       "files": [
         {
           "path": "registry/default/badge/badge.tsx",
@@ -254,9 +218,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A dropdown select input built on Radix UI.",
-      "dependencies": [
-        "@radix-ui/react-select"
-      ],
+      "dependencies": ["@radix-ui/react-select"],
       "registryDependencies": [],
       "files": [
         {
@@ -270,9 +232,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "A floating content popover triggered by a button or element.",
-      "dependencies": [
-        "@radix-ui/react-popover"
-      ],
+      "dependencies": ["@radix-ui/react-popover"],
       "registryDependencies": [],
       "files": [
         {
@@ -286,13 +246,8 @@
       "type": "registry:ui",
       "title": "Calendar",
       "description": "A date calendar component with single, multiple, and range selection modes.",
-      "dependencies": [
-        "react-day-picker",
-        "date-fns"
-      ],
-      "registryDependencies": [
-        "button"
-      ],
+      "dependencies": ["react-day-picker", "date-fns"],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/default/calendar/calendar.tsx",
@@ -305,14 +260,8 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "A single date picker with calendar popover.",
-      "dependencies": [
-        "date-fns"
-      ],
-      "registryDependencies": [
-        "button",
-        "calendar",
-        "popover"
-      ],
+      "dependencies": ["date-fns"],
+      "registryDependencies": ["button", "calendar", "popover"],
       "files": [
         {
           "path": "registry/default/date-picker/date-picker.tsx",
@@ -325,14 +274,8 @@
       "type": "registry:ui",
       "title": "Date Range Picker",
       "description": "A dual date picker with quick-select panels for selecting date ranges.",
-      "dependencies": [
-        "date-fns"
-      ],
-      "registryDependencies": [
-        "button",
-        "calendar",
-        "popover"
-      ],
+      "dependencies": ["date-fns"],
+      "registryDependencies": ["button", "calendar", "popover"],
       "files": [
         {
           "path": "registry/default/date-range-picker/date-range-picker.tsx",
@@ -345,9 +288,7 @@
       "type": "registry:ui",
       "title": "Command",
       "description": "A command menu component built on cmdk for searchable lists and command palettes.",
-      "dependencies": [
-        "cmdk"
-      ],
+      "dependencies": ["cmdk"],
       "registryDependencies": [],
       "files": [
         {
@@ -361,15 +302,8 @@
       "type": "registry:ui",
       "title": "Select Picker",
       "description": "A searchable select picker supporting single and multiple selection with type-safe discriminated union props.",
-      "dependencies": [
-        "cmdk"
-      ],
-      "registryDependencies": [
-        "badge",
-        "button",
-        "command",
-        "popover"
-      ],
+      "dependencies": ["cmdk"],
+      "registryDependencies": ["badge", "button", "command", "popover"],
       "files": [
         {
           "path": "registry/default/select-picker/select-picker.tsx",
@@ -382,9 +316,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "A checkbox input with checked, unchecked, and indeterminate states.",
-      "dependencies": [
-        "@radix-ui/react-checkbox"
-      ],
+      "dependencies": ["@radix-ui/react-checkbox"],
       "registryDependencies": [],
       "files": [
         {
@@ -412,14 +344,8 @@
       "type": "registry:ui",
       "title": "Form",
       "description": "Form components with field context, validation, and accessible labels built on react-hook-form.",
-      "dependencies": [
-        "@radix-ui/react-label",
-        "@radix-ui/react-slot",
-        "react-hook-form"
-      ],
-      "registryDependencies": [
-        "label"
-      ],
+      "dependencies": ["@radix-ui/react-label", "@radix-ui/react-slot", "react-hook-form"],
+      "registryDependencies": ["label"],
       "files": [
         {
           "path": "registry/default/form/form.tsx",
@@ -432,9 +358,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "A set of mutually exclusive radio options.",
-      "dependencies": [
-        "@radix-ui/react-radio-group"
-      ],
+      "dependencies": ["@radix-ui/react-radio-group"],
       "registryDependencies": [],
       "files": [
         {
@@ -448,9 +372,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "A toggle switch for boolean on/off states.",
-      "dependencies": [
-        "@radix-ui/react-switch"
-      ],
+      "dependencies": ["@radix-ui/react-switch"],
       "registryDependencies": [],
       "files": [
         {
@@ -478,12 +400,8 @@
       "type": "registry:ui",
       "title": "Alert Dialog",
       "description": "A modal dialog for confirmations requiring user acknowledgement.",
-      "dependencies": [
-        "@radix-ui/react-alert-dialog"
-      ],
-      "registryDependencies": [
-        "button"
-      ],
+      "dependencies": ["@radix-ui/react-alert-dialog"],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/default/alert-dialog/alert-dialog.tsx",
@@ -496,9 +414,7 @@
       "type": "registry:ui",
       "title": "Alert",
       "description": "A callout for displaying important messages with default, destructive, and info variants.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -512,9 +428,7 @@
       "type": "registry:ui",
       "title": "Breadcrumb",
       "description": "A navigation breadcrumb trail with links, separator, and ellipsis support.",
-      "dependencies": [
-        "@radix-ui/react-slot"
-      ],
+      "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [],
       "files": [
         {
@@ -528,9 +442,7 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "A custom scrollable area with styled scrollbars.",
-      "dependencies": [
-        "@radix-ui/react-scroll-area"
-      ],
+      "dependencies": ["@radix-ui/react-scroll-area"],
       "registryDependencies": [],
       "files": [
         {
@@ -544,9 +456,7 @@
       "type": "registry:ui",
       "title": "Progress",
       "description": "A progress bar indicating completion status.",
-      "dependencies": [
-        "@radix-ui/react-progress"
-      ],
+      "dependencies": ["@radix-ui/react-progress"],
       "registryDependencies": [],
       "files": [
         {
@@ -560,9 +470,7 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "A vertically stacked set of expandable content sections.",
-      "dependencies": [
-        "@radix-ui/react-accordion"
-      ],
+      "dependencies": ["@radix-ui/react-accordion"],
       "registryDependencies": [],
       "files": [
         {
@@ -576,10 +484,7 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A two-state button that can be toggled on or off.",
-      "dependencies": [
-        "@radix-ui/react-toggle",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-toggle", "class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -593,13 +498,8 @@
       "type": "registry:ui",
       "title": "Toggle Group",
       "description": "A group of toggle buttons supporting single or multiple selection.",
-      "dependencies": [
-        "@radix-ui/react-toggle-group",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "toggle"
-      ],
+      "dependencies": ["@radix-ui/react-toggle-group", "class-variance-authority"],
+      "registryDependencies": ["toggle"],
       "files": [
         {
           "path": "registry/default/toggle-group/toggle-group.tsx",
@@ -612,9 +512,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "A range slider input with single and dual thumb support.",
-      "dependencies": [
-        "@radix-ui/react-slider"
-      ],
+      "dependencies": ["@radix-ui/react-slider"],
       "registryDependencies": [],
       "files": [
         {
@@ -628,10 +526,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A tabbed interface component with default and line variants, supporting horizontal and vertical orientations.",
-      "dependencies": [
-        "@radix-ui/react-tabs",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-tabs", "class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -645,9 +540,7 @@
       "type": "registry:ui",
       "title": "Sonner",
       "description": "A toast notification component powered by sonner with theme-aware styling.",
-      "dependencies": [
-        "sonner"
-      ],
+      "dependencies": ["sonner"],
       "registryDependencies": [],
       "files": [
         {
@@ -662,9 +555,7 @@
       "title": "Pagination",
       "description": "A page navigation component with previous, next, page links, and ellipsis.",
       "dependencies": [],
-      "registryDependencies": [
-        "button"
-      ],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/default/pagination/pagination.tsx",
@@ -687,15 +578,7 @@
         "@radix-ui/react-avatar",
         "class-variance-authority"
       ],
-      "registryDependencies": [
-        "button",
-        "separator",
-        "sheet",
-        "tooltip",
-        "dropdown-menu",
-        "collapsible",
-        "avatar"
-      ],
+      "registryDependencies": ["button", "separator", "sheet", "tooltip", "dropdown-menu", "collapsible", "avatar"],
       "files": [
         {
           "path": "registry/default/app-shell/app-shell.tsx",
@@ -720,17 +603,8 @@
       "type": "registry:ui",
       "title": "Filter Bar",
       "description": "Two composable filter components: FilterButton trigger and ActiveFilters chips display with operators, supporting option lists, dates, and text search.",
-      "dependencies": [
-        "date-fns"
-      ],
-      "registryDependencies": [
-        "button",
-        "calendar",
-        "checkbox",
-        "command",
-        "input",
-        "popover"
-      ],
+      "dependencies": ["date-fns"],
+      "registryDependencies": ["button", "calendar", "checkbox", "command", "input", "popover"],
       "files": [
         {
           "path": "registry/default/filter-bar/filter-bar.tsx",
@@ -743,14 +617,8 @@
       "type": "registry:ui",
       "title": "Split Button",
       "description": "A compound split button with a primary action and a dropdown chevron for secondary actions.",
-      "dependencies": [
-        "@radix-ui/react-dropdown-menu",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "button",
-        "dropdown-menu"
-      ],
+      "dependencies": ["@radix-ui/react-dropdown-menu", "class-variance-authority"],
+      "registryDependencies": ["button", "dropdown-menu"],
       "files": [
         {
           "path": "registry/default/split-button/split-button.tsx",
@@ -777,13 +645,8 @@
       "type": "registry:ui",
       "title": "Detail Page",
       "description": "A compound layout component for resource detail pages with header, 2-column content area, metadata sidebar, and copyable meta items.",
-      "dependencies": [
-        "lucide-react",
-        "sonner"
-      ],
-      "registryDependencies": [
-        "sonner"
-      ],
+      "dependencies": ["lucide-react", "sonner"],
+      "registryDependencies": ["sonner"],
       "files": [
         {
           "path": "registry/default/detail-page/detail-page.tsx",
@@ -810,14 +673,8 @@
       "type": "registry:ui",
       "title": "Selectable Card",
       "description": "A composable card component for single (radio) or multi (checkbox) selection with size variants.",
-      "dependencies": [
-        "@radix-ui/react-radio-group",
-        "@radix-ui/react-checkbox",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "radio-group"
-      ],
+      "dependencies": ["@radix-ui/react-radio-group", "@radix-ui/react-checkbox", "class-variance-authority"],
+      "registryDependencies": ["radio-group"],
       "files": [
         {
           "path": "registry/default/selectable-card/selectable-card.tsx",
@@ -830,14 +687,8 @@
       "type": "registry:ui",
       "title": "Code Label",
       "description": "An inline monospace label with a copy-to-clipboard button, useful for displaying IDs, commands, and code snippets.",
-      "dependencies": [
-        "lucide-react",
-        "class-variance-authority",
-        "sonner"
-      ],
-      "registryDependencies": [
-        "sonner"
-      ],
+      "dependencies": ["lucide-react", "class-variance-authority", "sonner"],
+      "registryDependencies": ["sonner"],
       "files": [
         {
           "path": "registry/default/code-label/code-label.tsx",
@@ -878,12 +729,8 @@
       "type": "registry:ui",
       "title": "Stepper",
       "description": "A horizontal multi-step progress indicator with completed, current, and pending states.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "popover"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["popover"],
       "files": [
         {
           "path": "registry/default/stepper/stepper.tsx",
@@ -896,12 +743,8 @@
       "type": "registry:ui",
       "title": "Connection Banner",
       "description": "A fixed top banner that shows when the app loses connectivity, with a retry button.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "button"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/default/connection-banner/connection-banner.tsx",
@@ -914,13 +757,8 @@
       "type": "registry:ui",
       "title": "Error Fallback",
       "description": "An error boundary fallback with root (full-screen + reload) and route (inline + custom action) variants.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "button",
-        "card"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "card"],
       "files": [
         {
           "path": "registry/default/error-fallback/error-fallback.tsx",
@@ -947,12 +785,8 @@
       "type": "registry:ui",
       "title": "Avatar Group",
       "description": "A horizontal stack of overlapping Avatars with configurable max count and a +N overflow tile. Inherits the Avatar's circle/square shape.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "avatar"
-      ],
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["avatar"],
       "files": [
         {
           "path": "registry/default/avatar-group/avatar-group.tsx",
@@ -965,9 +799,7 @@
       "type": "registry:ui",
       "title": "Empty State",
       "description": "Centered empty-state block with icon, title, optional description, and optional action slot. Three sizes (sm, md, lg).",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -981,14 +813,8 @@
       "type": "registry:ui",
       "title": "Stat Card",
       "description": "Dashboard stat tile composed from Card, AnimatedNumber, and Badge. Supports an optional icon, suffix, hint, and a trend chip with up/down/flat tones.",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "registryDependencies": [
-        "card",
-        "animated-number",
-        "badge"
-      ],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["card", "animated-number", "badge"],
       "files": [
         {
           "path": "registry/default/stat-card/stat-card.tsx",
@@ -1001,9 +827,7 @@
       "type": "registry:ui",
       "title": "Meter Row",
       "description": "Labeled horizontal bar with optional trailing value and per-row tone (default, success, warning, info, destructive, muted). Use for status/priority charts and small dashboards.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -1017,9 +841,7 @@
       "type": "registry:ui",
       "title": "List Row",
       "description": "Avatar/icon + title + subtitle + trailing-meta layout primitive. Renders as a div by default; pass asButton for keyboard-accessible clickable rows. Density (sm/default/lg) and surface (plain/bordered/muted) variants.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
         {
@@ -1032,7 +854,7 @@
       "name": "_all",
       "type": "registry:ui",
       "title": "All Components",
-      "description": "Meta-component that installs the entire pandaworks-ui registry via registryDependencies. Auto-generated by scripts/sync-all-meta.mjs — do not edit by hand.",
+      "description": "Meta-component that installs the entire lucid-ui registry via registryDependencies. Auto-generated by scripts/sync-all-meta.mjs — do not edit by hand.",
       "dependencies": [],
       "registryDependencies": [
         "accordion",

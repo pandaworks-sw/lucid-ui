@@ -28,7 +28,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter @pandaworks-ui/demo build
+      - run: pnpm --filter @pandaworks-sw/demo build
 
       - name: Copy registry assets into Pages artifact
         run: cp -R public/llms.txt public/docs public/r apps/demo/dist/

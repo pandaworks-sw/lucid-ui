@@ -1,13 +1,13 @@
 {
-  "name": "pandawork-ui",
+  "name": "lucid-ui",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "dev": "pnpm --filter @pandaworks-ui/demo dev",
-    "build": "pnpm registry:build && pnpm --filter @pandaworks-ui/demo build",
-    "registry:build": "pnpm --filter @pandaworks-ui/registry registry:build",
-    "lint": "biome check && pnpm --filter @pandaworks-ui/demo lint",
+    "dev": "pnpm --filter @pandaworks-sw/demo dev",
+    "build": "pnpm registry:build && pnpm --filter @pandaworks-sw/demo build",
+    "registry:build": "pnpm --filter @pandaworks-sw/ui registry:build",
+    "lint": "biome check && pnpm --filter @pandaworks-sw/demo lint",
     "lint:fix": "biome check --fix",
     "format": "biome format --write",
     "format:check": "biome format",
