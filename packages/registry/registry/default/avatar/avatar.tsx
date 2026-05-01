@@ -9,19 +9,29 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
 
-const Avatar = forwardRef<
-  ElementRef<typeof AvatarPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
+type AvatarShape = "circle" | "square"
+
+const shapeClass = (shape?: AvatarShape) =>
+  shape === "square" ? "rounded-md" : "rounded-full"
+
+type AvatarProps = ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> & {
+  shape?: AvatarShape
+}
+
+const Avatar = forwardRef<ElementRef<typeof AvatarPrimitive.Root>, AvatarProps>(
+  ({ className, shape, ...props }, ref) => (
+    <AvatarPrimitive.Root
+      ref={ref}
+      data-shape={shape ?? "circle"}
+      className={cn(
+        "relative flex h-10 w-10 shrink-0 overflow-hidden",
+        shapeClass(shape),
+        className
+      )}
+      {...props}
+    />
+  )
+)
 Avatar.displayName = AvatarPrimitive.Root.displayName
 
 const AvatarImage = forwardRef<
@@ -91,7 +101,9 @@ const AvatarFallback = forwardRef<
     <AvatarPrimitive.Fallback
       ref={ref}
       className={cn(
-        "flex h-full w-full items-center justify-center rounded-full bg-muted",
+        // Inherit the parent Avatar's rounded-* (full or md) so square avatars
+        // don't show a round fallback while loading.
+        "flex h-full w-full items-center justify-center rounded-[inherit] bg-muted",
         className
       )}
       style={computedStyle}
@@ -104,3 +116,4 @@ const AvatarFallback = forwardRef<
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 export { Avatar, AvatarImage, AvatarFallback }
+export type { AvatarShape }

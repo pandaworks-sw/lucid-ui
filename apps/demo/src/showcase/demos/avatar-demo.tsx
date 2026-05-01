@@ -90,6 +90,30 @@ export default function AvatarDemo() {
         </div>
       </DemoSection>
 
+      <DemoSection title="Square shape" code={`<Avatar shape="square">
+  <AvatarFallback colorize>PW</AvatarFallback>
+</Avatar>`}>
+        <p className="text-sm text-muted-foreground">
+          Pass <code className="font-mono text-xs">shape="square"</code> to switch from the default
+          circle to a rounded-square tile. Useful for project keys, app icons, and other "thing"
+          identities (vs people).
+        </p>
+        <div className="flex items-center gap-4 pt-3">
+          <Avatar shape="square">
+            <AvatarFallback colorize>PW</AvatarFallback>
+          </Avatar>
+          <Avatar shape="square">
+            <AvatarFallback colorize>AT</AvatarFallback>
+          </Avatar>
+          <Avatar shape="square">
+            <AvatarFallback colorize>NV</AvatarFallback>
+          </Avatar>
+          <Avatar shape="square" className="size-12">
+            <AvatarFallback colorize>LU</AvatarFallback>
+          </Avatar>
+        </div>
+      </DemoSection>
+
       <DemoSection title="Colorized" code={`<Avatar>
   <AvatarFallback colorize>JD</AvatarFallback>
 </Avatar>`}>
