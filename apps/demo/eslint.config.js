@@ -21,7 +21,12 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/saas/router.tsx', 'src/saas/store.tsx', 'src/saas/shared.tsx'],
+    files: [
+      'src/saas/router.tsx',
+      'src/saas/store.tsx',
+      'src/saas/shared.tsx',
+      'src/pure/pure-shared.tsx',
+    ],
     rules: {
       // Provider + hook / util + component modules are intentional in the demo app.
       'react-refresh/only-export-components': 'off',

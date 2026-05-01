@@ -105,6 +105,31 @@ For standard user actions, use the `action` prop on `Button` instead of manually
 - **`tooltip`** -- Tooltip text (auto-shown for icon-only sizes; uses preset label as fallback)
 - **`loading`** -- Shows a spinner, disables the button
 
+### Button Sizing (SaaS consistency)
+
+Pick `size` by the surrounding density, not by preference. The same scenario should always use the same size across the app.
+
+| Scenario | Size |
+|----------|------|
+| `PageHeader` actions, page-level toolbar | `default` |
+| Modal / Dialog / Sheet footer | `default` |
+| Form submit / cancel | `default` |
+| `Card` header action (top-right) | `default` |
+| Inline action inside a `Table` row | `sm` |
+| Inline action inside a list item / dense `Card` row | `sm` |
+| Filter bars / dense toolbars above a table | `sm` |
+| Marketing or landing-page hero CTA | `lg` |
+| Empty-state primary action (large illustration) | `lg` |
+| Onboarding / single-purpose full-screen step | `lg` |
+
+Icon-only sizes track the text variants — `icon` with `default` rows, `icon-sm` with `sm` rows (e.g. table row icon actions), `icon-lg` only in hero contexts.
+
+Rules of thumb:
+- `default` is the SaaS default — when in doubt, use it.
+- Drop to `sm` only inside a density context (table row, list item, filter bar). Don't shrink page-header buttons.
+- `lg` is rarely correct inside the product. Reserve for marketing surfaces and empty states. CRUD screens should not use `lg`.
+- Don't mix sizes in the same row of buttons (e.g. Save + Cancel must share a size).
+
 ## Standards
 
 - Style: default
@@ -114,6 +139,30 @@ For standard user actions, use the `action` prop on `Button` instead of manually
 - Icons: Lucide
 - No `"use client"` directives -- this is not a Next.js project
 - No `import * as React from "react"` -- use named imports only (e.g. `import { forwardRef, type MouseEventHandler } from "react"`). With React 19's JSX transform, the namespace import is unnecessary.
+
+## Showcase Purity Rules
+
+There are three demo apps under `apps/demo/src/`:
+
+- `showcase/` — per-component gallery. Each demo imports straight from `@/components/ui/*`. No local wrappers.
+- `saas/` — narrative SaaS demo (kept for reference). Allowed to ship custom components and non-token styling so we have a "real-world consumer" example.
+- `pure/` — **strict-purity SaaS demo.** Diagnostic harness that mirrors `saas/` view-by-view but is built only from registry components. Used to surface gaps in the registry.
+
+`pure/` rules — enforce in code review, no exceptions:
+
+1. **No custom UI components.** Every interactive or visual element must come from `@/components/ui/*`. Wrappers, lookalike spans, and bespoke `<div>` chips/pills/avatars are forbidden — even if "they're just one line."
+2. **No hardcoded Tailwind palette colors.** No `bg-emerald-500`, `text-rose-700`, `border-amber-300`, etc. Only design tokens: `primary`, `secondary`, `muted`, `accent`, `destructive`, `foreground`, `background`, `border`, `ring`, `card`, `popover`. If you need a status color and the token doesn't exist, **stop and add the variant to the registry component** — don't paint over it locally.
+3. **No inline `style={{ ... }}` on registry components** to override colors, sizes, or backgrounds. Layout-only styles (`width: <computed%>` for a chart bar) are OK and should be reviewed case-by-case.
+4. **No `className` overrides that change the component's identity.** Sizing tweaks (`size-8`, `h-1.5`) are fine; `className="rounded-full bg-secondary"` on a registry Badge to fake a new variant is not — that's a missing variant, file it as a gap.
+5. **Reuse the `saas/` data layer.** `pure/` should import `store`, `router`, `types`, `data` from `../saas/`. Pure-showcase is about the *view layer*, not about reinventing state.
+6. **When you can't build a screen purely, log the gap.** Append to `docs/REGISTRY-GAPS.md` with file, line, what you wanted, and what the registry would need. Then make the smallest faithful approximation and `// REGISTRY-GAP:` comment the spot. Surfacing gaps is the deliverable; quietly working around them defeats the purpose.
+
+When auditing whether a `pure/` change passes:
+```bash
+# These should all return zero matches inside apps/demo/src/pure/
+grep -rE "bg-(emerald|rose|amber|sky|blue|red|green|purple|violet|orange|cyan|pink|indigo|fuchsia|lime|teal|slate|zinc-[0-9]|stone-[0-9]|gray-[0-9]|neutral-[0-9])-[0-9]" apps/demo/src/pure/
+grep -rE "style=\{\{[^}]*background|style=\{\{[^}]*color" apps/demo/src/pure/
+```
 
 ## Post-Commit Cleanup
 
