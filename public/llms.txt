@@ -193,6 +193,14 @@ Each entry contains:
 
 ### 2026-05-01
 
+#### demo showcase (Use with AI view)
+
+- change: added
+- breaking: no
+- details: New "Use with AI" view in the showcase demo at https://pandaworks-software-plt.github.io/pandaworks-ui/ — provides a one-click copyable prompt that primes AI coding agents (Claude Code, Cursor, Copilot, etc.) to read `llms.txt` as the registry catalog and use the documented shadcn install commands. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link. No registry-component changes — pure demo addition.
+- action:
+  - None for downstream consumers. End users / agents using the registry can now grab the integration prompt directly from the showcase site.
+
 #### empty-state, list-row (TypeScript fixes)
 
 - change: modified

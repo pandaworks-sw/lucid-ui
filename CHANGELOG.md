@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-01
 
+### Added
+
+- Demo showcase -- new "Use with AI" view ([apps/demo/src/showcase/ai-integration-view.tsx](apps/demo/src/showcase/ai-integration-view.tsx)) with a one-click copyable prompt that points AI coding agents (Claude Code, Cursor, Copilot, etc.) at `https://pandaworks-software-plt.github.io/pandaworks-ui/llms.txt` as the registry catalog and tells them how to install components. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link
+
 ### Fixed
 
 - `EmptyState` -- `EmptyStateProps` now uses `Omit<HTMLAttributes<HTMLDivElement>, "title">` to drop the conflicting HTML `title` attribute. Without this, TypeScript flagged that `title: ReactNode` (the component's prop) was incompatible with the inherited `title?: string`. Demo builds (and the GitHub Pages deploy job) failed with `TS2430` until this was fixed

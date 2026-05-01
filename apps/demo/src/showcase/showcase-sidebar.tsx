@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Search } from "lucide-react";
+import { ExternalLink, Search, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +44,25 @@ export function ShowcaseSidebar({
         </span>
       </div>
 
-      <div className="px-3 pt-3">
+      <div className="space-y-2 px-3 pt-3">
+        <button
+          onClick={() => onSelect("ai-integration")}
+          className={cn(
+            "group flex w-full items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-left text-sm transition-colors hover:border-primary/40",
+            active === "ai-integration" && "border-primary/60",
+          )}
+        >
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+              Use with AI
+            </p>
+            <p className="text-xs text-muted-foreground group-hover:text-foreground">
+              Copy the prompt for Claude, Cursor, etc.
+            </p>
+          </div>
+          <Sparkles className="size-3.5 text-primary" />
+        </button>
+
         <a
           href={`${import.meta.env.BASE_URL}saas-showcase`}
           className="group flex items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-sm transition-colors hover:border-primary/40"
