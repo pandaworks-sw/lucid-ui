@@ -76,6 +76,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 ## Toggle
 
+Sizes: `sm` (`h-8`), `default` (`h-9`), `lg` (`h-10`).
+
 ```tsx
 import { Toggle } from "@/components/ui/toggle"
 import { Bold } from "lucide-react"
@@ -85,7 +87,19 @@ import { Bold } from "lucide-react"
 </Toggle>
 ```
 
+Sizing — pair with the surrounding control density:
+
+| Scenario | Size |
+|----------|------|
+| Inline rich-text or formatting toolbar in a `PageHeader` or modal | `default` |
+| Toolbar inside a table row, filter bar, or dense card header | `sm` |
+| Toolbar inside a marketing surface or full-screen editor hero | `lg` |
+
+Toggles in a row should all share one size — never mix.
+
 ## ToggleGroup
+
+Same `sm` / `default` / `lg` axis as `Toggle`. Match the size to the host context using the same rules.
 
 ```tsx
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"

@@ -61,6 +61,32 @@ import { Button } from "@/components/ui/button"
 <Button variant="outline" size="sm">Cancel</Button>
 ```
 
+Sizing guidance (SaaS consistency)
+
+Pick `size` by the surrounding density, not by personal preference. Within a single Pandahrms app the same scenario should always use the same size.
+
+| Scenario | Size |
+|----------|------|
+| `PageHeader` actions, page-level toolbar | `default` |
+| Modal / Dialog / Sheet footer actions | `default` |
+| Form submit / cancel buttons | `default` |
+| Card header action (top-right of a `Card`) | `default` |
+| Inline action inside a `Table` row | `sm` |
+| Inline action inside a list item / dense `Card` row | `sm` |
+| Filter bars and dense toolbars above a table | `sm` |
+| Inline `Badge`-adjacent action | `sm` |
+| Marketing or landing-page hero CTA | `lg` |
+| Empty-state primary action (large illustration + headline) | `lg` |
+| Onboarding / single-purpose full-screen step | `lg` |
+
+Icon-only sizes track the text variants — pair `icon` with `default` rows, `icon-sm` with `sm` rows (e.g. row actions in a table), `icon-lg` only in hero contexts.
+
+Rules of thumb:
+- **`default` is the SaaS default.** If you're not sure, use `default`.
+- **Drop to `sm` only inside a density context** (table row, list item, filter bar). Don't sprinkle `sm` on a page header just because the button "looks big."
+- **`lg` is rarely correct inside the product.** Reserve it for marketing surfaces and empty states. CRUD screens should not use `lg`.
+- **Don't mix sizes in the same row of buttons.** A `<Button action="save">` and `<Button action="cancel">` next to each other must share a size.
+
 Confirmation dialogs: Button does not include built-in confirmation. Wrap with `AlertDialog` for destructive actions:
 
 ```tsx

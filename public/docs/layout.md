@@ -80,3 +80,37 @@ import {
   </BreadcrumbList>
 </Breadcrumb>
 ```
+
+## EmptyState
+
+Centered empty placeholder for filtered tables, "no results" panels, and empty list/grid surfaces.
+
+```tsx
+import { EmptyState } from "@/components/ui/empty-state"
+import { Button } from "@/components/ui/button"
+import { FolderKanban } from "lucide-react"
+
+<EmptyState
+  icon={<FolderKanban />}
+  title="No projects match these filters."
+  description="Try widening the date range or removing a tag."
+  action={<Button variant="outline">Clear filters</Button>}
+/>
+```
+
+Props:
+- `icon?: ReactNode` — leading icon, wrapped in a soft muted disc.
+- `title: ReactNode` — short heading (required).
+- `description?: ReactNode` — secondary copy beneath the title.
+- `action?: ReactNode` — primary action, typically a Button.
+- `size?: "sm" | "md" | "lg"` — controls vertical padding and icon-disc size. Default `md`.
+
+Sizing:
+
+| Scenario | Size |
+|----------|------|
+| Inline empty state inside a `Card` or `Table` body (filtered table with no results, "no items yet") | `sm` |
+| Standard empty page (a route with no records yet, "Get started by creating your first X") | `md` (default) |
+| Onboarding hero / dedicated empty-state landing screen | `lg` (pair with `Button size="lg"` action) |
+
+Drop the icon for the densest inline variant. Match the action button's size to the EmptyState size — `sm` empty state → `sm` button; `lg` empty state → `lg` button.

@@ -207,3 +207,13 @@ import {
 ```
 
 Sizes: `sm`, `default`, `lg`
+
+Sizing:
+
+| Scenario | Size |
+|----------|------|
+| Settings page choice (e.g. notification preference, role selection inside a Card) | `sm` |
+| Standard onboarding step, plan picker, feature-toggle group | `default` |
+| Marketing-style plan/tier picker, hero pricing page | `lg` |
+
+All cards in the same `SelectableCardGroup` must share one size.
