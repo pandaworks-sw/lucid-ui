@@ -59,6 +59,11 @@ import ErrorFallbackDemo from "./demos/error-fallback-demo";
 import ExpandableTextDemo from "./demos/expandable-text-demo";
 import ActionButtonDemo from "./demos/action-button-demo";
 import SearchInputDemo from "./demos/search-input-demo";
+import AvatarGroupDemo from "./demos/avatar-group-demo";
+import EmptyStateDemo from "./demos/empty-state-demo";
+import StatCardDemo from "./demos/stat-card-demo";
+import MeterRowDemo from "./demos/meter-row-demo";
+import ListRowDemo from "./demos/list-row-demo";
 
 interface ComponentMeta {
   name: string;
@@ -427,12 +432,47 @@ const COMPONENTS: ComponentMeta[] = [
       "Button action presets with standardized icons, auto-labels, tooltips on icon-only sizes, and loading states.",
     demo: ActionButtonDemo,
   },
+  {
+    name: "avatar-group",
+    title: "Avatar Group",
+    description:
+      "A horizontal stack of overlapping Avatars with configurable max count and a +N overflow tile. Inherits the Avatar's circle/square shape.",
+    demo: AvatarGroupDemo,
+  },
+  {
+    name: "empty-state",
+    title: "Empty State",
+    description:
+      "Centered empty-state block with icon, title, optional description, and action slot. Three sizes (sm, md, lg).",
+    demo: EmptyStateDemo,
+  },
+  {
+    name: "stat-card",
+    title: "Stat Card",
+    description:
+      "Dashboard stat tile composed from Card, AnimatedNumber, and Badge. Optional icon, suffix, hint, and a trend chip with up/down/flat tones.",
+    demo: StatCardDemo,
+  },
+  {
+    name: "meter-row",
+    title: "Meter Row",
+    description:
+      "Labeled horizontal bar with optional trailing value and per-row tone. Use for status, priority, and allocation charts.",
+    demo: MeterRowDemo,
+  },
+  {
+    name: "list-row",
+    title: "List Row",
+    description:
+      "Avatar/icon + title + subtitle + trailing-meta layout primitive. Renders as a div by default; pass asButton for keyboard-accessible clickable rows.",
+    demo: ListRowDemo,
+  },
 ];
 
 const CATEGORIES: SidebarCategory[] = [
   {
     label: "Layout",
-    items: COMPONENTS.filter((c) => ["app-shell", "detail-page", "page-header"].includes(c.name))
+    items: COMPONENTS.filter((c) => ["app-shell", "detail-page", "page-header", "empty-state"].includes(c.name))
       .sort((a, b) => a.title.localeCompare(b.title)),
   },
   {
@@ -464,7 +504,7 @@ const CATEGORIES: SidebarCategory[] = [
   {
     label: "Data Display",
     items: COMPONENTS.filter((c) =>
-      ["animated-number", "avatar", "badge", "calendar", "card", "code-label", "expandable-text", "progress", "skeleton", "table"].includes(c.name)
+      ["animated-number", "avatar", "avatar-group", "badge", "calendar", "card", "code-label", "expandable-text", "list-row", "meter-row", "progress", "skeleton", "stat-card", "table"].includes(c.name)
     ).sort((a, b) => a.title.localeCompare(b.title)),
   },
   {

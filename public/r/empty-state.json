@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "title": "Empty State",
+  "description": "Centered empty-state block with icon, title, optional description, and optional action slot. Three sizes (sm, md, lg).",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/default/empty-state/empty-state.tsx",
+      "content": "import { type HTMLAttributes, type ReactNode } from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst emptyStateVariants = cva(\n  \"flex flex-col items-center justify-center gap-3 text-center\",\n  {\n    variants: {\n      size: {\n        sm: \"py-8\",\n        md: \"py-16\",\n        lg: \"py-24\",\n      },\n    },\n    defaultVariants: {\n      size: \"md\",\n    },\n  },\n)\n\nconst iconWrapVariants = cva(\n  \"flex items-center justify-center rounded-full bg-muted text-muted-foreground\",\n  {\n    variants: {\n      size: {\n        sm: \"size-10 [&_svg]:size-4\",\n        md: \"size-12 [&_svg]:size-5\",\n        lg: \"size-14 [&_svg]:size-6\",\n      },\n    },\n    defaultVariants: {\n      size: \"md\",\n    },\n  },\n)\n\nexport interface EmptyStateProps\n  extends HTMLAttributes<HTMLDivElement>,\n    VariantProps<typeof emptyStateVariants> {\n  icon?: ReactNode\n  title: ReactNode\n  description?: ReactNode\n  action?: ReactNode\n}\n\nfunction EmptyState({\n  className,\n  size,\n  icon,\n  title,\n  description,\n  action,\n  ...props\n}: EmptyStateProps) {\n  return (\n    <div\n      data-slot=\"empty-state\"\n      className={cn(emptyStateVariants({ size }), className)}\n      {...props}\n    >\n      {icon && <div className={cn(iconWrapVariants({ size }))}>{icon}</div>}\n      <p className=\"text-sm font-medium\">{title}</p>\n      {description && (\n        <p className=\"max-w-sm text-xs text-muted-foreground\">{description}</p>\n      )}\n      {action}\n    </div>\n  )\n}\n\nexport { EmptyState, emptyStateVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

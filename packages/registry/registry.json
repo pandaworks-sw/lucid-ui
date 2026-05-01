@@ -941,6 +941,92 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "avatar-group",
+      "type": "registry:ui",
+      "title": "Avatar Group",
+      "description": "A horizontal stack of overlapping Avatars with configurable max count and a +N overflow tile. Inherits the Avatar's circle/square shape.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "avatar"
+      ],
+      "files": [
+        {
+          "path": "registry/default/avatar-group/avatar-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "Empty State",
+      "description": "Centered empty-state block with icon, title, optional description, and optional action slot. Three sizes (sm, md, lg).",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/empty-state/empty-state.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stat-card",
+      "type": "registry:ui",
+      "title": "Stat Card",
+      "description": "Dashboard stat tile composed from Card, AnimatedNumber, and Badge. Supports an optional icon, suffix, hint, and a trend chip with up/down/flat tones.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "card",
+        "animated-number",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "registry/default/stat-card/stat-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "meter-row",
+      "type": "registry:ui",
+      "title": "Meter Row",
+      "description": "Labeled horizontal bar with optional trailing value and per-row tone (default, success, warning, info, destructive, muted). Use for status/priority charts and small dashboards.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/meter-row/meter-row.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "list-row",
+      "type": "registry:ui",
+      "title": "List Row",
+      "description": "Avatar/icon + title + subtitle + trailing-meta layout primitive. Renders as a div by default; pass asButton for keyboard-accessible clickable rows. Density (sm/default/lg) and surface (plain/bordered/muted) variants.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/list-row/list-row.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
