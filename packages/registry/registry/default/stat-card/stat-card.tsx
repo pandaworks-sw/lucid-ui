@@ -25,15 +25,15 @@ export interface StatCardProps {
   icon?: ComponentType<{ className?: string }>;
   /** Short caption above the value. */
   label: ReactNode;
-  /** Numeric value — animated when it changes. */
-  value: number;
-  /** Text prepended to the value (e.g. "$", "RM"). */
+  /** Value to display. Numbers animate via `AnimatedNumber`; strings render as-is (assumed already-formatted, e.g. `"N/A"`, `"8/10"`, `"Active"`). */
+  value: number | string;
+  /** Text prepended to the value (e.g. "$", "RM"). Numeric values only. */
   prefix?: string;
-  /** Suffix appended to the value (e.g. "%"). */
+  /** Suffix appended to the value (e.g. "%"). Numeric values only. */
   suffix?: string;
-  /** Number of decimal places. Ignored when `formatter` is provided. */
+  /** Number of decimal places. Numeric values only; ignored when `formatter` is provided. */
   decimals?: number;
-  /** Custom number formatter (e.g. `(n) => n.toLocaleString()`). Overrides decimals/prefix/suffix. */
+  /** Custom number formatter (e.g. `(n) => n.toLocaleString()`). Numeric values only; overrides decimals/prefix/suffix. */
   formatter?: (value: number) => string;
   /** Hint shown below the value. */
   hint?: ReactNode;
@@ -67,10 +67,9 @@ function StatCard({
       </CardHeader>
       <CardContent className="space-y-0.5 px-4 pb-3">
         <div className="text-xl font-semibold tracking-tight">
-          {/* When a formatter is provided, render the formatted value through */}
-          {/* AnimatedNumber. Otherwise keep prefix/suffix as smaller adornments */}
-          {/* so the headline number reads loud. */}
-          {formatter ? (
+          {typeof value === 'string' ? (
+            value
+          ) : formatter ? (
             <AnimatedNumber value={value} prefix={prefix} decimals={decimals} formatter={formatter} />
           ) : (
             <>

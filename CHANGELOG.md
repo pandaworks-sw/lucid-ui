@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-02
+
+### Changed
+
+- **`StatCard` `value` accepts strings.** [packages/registry/registry/default/stat-card/stat-card.tsx](packages/registry/registry/default/stat-card/stat-card.tsx) — `value` is widened from `number` to `number | string`. Numeric values keep the existing `AnimatedNumber` path with `prefix` / `suffix` / `decimals` / `formatter` adornments; string values render as-is, so tiles can show `"N/A"`, `"—"`, `"Active"`, `"Enterprise"`, `"8 / 10"`, or pre-formatted currency without dropping back to a custom `Card`. `prefix`, `suffix`, `decimals`, and `formatter` are ignored when `value` is a string (strings are assumed already-formatted). `hint`, `delta`, and `deltaTone` continue to work for both forms. Non-breaking: existing numeric call sites are unchanged. The showcase page picks up a new "String values" demo.
+
 ## 2026-05-01
 
 ### Added

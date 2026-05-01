@@ -336,8 +336,11 @@ import { FolderKanban } from "lucide-react"
 Props:
 - `icon?: ComponentType<{ className?: string }>` — leading icon shown in the header.
 - `label: ReactNode` — short caption above the value.
-- `value: number` — numeric value, animated when it changes via `AnimatedNumber`.
-- `suffix?: string` — appended to the value (e.g. `"%"`).
+- `value: number | string` — numbers animate via `AnimatedNumber`; strings render as-is (assumed already-formatted, e.g. `"N/A"`, `"8 / 10"`, `"Active"`). `prefix`, `suffix`, `decimals`, and `formatter` are ignored when `value` is a string.
+- `prefix?: string` — text prepended to the value (e.g. `"$"`, `"RM"`). Numeric values only.
+- `suffix?: string` — appended to the value (e.g. `"%"`). Numeric values only.
+- `decimals?: number` — number of decimal places. Numeric values only; ignored when `formatter` is provided.
+- `formatter?: (value: number) => string` — custom number formatter. Numeric values only; overrides `decimals` / `prefix` / `suffix`.
 - `hint?: ReactNode` — text below the value.
 - `delta?: string` — trend chip text (e.g. `"+12%"`).
 - `deltaTone?: "up" | "down" | "flat"` — controls the trend chip's tone. `"up"` → success, `"down"` → destructive, `"flat"` → muted. Defaults to `"up"`.

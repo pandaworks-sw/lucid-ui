@@ -198,6 +198,17 @@ Each entry contains:
 
 ---
 
+### 2026-05-02
+
+#### stat-card — `value` prop now accepts strings
+
+- change: modified
+- breaking: no
+- details: `StatCard`'s `value` prop is widened from `number` to `number | string`. Numeric values keep the existing `AnimatedNumber` path (with `prefix` / `suffix` / `decimals` / `formatter` adornments). String values render as-is — useful for already-formatted or non-numeric tiles such as `"N/A"`, `"—"`, `"Active"`, `"Enterprise"`, `"8 / 10"`, or pre-formatted currency. `prefix`, `suffix`, `decimals`, and `formatter` are ignored when `value` is a string (strings are assumed already-formatted). The `delta` / `deltaTone` chip and `hint` continue to work for both forms.
+- action:
+  - No migration needed for existing numeric usage.
+  - When showing a non-animated label (status, tier, ratio, "N/A"), pass the string directly instead of building a custom `Card` wrapper.
+
 ### 2026-05-01
 
 #### avatar — `getInitialName` utility + `AvatarFallback` auto-converts full names

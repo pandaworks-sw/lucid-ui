@@ -53,6 +53,21 @@ export default function StatCardDemo() {
           <StatCard label="Average progress" value={62} suffix="%" />
         </div>
       </DemoSection>
+
+      <DemoSection
+        title="String values"
+        code={`<StatCard label="Status" value="Active" />
+<StatCard label="Tier" value="Enterprise" hint="renews 2026-08-01" />
+<StatCard label="Progress" value="8 / 10" delta="+2" deltaTone="up" />
+<StatCard label="Last sync" value="N/A" hint="never run" />`}
+      >
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard label="Status" value="Active" />
+          <StatCard label="Tier" value="Enterprise" hint="renews 2026-08-01" />
+          <StatCard label="Progress" value="8 / 10" delta="+2" deltaTone="up" />
+          <StatCard label="Last sync" value="N/A" hint="never run" />
+        </div>
+      </DemoSection>
     </>
   );
 }
