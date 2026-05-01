@@ -23,7 +23,16 @@ Then import named components:
 import { Button, Badge, Modal, StatCard, MeterRow } from '@pandaworks-sw/ui';
 ```
 
-Peer dependencies the consumer must already have: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The consuming project's Tailwind setup must define the design tokens this library expects (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.). Use `apps/demo/src/index.css` in this repo as the reference if you're bootstrapping from scratch.
+Peer dependencies the consumer must already have: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The package ships its own design-token stylesheet — consumers wire it up in their entry CSS:
+
+```css
+@import "tailwindcss";
+@import "@pandaworks-sw/ui/styles.css";
+
+@source "../node_modules/@pandaworks-sw/ui";
+```
+
+The `styles.css` import provides every token (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.), the base layer, and the `text-display-*` / `text-mono-*` / `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 scan the package's compiled JSX so class names used inside components survive tree-shaking. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded separately by the consumer.
 
 Tree-shaking works out of the box because the package ships ESM with `sideEffects: false`.
 
@@ -169,12 +178,11 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 
 ## Styling Conventions
 
-- Always support dark mode via `dark:` Tailwind variants
-- Use CSS variables for theme colors (defined in globals.css)
-- Color space: OKLCH
-- Base color: zinc
+- Always support dark mode via the `.dark` class (set on `<html>` or an ancestor) plus `dark:` Tailwind variants
+- All theme colors are CSS variables defined in `@pandaworks-sw/ui/styles.css` (stone neutrals + panda-blue accent + semantic success/info/warning/danger)
+- Color space: OKLCH for `bg-pattern-*` utilities; design tokens use HEX for portability
 - Icons: Lucide React (`lucide-react`)
-- Font: Open Sans (set in globals.css)
+- Fonts: Inter (sans), Comfortaa (display), JetBrains Mono (mono) — load via Google Fonts in your `index.html`
 
 ## Changelog
 
@@ -192,6 +200,21 @@ Each entry contains:
 
 ### 2026-05-01
 
+#### design-token stylesheet now ships with the package
+
+- change: added
+- breaking: no
+- details: The package now exposes `@pandaworks-sw/ui/styles.css` as a subpath export. The file contains the full design system the components rely on — `:root` / `.dark` token blocks, the `@theme inline` mapping that produces Tailwind v4 utilities (`bg-primary`, `text-brand`, `bg-stone-200`, `text-panda-500`, etc.), the base layer (border-color reset, fonts on `html` / headings / `code`), the `text-display-{sm,md,lg,xl}` and `text-mono-{sm,md}` typography utilities, and the `bg-pattern-*` background utilities (dots, grid, cross, noise, aurora + 9 aurora colour variants). Source of truth: `packages/registry/src/styles.css`. Build pipeline: `tsup` `onSuccess` hook copies the file into `dist/styles.css` on every build; `package.json` `exports` adds `"./styles.css": "./dist/styles.css"`. The demo's `apps/demo/src/index.css` was reduced to four lines and now imports the same file directly so demo and package can never drift.
+- action:
+  - Replace the hand-copied token CSS in your app's entry stylesheet with:
+    ```css
+    @import "tailwindcss";
+    @import "@pandaworks-sw/ui/styles.css";
+    @source "../node_modules/@pandaworks-sw/ui";
+    ```
+  - The `@source` line is required so Tailwind v4 scans the package's compiled JSX for class names — without it, utilities used inside `@pandaworks-sw/ui` components will be tree-shaken out of your CSS bundle.
+  - Fonts are not bundled: keep loading Inter, Comfortaa, and JetBrains Mono yourself (Google Fonts `<link>` in `index.html` is fine; see `apps/demo/index.html`).
+
 #### unused build output, scripts, and configs removed
 
 - change: removed
@@ -205,7 +228,7 @@ Each entry contains:
 
 - change: renamed
 - breaking: yes
-- details: The npm package was renamed from `@lucid/ui` to `@pandaworks-sw/ui` and is now published to **GitHub Packages** (not the public npm registry). The demo workspace was likewise renamed from `@lucid/demo` to `@pandaworks-sw/demo`. GitHub Packages requires the npm scope to match the GitHub org owning the repository, so the repo is moving to `github.com/pandaworks-sw/lucid-ui`. A new release workflow at [.github/workflows/publish.yml] publishes the package whenever a GitHub Release is published.
+- details: The npm package was renamed from `@lucid/ui` to `@pandaworks-sw/ui` and is now published to **GitHub Packages** (not the public npm registry). The demo workspace was likewise renamed from `@lucid/demo` to `@pandaworks-sw/demo`. GitHub Packages requires the npm scope to match the GitHub org owning the repository, so the repo is moving to `github.com/pandaworks-sw/lucid-ui`. A new release workflow at `.github/workflows/publish.yml` publishes the package whenever a GitHub Release is published.
 - action:
   - Add an `.npmrc` at the project root with `@pandaworks-sw:registry=https://npm.pkg.github.com` and `//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`. Set `GITHUB_TOKEN` to a classic PAT with `read:packages` scope on every developer machine and CI job. Update `package.json` from `@lucid/ui` to `@pandaworks-sw/ui`, then rewrite all `from '@lucid/ui'` imports to `from '@pandaworks-sw/ui'`. Run `pnpm install` to refresh the lockfile.
 
@@ -225,22 +248,6 @@ Each entry contains:
 - action:
   - For new Pandahrms apps: `pnpm add @pandaworks-ui/components` and `import { Button, Badge, … } from '@pandaworks-ui/components'`
   - Tailwind v4 must already be configured in the consumer with the design tokens this library expects (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.). See `apps/demo/src/index.css` for the canonical token set
-
-#### tooling (drop deprecated tsconfig baseUrl)
-
-- change: modified
-- breaking: no
-- details: Removed `baseUrl: "."` from [packages/registry/tsconfig.json](packages/registry/tsconfig.json) and [apps/demo/tsconfig.app.json](apps/demo/tsconfig.app.json). TypeScript 6.0 emits a deprecation diagnostic for `baseUrl` and 7.0 will drop the option; modern TypeScript resolves `paths` entries relative to the `tsconfig.json` location by default, so `baseUrl` was redundant. No runtime, import, or build-output change — internal tooling cleanup only.
-- action:
-  - None for downstream consumers.
-
-#### demo showcase (Use with AI view)
-
-- change: added
-- breaking: no
-- details: New "Use with AI" view in the showcase demo at https://pandaworks-software-plt.github.io/pandaworks-ui/ — provides a one-click copyable prompt that primes AI coding agents (Claude Code, Cursor, Copilot, etc.) to read `llms.txt` as the catalog and use the npm package. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link. No component changes — pure demo addition.
-- action:
-  - None for downstream consumers. End users / agents can grab the integration prompt directly from the showcase site.
 
 #### empty-state, list-row (TypeScript fixes)
 
@@ -277,13 +284,6 @@ Each entry contains:
   - Upgrade `@pandaworks-sw/ui` to pick up the fix
   - No prop or API changes; existing usage works as-is
 
-#### button
-
-- change: modified
-- breaking: no
-- details: Docs-only update. `public/docs/button.md` and CLAUDE.md gain a "Sizing guidance (SaaS consistency)" section that maps scenarios to sizes for cross-app consistency: `default` for `PageHeader` actions, modal/dialog/sheet footers, form submit/cancel, and card-header actions; `sm` for inline actions inside table rows, list items, and dense filter-bar toolbars; `lg` reserved for marketing/landing hero CTAs, empty-state primary actions, and onboarding full-screen steps (not used inside CRUD screens). Icon-only sizes track the text variants (`icon` ↔ `default`, `icon-sm` ↔ `sm`, `icon-lg` ↔ `lg`). No code or props changes.
-- action: no consumer action — read the new section in `public/docs/button.md` when picking a `size` prop
-
 #### avatar
 
 - change: modified
@@ -310,20 +310,6 @@ Each entry contains:
 - action:
   - Upgrade `@pandaworks-sw/ui`
   - No code changes required in consumers
-
-#### demo
-
-- change: added
-- breaking: no
-- details: New `/pure-showcase` route alongside `/saas-showcase`. Pure-showcase is a strict-purity rebuild of the SaaS demo using only registry components — no custom UI, no hardcoded Tailwind palette colors (no `bg-emerald-*`, `text-rose-*`, etc.), no inline color overrides. It mirrors the SaaS demo view-by-view; v1 covers Workspace and Projects, with remaining tabs deferred until registry gaps are closed.
-- action: no consumer action — this is a demo-only addition
-
-#### registry-gaps
-
-- change: added
-- breaking: no
-- details: New `docs/REGISTRY-GAPS.md` cataloguing places where the SaaS demo had to leave the registry. P0 findings: `Badge` lacks semantic-tone variants (`success`/`warning`/`info`/`muted`) and a `dot` prop, forcing every status/priority/delta chip to hardcode palette colors; `Avatar` is permanently round, forcing project-tile lookalikes; no `AvatarGroup` primitive for "+N" overflow stacks. P1 patterns to promote: `EmptyState`, `StatCard`, `MeterRow`, `ListRow`. P2: `DropdownMenuItem` destructive variant, `CodeLabel` non-copyable variant. CLAUDE.md gains a "Showcase Purity Rules" section enforcing these constraints in `apps/demo/src/pure/`.
-- action: no consumer action — this is internal direction-setting
 
 #### badge
 
@@ -412,13 +398,6 @@ Each entry contains:
 - breaking: no
 - details: New `public/docs/decision-guide.md` is the canonical "which variant / tone / surface / size?" reference. Covers Avatar shape (human → `circle`, non-human entity → `square`), Badge tones with the `dot` rule, Alert variants, MeterRow tones, ListRow surface, Tabs `line` vs pill, StatCard `deltaTone` (tone follows desirability, not arrow direction), Modal vs Dialog vs Sheet vs AlertDialog, text-input choice (Input / Textarea / SearchInput / CodeLabel), dropdown choice (Select for static < 10 / SelectPicker otherwise), date controls, boolean / multi-choice rules (Switch = immediate effect; Checkbox = collected on Save), AttachmentInput dropzone vs compact, dashboard tile choice (StatCard / MeterRow / ListRow / Card), the registry's fixed elevation ladder (`shadow-none` → `shadow-xs/sm` → `shadow-md` → `shadow-xl`) with an explicit note that `Card` has no `elevation` prop and is fixed at `shadow-xs` by design, DropdownMenuItem `default` vs `destructive`, and labelled vs icon-only Button rules. The Decision Guide section in `public/llms.txt` now links to it.
 - action: no consumer action — read this when picking a variant/tone/surface
-
-#### sizing-tables (docs only)
-
-- change: added
-- breaking: no
-- details: Per-component "Sizing" / "Density" / "Surface" tables appended to existing component docs to map real scenarios to the right key. Updated docs: `Toggle` and `ToggleGroup` ([navigation.md](docs/navigation.md)), `EmptyState` ([layout.md](docs/layout.md)), `CodeLabel`, `AvatarGroup`, `MeterRow`, `ListRow` ([data-display.md](docs/data-display.md)), and `SelectableCard` ([forms.md](docs/forms.md)). Examples: AvatarGroup `xs` for table-row assignee stacks, `lg` only for hero member showcases; ListRow density `sm` for activity feeds, `lg` for settings rows; SelectableCard `sm` for in-Card settings choices, `lg` only for marketing pricing. No code or props changes.
-- action: no consumer action — read the new section in the relevant component doc when picking a `size` / `density` / `surface` prop
 
 ### 2026-04-23
 
@@ -523,15 +502,7 @@ Each entry contains:
 - breaking: no
 - details: Minor className alignment for Tailwind v4 patterns and visual consistency (e.g. `border-border`, shadow tokens, `data-disabled` where Radix exposes the attribute, small layout tokens). No intentional public API changes.
 - action:
-  - Re-install the specific components you use from the registry with `--overwrite` if you want pixel-identical styling to the latest build
-
-#### demo (pandawork-ui repo)
-
-- change: added
-- breaking: no
-- details: New in-repo SaaS-style demo route at `/saas-showcase` for exercising registry components in a cohesive app shell. Added `pnpm test:ui-audit` (Playwright) and `artifacts/playwright-ui-audit/` baseline captures. Demo shell now uses a darker radial page backdrop with layered depth, and global demo radius token is increased (`--radius: 0.75rem`) for rounder default corners.
-- action:
-  - No action for registry-only consumers. Clone/update the repo to run the demo or audit script locally.
+  - Upgrade `@pandaworks-sw/ui` to pick up pixel-identical styling
 
 ### 2026-04-08
 

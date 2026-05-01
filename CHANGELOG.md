@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-01
 
+### Added
+
+- **Package now ships its own design-token stylesheet at `@pandaworks-sw/ui/styles.css`.** New file [packages/registry/src/styles.css](packages/registry/src/styles.css) is the single source of truth for the `:root` / `.dark` token blocks, the `@theme inline` mapping (Tailwind v4 utility generation), the base layer, the `text-display-*` / `text-mono-*` typography utilities, and the `bg-pattern-*` background utilities. [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) copies it into `dist/styles.css` via an `onSuccess` hook, and [packages/registry/package.json](packages/registry/package.json) adds an `"./styles.css": "./dist/styles.css"` subpath export. Consumers now wire up Tailwind v4 + tokens with one import — no more copying `apps/demo/src/index.css` by hand:
+  ```css
+  @import "tailwindcss";
+  @import "@pandaworks-sw/ui/styles.css";
+  @source "../node_modules/@pandaworks-sw/ui";
+  ```
+  The demo's [apps/demo/src/index.css](apps/demo/src/index.css) was slimmed to import from the package source so demo and package can never drift. [README.md](README.md), [CLAUDE.md](CLAUDE.md), and [public/llms.txt](public/llms.txt) updated with the new wiring instructions
+
 ### Removed
 
 - **Unused build output, scripts, and configs.** With the npm package on GitHub Packages now the only distribution channel, the project drops the legacy build artefacts that produced a separate JSON-based component output. Existing apps still vendoring `src/components/lucid/` should migrate by adding `@pandaworks-sw/ui`, running a codemod to rewrite `from '@/components/lucid/<name>'` → `from '@pandaworks-sw/ui'`, and deleting `src/components/lucid/`. Files removed:

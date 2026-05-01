@@ -92,7 +92,16 @@ Then import directly:
 import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
 ```
 
-Required peer dependencies: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. Tailwind v4 must be configured in the consumer with the same design tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …) — copy `apps/demo/src/index.css` as a reference if starting from scratch.
+Required peer dependencies: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The package ships its own design-token stylesheet at `@pandaworks-sw/ui/styles.css` — consumers wire it up in their entry CSS:
+
+```css
+@import "tailwindcss";
+@import "@pandaworks-sw/ui/styles.css";
+
+@source "../node_modules/@pandaworks-sw/ui";
+```
+
+`styles.css` contains the `:root` / `.dark` token blocks, the `@theme inline` mapping, the base layer, the `text-display-*` / `text-mono-*` utilities, and the `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 see class names used inside the package's compiled JSX. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded by the consumer — see `apps/demo/index.html` for the Google Fonts `<link>` tags. The single source of truth for these tokens is [packages/registry/src/styles.css](packages/registry/src/styles.css); the demo imports the same file via [apps/demo/src/index.css](apps/demo/src/index.css).
 
 Customizations must land upstream in this repo — you cannot fork a single component locally. If a component needs a behavior or variant it doesn't have, open a PR against lucid-ui or wrap the component in a project-local component that lives outside `@pandaworks-sw/ui`'s exports.
 

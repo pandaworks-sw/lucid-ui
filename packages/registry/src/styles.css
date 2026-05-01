@@ -1,0 +1,524 @@
+/*
+ * Lucid UI design system stylesheet.
+ *
+ * Consumers add this file after `@import "tailwindcss"` in their app's entry CSS:
+ *
+ *   @import "tailwindcss";
+ *   @import "@pandaworks-sw/ui/styles.css";
+ *   @source "../node_modules/@pandaworks-sw/ui";
+ *
+ * The third line lets Tailwind v4 scan the package's compiled JSX for class names.
+ * Required peer setup: react >=19, react-dom >=19, lucide-react >=0.500,
+ * react-hook-form >=7, tailwindcss >=4. Fonts (Inter, Comfortaa, JetBrains Mono)
+ * must be loaded by the consumer (e.g. Google Fonts <link> in index.html).
+ */
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentcolor);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer base {
+  /* Foundation palette: cool-neutral stone + panda-blue accent.
+     Stone (cool neutrals): stone-50 #F7F9FB → stone-950 #080B0E
+     Panda blue (accent):   panda-50 #E7F7FD → panda-900 #08323F
+     Semantic: success #4F8A52, info #3D7DD9, warning #C98A2B, danger #C8543F */
+
+  :root {
+    /* Stone scale */
+    --stone-50: #f7f9fb;
+    --stone-100: #eff3f6;
+    --stone-150: #e5ebef;
+    --stone-200: #d8dfe5;
+    --stone-300: #bcc5cd;
+    --stone-400: #8b97a1;
+    --stone-500: #5f6b75;
+    --stone-600: #424c55;
+    --stone-700: #2c343b;
+    --stone-800: #1c2229;
+    --stone-900: #11161b;
+    --stone-950: #080b0e;
+
+    /* Panda blue scale */
+    --panda-50: #e7f7fd;
+    --panda-100: #c7ecfa;
+    --panda-200: #92daf3;
+    --panda-300: #54c4eb;
+    --panda-400: #20b0e0;
+    --panda-500: #0e97c7;
+    --panda-600: #0879a2;
+    --panda-700: #0a607f;
+    --panda-800: #0c495f;
+    --panda-900: #08323f;
+
+    /* Semantic */
+    --success: #4f8a52;
+    --info: #3d7dd9;
+    --warning: #c98a2b;
+    --danger: #c8543f;
+    --success-foreground: #ffffff;
+    --info-foreground: #ffffff;
+    --warning-foreground: #ffffff;
+    --danger-foreground: #ffffff;
+
+    /* shadcn semantic tokens — light mode */
+    --background: var(--stone-50);
+    --foreground: var(--stone-800);
+    --card: #ffffff;
+    --card-foreground: var(--stone-800);
+    --popover: #ffffff;
+    --popover-foreground: var(--stone-800);
+    --primary: var(--stone-800);
+    --primary-foreground: var(--stone-50);
+    --brand: var(--panda-400);
+    --brand-foreground: #ffffff;
+    --secondary: var(--stone-100);
+    --secondary-foreground: var(--stone-700);
+    --muted: var(--stone-100);
+    --muted-foreground: var(--stone-600);
+    --accent: var(--stone-150);
+    --accent-foreground: var(--stone-800);
+    --destructive: var(--danger);
+    --destructive-foreground: #ffffff;
+    --border: var(--stone-200);
+    --input: var(--stone-200);
+    --ring: var(--panda-400);
+    --chart-1: var(--panda-400);
+    --chart-2: var(--panda-600);
+    --chart-3: var(--info);
+    --chart-4: var(--success);
+    --chart-5: var(--warning);
+    --sidebar-background: var(--stone-100);
+    --sidebar-foreground: var(--stone-800);
+    --sidebar-primary: var(--stone-800);
+    --sidebar-primary-foreground: var(--stone-50);
+    --sidebar-accent: var(--stone-150);
+    --sidebar-accent-foreground: var(--stone-800);
+    --sidebar-border: var(--stone-200);
+    --sidebar-ring: var(--panda-400);
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Comfortaa", "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    /* shadcn semantic tokens — dark mode */
+    --background: var(--stone-800);
+    --foreground: var(--stone-150);
+    --card: var(--stone-700);
+    --card-foreground: var(--stone-150);
+    --popover: var(--stone-700);
+    --popover-foreground: var(--stone-150);
+    --primary: var(--stone-150);
+    --primary-foreground: var(--stone-800);
+    --brand: var(--panda-400);
+    --brand-foreground: #ffffff;
+    --secondary: var(--stone-700);
+    --secondary-foreground: var(--stone-150);
+    --muted: var(--stone-700);
+    --muted-foreground: var(--stone-400);
+    --accent: var(--stone-600);
+    --accent-foreground: var(--stone-50);
+    --destructive: var(--danger);
+    --destructive-foreground: #ffffff;
+    --border: var(--stone-600);
+    --input: var(--stone-600);
+    --ring: var(--panda-400);
+    --chart-1: var(--panda-300);
+    --chart-2: var(--panda-500);
+    --chart-3: var(--info);
+    --chart-4: var(--success);
+    --chart-5: var(--warning);
+    --sidebar-background: var(--stone-900);
+    --sidebar-foreground: var(--stone-150);
+    --sidebar-primary: var(--stone-150);
+    --sidebar-primary-foreground: var(--stone-800);
+    --sidebar-accent: var(--stone-700);
+    --sidebar-accent-foreground: var(--stone-50);
+    --sidebar-border: var(--stone-700);
+    --sidebar-ring: var(--panda-400);
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Comfortaa", "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --radius: 0.75rem;
+  }
+
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-brand: var(--brand);
+    --color-brand-foreground: var(--brand-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar-background);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Foundation scales — exposed as Tailwind utilities (bg-stone-200, text-panda-500, etc.) */
+    --color-stone-50: var(--stone-50);
+    --color-stone-100: var(--stone-100);
+    --color-stone-150: var(--stone-150);
+    --color-stone-200: var(--stone-200);
+    --color-stone-300: var(--stone-300);
+    --color-stone-400: var(--stone-400);
+    --color-stone-500: var(--stone-500);
+    --color-stone-600: var(--stone-600);
+    --color-stone-700: var(--stone-700);
+    --color-stone-800: var(--stone-800);
+    --color-stone-900: var(--stone-900);
+    --color-stone-950: var(--stone-950);
+
+    --color-panda-50: var(--panda-50);
+    --color-panda-100: var(--panda-100);
+    --color-panda-200: var(--panda-200);
+    --color-panda-300: var(--panda-300);
+    --color-panda-400: var(--panda-400);
+    --color-panda-500: var(--panda-500);
+    --color-panda-600: var(--panda-600);
+    --color-panda-700: var(--panda-700);
+    --color-panda-800: var(--panda-800);
+    --color-panda-900: var(--panda-900);
+
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-danger: var(--danger);
+    --color-danger-foreground: var(--danger-foreground);
+
+    --font-sans: var(--font-sans);
+    --font-display: var(--font-display);
+    --font-mono: var(--font-mono);
+
+    /* Typography scale — Comfortaa across the system, JetBrains Mono for code.
+       Body sizes override Tailwind defaults; text-md is new; text-display-* are new. */
+    --text-xs: 0.6875rem; /* 11px */
+    --text-xs--line-height: 1.5;
+    --text-xs--font-weight: 600;
+    --text-xs--letter-spacing: 0.04em;
+
+    --text-sm: 0.8125rem; /* 13px */
+    --text-sm--line-height: 1.5;
+    --text-sm--font-weight: 500;
+
+    --text-base: 0.875rem; /* 14px */
+    --text-base--line-height: 1.55;
+    --text-base--font-weight: 400;
+
+    --text-md: 0.9375rem; /* 15px */
+    --text-md--line-height: 1.55;
+    --text-md--font-weight: 400;
+
+    --text-lg: 1.0625rem; /* 17px */
+    --text-lg--line-height: 1.5;
+    --text-lg--font-weight: 500;
+
+    --text-xl: 1.25rem; /* 20px */
+    --text-xl--line-height: 1.45;
+    --text-xl--font-weight: 500;
+
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+  }
+}
+
+/* ─── Display text utilities (Comfortaa) ─── */
+
+@utility text-display-sm {
+  font-family: var(--font-display);
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-size: 2.5rem; /* 40px */
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-size: 3.5rem; /* 56px */
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: 4.5rem; /* 72px */
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Mono text utilities ─── */
+
+@utility text-mono-sm {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; /* 11px */
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: "calt" 0;
+}
+
+@utility text-mono-md {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: "calt" 0;
+}
+
+/* ─── Pattern Background Utilities ─── */
+
+@utility bg-pattern-dots {
+  background-image: radial-gradient(circle, oklch(0.3 0 0 / 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-pattern-dots {
+  background-image: radial-gradient(circle, oklch(1 0 0 / 0.07) 1px, transparent 1px);
+}
+
+@utility bg-pattern-grid {
+  background-image:
+    linear-gradient(to right, oklch(0.3 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.3 0 0 / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-pattern-grid {
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.06) 1px, transparent 1px);
+}
+
+@utility bg-pattern-cross {
+  --_cross-color: oklch(0.3 0 0 / 0.06);
+  --_cross-size: 20px;
+  background-image:
+    linear-gradient(var(--_cross-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--_cross-color) 1px, transparent 1px);
+  background-size: var(--_cross-size) var(--_cross-size);
+  background-position: center center;
+}
+
+.dark .bg-pattern-cross {
+  --_cross-color: oklch(1 0 0 / 0.06);
+}
+
+@utility bg-pattern-noise {
+  position: relative;
+}
+
+.bg-pattern-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+.dark .bg-pattern-noise::before {
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+}
+
+/* ─── Aurora Pattern ─── */
+
+@utility bg-pattern-aurora {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 50%, oklch(0.7 0.15 260 / 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 20%, oklch(0.7 0.15 300 / 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.7 0.12 200 / 0.06) 0%, transparent 60%);
+}
+
+.dark .bg-pattern-aurora {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 50%, oklch(0.4 0.15 260 / 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 20%, oklch(0.4 0.15 300 / 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.4 0.12 200 / 0.12) 0%, transparent 60%);
+}
+
+/* ─── Aurora Color Variants ─── */
+
+@utility bg-pattern-aurora-blue {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.7 0.16 250 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 15%, oklch(0.75 0.12 230 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 90%, oklch(0.65 0.14 270 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-blue {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.35 0.16 250 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 15%, oklch(0.4 0.12 230 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 90%, oklch(0.3 0.14 270 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-purple {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 40%, oklch(0.7 0.18 300 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.65 0.2 320 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 55% 85%, oklch(0.7 0.15 280 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-purple {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 40%, oklch(0.35 0.18 300 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.3 0.2 320 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 55% 85%, oklch(0.35 0.15 280 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-peach {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.78 0.12 50 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.75 0.14 30 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.8 0.1 70 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-peach {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.4 0.12 50 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.38 0.14 30 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.42 0.1 70 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-indigo {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.55 0.22 270 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 15%, oklch(0.6 0.2 285 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 90%, oklch(0.5 0.18 255 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-indigo {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.3 0.22 270 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 15%, oklch(0.3 0.2 285 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 90%, oklch(0.28 0.18 255 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-green {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.72 0.15 150 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.13 165 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.75 0.11 135 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-green {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.38 0.15 150 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.13 165 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.4 0.11 135 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-amber {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.8 0.14 80 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.78 0.16 65 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.82 0.12 90 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-amber {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.42 0.14 80 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.4 0.16 65 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.44 0.12 90 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-rose {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 45%, oklch(0.7 0.18 10 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.2 350 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.72 0.15 25 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-rose {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 45%, oklch(0.38 0.18 10 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.2 350 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.4 0.15 25 / 0.12) 0%, transparent 55%);
+}
+
+@utility bg-pattern-aurora-teal {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.72 0.12 185 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.14 175 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.74 0.1 195 / 0.07) 0%, transparent 55%);
+}
+
+.dark .bg-pattern-aurora-teal {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.38 0.12 185 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.14 175 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.4 0.1 195 / 0.12) 0%, transparent 55%);
+}

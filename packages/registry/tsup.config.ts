@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import { cp } from 'node:fs/promises';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -16,5 +17,8 @@ export default defineConfig({
       '@/components/ui': './registry/default',
       '@': './src',
     };
+  },
+  async onSuccess() {
+    await cp('src/styles.css', 'dist/styles.css');
   },
 });

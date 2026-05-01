@@ -41,7 +41,16 @@ CI: set `GITHUB_TOKEN` (or a dedicated `read:packages` PAT) in the workflow env 
 import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
 ```
 
-Tailwind v4 must be configured in the consumer with the same design tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …). Copy `apps/demo/src/index.css` from this repo as a reference if starting from scratch.
+Wire up Tailwind v4 + the design tokens by importing the package's stylesheet. In your app's entry CSS:
+
+```css
+@import "tailwindcss";
+@import "@pandaworks-sw/ui/styles.css";
+
+@source "../node_modules/@pandaworks-sw/ui";
+```
+
+That gives you all the tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …), the base layer, the `text-display-*` / `text-mono-*` utilities, and the `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 scan the package's compiled JSX for class names so they aren't tree-shaken out. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded by the consumer — see `apps/demo/index.html` for the Google Fonts `<link>` tags.
 
 ## Available Components
 
