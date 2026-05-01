@@ -29,3 +29,6 @@ coverage/
 .agents/
 .claude/
 skills-lock.json
+
+# Playwright local screenshots (diagnostic only)
+.playwright/

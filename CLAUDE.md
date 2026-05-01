@@ -189,6 +189,12 @@ grep -rE "bg-(emerald|rose|amber|sky|blue|red|green|purple|violet|orange|cyan|pi
 grep -rE "style=\{\{[^}]*background|style=\{\{[^}]*color" apps/demo/src/pure/
 ```
 
+## Playwright Screenshots
+
+All Playwright screenshots **must** be saved into `.playwright/screenshot/` at the repo root. Always pass an absolute or repo-relative path under that folder when calling `mcp__playwright__browser_take_screenshot` (e.g. `filename: ".playwright/screenshot/<name>.png"`). Never let screenshots land in the repo root, `apps/`, `packages/`, or anywhere else.
+
+The `.playwright/` folder is gitignored — screenshots are local-only diagnostics and must never be committed.
+
 ## Post-Commit Cleanup
 
-After every commit, discard any untracked `.png` files in the repo root (these are Playwright screenshots used for visual checks during development and must never be committed). Run `git clean -f -- '*.png'` (or remove them individually) so the working tree stays clean.
+After every commit, discard any stray untracked `.png` files outside `.playwright/screenshot/` (these are leftover Playwright screenshots from before the rule above and must never be committed). Run `git clean -f -- '*.png'` in the repo root (or remove them individually) so the working tree stays clean. The `.playwright/` folder itself is gitignored and does not need cleanup.
