@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **`useIsCompactDesktop` hook.** New export from `@/hooks/use-mobile` (also re-exported via the app-shell barrel). Returns `true` when the viewport is in the 768–1023px range. AppShell uses it internally for responsive sidebar auto-collapse; consumers can use it for parallel responsive logic.
 - **`getInitialName` utility + `AvatarFallback` auto-converts full names.** New helper [packages/registry/src/lib/get-initial-name.ts](packages/registry/src/lib/get-initial-name.ts) exported from `@pandaworks-sw/ui` (and from the registry's internal `@/lib` alias). Pass any string — including a full name — to `<AvatarFallback>` and it now renders a 2-character monogram automatically: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"` (first + last), `"Eli" → "EL"` (first 2 chars of single-word names). Already-short strings like `"JD"` or `"+3"` pass through unchanged. Callers that previously hand-wrote a `getInitials` helper (e.g. `app-shell.tsx`) can drop it and pass `user.name` directly.
 - **Demo registry alias `@/lib` is now a folder alias.** [apps/demo/vite.config.ts](apps/demo/vite.config.ts) replaces the file-specific `@/lib/utils` alias with a folder-level `@/lib` alias pointing at `packages/registry/src/lib/`. Existing `import { cn } from '@/lib/utils'` still resolves; new `import { cn, getInitialName } from '@/lib'` is the preferred form for registry source files.
 
@@ -15,6 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`AvatarFallback` colorize default flipped to `true` (BREAKING for consumers relying on the previous gray default).** The `colorize` prop on [packages/registry/registry/default/avatar/avatar.tsx](packages/registry/registry/default/avatar/avatar.tsx) now defaults to `true`, so `<AvatarFallback>John Doe</AvatarFallback>` renders a deterministically colored monogram out of the box. Pass `colorize={false}` to opt back into the muted (`bg-muted`) look — useful for `+N` overflow tiles, system placeholders, and other non-name fallbacks. The `+N` overflow tile inside [packages/registry/registry/default/avatar-group/avatar-group.tsx](packages/registry/registry/default/avatar-group/avatar-group.tsx) is updated to set `colorize={false}` so it keeps its neutral background.
   - **Migration:** if you previously relied on the default gray fallback for arbitrary text content, add `colorize={false}` to those `AvatarFallback` instances. Name-based avatars need no change.
+
+### Fixed
+
+- **AppShell: handle small screens (mobile view).** Three mobile/compact-viewport UX bugs in [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx):
+  1. **Mobile Sheet sidebar didn't auto-close on navigation.** When a user opened the sidebar Sheet on mobile and tapped a nav link, branding link, or a user-action link, the Sheet stayed open and the route changed underneath it — forcing the user to dismiss it manually. Each link now calls `setOpenMobile(false)` on click via a small `useMobileAutoClose` hook (no-op on desktop).
+  2. **Header content could overflow on narrow viewports.** The flex children inside the navbar lacked `min-w-0` / `shrink-0`, so a wide consumer `header` (e.g. a search input with long placeholder text) wrapped or pushed `navbarActions` off-screen instead of shrinking. The header wrapper, the header content slot, the sidebar trigger, the separator, and the navbar-actions slot now have explicit `min-w-0` / `shrink-0` so consumer content shrinks gracefully.
+  3. **Sidebar didn't auto-collapse at compact desktop widths (768–1023px).** The full 18rem sidebar squeezed the navbar at tablet sizes (e.g. search input was truncated to "Searc…" at 768px). AppShell now controls `SidebarProvider`'s `open` state via the new `useIsCompactDesktop` hook — the sidebar collapses to icon mode automatically inside the compact range and expands again past 1024px. Mobile (<768px) keeps using the Sheet variant.
 
 ### Added
 
