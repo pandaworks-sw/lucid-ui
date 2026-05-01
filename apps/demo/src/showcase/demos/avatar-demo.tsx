@@ -10,12 +10,17 @@ export default function AvatarDemo() {
 
 <Avatar>
   <AvatarImage src="/avatar.png" alt="John Doe" />
-  <AvatarFallback>JD</AvatarFallback>
+  <AvatarFallback>John Doe</AvatarFallback>
 </Avatar>`}
       >
-        <div className="flex items-center gap-4">
+        <p className="text-sm text-muted-foreground">
+          Pass a full name as the fallback's children — it auto-converts to 2-character initials and a deterministic
+          background color is applied. Already-short strings (e.g. <code className="font-mono text-xs">JD</code>) pass
+          through unchanged.
+        </p>
+        <div className="flex items-center gap-4 pt-3">
           <Avatar>
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarFallback>John Doe</AvatarFallback>
           </Avatar>
           <div>
             <p className="text-sm font-medium">John Doe</p>
@@ -68,21 +73,34 @@ export default function AvatarDemo() {
             <AvatarFallback>DM</AvatarFallback>
           </Avatar>
           <Avatar className="border-2 border-background">
-            <AvatarFallback className="text-xs">+3</AvatarFallback>
+            <AvatarFallback colorize={false} className="text-xs">
+              +3
+            </AvatarFallback>
           </Avatar>
         </div>
       </DemoSection>
 
-      <DemoSection title="With Names">
+      <DemoSection
+        title="From full name"
+        code={`<Avatar>
+  <AvatarFallback>Alice Reyes</AvatarFallback>
+</Avatar>`}
+      >
         <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            The fallback runs string children through <code className="font-mono text-xs">getInitialName</code> (from{' '}
+            <code className="font-mono text-xs">@/lib</code>), so each name renders as a 2-character monogram — "Alice
+            Reyes" → "AR", "Devi Marasinghe" → "DM", "Eli" → "EL".
+          </p>
           {[
-            { initials: 'AR', name: 'Alice Reyes', role: 'HR Manager' },
-            { initials: 'BK', name: 'Bob Kim', role: 'Team Lead' },
-            { initials: 'CL', name: 'Clara Lee', role: 'Designer' },
+            { name: 'Alice Reyes', role: 'HR Manager' },
+            { name: 'Bob Kim', role: 'Team Lead' },
+            { name: 'Clara Lee', role: 'Designer' },
+            { name: 'Devi Marasinghe', role: 'Recruiter' },
           ].map((person) => (
-            <div key={person.initials} className="flex items-center gap-3">
+            <div key={person.name} className="flex items-center gap-3">
               <Avatar>
-                <AvatarFallback>{person.initials}</AvatarFallback>
+                <AvatarFallback>{person.name}</AvatarFallback>
               </Avatar>
               <div>
                 <p className="text-sm font-medium">{person.name}</p>
@@ -120,39 +138,48 @@ export default function AvatarDemo() {
       </DemoSection>
 
       <DemoSection
-        title="Colorized"
+        title="Color palette (default)"
         code={`<Avatar>
-  <AvatarFallback colorize>JD</AvatarFallback>
+  <AvatarFallback>A</AvatarFallback>
 </Avatar>`}
       >
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Pass <code className="font-mono text-xs">colorize</code> to derive a background color from the first
-            character (A–Z mapped to 26 evenly spaced hues).
+            Each fallback derives its background from the first character — A–Z map to 26 evenly spaced OKLCH hues,
+            digits and other characters fall back to a deterministic hash. This is on by default; pass{' '}
+            <code className="font-mono text-xs">colorize={'{false}'}</code> to opt out.
           </p>
           <div className="flex flex-wrap gap-2">
             {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((letter) => (
               <Avatar key={letter}>
-                <AvatarFallback colorize>{letter}</AvatarFallback>
+                <AvatarFallback>{letter}</AvatarFallback>
               </Avatar>
             ))}
           </div>
-          <div className="space-y-3 pt-2">
-            {[
-              { initials: 'AR', name: 'Alice Reyes' },
-              { initials: 'BK', name: 'Bob Kim' },
-              { initials: 'CL', name: 'Clara Lee' },
-              { initials: 'DM', name: 'Devi Marasinghe' },
-              { initials: 'EN', name: 'Eli Ng' },
-              { initials: 'FT', name: 'Farah Tan' },
-            ].map((person) => (
-              <div key={person.initials} className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarFallback colorize>{person.initials}</AvatarFallback>
-                </Avatar>
-                <p className="text-sm font-medium">{person.name}</p>
-              </div>
-            ))}
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Plain (opt out of color)"
+        code={`<Avatar>
+  <AvatarFallback colorize={false}>JD</AvatarFallback>
+</Avatar>`}
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            For neutral monograms (e.g. system tiles, placeholders), set{' '}
+            <code className="font-mono text-xs">colorize={'{false}'}</code> to drop back to the muted background.
+          </p>
+          <div className="flex items-center gap-3">
+            <Avatar>
+              <AvatarFallback colorize={false}>JD</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback colorize={false}>+3</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback colorize={false}>?</AvatarFallback>
+            </Avatar>
           </div>
         </div>
       </DemoSection>

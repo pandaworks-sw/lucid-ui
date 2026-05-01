@@ -41,23 +41,27 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 <Avatar>
   <AvatarImage src="/avatar.jpg" alt="User" />
-  <AvatarFallback>AR</AvatarFallback>
+  <AvatarFallback>John Doe</AvatarFallback>
 </Avatar>
+```
+
+`AvatarFallback` runs string children through `getInitialName` (exported from `@pandaworks-sw/ui` and from `@/lib`), so a full name is auto-converted to a 2-character monogram: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"`, `"Eli" → "EL"`. Already-short strings (e.g. `"JD"`) pass through unchanged.
+
+By default the fallback is colorized — the background color is derived from the first rendered character (A–Z map to 26 evenly spaced OKLCH hues, digits and other characters fall back to a deterministic hash). Foreground is white and works in both light and dark mode.
+
+```tsx
+// auto-initials + auto-color (default)
+<Avatar><AvatarFallback>John Doe</AvatarFallback></Avatar>
+
+// neutral muted background — opt out for system tiles, "+N" overflow, placeholders
+<Avatar><AvatarFallback colorize={false}>+3</AvatarFallback></Avatar>
 ```
 
 Pass `shape="square"` for an entity-style rounded-square tile (project icons, app logos, anything that isn't a person):
 
 ```tsx
 <Avatar shape="square">
-  <AvatarFallback colorize>PW</AvatarFallback>
-</Avatar>
-```
-
-`AvatarFallback` accepts an optional `colorize` prop. When set, the background color is derived from the first character of the fallback text — A–Z map to 26 evenly spaced OKLCH hues, digits and other characters fall back to a deterministic hash. The foreground is set to white and works in both light and dark mode.
-
-```tsx
-<Avatar>
-  <AvatarFallback colorize>JD</AvatarFallback>
+  <AvatarFallback>Pandaworks</AvatarFallback>
 </Avatar>
 ```
 
@@ -65,7 +69,18 @@ Props (`Avatar`):
 - `shape?: "circle" | "square"` — defaults to `"circle"`. Square uses `rounded-md`. The shape propagates into `AvatarFallback` via `rounded-[inherit]`.
 
 Props (`AvatarFallback`):
-- `colorize?: boolean` -- derive background color from the first character of the children text (default: `false`)
+- `colorize?: boolean` -- derive background color from the first rendered character (default: `true`). Pass `colorize={false}` to fall back to `bg-muted`.
+
+If you need the initials helper outside the Avatar (e.g. for `aria-label`, sorting, or non-Avatar UI), import it directly:
+
+```tsx
+import { getInitialName } from "@pandaworks-sw/ui"; // or "@/lib" inside the registry
+
+getInitialName("John Doe");        // → "JD"
+getInitialName("Devi Marasinghe"); // → "DM"
+getInitialName("Eli");             // → "EL"
+getInitialName("");                // → ""
+```
 
 Custom `style` and `className` still take precedence — pass your own `backgroundColor`/`color` to override the computed values.
 

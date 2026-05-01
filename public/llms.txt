@@ -95,7 +95,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Card | Container with header, content, footer | [data-display.md](docs/data-display.md) |
 | Table | Data table with header, body, footer | [data-display.md](docs/data-display.md) |
 | Badge | Status indicator with semantic tones (default/secondary/destructive/outline/success/warning/info/muted) and optional dot | [data-display.md](docs/data-display.md) |
-| Avatar | User/entity avatar with image and fallback; supports `shape="circle"` (default) or `"square"` | [data-display.md](docs/data-display.md) |
+| Avatar | User/entity avatar with image and fallback; `<AvatarFallback>` auto-converts a full-name string to a 2-char monogram and is colorized by default (opt out via `colorize={false}`); supports `shape="circle"` (default) or `"square"` | [data-display.md](docs/data-display.md) |
 | AvatarGroup | Stack of overlapping Avatars with `max` overflow tile; inherits the Avatar shape | [data-display.md](docs/data-display.md) |
 | Calendar | Date calendar | [data-display.md](docs/data-display.md) |
 | Skeleton | Loading placeholder | [data-display.md](docs/data-display.md) |
@@ -199,6 +199,31 @@ Each entry contains:
 ---
 
 ### 2026-05-01
+
+#### avatar — `getInitialName` utility + `AvatarFallback` auto-converts full names
+
+- change: added
+- breaking: no
+- details: New helper `getInitialName(name: string): string` exported from `@pandaworks-sw/ui` (and from the registry's internal `@/lib` alias — see `packages/registry/src/lib/get-initial-name.ts`). Pass any string — including a full multi-word name — to `<AvatarFallback>` and it now renders a 2-character monogram automatically: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"` (first letter of first + last word), `"Eli" → "EL"` (first 2 chars of single-word names), `""` → empty. Already-short strings such as `"JD"` or `"+3"` pass through unchanged so existing call sites that pre-compute initials keep working. Callers that previously hand-wrote a `getInitials` helper (e.g. `app-shell.tsx`) can drop it and pass `user.name` directly.
+- action:
+  - Optional cleanup: replace ad-hoc `getInitials(user.name)` helpers with `<AvatarFallback>{user.name}</AvatarFallback>` or `import { getInitialName } from '@pandaworks-sw/ui'` for non-Avatar contexts (aria-labels, sorting).
+
+#### avatar — `AvatarFallback` colorize default flipped to `true`
+
+- change: modified
+- breaking: yes
+- details: The `colorize` prop on `AvatarFallback` now defaults to `true`. `<AvatarFallback>John Doe</AvatarFallback>` renders a deterministically colored monogram out of the box (A–Z map to 26 evenly spaced OKLCH hues; digits and other characters fall back to a deterministic hash; foreground is white in both light and dark mode). Pass `colorize={false}` to opt back into the muted (`bg-muted`) look — useful for `+N` overflow tiles, system placeholders, and other non-name fallbacks. The `+N` overflow tile inside `AvatarGroup` (`packages/registry/registry/default/avatar-group/avatar-group.tsx`) was updated to set `colorize={false}` so it keeps its neutral background.
+- action:
+  - If a project relied on the previous gray default for arbitrary, non-name text content (e.g. `"+N"` chips, system tiles, single-character placeholders), add `colorize={false}` to those `AvatarFallback` instances.
+  - Name-based avatars need no change — they get the colorized look automatically.
+  - The previous opt-in form `<AvatarFallback colorize>JD</AvatarFallback>` still works (just redundant now).
+
+#### registry — `@/lib` is now a folder alias inside the demo
+
+- change: modified
+- breaking: no
+- details: `apps/demo/vite.config.ts` replaces the file-specific `@/lib/utils` alias with a folder-level `@/lib` alias pointing at `packages/registry/src/lib/`. Existing `import { cn } from '@/lib/utils'` continues to resolve via file lookup inside the aliased folder. The new preferred form for registry source files is `import { cn, getInitialName } from '@/lib'` — backed by a new `packages/registry/src/lib/index.ts` barrel.
+- action: nothing required for downstream consumers — they import from `@pandaworks-sw/ui`, not from `@/lib`. The change only affects internal registry source files.
 
 #### design-token stylesheet now ships with the package
 

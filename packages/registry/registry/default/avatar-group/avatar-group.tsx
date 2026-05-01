@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib';
 import { Avatar, AvatarFallback, type AvatarShape } from '@/components/ui/avatar';
 
 const avatarGroupVariants = cva('flex items-center', {
@@ -63,7 +63,9 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
         )}
         {overflow > 0 && (
           <Avatar shape={shape} className={cn(avatarSizeClass[size], 'ring-2 ring-background')}>
-            <AvatarFallback className="font-medium">+{overflow}</AvatarFallback>
+            <AvatarFallback colorize={false} className="font-medium">
+              +{overflow}
+            </AvatarFallback>
           </Avatar>
         )}
       </div>

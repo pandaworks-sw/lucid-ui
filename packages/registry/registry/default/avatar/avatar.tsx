@@ -1,7 +1,7 @@
 import { forwardRef, type ComponentPropsWithoutRef, type CSSProperties, type ElementRef, type ReactNode } from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
-import { cn } from '@/lib/utils';
+import { cn, getInitialName } from '@/lib';
 
 type AvatarShape = 'circle' | 'square';
 
@@ -65,10 +65,12 @@ type AvatarFallbackProps = ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallb
 };
 
 const AvatarFallback = forwardRef<ElementRef<typeof AvatarPrimitive.Fallback>, AvatarFallbackProps>(
-  ({ className, colorize, children, style, ...props }, ref) => {
+  ({ className, colorize = true, children, style, ...props }, ref) => {
+    const displayChildren = typeof children === 'string' ? getInitialName(children) || children : children;
+
     let computedStyle: CSSProperties | undefined = style;
     if (colorize) {
-      const char = getColorizeChar(children);
+      const char = getColorizeChar(displayChildren);
       if (char) {
         const hue = getAvatarHue(char);
         computedStyle = {
@@ -90,7 +92,7 @@ const AvatarFallback = forwardRef<ElementRef<typeof AvatarPrimitive.Fallback>, A
         style={computedStyle}
         {...props}
       >
-        {children}
+        {displayChildren}
       </AvatarPrimitive.Fallback>
     );
   }

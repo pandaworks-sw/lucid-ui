@@ -71,4 +71,4 @@ export * from './hooks/use-copy-to-clipboard';
 // useIsMobile is already re-exported via app-shell; do not re-export src/hooks/use-mobile here.
 
 // Utils
-export { cn } from './lib/utils';
+export { cn, getInitialName } from './lib';

@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/components/ui': path.resolve(__dirname, '../../packages/registry/registry/default'),
-      '@/lib/utils': path.resolve(__dirname, '../../packages/registry/src/lib/utils'),
+      '@/lib': path.resolve(__dirname, '../../packages/registry/src/lib'),
       '@/hooks': path.resolve(__dirname, '../../packages/registry/src/hooks'),
       '@': path.resolve(__dirname, './src'),
     },

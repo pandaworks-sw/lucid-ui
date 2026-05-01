@@ -27,7 +27,8 @@
 
     "paths": {
       "@/components/ui/*": ["../../packages/registry/registry/default/*"],
-      "@/lib/utils": ["../../packages/registry/src/lib/utils"],
+      "@/lib": ["../../packages/registry/src/lib"],
+      "@/lib/*": ["../../packages/registry/src/lib/*"],
       "@/hooks/*": ["../../packages/registry/src/hooks/*"],
       "@/*": ["./src/*"]
     }

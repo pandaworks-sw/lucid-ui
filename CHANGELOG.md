@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **`getInitialName` utility + `AvatarFallback` auto-converts full names.** New helper [packages/registry/src/lib/get-initial-name.ts](packages/registry/src/lib/get-initial-name.ts) exported from `@pandaworks-sw/ui` (and from the registry's internal `@/lib` alias). Pass any string — including a full name — to `<AvatarFallback>` and it now renders a 2-character monogram automatically: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"` (first + last), `"Eli" → "EL"` (first 2 chars of single-word names). Already-short strings like `"JD"` or `"+3"` pass through unchanged. Callers that previously hand-wrote a `getInitials` helper (e.g. `app-shell.tsx`) can drop it and pass `user.name` directly.
+- **Demo registry alias `@/lib` is now a folder alias.** [apps/demo/vite.config.ts](apps/demo/vite.config.ts) replaces the file-specific `@/lib/utils` alias with a folder-level `@/lib` alias pointing at `packages/registry/src/lib/`. Existing `import { cn } from '@/lib/utils'` still resolves; new `import { cn, getInitialName } from '@/lib'` is the preferred form for registry source files.
+
+### Changed
+
+- **`AvatarFallback` colorize default flipped to `true` (BREAKING for consumers relying on the previous gray default).** The `colorize` prop on [packages/registry/registry/default/avatar/avatar.tsx](packages/registry/registry/default/avatar/avatar.tsx) now defaults to `true`, so `<AvatarFallback>John Doe</AvatarFallback>` renders a deterministically colored monogram out of the box. Pass `colorize={false}` to opt back into the muted (`bg-muted`) look — useful for `+N` overflow tiles, system placeholders, and other non-name fallbacks. The `+N` overflow tile inside [packages/registry/registry/default/avatar-group/avatar-group.tsx](packages/registry/registry/default/avatar-group/avatar-group.tsx) is updated to set `colorize={false}` so it keeps its neutral background.
+  - **Migration:** if you previously relied on the default gray fallback for arbitrary text content, add `colorize={false}` to those `AvatarFallback` instances. Name-based avatars need no change.
+
+### Added
+
 - **Package now ships its own design-token stylesheet at `@pandaworks-sw/ui/styles.css`.** New file [packages/registry/src/styles.css](packages/registry/src/styles.css) is the single source of truth for the `:root` / `.dark` token blocks, the `@theme inline` mapping (Tailwind v4 utility generation), the base layer, the `text-display-*` / `text-mono-*` typography utilities, and the `bg-pattern-*` background utilities. [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) copies it into `dist/styles.css` via an `onSuccess` hook, and [packages/registry/package.json](packages/registry/package.json) adds an `"./styles.css": "./dist/styles.css"` subpath export. Consumers now wire up Tailwind v4 + tokens with one import — no more copying `apps/demo/src/index.css` by hand:
   ```css
   @import "tailwindcss";
