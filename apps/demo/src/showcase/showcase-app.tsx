@@ -583,7 +583,7 @@ export default function ShowcaseApp() {
             </div>
           ) : component ? (
             <div className="mx-auto max-w-4xl px-8 py-8">
-              <ComponentPage title={component.title} description={component.description} installName={component.name}>
+              <ComponentPage title={component.title} description={component.description}>
                 <component.demo />
               </ComponentPage>
             </div>

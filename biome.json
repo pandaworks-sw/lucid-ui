@@ -4,16 +4,7 @@
   "files": {
     "ignoreUnknown": true,
     "maxSize": 2097152,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/dist",
-      "!packages/registry/public/r",
-      "!public/r",
-      "!artifacts",
-      "!**/*.gen.ts",
-      "!**/*.gen.tsx"
-    ]
+    "includes": ["**", "!**/node_modules", "!**/dist", "!artifacts", "!**/*.gen.ts", "!**/*.gen.tsx"]
   },
   "formatter": {
     "enabled": true,

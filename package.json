@@ -5,8 +5,7 @@
   "packageManager": "pnpm@10.11.0",
   "scripts": {
     "dev": "pnpm --filter @pandaworks-sw/demo dev",
-    "build": "pnpm registry:build && pnpm --filter @pandaworks-sw/demo build",
-    "registry:build": "pnpm --filter @pandaworks-sw/ui registry:build",
+    "build": "pnpm --filter @pandaworks-sw/ui build:lib && pnpm --filter @pandaworks-sw/demo build",
     "lint": "biome check && pnpm --filter @pandaworks-sw/demo lint",
     "lint:fix": "biome check --fix",
     "format": "biome format --write",

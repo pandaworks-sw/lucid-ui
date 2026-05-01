@@ -1,24 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { Check, Copy } from 'lucide-react';
-import { InstallCommand } from '@/components/install-command';
 import { cn } from '@/lib/utils';
 
 interface ComponentPageProps {
   title: string;
   description: string;
-  installName: string;
   children: React.ReactNode;
 }
 
-export function ComponentPage({ title, description, installName, children }: ComponentPageProps) {
+export function ComponentPage({ title, description, children }: ComponentPageProps) {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
         <p className="text-muted-foreground">{description}</p>
       </div>
-
-      <InstallCommand name={installName} />
 
       <div className="space-y-8">{children}</div>
     </div>

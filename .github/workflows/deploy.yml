@@ -31,7 +31,7 @@ jobs:
       - run: pnpm --filter @pandaworks-sw/demo build
 
       - name: Copy registry assets into Pages artifact
-        run: cp -R public/llms.txt public/docs public/r apps/demo/dist/
+        run: cp -R public/llms.txt public/docs apps/demo/dist/
 
       - name: Add SPA fallback (Pages serves 404.html on missing paths)
         run: cp apps/demo/dist/index.html apps/demo/dist/404.html

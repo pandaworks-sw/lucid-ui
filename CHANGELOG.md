@@ -6,15 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-01
 
+### Removed
+
+- **Unused build output, scripts, and configs.** With the npm package on GitHub Packages now the only distribution channel, the project drops the legacy build artefacts that produced a separate JSON-based component output. Existing apps still vendoring `src/components/lucid/` should migrate by adding `@pandaworks-sw/ui`, running a codemod to rewrite `from '@/components/lucid/<name>'` → `from '@pandaworks-sw/ui'`, and deleting `src/components/lucid/`. Files removed:
+  - `public/r/` — entire directory of 61 generated component JSONs
+  - `packages/registry/registry.json` and the per-workspace `components.json` files
+  - `packages/registry/scripts/rewrite-lucid-namespace.mjs` and `packages/registry/scripts/sync-all-meta.mjs`
+  - `packages/registry/registry/default/_all/` — `_all` meta-component (no runtime export)
+  - `apps/demo/src/components/install-command.tsx` — demo widget that emitted a copy-paste install command
+- Configs updated:
+  - root `package.json` — drop `registry:build` script; `build` now runs `@pandaworks-sw/ui build:lib && @pandaworks-sw/demo build`
+  - `packages/registry/package.json` — drop `registry:build` script and the `shadcn` devDep; `build` now just runs `tsup`
+  - `biome.json` — drop the `!public/r` and `!packages/registry/public/r` ignore entries
+  - `.github/workflows/deploy.yml` — drop `public/r` from the Pages-artifact `cp -R`
+  - `apps/demo/src/showcase/component-page.tsx` — drop `<InstallCommand />` and the `installName` prop
+  - `apps/demo/src/showcase/showcase-app.tsx` — drop the `installName=` arg passed to `<ComponentPage>`
+  - `CLAUDE.md` and `README.md` — strip the legacy distribution-channel framing and the `pnpm registry:build` command
+
 ### Changed
 
-- **npm package scope: `@lucid/ui` → `@pandaworks-sw/ui`; distribution moved to GitHub Packages.** GitHub Packages requires the npm scope to match the GitHub org owning the repo, so the package was renamed and the repo is moving from `pandaworks-software-plt/lucid-ui` to `pandaworks-sw/lucid-ui`. The demo workspace was renamed from `@lucid/demo` to `@pandaworks-sw/demo` for consistency. `packages/registry/package.json` adds `publishConfig.registry: "https://npm.pkg.github.com"`. New release workflow at [.github/workflows/publish.yml](.github/workflows/publish.yml) publishes the package on every GitHub Release. Consumers must add an `.npmrc` with `@pandaworks-sw:registry=https://npm.pkg.github.com` and a `GITHUB_TOKEN` (PAT with `read:packages`) before `pnpm install`; full setup in [README.md](README.md#installation). The shadcn registry channel (`public/r/*.json`) is unchanged
-- **Rebrand: Pandaworks UI → Lucid UI.** The npm package was renamed from `@pandaworks-ui/components` to `@lucid/ui` and the demo workspace from `@pandaworks-ui/demo` to `@lucid/demo`. The shadcn registry's install destination folder moved from `src/components/pandaworks-ui/` to `src/components/lucid/`; cross-component imports inside registry source rewrite from `@/components/pandaworks-ui/*` to `@/components/lucid/*`. The GitHub repo was renamed from `pandaworks-software-plt/pandaworks-ui` to `pandaworks-software-plt/lucid-ui` (GitHub auto-redirects old URLs). The post-build rewrite script moved from [packages/registry/scripts/rewrite-pandaworks-namespace.mjs] to [packages/registry/scripts/rewrite-lucid-namespace.mjs]. The `_all` marker file's exported constant changed from `PANDAWORKS_UI_INSTALLED` to `LUCID_UI_INSTALLED`. Brand text in the demo (saas-app banner, AI integration prompt, llms.txt header, README) updated accordingly. Internal-only library — no external consumers affected. Older entries in this changelog reference the previous `pandaworks-ui` / `@pandaworks-ui` names; those are kept as historical record
+- **npm package scope: `@lucid/ui` → `@pandaworks-sw/ui`; distribution moved to GitHub Packages.** GitHub Packages requires the npm scope to match the GitHub org owning the repo, so the package was renamed and the repo is moving from `pandaworks-software-plt/lucid-ui` to `pandaworks-sw/lucid-ui`. The demo workspace was renamed from `@lucid/demo` to `@pandaworks-sw/demo` for consistency. `packages/registry/package.json` adds `publishConfig.registry: "https://npm.pkg.github.com"`. New release workflow at [.github/workflows/publish.yml](.github/workflows/publish.yml) publishes the package on every GitHub Release. Consumers must add an `.npmrc` with `@pandaworks-sw:registry=https://npm.pkg.github.com` and a `GITHUB_TOKEN` (PAT with `read:packages`) before `pnpm install`; full setup in [README.md](README.md#installation)
+- **Rebrand: Pandaworks UI → Lucid UI.** The npm package was renamed from `@pandaworks-ui/components` to `@lucid/ui` and the demo workspace from `@pandaworks-ui/demo` to `@lucid/demo`. The GitHub repo was renamed from `pandaworks-software-plt/pandaworks-ui` to `pandaworks-software-plt/lucid-ui` (GitHub auto-redirects old URLs). Brand text in the demo (saas-app banner, AI integration prompt, llms.txt header, README) updated accordingly. Internal-only library — no external consumers affected. Older entries in this changelog reference the previous `pandaworks-ui` / `@pandaworks-ui` names; those are kept as historical record
 
 ### Added
 
-- npm-package distribution -- the registry now also publishes as `@pandaworks-ui/components` (renamed from the previous private `@pandaworks-ui/registry` workspace package). Consumers can `pnpm add @pandaworks-ui/components` and `import { Button, Badge, … } from "@pandaworks-ui/components"` instead of (or alongside) the existing `pnpm dlx shadcn add <url>` flow. Build pipeline: new [packages/registry/src/index.ts](packages/registry/src/index.ts) barrel re-exports all 59 component folders + hooks + `cn`; [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) emits ESM + `.d.ts` to `packages/registry/dist/` (185 KB ESM, 56 KB types, tree-shakeable, `sideEffects: false`); peer deps `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The shadcn registry output under `public/r/` is unchanged and continues to build from the same sources -- both channels coexist
-- [CLAUDE.md](CLAUDE.md) and [public/llms.txt](public/llms.txt) -- new "Two Distribution Channels" / "Installation" sections recommending the npm package as the preferred path for new internal Pandahrms apps and keeping the shadcn registry as the legacy/external option
+- npm-package distribution -- the registry now publishes as `@pandaworks-ui/components` (renamed from the previous private `@pandaworks-ui/registry` workspace package). Consumers can `pnpm add @pandaworks-ui/components` and `import { Button, Badge, … } from "@pandaworks-ui/components"`. Build pipeline: new [packages/registry/src/index.ts](packages/registry/src/index.ts) barrel re-exports all 59 component folders + hooks + `cn`; [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) emits ESM + `.d.ts` to `packages/registry/dist/` (185 KB ESM, 56 KB types, tree-shakeable, `sideEffects: false`); peer deps `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`
 
 ### Fixed
 
@@ -22,23 +38,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Demo showcase -- new "Use with AI" view ([apps/demo/src/showcase/ai-integration-view.tsx](apps/demo/src/showcase/ai-integration-view.tsx)) with a one-click copyable prompt that points AI coding agents (Claude Code, Cursor, Copilot, etc.) at `https://pandaworks-software-plt.github.io/pandaworks-ui/llms.txt` as the registry catalog and tells them how to install components. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link
-
-### Changed
-
-- Demo showcase "Use with AI" prompt -- now instructs the agent to write a "Pandaworks UI" rule into the consuming project's `CLAUDE.md` declaring `src/components/pandaworks-ui/` off-limits to hand edits, and adds a matching rule in the prompt's own Rules section. Closes the branding-drift loophole where an agent might "fix" a registry component locally and silently fork it from the upstream standard until the next `_all` re-sync wipes the patch
+- Demo showcase -- new "Use with AI" view ([apps/demo/src/showcase/ai-integration-view.tsx](apps/demo/src/showcase/ai-integration-view.tsx)) with a one-click copyable prompt that points AI coding agents (Claude Code, Cursor, Copilot, etc.) at `https://pandaworks-software-plt.github.io/pandaworks-ui/llms.txt` as the catalog and tells them how to install and use the npm package. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link
 
 ### Fixed
 
 - `EmptyState` -- `EmptyStateProps` now uses `Omit<HTMLAttributes<HTMLDivElement>, "title">` to drop the conflicting HTML `title` attribute. Without this, TypeScript flagged that `title: ReactNode` (the component's prop) was incompatible with the inherited `title?: string`. Demo builds (and the GitHub Pages deploy job) failed with `TS2430` until this was fixed
 - `ListRow` -- same `title` collision via the spread on lines 84 and 104. The `rest as ButtonProps` / `rest as DivProps` casts were widening the rest object back to include `title: ReactNode` from `SharedListRowProps`, which then conflicted with the HTML `title?: string` on the underlying `<button>` / `<div>`. The casts now use `Omit<…, keyof SharedListRowProps>` so the spread no longer carries `title`. Same `TS2322` deploy-time failure as above
 - `SplitButton` -- new `brand` variant (mirrors `Button`'s `brand`: `bg-brand text-brand-foreground shadow-xs hover:shadow-sm`) plus matching `dividerClasses` entry (`border-l border-brand-foreground/20`). The pure-showcase Projects page already used `<SplitButton variant="brand">` for the "New project" CTA but the variant didn't exist yet, causing `TS2322` in CI
-
-### Added
-
-- `_all` -- new meta-component that fans out the entire registry via `registryDependencies`. Consumers can install or refresh every component with a single command (`pnpm dlx shadcn@latest add <_all url> --overwrite`) instead of tracking individual updates. Auto-generated by [packages/registry/scripts/sync-all-meta.mjs](packages/registry/scripts/sync-all-meta.mjs) before every `pnpm registry:build` so its dependency list is always in sync with the rest of the registry; no manual maintenance required when components are added, renamed, or removed
-- CLAUDE.md and `public/llms.txt` -- "Consuming" / "Installation" sections now document the `_all` meta-install path for both first-time install and "I don't know what changed, just sync me to latest" upgrade flows
-- Pandaworks namespace baked into registry output -- new build step [packages/registry/scripts/rewrite-pandaworks-namespace.mjs](packages/registry/scripts/rewrite-pandaworks-namespace.mjs) runs after `shadcn build` and rewrites every component JSON in `public/r/` so each file ships with `target: "components/pandaworks-ui/<filename>"`, `type: "registry:component"` (so shadcn respects `target` instead of falling back to `aliases.ui`), and content with `@/components/ui/*` imports rewritten to `@/components/pandaworks-ui/*`. Result: all pandaworks components install to `src/components/pandaworks-ui/` regardless of the consumer's `aliases.ui`, so their existing `@/components/ui/*` (used by their own shadcn primitives) stays untouched. No `components.json` changes required by consumers. Imports of `@/lib/utils` and `@/hooks/*` are intentionally left alone so they still resolve via the consumer's standard aliases. Replaces yesterday's recommendation to change `aliases.ui` -- consumers no longer need to do anything special
 
 ### Changed
 
@@ -98,7 +104,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Demo theme radius token (`apps/demo/src/index.css`) -- increased global `--radius` from `0.375rem` to `0.75rem` to make default component corners rounder
 - Showcase -- richer `Form` demo examples; sidebar entry for the SaaS showcase; small copy and demo tweaks (`PageHeader`, `Sheet` demos)
 - Root `package.json` -- dev dependency on Playwright for the UI audit script; demo ESLint config aligned with `typescript-eslint`
-- Rebuilt `public/r/*.json` registry bundle outputs from sources (`pnpm registry:build`) and committed the updated JSON artifacts
 
 ## 2026-04-08
 
@@ -110,9 +115,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - Merged `pandahrms-ui-registry` and `pandahrms-ui-demo` into `pandaworks-ui` monorepo
-- Demo app imports components directly from registry package (no more shadcn copy workflow)
+- Demo app imports components directly from the registry package (no copy-paste step required)
 - GitHub Pages base path changed from `/pandahrms-ui-demo/` to `/pandaworks-ui/`
-- Registry URL changed from `pandahrms-ui-registry` to `pandaworks-ui`
 - `default` button variant reverted to standard shadcn/ui style (`bg-primary shadow-xs hover:bg-primary/90`)
 - `create` and `save` action presets now use `brand` variant instead of `default`
 

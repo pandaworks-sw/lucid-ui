@@ -1,10 +1,8 @@
 # Lucid UI
 
-> Shared React component library for Pandahrms frontend projects. Built with Tailwind CSS v4 (OKLCH color space) and Radix UI primitives. Distributed two ways: as the `@pandaworks-sw/ui` npm package on **GitHub Packages** (preferred for internal apps) and as a shadcn-compatible registry under `public/r/*.json` (legacy / external use).
+> Shared React component library for Pandahrms frontend projects. Built with Tailwind CSS v4 (OKLCH color space) and Radix UI primitives. Distributed as the `@pandaworks-sw/ui` npm package on **GitHub Packages**.
 
 ## Installation
-
-### Option A — npm package (preferred)
 
 The package is published to **GitHub Packages**, not the public npm registry. Consumers need a project-level `.npmrc`:
 
@@ -29,37 +27,9 @@ Peer dependencies the consumer must already have: `react >=19`, `react-dom >=19`
 
 Tree-shaking works out of the box because the package ships ESM with `sideEffects: false`.
 
-### Option B — shadcn registry (legacy / external)
+### Customizing components
 
-Use this only when you intentionally want to fork components in the consumer project. Internal Pandahrms apps should prefer Option A — drift surfaced by past audits is what motivated the npm-package distribution.
-
-#### Where files land
-
-Every component in this registry installs to `src/components/lucid/` regardless of your project's `aliases.ui` setting. The destination is baked into the registry output (each file ships with an explicit `target` field and uses `@/components/lucid/*` for cross-component imports), so:
-
-- **Your existing `aliases.ui = "@/components/ui"` stays untouched.** Standard `pnpm dlx shadcn@latest add button` from the official shadcn registry continues to land at `@/components/ui/`. No collision.
-- **No `components.json` changes required** to install lucid components. Just run the commands below.
-- **Lucid components are clearly owned.** Anything under `components/lucid/` is registry-managed — safe to overwrite on upgrade. Anything under `components/ui/` stays yours.
-
-The only requirement: your project must have a `@/` path alias pointing at `src/` (the standard Vite/Next/CRA setup). lucid components import each other via `@/components/lucid/*` and import shared utilities via `@/lib/utils` and `@/hooks/*` — those still resolve via your project's standard `lib`/`hooks` aliases.
-
-### Install a single component
-
-```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/<component-name>.json
-```
-
-The file lands at `src/components/lucid/<name>.tsx`. Import from `@/components/lucid/<name>`.
-
-### Install or refresh the entire registry
-
-For first-time install of every component, or to re-sync a project to the latest registry version when you don't know which components changed upstream, use the `_all` meta-component:
-
-```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/_all.json --overwrite
-```
-
-`_all` carries every other component in its `registryDependencies`, so shadcn fetches and writes the latest source for all of them. Drop the `--overwrite` flag to be prompted per file. The `_all.ts` marker file it places at `src/components/lucid/_all.ts` carries no runtime behavior and can be deleted.
+Customizations land upstream in the lucid-ui repo. Don't fork a single component locally — open a PR against lucid-ui or wrap the component in a project-local component that lives outside of `@pandaworks-sw/ui`'s exports.
 
 ## Tech Stack
 
@@ -208,11 +178,11 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 
 ## Changelog
 
-Machine-readable changelog for AI agents consuming this registry.
-When syncing components to downstream projects, use this section to determine what changed and what actions are required.
+Machine-readable changelog for AI agents consuming this library.
+When upgrading `@pandaworks-sw/ui` in a downstream project, use this section to determine what changed and what actions are required.
 
 Each entry contains:
-- **component**: the registry component name
+- **component**: the component name
 - **change**: what changed (added | modified | removed | renamed)
 - **action**: what consuming projects must do
 - **breaking**: whether this is a breaking change
@@ -222,40 +192,45 @@ Each entry contains:
 
 ### 2026-05-01
 
+#### unused build output, scripts, and configs removed
+
+- change: removed
+- breaking: yes
+- details: With the npm package on GitHub Packages now the only distribution channel, the project drops the legacy build artefacts that produced a separate JSON-based component output. Files deleted: `public/r/` (61 component JSONs), `packages/registry/registry.json`, the per-workspace `components.json` files, `packages/registry/scripts/rewrite-lucid-namespace.mjs`, `packages/registry/scripts/sync-all-meta.mjs`, `packages/registry/registry/default/_all/`, and `apps/demo/src/components/install-command.tsx`. Configs simplified: root `package.json` drops the `registry:build` script and reworks `build` to run `@pandaworks-sw/ui build:lib && @pandaworks-sw/demo build`; `packages/registry/package.json` drops `registry:build`, simplifies `build` to `tsup`, and removes the `shadcn` devDep; `biome.json` drops the `!public/r` ignore entries; `.github/workflows/deploy.yml` no longer copies `public/r` into the Pages artifact; `apps/demo/src/showcase/component-page.tsx` and `showcase-app.tsx` drop the `<InstallCommand />` widget and its `installName` prop. Documentation in `CLAUDE.md` and `README.md` updated accordingly.
+- action:
+  - For new projects: install with `pnpm add @pandaworks-sw/ui` after configuring the `.npmrc` for GitHub Packages (see Installation above).
+  - For existing apps still vendoring `src/components/lucid/`: migrate by adding `@pandaworks-sw/ui` as a dependency, running a codemod to rewrite `from '@/components/lucid/<name>'` → `from '@pandaworks-sw/ui'`, and deleting the `src/components/lucid/` folder.
+
 #### npm package scope rename + GitHub Packages distribution
 
 - change: renamed
 - breaking: yes
-- details: The npm package was renamed from `@lucid/ui` to `@pandaworks-sw/ui` and is now published to **GitHub Packages** (not the public npm registry). The demo workspace was likewise renamed from `@lucid/demo` to `@pandaworks-sw/demo`. GitHub Packages requires the npm scope to match the GitHub org owning the repository, so the repo is moving to `github.com/pandaworks-sw/lucid-ui`. A new release workflow at [.github/workflows/publish.yml] publishes the package whenever a GitHub Release is published. The shadcn registry channel is unaffected — `src/components/lucid/` install paths and `public/r/*.json` URLs remain the same.
+- details: The npm package was renamed from `@lucid/ui` to `@pandaworks-sw/ui` and is now published to **GitHub Packages** (not the public npm registry). The demo workspace was likewise renamed from `@lucid/demo` to `@pandaworks-sw/demo`. GitHub Packages requires the npm scope to match the GitHub org owning the repository, so the repo is moving to `github.com/pandaworks-sw/lucid-ui`. A new release workflow at [.github/workflows/publish.yml] publishes the package whenever a GitHub Release is published.
 - action:
-  - For npm-package consumers: add an `.npmrc` at the project root with `@pandaworks-sw:registry=https://npm.pkg.github.com` and `//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`. Set `GITHUB_TOKEN` to a classic PAT with `read:packages` scope on every developer machine and CI job. Update `package.json` from `@lucid/ui` to `@pandaworks-sw/ui`, then rewrite all `from '@lucid/ui'` imports to `from '@pandaworks-sw/ui'`. Run `pnpm install` to refresh the lockfile.
-  - For shadcn-registry consumers: no action required — install URLs and component paths are unchanged.
+  - Add an `.npmrc` at the project root with `@pandaworks-sw:registry=https://npm.pkg.github.com` and `//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`. Set `GITHUB_TOKEN` to a classic PAT with `read:packages` scope on every developer machine and CI job. Update `package.json` from `@lucid/ui` to `@pandaworks-sw/ui`, then rewrite all `from '@lucid/ui'` imports to `from '@pandaworks-sw/ui'`. Run `pnpm install` to refresh the lockfile.
 
 #### rebrand (Pandaworks UI → Lucid UI)
 
 - change: renamed
 - breaking: yes
-- details: Library rebranded from `Pandaworks UI` to `Lucid UI`. The npm package was renamed from `@pandaworks-ui/components` to `@lucid/ui`. The demo workspace was renamed from `@pandaworks-ui/demo` to `@lucid/demo`. The shadcn registry's install destination folder was renamed from `src/components/pandaworks-ui/` to `src/components/lucid/` (cross-component imports inside registry source rewrite from `@/components/pandaworks-ui/*` to `@/components/lucid/*`). The GitHub repo was renamed from `pandaworks-software-plt/pandaworks-ui` to `pandaworks-software-plt/lucid-ui`; GitHub auto-redirects the old URL but raw.githubusercontent.com URLs in this changelog and AI-integration prompt now point at the new path. The post-build rewrite script at [packages/registry/scripts/rewrite-pandaworks-namespace.mjs] was renamed to [packages/registry/scripts/rewrite-lucid-namespace.mjs]. The `_all` marker file's exported constant changed from `PANDAWORKS_UI_INSTALLED` to `LUCID_UI_INSTALLED`. Internal-only library — no external consumers were affected.
+- details: Library rebranded from `Pandaworks UI` to `Lucid UI`. The npm package was renamed from `@pandaworks-ui/components` to `@lucid/ui`. The demo workspace was renamed from `@pandaworks-ui/demo` to `@lucid/demo`. The GitHub repo was renamed from `pandaworks-software-plt/pandaworks-ui` to `pandaworks-software-plt/lucid-ui`; GitHub auto-redirects the old URL. Internal-only library — no external consumers were affected.
 - action:
-  - For npm-package consumers: update `package.json` from `@pandaworks-ui/components` to `@lucid/ui`, then update all `from '@pandaworks-ui/components'` imports to `from '@lucid/ui'`
-  - For shadcn-registry consumers: re-run `pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/_all.json --overwrite` to land sources at `src/components/lucid/`. Then run a codemod to rewrite `from '@/components/pandaworks-ui/<name>'` → `from '@/components/lucid/<name>'`. Delete the old `src/components/pandaworks-ui/` folder
-  - If you have `@pandaworks` configured as a registry alias in `components.json`, rename it to `@lucid` and update the URL to `https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/{name}.json`
+  - Update `package.json` from `@pandaworks-ui/components` to `@lucid/ui`, then update all `from '@pandaworks-ui/components'` imports to `from '@lucid/ui'`
 
-#### distribution (npm package added alongside shadcn registry)
+#### npm-package distribution
 
 - change: added
 - breaking: no
-- details: Component sources now publish as the `@pandaworks-ui/components` npm package in addition to the existing shadcn registry under `public/r/`. The previously private `packages/registry/` workspace package was renamed from `@pandaworks-ui/registry` to `@pandaworks-ui/components`, made public, and given a proper `exports` map (`./dist/index.js` ESM + `./dist/index.d.ts`). New build artifacts: [packages/registry/src/index.ts](packages/registry/src/index.ts) re-exports all 59 component folders + hooks (`useCopyToClipboard`, plus `useIsMobile` via the `app-shell` barrel) + the `cn` util; [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) emits ESM + DTS to `packages/registry/dist/` (185 KB ESM, 56 KB types, sourcemaps, tree-shakeable with `sideEffects: false`). Peer deps: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. Both distribution channels build from the same source tree and coexist; new internal Pandahrms apps should prefer the npm package, the shadcn registry stays available for external/forking use.
+- details: Component sources now publish as the `@pandaworks-ui/components` npm package. The previously private `packages/registry/` workspace package was renamed from `@pandaworks-ui/registry` to `@pandaworks-ui/components`, made public, and given a proper `exports` map (`./dist/index.js` ESM + `./dist/index.d.ts`). New build artifacts: [packages/registry/src/index.ts](packages/registry/src/index.ts) re-exports all 59 component folders + hooks (`useCopyToClipboard`, plus `useIsMobile` via the `app-shell` barrel) + the `cn` util; [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) emits ESM + DTS to `packages/registry/dist/` (185 KB ESM, 56 KB types, sourcemaps, tree-shakeable with `sideEffects: false`). Peer deps: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`.
 - action:
   - For new Pandahrms apps: `pnpm add @pandaworks-ui/components` and `import { Button, Badge, … } from '@pandaworks-ui/components'`
-  - For existing apps already on the shadcn registry: no immediate action — the registry continues to publish. Migrate to the npm package on your own schedule by running a codemod that rewrites `from '@/components/pandaworks-ui/<name>'` → `from '@pandaworks-ui/components'` and deleting `src/components/pandaworks-ui/`
   - Tailwind v4 must already be configured in the consumer with the design tokens this library expects (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.). See `apps/demo/src/index.css` for the canonical token set
 
 #### tooling (drop deprecated tsconfig baseUrl)
 
 - change: modified
 - breaking: no
-- details: Removed `baseUrl: "."` from [packages/registry/tsconfig.json](packages/registry/tsconfig.json) and [apps/demo/tsconfig.app.json](apps/demo/tsconfig.app.json). TypeScript 6.0 emits a deprecation diagnostic for `baseUrl` and 7.0 will drop the option; modern TypeScript resolves `paths` entries relative to the `tsconfig.json` location by default, so `baseUrl` was redundant. No runtime, import, or registry-output change — internal tooling cleanup only.
+- details: Removed `baseUrl: "."` from [packages/registry/tsconfig.json](packages/registry/tsconfig.json) and [apps/demo/tsconfig.app.json](apps/demo/tsconfig.app.json). TypeScript 6.0 emits a deprecation diagnostic for `baseUrl` and 7.0 will drop the option; modern TypeScript resolves `paths` entries relative to the `tsconfig.json` location by default, so `baseUrl` was redundant. No runtime, import, or build-output change — internal tooling cleanup only.
 - action:
   - None for downstream consumers.
 
@@ -263,9 +238,9 @@ Each entry contains:
 
 - change: added
 - breaking: no
-- details: New "Use with AI" view in the showcase demo at https://pandaworks-software-plt.github.io/pandaworks-ui/ — provides a one-click copyable prompt that primes AI coding agents (Claude Code, Cursor, Copilot, etc.) to read `llms.txt` as the registry catalog and use the documented shadcn install commands. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link. The prompt also instructs the agent to write a "Pandaworks UI" rule into the consuming project's `CLAUDE.md` declaring `src/components/pandaworks-ui/` off-limits to hand edits, so the branding standard isn't silently forked between `_all` re-syncs. No registry-component changes — pure demo addition.
+- details: New "Use with AI" view in the showcase demo at https://pandaworks-software-plt.github.io/pandaworks-ui/ — provides a one-click copyable prompt that primes AI coding agents (Claude Code, Cursor, Copilot, etc.) to read `llms.txt` as the catalog and use the npm package. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link. No component changes — pure demo addition.
 - action:
-  - None for downstream consumers. End users / agents using the registry can now grab the integration prompt directly from the showcase site.
+  - None for downstream consumers. End users / agents can grab the integration prompt directly from the showcase site.
 
 #### empty-state, list-row (TypeScript fixes)
 
@@ -273,7 +248,7 @@ Each entry contains:
 - breaking: no
 - details: `EmptyState` and `ListRow` both define a `title: ReactNode` prop that previously conflicted with the inherited HTML `title?: string` attribute. `EmptyState` now uses `Omit<HTMLAttributes<HTMLDivElement>, "title">` on its base type. `ListRow`'s internal spread casts (`rest as ButtonProps` / `rest as DivProps`) now use `Omit<…, keyof SharedListRowProps>` so the rest object no longer re-introduces `title` after destructuring. No public API change. Existing usage continues to compile and render the same. The fix unblocks the demo build (and the GitHub Pages deploy job), which was failing with `TS2430` / `TS2322`.
 - action:
-  - Run `pnpm dlx shadcn@latest add @pandaworks/empty-state @pandaworks/list-row --overwrite --yes` to pull the typed-correctly versions
+  - Upgrade `@pandaworks-sw/ui` to pick up the typed-correctly versions
 
 #### split-button (new brand variant)
 
@@ -281,28 +256,8 @@ Each entry contains:
 - breaking: no
 - details: `SplitButton` gains a `brand` variant matching `Button`'s brand styling (`bg-brand text-brand-foreground shadow-xs hover:shadow-sm`) plus a corresponding entry in `dividerClasses` (`border-l border-brand-foreground/20`). Closes a parity gap surfaced by the pure-showcase Projects page, which already used `<SplitButton variant="brand">` for its "New project" CTA but compiled-failed because the variant didn't exist. Existing variants (`default`, `destructive`, `outline`, `secondary`, `ghost`) are unchanged.
 - action:
-  - Run `pnpm dlx shadcn@latest add @pandaworks/split-button --overwrite --yes` to pick up the brand variant
+  - Upgrade `@pandaworks-sw/ui` to pick up the brand variant
   - Use `<SplitButton variant="brand">` for primary "create"-style split actions; pairs visually with `<Button action="create">`
-
-#### _all (meta-component)
-
-- change: added
-- breaking: no
-- details: New `_all` registry item that lists every other component in `registryDependencies` and ships only a tiny marker file. Installing `_all` triggers shadcn's recursive dependency resolution and pulls the entire registry in one command. The entry is auto-regenerated by [packages/registry/scripts/sync-all-meta.mjs](packages/registry/scripts/sync-all-meta.mjs) before each `pnpm registry:build`, so adding/renaming/removing other components updates `_all` automatically with no manual work.
-- action:
-  - For first-time install of every component: `pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/_all.json --overwrite`
-  - To re-sync a downstream project to the latest registry version when you don't know which components changed upstream: re-run the same command. shadcn will re-fetch and overwrite every component
-  - Drop `--overwrite` to be prompted per file
-  - The marker file installed at `<aliases.ui>/_all/_all.ts` (e.g. `@/components/pandaworks-ui/_all/_all.ts` if you followed the recommended alias setup) carries no runtime behavior and can be deleted after install
-
-#### pandaworks namespace baked into registry output
-
-- change: added
-- breaking: no
-- details: New build step [packages/registry/scripts/rewrite-pandaworks-namespace.mjs](packages/registry/scripts/rewrite-pandaworks-namespace.mjs) runs after `shadcn build` and post-processes every JSON in `public/r/`. Each file gets `target: "components/pandaworks-ui/<filename>"`, `type` switches from `registry:ui` to `registry:component` so shadcn respects the explicit target, and the file content has `@/components/ui/*` imports rewritten to `@/components/pandaworks-ui/*`. Result: all pandaworks components install to `src/components/pandaworks-ui/` regardless of the consumer's `aliases.ui`. The consumer's existing `@/components/ui/*` folder (where their own shadcn primitives live) is never touched. Imports of `@/lib/utils` and `@/hooks/*` inside registry sources are intentionally left alone — those still resolve via the consumer's standard `lib`/`hooks` aliases. This replaces yesterday's recommendation to change `aliases.ui` to `@/components/pandaworks-ui`; consumers no longer need to make any `components.json` changes.
-- action:
-  - No consumer-side action required. Run `pnpm dlx shadcn@latest add <pandaworks component url>` and the file lands at `src/components/pandaworks-ui/<name>.tsx` automatically
-  - If you previously followed the (now-superseded) recommendation to set `aliases.ui = "@/components/pandaworks-ui"`, you can revert it back to `@/components/ui` (or whatever it was). Pandaworks installs work either way; reverting frees the alias back up for your own shadcn primitives
 
 #### stat-card
 
@@ -310,7 +265,7 @@ Each entry contains:
 - breaking: yes (visual)
 - details: `StatCard` is now a single SaaS-density size — tight padding (`px-4`), `text-xs` label, `size-3.5` icon, and a `text-xl` headline number. The previous `text-3xl` headline ate too much screen estate inside dashboards. No API change: the `size` prop introduced earlier today was removed before any consumer adopted it. Existing `<StatCard … />` usage continues to compile but renders smaller; tighten any surrounding grid gaps (`gap-4` → `gap-3`) if the layout looks too sparse.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/stat-card --overwrite --yes` to pick up the new sizing
+  - Upgrade `@pandaworks-sw/ui` to pick up the new sizing
   - Audit pages that use `StatCard` — the visual is smaller, so previously cramped dashboards will breathe but very sparse layouts may need extra tiles or tighter grid gaps
 
 #### attachment-input, button, split-button, pagination, breadcrumb
@@ -319,14 +274,14 @@ Each entry contains:
 - breaking: no
 - details: Five components now set `position: relative` on the root that wraps an `sr-only` accessibility node. Tailwind's `sr-only` utility uses `position: absolute`; without a positioned ancestor it falls through to the initial containing block (the viewport) and lays out at its static offset, stretching the document height. Pages that rendered several of these components (the showcase being the worst case) could scroll past the bottom into empty space. Affected roots: `AttachmentInput` wrapper, `buttonVariants` (Button) base, `splitButtonVariants` (SplitButton) base, `PaginationEllipsis`, `BreadcrumbEllipsis`. The `Button` change also fixes consumers like `FilterButton` and `SidebarTrigger` that nest `<span className="sr-only">…</span>` inside a `<Button>`.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/{attachment-input,button,split-button,pagination,breadcrumb} --overwrite --yes` to pick up the fix
+  - Upgrade `@pandaworks-sw/ui` to pick up the fix
   - No prop or API changes; existing usage works as-is
 
 #### button
 
 - change: modified
 - breaking: no
-- details: Docs-only update. `public/docs/button.md` and CLAUDE.md gain a "Sizing guidance (SaaS consistency)" section that maps scenarios to sizes for cross-app consistency: `default` for `PageHeader` actions, modal/dialog/sheet footers, form submit/cancel, and card-header actions; `sm` for inline actions inside table rows, list items, and dense filter-bar toolbars; `lg` reserved for marketing/landing hero CTAs, empty-state primary actions, and onboarding full-screen steps (not used inside CRUD screens). Icon-only sizes track the text variants (`icon` ↔ `default`, `icon-sm` ↔ `sm`, `icon-lg` ↔ `lg`). No code, props, or registry JSON changes.
+- details: Docs-only update. `public/docs/button.md` and CLAUDE.md gain a "Sizing guidance (SaaS consistency)" section that maps scenarios to sizes for cross-app consistency: `default` for `PageHeader` actions, modal/dialog/sheet footers, form submit/cancel, and card-header actions; `sm` for inline actions inside table rows, list items, and dense filter-bar toolbars; `lg` reserved for marketing/landing hero CTAs, empty-state primary actions, and onboarding full-screen steps (not used inside CRUD screens). Icon-only sizes track the text variants (`icon` ↔ `default`, `icon-sm` ↔ `sm`, `icon-lg` ↔ `lg`). No code or props changes.
 - action: no consumer action — read the new section in `public/docs/button.md` when picking a `size` prop
 
 #### avatar
@@ -335,7 +290,7 @@ Each entry contains:
 - breaking: no
 - details: `AvatarFallback` gains an optional `colorize` boolean prop. When passed, the background color is derived from the first character of the fallback text — A–Z map to 26 evenly spaced OKLCH hues (`oklch(0.62 0.14 hue)`), digits and other characters fall back to a deterministic hash. Foreground is set to white. The default `bg-muted` fallback styling is unchanged when `colorize` is not set.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/avatar --overwrite --yes` (or your registry URL) to pick up the new prop
+  - Upgrade `@pandaworks-sw/ui` to pick up the new prop
   - Opt in per usage: `<AvatarFallback colorize>JD</AvatarFallback>`
   - Custom `className` / `style` still take precedence over the computed colors
 
@@ -345,8 +300,7 @@ Each entry contains:
 - breaking: no
 - details: `Table` wrapper drops its own border, rounded corners, `bg-card`, and shadow when nested inside `CardContent`, so the surrounding card frame is the only visual boundary (fixes "card within a card" appearance). Standalone `Table` usage is unchanged.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/table --overwrite --yes` to pick up the nesting-aware wrapper
-  - Also re-add `card` (`npx shadcn@latest add @pandaworks/card --overwrite --yes`) — `CardContent` now sets `data-slot="card-content"`, which is required for the table to detect the card context
+  - Upgrade `@pandaworks-sw/ui` to pick up the nesting-aware wrapper. `CardContent` now sets `data-slot="card-content"`, which is required for the table to detect the card context
 
 #### card
 
@@ -354,7 +308,7 @@ Each entry contains:
 - breaking: no
 - details: `CardContent` now sets `data-slot="card-content"` on its root element so descendant components (e.g. `Table`) can adapt their styling when nested inside.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/card --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - No code changes required in consumers
 
 #### demo
@@ -377,7 +331,7 @@ Each entry contains:
 - breaking: no
 - details: `Badge` gains four semantic-tone variants — `success` / `warning` / `info` / `muted` — keyed off the existing `--success` / `--info` / `--warning` / `--muted` design tokens, and a new `dot` boolean prop that renders a leading status dot tinted to match the variant. Default visual for the original four variants (`default`, `secondary`, `destructive`, `outline`) is unchanged. Closes registry gap G1.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/badge --overwrite --yes` to pick up the new variants
+  - Upgrade `@pandaworks-sw/ui` to pick up the new variants
   - Replace bespoke status pills (`<span className="bg-emerald-50 text-emerald-700 …">`) with `<Badge variant="success" dot>Active</Badge>`
 
 #### avatar
@@ -386,7 +340,7 @@ Each entry contains:
 - breaking: no
 - details: `Avatar` accepts a new `shape` prop (`"circle"` (default) or `"square"`). Square avatars use `rounded-md` and inherit through `AvatarFallback` so the fallback layer stays in sync (e.g. while an image loads). Useful for project tiles, app icons, and other entity avatars where round + person doesn't fit. Closes registry gap G2. The previously shipped `colorize` prop on `AvatarFallback` is unchanged.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/avatar --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Existing usage is unchanged; opt in via `<Avatar shape="square">`
 
 #### avatar-group
@@ -395,7 +349,7 @@ Each entry contains:
 - breaking: no
 - details: New `AvatarGroup` component that horizontally stacks `Avatar` children with negative spacing (`-space-x-1` / `-space-x-2` / `-space-x-3`), an outline ring against the page background, and a `+N` overflow tile when more avatars are passed than the `max` prop. Inherits the per-Avatar `shape` (or accepts a group-level `shape` prop). Sizes: `xs` / `sm` / `md` / `lg`. Closes registry gap G3.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/avatar-group --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Wrap your existing avatar stacks: `<AvatarGroup max={3} size="md">{members.map(…)}</AvatarGroup>`
 
 #### empty-state
@@ -404,7 +358,7 @@ Each entry contains:
 - breaking: no
 - details: New `EmptyState` component for filtered tables/lists, "no results" panels, and any centered "nothing to show" surface. Slots for `icon`, `title`, `description`, and an `action`. Three sizes (`sm` / `md` / `lg`) controlling vertical padding and icon-tile size. Wraps the icon in a soft muted disc. Closes registry gap G4.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/empty-state --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Replace hand-rolled `<div className="flex flex-col items-center gap-3 py-16 …">` empty blocks with `<EmptyState icon={…} title="…" action={…} />`
 
 #### stat-card
@@ -413,7 +367,7 @@ Each entry contains:
 - breaking: no
 - details: New `StatCard` component for dashboard tiles. Composes registry primitives (`Card`, `AnimatedNumber`, `Badge`) and accepts: `icon`, `label`, `value`, `suffix`, `hint`, `delta`, `deltaTone` (`"up"` / `"down"` / `"flat"`). The delta chip resolves to a Badge `success` / `destructive` / `muted` variant with the appropriate trend icon (`TrendingUp` / `TrendingDown` / `Minus`). Closes registry gap G5.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/stat-card --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Existing dashboard stat cards collapse from ~30 lines of Card + custom delta chip to a single `<StatCard …>`
 
 #### dropdown-menu
@@ -422,7 +376,7 @@ Each entry contains:
 - breaking: no
 - details: `DropdownMenuItem` accepts a new `variant` prop (`"default"` (default) or `"destructive"`). When set to `"destructive"`, the item text and any nested icon use `text-destructive`, and the focus state shifts to a tinted destructive background (`focus:bg-destructive/10`). Replaces the manual `className="text-destructive focus:text-destructive"` pattern. Closes registry gap G9.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/dropdown-menu --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Replace `<DropdownMenuItem className="text-destructive focus:text-destructive">` with `<DropdownMenuItem variant="destructive">`
 
 #### code-label
@@ -431,7 +385,7 @@ Each entry contains:
 - breaking: no
 - details: `CodeLabel` accepts a new `copyable` boolean prop (default `true`). Pass `copyable={false}` for a static inline code chip with no copy affordance — useful when the label is purely visual (e.g. listing many project keys in a budget summary table). Existing usage is unchanged. Closes registry gap G8.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/code-label --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Existing usage is unchanged; opt in via `<CodeLabel value={key} copyable={false} />`
 
 #### meter-row
@@ -440,7 +394,7 @@ Each entry contains:
 - breaking: no
 - details: New `MeterRow` component — labeled horizontal bar with optional trailing value and per-row tone (`default`, `success`, `warning`, `info`, `destructive`, `muted`). Sizes (`sm` / `default` / `lg`). Replaces the hand-rolled `<div className="h-1.5 w-full overflow-hidden rounded-full bg-muted"><div style={{ width: \`${pct}%\` }} />` pattern that was repeated across `Dashboard.DepartmentChart` and the `Reports` status / priority charts. Closes registry gap G6.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/meter-row --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Replace hand-rolled labeled bars with `<MeterRow label={…} value={n} max={total} valueLabel={n} tone="success" />`
 
 #### list-row
@@ -449,7 +403,7 @@ Each entry contains:
 - breaking: no
 - details: New `ListRow` component — `leading + title + subtitle + trailing` layout primitive used across the SaaS demo's activity feeds, deadline lists, team lists, and API key lists. Pass `asButton` to render as a keyboard-accessible button with focus ring; otherwise renders as a div. Density variants (`sm` / `default` / `lg`) and surface variants (`plain` / `bordered` / `muted`). Closes registry gap G7.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/list-row --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Collapse manual `<div className="flex items-center gap-3 …">` row layouts into `<ListRow leading={…} title={…} subtitle={…} trailing={…} />`
 
 #### decision-guide
@@ -463,7 +417,7 @@ Each entry contains:
 
 - change: added
 - breaking: no
-- details: Per-component "Sizing" / "Density" / "Surface" tables appended to existing component docs to map real scenarios to the right key. Updated docs: `Toggle` and `ToggleGroup` ([navigation.md](docs/navigation.md)), `EmptyState` ([layout.md](docs/layout.md)), `CodeLabel`, `AvatarGroup`, `MeterRow`, `ListRow` ([data-display.md](docs/data-display.md)), and `SelectableCard` ([forms.md](docs/forms.md)). Examples: AvatarGroup `xs` for table-row assignee stacks, `lg` only for hero member showcases; ListRow density `sm` for activity feeds, `lg` for settings rows; SelectableCard `sm` for in-Card settings choices, `lg` only for marketing pricing. No code, props, or registry JSON changes.
+- details: Per-component "Sizing" / "Density" / "Surface" tables appended to existing component docs to map real scenarios to the right key. Updated docs: `Toggle` and `ToggleGroup` ([navigation.md](docs/navigation.md)), `EmptyState` ([layout.md](docs/layout.md)), `CodeLabel`, `AvatarGroup`, `MeterRow`, `ListRow` ([data-display.md](docs/data-display.md)), and `SelectableCard` ([forms.md](docs/forms.md)). Examples: AvatarGroup `xs` for table-row assignee stacks, `lg` only for hero member showcases; ListRow density `sm` for activity feeds, `lg` for settings rows; SelectableCard `sm` for in-Card settings choices, `lg` only for marketing pricing. No code or props changes.
 - action: no consumer action — read the new section in the relevant component doc when picking a `size` / `density` / `surface` prop
 
 ### 2026-04-23
@@ -474,7 +428,7 @@ Each entry contains:
 - breaking: no
 - details: `TooltipContent` now wraps Radix `Portal` so the popper layer mounts on `document.body`, avoiding clipping and stacking issues inside scrollable regions or transformed layout (same pattern as `PopoverContent`).
 - action:
-  - Run `npx shadcn@latest add @pandaworks/tooltip --overwrite --yes` (or your registry URL) to pick up the change
+  - Upgrade `@pandaworks-sw/ui` to pick up the change
   - No API changes; custom `className` / props on `TooltipContent` behave as before
 
 #### stepper
@@ -483,7 +437,7 @@ Each entry contains:
 - breaking: no
 - details: Smaller circles (`size-7`) and labels; completed steps and finished track segments use emerald (`emerald-600` / `emerald-500` in dark). Current step uses primary border plus a light ring. New optional `orientation` prop: `"vertical"` renders a top-down list with a left spine. Horizontal layout keeps leading/trailing `flex-1` segments for even spacing. Step `description` and optional `tooltip` popover render only when that step is the current index. Track segments layer a muted base with an emerald fill that animates with `scale-x` / `scale-y` (~500ms, `ease-out`); `prefers-reduced-motion` removes the transition.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/stepper --overwrite --yes` (or your registry URL) to pick up visuals and `orientation`
+  - Upgrade `@pandaworks-sw/ui` to pick up visuals and `orientation`
   - Override `className` if you need larger step markers than the new defaults
 
 #### code-label
@@ -492,7 +446,7 @@ Each entry contains:
 - breaking: no
 - details: `CodeLabel` now uses a subtler filled background (no outline border). The copy button is hidden by default and reveals with width/opacity expansion on hover/focus, appears on touch/press for mobile, and stays visible briefly after touch release and copy success feedback.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/code-label --overwrite --yes` (or your registry URL) to get the updated behavior and styling
+  - Upgrade `@pandaworks-sw/ui` to get the updated behavior and styling
   - No API changes; existing `value`, `size`, and `className` usage stays the same
 
 #### sheet
@@ -501,16 +455,16 @@ Each entry contains:
 - breaking: no
 - details: Sheet panels are inset from the viewport (floating card), use rounded corners (`rounded-2xl`), `shadow-xl`, a light ring, and `overflow-y-auto` with overscroll containment. No enter/exit animation classes on overlay or content (Radix still handles mount/unmount timing).
 - action:
-  - Run `npx shadcn@latest add @pandaworks/sheet --overwrite --yes` (or your registry URL) to pick up styles
+  - Upgrade `@pandaworks-sw/ui` to pick up styles
   - If you relied on edge-to-edge sheets, override `className` on `SheetContent` to restore full-bleed layout
 
 #### button
 
 - change: modified
 - breaking: no
-- details: `brand`, `destructive`, `outline`, and `secondary` variants now use `shadow-xs` with `hover:shadow-sm` instead of bespoke multi-layer inset/box shadows. Visual weight is slightly flatter and closer to stock shadcn elevation.
+- details: `brand`, `destructive`, `outline`, and `secondary` variants now use `shadow-xs` with `hover:shadow-sm` instead of bespoke multi-layer inset/box shadows. Visual weight is slightly flatter.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/button --overwrite --yes` (or your registry URL) if you want the updated styling
+  - Upgrade `@pandaworks-sw/ui` if you want the updated styling
   - No prop or API changes
 
 #### dialog
@@ -519,7 +473,7 @@ Each entry contains:
 - breaking: no
 - details: `DialogOverlay` uses `bg-black/50` with `backdrop-blur-[1px]`. `DialogContent` adds `border-border` and uses `shadow-md` instead of `shadow-lg`.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/dialog --overwrite --yes` (or your registry URL)
+  - Upgrade `@pandaworks-sw/ui`
 
 #### command
 
@@ -527,7 +481,7 @@ Each entry contains:
 - breaking: no
 - details: Root `Command` panel adds `border border-border/70` and `shadow-md`. `CommandGroup` heading styles use Tailwind v4 `**:[[cmdk-group-heading]]:…` descendant variants instead of `[&_[cmdk-group-heading]]:…`.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/command --overwrite --yes` (or your registry URL)
+  - Upgrade `@pandaworks-sw/ui`
   - If you overrode group heading styles via global CSS on `[cmdk-group-heading]`, re-check specificity against the new utilities
 
 #### dropdown-menu
@@ -536,7 +490,7 @@ Each entry contains:
 - breaking: no
 - details: Content/sub-content use `border-border`, `min-w-32`, and `shadow-md` on sub-content. Items use `data-disabled:` variant selectors instead of `data-[disabled]:`. `max-h` uses `max-h-(--radix-dropdown-menu-content-available-height)`.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/dropdown-menu --overwrite --yes` (or your registry URL)
+  - Upgrade `@pandaworks-sw/ui`
 
 #### select
 
@@ -544,7 +498,7 @@ Each entry contains:
 - breaking: no
 - details: `SelectTrigger` uses `shadow-xs` / `focus:shadow-sm` and `data-placeholder:text-muted-foreground`. `SelectContent` uses `min-w-32`, `shadow-sm`, and `data-disabled:` on items. Popper viewport uses `h-(--radix-select-trigger-height)` and `min-w-(--radix-select-trigger-width)`.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/select --overwrite --yes` (or your registry URL)
+  - Upgrade `@pandaworks-sw/ui`
 
 #### popover
 
@@ -552,7 +506,7 @@ Each entry contains:
 - breaking: no
 - details: `PopoverContent` adds explicit `border-border` alongside existing border and shadow utilities.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/popover --overwrite --yes` (or your registry URL)
+  - Upgrade `@pandaworks-sw/ui`
 
 #### app-shell
 
@@ -560,7 +514,7 @@ Each entry contains:
 - breaking: no
 - details: `AppShell` now uses the inset sidebar variant by default, and the inset main surface uses a larger rounded frame (`rounded-3xl`) with existing border/shadow layering for a blended dashboard shell look.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/app-shell --overwrite --yes` (or your registry URL) to pick up the updated shell framing
+  - Upgrade `@pandaworks-sw/ui` to pick up the updated shell framing
   - No API changes; existing `AppShellProps` usage remains compatible
 
 #### registry batch (alert-dialog, app-shell, attachment-input, card, input, modal, selectable-card, split-button, table, textarea)
@@ -587,19 +541,17 @@ Each entry contains:
 - breaking: no
 - details: Added `DetailPageSidebarSection` sub-component. A sidebar section with header row (label + optional action slot) and free-form children. Inspired by GitHub issue detail sidebar pattern.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/detail-page --overwrite --yes` to update
+  - Upgrade `@pandaworks-sw/ui`
   - No code changes required. Existing `DetailPageMetaItem` usage is unaffected.
   - New `DetailPageSidebarSection` is available for use alongside or instead of `DetailPageMetaItem`
 
-#### registry (repo rename)
+#### repo rename
 
 - change: renamed
 - breaking: yes
-- details: Repository renamed from `pandahrms-ui-registry` to `pandaworks-ui`. Registry URL changed. Registry key changed from `@pandahrms` to `@pandaworks`.
+- details: Repository renamed from `pandahrms-ui-registry` to `pandaworks-ui`.
 - action:
-  - Update `components.json` registry URL from `pandahrms-ui-registry` to `pandaworks-ui`
-  - Update registry key from `@pandahrms` to `@pandaworks` in `components.json`
-  - Update all `npx shadcn add` commands to use new URL
+  - Update any references to the old repo URL.
 
 #### button
 
@@ -607,7 +559,7 @@ Each entry contains:
 - breaking: yes
 - details: `default` variant is now standard shadcn/ui style (plain). Previous `default` (blue with inset shadows) moved to new `brand` variant.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/button --overwrite --yes` to update the component
+  - Upgrade `@pandaworks-sw/ui` to pick up the new defaults
   - Search codebase for `variant="default"` on `<Button>` -- if the intent was the blue styled button, change to `variant="brand"`
   - Buttons with no explicit `variant` prop now render as the plain default -- verify this is acceptable or add `variant="brand"` where the blue button was expected
   - Action presets `create` and `save` already updated to use `brand` -- no change needed if using `action="create"` or `action="save"`
@@ -622,7 +574,7 @@ Each entry contains:
 - breaking: yes
 - details: Decoupled from `next-themes`. No longer imports or depends on ThemeProvider. Improved type safety and accessibility.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/sonner --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - If your project was relying on sonner auto-detecting theme from `next-themes`, you may need to pass the `theme` prop explicitly
 
 #### all components (24 affected)
@@ -631,7 +583,7 @@ Each entry contains:
 - breaking: no
 - details: Added `data-slot` attributes for DOM identification. Standardized double quotes. No API changes.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/<component> --overwrite --yes` for each component to pick up the changes
+  - Upgrade `@pandaworks-sw/ui` to pick up the changes
   - No code changes required in consuming projects
 
 #### barrel exports (19 components)
@@ -660,7 +612,7 @@ Each entry contains:
 - breaking: no
 - details: Added `action` prop with 12 presets (create, edit, save, delete, cancel, view, export, import, archive, duplicate, print, link). Added `icon`, `tooltip`, and `loading` props. Auto-resolves icon, variant, label, and tooltip from action presets.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/button --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - Replace all `<CreateButton>`, `<EditButton>`, `<SaveButton>`, etc. with `<Button action="create">`, `<Button action="edit">`, `<Button action="save">`, etc.
   - Replace `<ConfirmableActionButton>` with `<AlertDialog>` wrapping `<Button action="delete">`
   - Remove all imports from `@/components/ui/action-button/*`
@@ -672,7 +624,6 @@ Each entry contains:
 - details: Entire component removed (15 files). All functionality consolidated into Button `action` prop.
 - action:
   - Delete `@/components/ui/action-button/` directory from consuming projects
-  - Remove `action-button` from `components.json` if present
   - See button entry above for migration steps
 
 #### alert-dialog
@@ -681,5 +632,5 @@ Each entry contains:
 - breaking: no
 - details: Internal refactor -- AlertDialog action/cancel buttons now use `<Button>` via `asChild` instead of applying `buttonVariants` classes directly.
 - action:
-  - Run `npx shadcn@latest add @pandaworks/alert-dialog --overwrite --yes`
+  - Upgrade `@pandaworks-sw/ui`
   - No code changes required in consuming projects

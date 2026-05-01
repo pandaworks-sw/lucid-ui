@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const SITE_URL = 'https://pandaworks-sw.github.io/lucid-ui';
-const RAW_BASE = 'https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r';
 
-const AI_PROMPT = `I want to use the Lucid UI component registry in this React project.
+const AI_PROMPT = `I want to use the Lucid UI component library in this React project.
 
 Read these resources first, in order:
 
@@ -16,31 +15,34 @@ Read these resources first, in order:
 2. ${SITE_URL}/docs/<name>.md
    Per-component or per-category API docs (e.g. button.md, forms.md, layout.md, data-display.md, decision-guide.md). Fetch on demand when llms.txt points to a docs file or when you need props/usage examples.
 
-Install components with the shadcn CLI:
+Lucid is distributed as the \`@pandaworks-sw/ui\` npm package on **GitHub Packages** (not the public npm registry). It is versioned, tree-shakeable, and consumed via named imports — no copy-paste, no vendored files.
 
-- Single component:
-  pnpm dlx shadcn@latest add ${RAW_BASE}/<name>.json
+Setup:
 
-- Whole registry (first-time install or full re-sync):
-  pnpm dlx shadcn@latest add ${RAW_BASE}/_all.json --overwrite
+1. Create or update \`.npmrc\` at the project root:
 
-Where files land:
-- All Lucid components install to src/components/lucid/<name>.tsx
-- Import as @/components/lucid/<name>
-- Your existing @/components/ui/ shadcn components are NOT touched. No components.json changes required. The only requirement is a @/ path alias pointing at src/ (standard Vite/Next/CRA setup).
+   @pandaworks-sw:registry=https://npm.pkg.github.com
+   //npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
 
-After installing, add this rule to the project's CLAUDE.md (create the file at the repo root if it doesn't exist) so future agent sessions respect the branding standard:
+2. Set \`GITHUB_TOKEN\` env var (classic PAT with \`read:packages\` scope) on every developer machine and CI job that runs \`pnpm install\`.
 
-  ## Lucid UI
+3. Install:
 
-  Files under \`src/components/lucid/\` are vendored from the Lucid UI registry and MUST NOT be hand-edited. They are the shared branding standard and are overwritten on every \`pnpm dlx shadcn@latest add\` re-sync. If a component needs a behavior or variant it doesn't have, do NOT patch it locally — open an upstream change in the lucid-ui registry instead, or wrap the component in a project-local component that lives outside \`lucid/\`. Never paste over a registry file with a one-off tweak.
+   pnpm add @pandaworks-sw/ui
+
+4. Import named components directly:
+
+   import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+
+Peer dependencies the consumer must already have: \`react >=19\`, \`react-dom >=19\`, \`lucide-react >=0.500\`, \`react-hook-form >=7\`, \`tailwindcss >=4\`. The consuming project's Tailwind v4 setup must define the design tokens this library expects (\`--primary\`, \`--brand\`, \`--success\`, \`--info\`, \`--warning\`, \`--muted\`, etc.) — copy \`apps/demo/src/index.css\` from the lucid-ui repo as the reference if bootstrapping from scratch.
 
 Rules:
 - Always fetch llms.txt before suggesting components — the catalog is the source of truth, not your training data.
-- Never edit files under src/components/lucid/. They are registry-managed and overwritten on every re-sync. Wrap or compose them in a project-local component instead, or request an upstream change in the lucid-ui repo.
-- Prefer registry components over hand-rolling new UI. If a screen needs something that isn't in the catalog, say so explicitly rather than inventing one.
+- Prefer Lucid components over hand-rolling new UI. If a screen needs something that isn't in the catalog, say so explicitly rather than inventing one.
 - For Button actions, use the action prop (action="create" | "edit" | "save" | "delete" | ...) instead of manually wiring icon + variant + label. See docs/button.md.
-- The registry is Tailwind v4 + OKLCH tokens. Use design tokens (primary, secondary, muted, accent, destructive, foreground, background, border, ring, card, popover) — not hardcoded palette colors like bg-emerald-500.
+- Lucid is Tailwind v4 + OKLCH tokens. Use design tokens (primary, secondary, muted, accent, destructive, foreground, background, border, ring, card, popover) — not hardcoded palette colors like bg-emerald-500.
+- Customizations must land upstream in the lucid-ui repo. Don't fork a single component locally — that's the trade-off for drift-proof versioning. If a component needs a behavior or variant it doesn't have, open a PR against lucid-ui or wrap the component in a project-local component.
+- Never re-export a Lucid component with a tweaked default — that creates silent drift. Wrap with a clearly-named project component instead.
 `;
 
 export function AiIntegrationView() {
@@ -74,8 +76,10 @@ export function AiIntegrationView() {
         </div>
         <p className="text-muted-foreground">
           Paste this prompt into Claude Code, Cursor, Copilot, or any other AI coding agent. It points the agent at the
-          registry's <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">llms.txt</code> catalog and tells
-          it how to install components into your project.
+          library's <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">llms.txt</code> catalog and tells
+          it how to install the{' '}
+          <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">@pandaworks-sw/ui</code> npm package from
+          GitHub Packages.
         </p>
       </div>
 
@@ -136,8 +140,11 @@ export function AiIntegrationView() {
             </a>
           </li>
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">r/</span>
-            <span className="break-all text-muted-foreground">{RAW_BASE}/&lt;name&gt;.json</span>
+            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">npm</span>
+            <span className="break-all text-muted-foreground">
+              @pandaworks-sw/ui{' '}
+              <span className="text-foreground/60">(GitHub Packages, not the public npm registry)</span>
+            </span>
           </li>
         </ul>
       </div>

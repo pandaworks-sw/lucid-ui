@@ -8,12 +8,12 @@ export default function CodeLabelDemo() {
         title="Default"
         code={`import { CodeLabel } from "@/components/ui/code-label"
 
-<CodeLabel value="pnpm dlx shadcn@latest add button" />
+<CodeLabel value="pnpm add @pandaworks-sw/ui" />
 <CodeLabel value="EMP-2024-001" size="sm" />`}
       >
         <div className="flex flex-col gap-3">
-          <CodeLabel value="pnpm dlx shadcn@latest add button" />
-          <CodeLabel value="npm install @pandahrms/ui" />
+          <CodeLabel value="pnpm add @pandaworks-sw/ui" />
+          <CodeLabel value="EMP-2024-001" />
         </div>
       </DemoSection>
 

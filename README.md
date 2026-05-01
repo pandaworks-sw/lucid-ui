@@ -74,8 +74,7 @@ For deeper component docs, see [`public/docs/`](public/docs/).
 ```bash
 pnpm install          # Install dependencies
 pnpm dev              # Start demo showcase
-pnpm registry:build   # Build shadcn registry JSON output to public/r/
-pnpm build            # Build registry + demo
+pnpm build            # Build npm package + demo
 pnpm lint             # Lint demo app
 ```
 
