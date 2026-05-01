@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-01
 
+### Fixed
+
+- Tooling -- removed deprecated `baseUrl` from [packages/registry/tsconfig.json](packages/registry/tsconfig.json) and [apps/demo/tsconfig.app.json](apps/demo/tsconfig.app.json). TypeScript 6.0 flags `baseUrl` as deprecated and 7.0 will drop it entirely; the `paths` entries in both files use relative paths that already resolve against the `tsconfig.json` location, so `baseUrl` was redundant. No build or import behavior changes -- `pnpm -F demo exec tsc --noEmit` still passes clean
+
 ### Added
 
 - Demo showcase -- new "Use with AI" view ([apps/demo/src/showcase/ai-integration-view.tsx](apps/demo/src/showcase/ai-integration-view.tsx)) with a one-click copyable prompt that points AI coding agents (Claude Code, Cursor, Copilot, etc.) at `https://pandaworks-software-plt.github.io/pandaworks-ui/llms.txt` as the registry catalog and tells them how to install components. Surfaced as a prominent "Use with AI" card at the top of the showcase sidebar, above the existing SaaS-showcase link

@@ -15,8 +15,7 @@
     "paths": {
       "@/components/ui/*": ["./registry/default/*"],
       "@/*": ["./src/*"]
-    },
-    "baseUrl": "."
+    }
   },
   "include": ["src", "registry"],
   "exclude": ["node_modules"]

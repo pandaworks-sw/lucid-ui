@@ -25,7 +25,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseUrl": ".",
     "paths": {
       "@/components/ui/*": ["../../packages/registry/registry/default/*"],
       "@/lib/utils": ["../../packages/registry/src/lib/utils"],

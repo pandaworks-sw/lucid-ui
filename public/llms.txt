@@ -193,6 +193,14 @@ Each entry contains:
 
 ### 2026-05-01
 
+#### tooling (drop deprecated tsconfig baseUrl)
+
+- change: modified
+- breaking: no
+- details: Removed `baseUrl: "."` from [packages/registry/tsconfig.json](packages/registry/tsconfig.json) and [apps/demo/tsconfig.app.json](apps/demo/tsconfig.app.json). TypeScript 6.0 emits a deprecation diagnostic for `baseUrl` and 7.0 will drop the option; modern TypeScript resolves `paths` entries relative to the `tsconfig.json` location by default, so `baseUrl` was redundant. No runtime, import, or registry-output change — internal tooling cleanup only.
+- action:
+  - None for downstream consumers.
+
 #### demo showcase (Use with AI view)
 
 - change: added
