@@ -8,7 +8,7 @@ export default function LoadingPageDemo() {
         title="Default"
         code={`<LoadingPage />`}
       >
-        <div className="h-48 rounded-lg border">
+        <div className="h-48">
           <LoadingPage />
         </div>
       </DemoSection>
@@ -17,7 +17,7 @@ export default function LoadingPageDemo() {
         title="Custom message"
         code={`<LoadingPage message="Fetching your data..." />`}
       >
-        <div className="h-48 rounded-lg border">
+        <div className="h-48">
           <LoadingPage message="Fetching your data..." />
         </div>
       </DemoSection>
@@ -33,7 +33,7 @@ export default function LoadingPageDemo() {
   message="Starting Pandahrms..."
 />`}
       >
-        <div className="h-48 rounded-lg border">
+        <div className="h-48">
           <LoadingPage
             logo={
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">

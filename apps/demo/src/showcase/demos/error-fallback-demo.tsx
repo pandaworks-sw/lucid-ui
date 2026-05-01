@@ -16,14 +16,12 @@ export default function ErrorFallbackDemo() {
   variant="root"
 />`}
       >
-        <div className="rounded-lg border">
-          <ErrorFallback
-            error={sampleError}
-            onReset={handleReset}
-            variant="root"
-            className="min-h-[300px]"
-          />
-        </div>
+        <ErrorFallback
+          error={sampleError}
+          onReset={handleReset}
+          variant="root"
+          className="min-h-75"
+        />
       </DemoSection>
 
       <DemoSection
@@ -34,13 +32,11 @@ export default function ErrorFallbackDemo() {
   variant="route"
 />`}
       >
-        <div className="rounded-lg border">
-          <ErrorFallback
-            error={sampleError}
-            onReset={handleReset}
-            variant="route"
-          />
-        </div>
+        <ErrorFallback
+          error={sampleError}
+          onReset={handleReset}
+          variant="route"
+        />
       </DemoSection>
 
       <DemoSection
@@ -51,14 +47,12 @@ export default function ErrorFallbackDemo() {
   showDevDetails
 />`}
       >
-        <div className="rounded-lg border">
-          <ErrorFallback
-            error={sampleError}
-            onReset={handleReset}
-            variant="route"
-            showDevDetails
-          />
-        </div>
+        <ErrorFallback
+          error={sampleError}
+          onReset={handleReset}
+          variant="route"
+          showDevDetails
+        />
       </DemoSection>
 
       <DemoSection
@@ -70,18 +64,16 @@ export default function ErrorFallbackDemo() {
   secondaryAction={<Button className="flex-1">Go to Dashboard</Button>}
 />`}
       >
-        <div className="rounded-lg border">
-          <ErrorFallback
-            error={sampleError}
-            onReset={handleReset}
-            variant="route"
-            secondaryAction={
-              <Button className="flex-1" onClick={() => alert("Navigate to dashboard")}>
-                Go to Dashboard
-              </Button>
-            }
-          />
-        </div>
+        <ErrorFallback
+          error={sampleError}
+          onReset={handleReset}
+          variant="route"
+          secondaryAction={
+            <Button className="flex-1" onClick={() => alert("Navigate to dashboard")}>
+              Go to Dashboard
+            </Button>
+          }
+        />
       </DemoSection>
     </>
   );
