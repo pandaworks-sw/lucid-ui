@@ -53,12 +53,41 @@ export default function BadgeDemo() {
         </div>
       </DemoSection>
 
+      <DemoSection title="Semantic tones" code={`<Badge variant="success">Active</Badge>
+<Badge variant="warning">On Hold</Badge>
+<Badge variant="info">Planning</Badge>
+<Badge variant="muted">Archived</Badge>`}>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="success">Active</Badge>
+          <Badge variant="warning">On Hold</Badge>
+          <Badge variant="info">Planning</Badge>
+          <Badge variant="muted">Archived</Badge>
+        </div>
+      </DemoSection>
+
+      <DemoSection title="With status dot" code={`<Badge variant="success" dot>Active</Badge>
+<Badge variant="warning" dot>On Hold</Badge>
+<Badge variant="info" dot>Planning</Badge>
+<Badge variant="destructive" dot>Failed</Badge>`}>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="success" dot>Active</Badge>
+          <Badge variant="warning" dot>On Hold</Badge>
+          <Badge variant="info" dot>Planning</Badge>
+          <Badge variant="destructive" dot>Failed</Badge>
+          <Badge variant="muted" dot>Archived</Badge>
+        </div>
+      </DemoSection>
+
       <DemoSection title="All Variants">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="default">Default</Badge>
           <Badge variant="secondary">Secondary</Badge>
           <Badge variant="destructive">Destructive</Badge>
           <Badge variant="outline">Outline</Badge>
+          <Badge variant="success">Success</Badge>
+          <Badge variant="warning">Warning</Badge>
+          <Badge variant="info">Info</Badge>
+          <Badge variant="muted">Muted</Badge>
         </div>
       </DemoSection>
     </>
