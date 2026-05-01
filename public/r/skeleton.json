@@ -10,7 +10,7 @@
       "path": "registry/default/skeleton/skeleton.tsx",
       "content": "import type { ComponentProps } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nfunction Skeleton({ className, ...props }: ComponentProps<'div'>) {\n  return <div data-slot=\"skeleton\" className={cn('bg-muted animate-pulse rounded-md', className)} {...props} />;\n}\n\nexport { Skeleton };\n",
       "type": "registry:component",
-      "target": "components/pandaworks-ui/skeleton.tsx"
+      "target": "components/lucid/skeleton.tsx"
     }
   ],
   "type": "registry:ui"

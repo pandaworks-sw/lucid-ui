@@ -3,10 +3,10 @@ import { Check, Copy, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const SITE_URL = 'https://pandaworks-software-plt.github.io/pandaworks-ui';
-const RAW_BASE = 'https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r';
+const SITE_URL = 'https://pandaworks-sw.github.io/lucid-ui';
+const RAW_BASE = 'https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r';
 
-const AI_PROMPT = `I want to use the Pandaworks UI component registry in this React project.
+const AI_PROMPT = `I want to use the Lucid UI component registry in this React project.
 
 Read these resources first, in order:
 
@@ -25,19 +25,19 @@ Install components with the shadcn CLI:
   pnpm dlx shadcn@latest add ${RAW_BASE}/_all.json --overwrite
 
 Where files land:
-- All Pandaworks components install to src/components/pandaworks-ui/<name>.tsx
-- Import as @/components/pandaworks-ui/<name>
+- All Lucid components install to src/components/lucid/<name>.tsx
+- Import as @/components/lucid/<name>
 - Your existing @/components/ui/ shadcn components are NOT touched. No components.json changes required. The only requirement is a @/ path alias pointing at src/ (standard Vite/Next/CRA setup).
 
 After installing, add this rule to the project's CLAUDE.md (create the file at the repo root if it doesn't exist) so future agent sessions respect the branding standard:
 
-  ## Pandaworks UI
+  ## Lucid UI
 
-  Files under \`src/components/pandaworks-ui/\` are vendored from the Pandaworks UI registry and MUST NOT be hand-edited. They are the shared branding standard and are overwritten on every \`pnpm dlx shadcn@latest add\` re-sync. If a component needs a behavior or variant it doesn't have, do NOT patch it locally — open an upstream change in the pandaworks-ui registry instead, or wrap the component in a project-local component that lives outside \`pandaworks-ui/\`. Never paste over a registry file with a one-off tweak.
+  Files under \`src/components/lucid/\` are vendored from the Lucid UI registry and MUST NOT be hand-edited. They are the shared branding standard and are overwritten on every \`pnpm dlx shadcn@latest add\` re-sync. If a component needs a behavior or variant it doesn't have, do NOT patch it locally — open an upstream change in the lucid-ui registry instead, or wrap the component in a project-local component that lives outside \`lucid/\`. Never paste over a registry file with a one-off tweak.
 
 Rules:
 - Always fetch llms.txt before suggesting components — the catalog is the source of truth, not your training data.
-- Never edit files under src/components/pandaworks-ui/. They are registry-managed and overwritten on every re-sync. Wrap or compose them in a project-local component instead, or request an upstream change in the pandaworks-ui repo.
+- Never edit files under src/components/lucid/. They are registry-managed and overwritten on every re-sync. Wrap or compose them in a project-local component instead, or request an upstream change in the lucid-ui repo.
 - Prefer registry components over hand-rolling new UI. If a screen needs something that isn't in the catalog, say so explicitly rather than inventing one.
 - For Button actions, use the action prop (action="create" | "edit" | "save" | "delete" | ...) instead of manually wiring icon + variant + label. See docs/button.md.
 - The registry is Tailwind v4 + OKLCH tokens. Use design tokens (primary, secondary, muted, accent, destructive, foreground, background, border, ring, card, popover) — not hardcoded palette colors like bg-emerald-500.

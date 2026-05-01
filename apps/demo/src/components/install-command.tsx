@@ -1,7 +1,7 @@
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
 
-const BASE_URL = 'https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r';
+const BASE_URL = 'https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r';
 
 export function InstallCommand({ name }: { name: string }) {
   const [copied, setCopied] = useState(false);
