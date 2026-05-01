@@ -14,13 +14,13 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "button",
-    "separator",
-    "sheet",
-    "tooltip",
-    "dropdown-menu",
-    "collapsible",
-    "avatar"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/button.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/separator.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/sheet.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/tooltip.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/dropdown-menu.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/collapsible.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/avatar.json"
   ],
   "files": [
     {

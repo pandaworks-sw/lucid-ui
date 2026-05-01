@@ -8,7 +8,7 @@
     "date-fns"
   ],
   "registryDependencies": [
-    "button"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/button.json"
   ],
   "files": [
     {

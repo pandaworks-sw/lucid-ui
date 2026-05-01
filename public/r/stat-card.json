@@ -7,9 +7,9 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "card",
-    "animated-number",
-    "badge"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/card.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/animated-number.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/badge.json"
   ],
   "files": [
     {

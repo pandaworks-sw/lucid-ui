@@ -9,7 +9,7 @@
     "sonner"
   ],
   "registryDependencies": [
-    "sonner"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/sonner.json"
   ],
   "files": [
     {

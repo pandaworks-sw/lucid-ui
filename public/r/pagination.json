@@ -5,7 +5,7 @@
   "description": "A page navigation component with previous, next, page links, and ellipsis.",
   "dependencies": [],
   "registryDependencies": [
-    "button"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/button.json"
   ],
   "files": [
     {

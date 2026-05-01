@@ -7,10 +7,10 @@
     "cmdk"
   ],
   "registryDependencies": [
-    "badge",
-    "button",
-    "command",
-    "popover"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/badge.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/button.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/command.json",
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/popover.json"
   ],
   "files": [
     {

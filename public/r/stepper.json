@@ -7,7 +7,7 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "popover"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/popover.json"
   ],
   "files": [
     {

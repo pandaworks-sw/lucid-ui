@@ -9,7 +9,7 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "radio-group"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/radio-group.json"
   ],
   "files": [
     {

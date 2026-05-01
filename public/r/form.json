@@ -9,7 +9,7 @@
     "react-hook-form"
   ],
   "registryDependencies": [
-    "label"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/label.json"
   ],
   "files": [
     {

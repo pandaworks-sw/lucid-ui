@@ -8,7 +8,7 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "toggle"
+    "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/toggle.json"
   ],
   "files": [
     {
