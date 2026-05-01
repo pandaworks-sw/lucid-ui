@@ -36,7 +36,7 @@ const iconWrapVariants = cva(
 )
 
 export interface EmptyStateProps
-  extends HTMLAttributes<HTMLDivElement>,
+  extends Omit<HTMLAttributes<HTMLDivElement>, "title">,
     VariantProps<typeof emptyStateVariants> {
   icon?: ReactNode
   title: ReactNode

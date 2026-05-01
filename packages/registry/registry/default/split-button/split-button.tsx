@@ -24,6 +24,7 @@ const splitButtonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        brand: "bg-brand text-brand-foreground shadow-xs hover:shadow-sm",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -66,6 +67,7 @@ const triggerSizeClasses: Record<SplitButtonSize, string> = {
 
 const dividerClasses: Record<SplitButtonVariant, string> = {
   default: "border-l border-primary-foreground/20",
+  brand: "border-l border-brand-foreground/20",
   destructive: "border-l border-destructive-foreground/20",
   outline: "border-l-0",
   secondary: "border-l border-secondary-foreground/15",

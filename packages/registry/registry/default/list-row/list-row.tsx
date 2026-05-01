@@ -78,7 +78,10 @@ const ListRow = forwardRef<HTMLDivElement | HTMLButtonElement, ListRowProps>(
     )
 
     if (isButton) {
-      const { asButton: _omit, ...buttonRest } = rest as ButtonProps
+      const { asButton: _omit, ...buttonRest } = rest as Omit<
+        ButtonHTMLAttributes<HTMLButtonElement>,
+        keyof SharedListRowProps
+      > & { asButton?: true }
       void _omit
       return (
         <button
@@ -112,7 +115,7 @@ const ListRow = forwardRef<HTMLDivElement | HTMLButtonElement, ListRowProps>(
           }),
           className,
         )}
-        {...(rest as DivProps)}
+        {...(rest as Omit<HTMLAttributes<HTMLDivElement>, keyof SharedListRowProps>)}
       >
         {body}
       </div>

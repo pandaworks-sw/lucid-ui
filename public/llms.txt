@@ -193,6 +193,23 @@ Each entry contains:
 
 ### 2026-05-01
 
+#### empty-state, list-row (TypeScript fixes)
+
+- change: modified
+- breaking: no
+- details: `EmptyState` and `ListRow` both define a `title: ReactNode` prop that previously conflicted with the inherited HTML `title?: string` attribute. `EmptyState` now uses `Omit<HTMLAttributes<HTMLDivElement>, "title">` on its base type. `ListRow`'s internal spread casts (`rest as ButtonProps` / `rest as DivProps`) now use `Omit<…, keyof SharedListRowProps>` so the rest object no longer re-introduces `title` after destructuring. No public API change. Existing usage continues to compile and render the same. The fix unblocks the demo build (and the GitHub Pages deploy job), which was failing with `TS2430` / `TS2322`.
+- action:
+  - Run `pnpm dlx shadcn@latest add @pandaworks/empty-state @pandaworks/list-row --overwrite --yes` to pull the typed-correctly versions
+
+#### split-button (new brand variant)
+
+- change: modified
+- breaking: no
+- details: `SplitButton` gains a `brand` variant matching `Button`'s brand styling (`bg-brand text-brand-foreground shadow-xs hover:shadow-sm`) plus a corresponding entry in `dividerClasses` (`border-l border-brand-foreground/20`). Closes a parity gap surfaced by the pure-showcase Projects page, which already used `<SplitButton variant="brand">` for its "New project" CTA but compiled-failed because the variant didn't exist. Existing variants (`default`, `destructive`, `outline`, `secondary`, `ghost`) are unchanged.
+- action:
+  - Run `pnpm dlx shadcn@latest add @pandaworks/split-button --overwrite --yes` to pick up the brand variant
+  - Use `<SplitButton variant="brand">` for primary "create"-style split actions; pairs visually with `<Button action="create">`
+
 #### _all (meta-component)
 
 - change: added
