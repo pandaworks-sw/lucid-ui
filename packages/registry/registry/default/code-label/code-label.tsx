@@ -32,10 +32,15 @@ export interface CodeLabelProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children">,
     VariantProps<typeof codeLabelVariants> {
   value: string
+  /**
+   * Whether the copy-to-clipboard button is rendered. Defaults to `true`.
+   * Pass `false` for a static inline code chip with no interactive affordance.
+   */
+  copyable?: boolean
 }
 
 const CodeLabel = forwardRef<HTMLDivElement, CodeLabelProps>(
-  ({ className, size, value, onTouchStart, onTouchEnd, onTouchCancel, ...props }, ref) => {
+  ({ className, size, value, copyable = true, onTouchStart, onTouchEnd, onTouchCancel, ...props }, ref) => {
     const { copied, copy } = useCopyToClipboard()
     const [touchRevealed, setTouchRevealed] = useState(false)
     const hideTimeoutRef = useRef<number | null>(null)
@@ -80,29 +85,31 @@ const CodeLabel = forwardRef<HTMLDivElement, CodeLabelProps>(
         data-slot="code-label"
         ref={ref}
         className={cn(codeLabelVariants({ size }), "group", className)}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchCancel}
+        onTouchStart={copyable ? handleTouchStart : onTouchStart}
+        onTouchEnd={copyable ? handleTouchEnd : onTouchEnd}
+        onTouchCancel={copyable ? handleTouchCancel : onTouchCancel}
         {...props}
       >
         <span className="min-w-0 truncate">{value}</span>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className={cn(
-            "inline-flex max-w-0 shrink-0 items-center justify-center overflow-hidden rounded text-muted-foreground transition-all duration-200 hover:text-foreground",
-            "ml-0 opacity-0 group-hover:ml-1 group-focus-within:ml-1 group-active:ml-1 group-hover:max-w-4 group-focus-within:max-w-4 group-active:max-w-4 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100",
-            touchRevealed && "ml-1 max-w-4 opacity-100",
-            copied && "ml-1 max-w-4 opacity-100"
-          )}
-          aria-label="Copy to clipboard"
-        >
-          {copied ? (
-            <Check className="size-3.5" />
-          ) : (
-            <Copy className="size-3.5" />
-          )}
-        </button>
+        {copyable && (
+          <button
+            type="button"
+            onClick={handleCopy}
+            className={cn(
+              "inline-flex max-w-0 shrink-0 items-center justify-center overflow-hidden rounded text-muted-foreground transition-all duration-200 hover:text-foreground",
+              "ml-0 opacity-0 group-hover:ml-1 group-focus-within:ml-1 group-active:ml-1 group-hover:max-w-4 group-focus-within:max-w-4 group-active:max-w-4 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100",
+              touchRevealed && "ml-1 max-w-4 opacity-100",
+              copied && "ml-1 max-w-4 opacity-100"
+            )}
+            aria-label="Copy to clipboard"
+          >
+            {copied ? (
+              <Check className="size-3.5" />
+            ) : (
+              <Copy className="size-3.5" />
+            )}
+          </button>
+        )}
       </div>
     )
   }
