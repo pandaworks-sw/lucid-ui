@@ -176,7 +176,7 @@ import { Calendar } from "@/components/ui/calendar"
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton"
 
-<Skeleton className="h-4 w-[200px]" />
+<Skeleton className="h-4 w-50" />
 <Skeleton className="h-12 w-12 rounded-full" />
 ```
 
