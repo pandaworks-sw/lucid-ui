@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { DemoSection } from "@/showcase/component-page";
-import { SearchInput } from "@/components/ui/search-input";
+import { useState } from 'react';
+import { DemoSection } from '@/showcase/component-page';
+import { SearchInput } from '@/components/ui/search-input';
 
 export default function SearchInputDemo() {
-  const [searchValue, setSearchValue] = useState("");
-  const [debouncedValue, setDebouncedValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
+  const [debouncedValue, setDebouncedValue] = useState('');
 
   return (
     <>
@@ -16,11 +16,7 @@ export default function SearchInputDemo() {
       >
         <div className="max-w-sm">
           <SearchInput onSearch={(value) => setDebouncedValue(value)} />
-          {debouncedValue && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Debounced value: {debouncedValue}
-            </p>
-          )}
+          {debouncedValue && <p className="mt-2 text-sm text-muted-foreground">Debounced value: {debouncedValue}</p>}
         </div>
       </DemoSection>
 
@@ -32,31 +28,18 @@ export default function SearchInputDemo() {
 />`}
       >
         <div className="max-w-sm">
-          <SearchInput
-            onSearch={(value) => setSearchValue(value)}
-            onClear={() => setSearchValue("")}
-          />
-          {searchValue && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Searching: {searchValue}
-            </p>
-          )}
+          <SearchInput onSearch={(value) => setSearchValue(value)} onClear={() => setSearchValue('')} />
+          {searchValue && <p className="mt-2 text-sm text-muted-foreground">Searching: {searchValue}</p>}
         </div>
       </DemoSection>
 
-      <DemoSection
-        title="Custom Placeholder"
-        code={`<SearchInput placeholder="Filter employees..." />`}
-      >
+      <DemoSection title="Custom Placeholder" code={`<SearchInput placeholder="Filter employees..." />`}>
         <div className="max-w-sm">
           <SearchInput placeholder="Filter employees..." />
         </div>
       </DemoSection>
 
-      <DemoSection
-        title="Custom Debounce (500ms)"
-        code={`<SearchInput debounce={500} onSearch={handleSearch} />`}
-      >
+      <DemoSection title="Custom Debounce (500ms)" code={`<SearchInput debounce={500} onSearch={handleSearch} />`}>
         <div className="max-w-sm">
           <SearchInput debounce={500} onSearch={() => {}} />
         </div>

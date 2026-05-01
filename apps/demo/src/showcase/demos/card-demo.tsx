@@ -1,20 +1,15 @@
-import { DemoSection } from "@/showcase/component-page";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DemoSection } from '@/showcase/component-page';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function CardDemo() {
   return (
     <>
-      <DemoSection title="Basic Card" code={`import {
+      <DemoSection
+        title="Basic Card"
+        code={`import {
   Card,
   CardContent,
   CardDescription,
@@ -30,13 +25,12 @@ export default function CardDemo() {
   <CardContent>
     <p>Total Employees: 142</p>
   </CardContent>
-</Card>`}>
+</Card>`}
+      >
         <Card className="max-w-sm">
           <CardHeader>
             <CardTitle>Employee Overview</CardTitle>
-            <CardDescription>
-              View a summary of your team members and their current status.
-            </CardDescription>
+            <CardDescription>View a summary of your team members and their current status.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-2 text-sm">
@@ -61,14 +55,11 @@ export default function CardDemo() {
         <Card className="max-w-sm">
           <CardHeader>
             <CardTitle>Notifications</CardTitle>
-            <CardDescription>
-              You have 3 unread notifications.
-            </CardDescription>
+            <CardDescription>You have 3 unread notifications.</CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Review pending leave requests and performance review submissions
-              from your team.
+              Review pending leave requests and performance review submissions from your team.
             </p>
           </CardContent>
           <CardFooter className="gap-2">
@@ -84,9 +75,7 @@ export default function CardDemo() {
         <Card className="max-w-sm">
           <CardHeader>
             <CardTitle>Create Department</CardTitle>
-            <CardDescription>
-              Add a new department to your organization.
-            </CardDescription>
+            <CardDescription>Add a new department to your organization.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -121,9 +110,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with blue tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Suitable for informational or primary content cards.
-              </p>
+              <p className="text-sm text-muted-foreground">Suitable for informational or primary content cards.</p>
             </CardContent>
           </Card>
 
@@ -133,9 +120,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with purple tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Great for creative or premium feature highlights.
-              </p>
+              <p className="text-sm text-muted-foreground">Great for creative or premium feature highlights.</p>
             </CardContent>
           </Card>
 
@@ -145,9 +130,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with peach tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Warm and inviting for social or people-related content.
-              </p>
+              <p className="text-sm text-muted-foreground">Warm and inviting for social or people-related content.</p>
             </CardContent>
           </Card>
 
@@ -157,9 +140,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with indigo tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Works well for analytics or data-driven sections.
-              </p>
+              <p className="text-sm text-muted-foreground">Works well for analytics or data-driven sections.</p>
             </CardContent>
           </Card>
 
@@ -169,9 +150,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with green tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Ideal for success states or growth metrics.
-              </p>
+              <p className="text-sm text-muted-foreground">Ideal for success states or growth metrics.</p>
             </CardContent>
           </Card>
 
@@ -181,9 +160,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with amber tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Good for warnings or attention-requiring content.
-              </p>
+              <p className="text-sm text-muted-foreground">Good for warnings or attention-requiring content.</p>
             </CardContent>
           </Card>
 
@@ -193,9 +170,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with rose tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Suited for urgent or high-priority information.
-              </p>
+              <p className="text-sm text-muted-foreground">Suited for urgent or high-priority information.</p>
             </CardContent>
           </Card>
 
@@ -205,9 +180,7 @@ export default function CardDemo() {
               <CardDescription>Gradient card with teal tint</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Perfect for health, wellness, or status cards.
-              </p>
+              <p className="text-sm text-muted-foreground">Perfect for health, wellness, or status cards.</p>
             </CardContent>
           </Card>
         </div>

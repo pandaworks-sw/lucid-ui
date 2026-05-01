@@ -19,7 +19,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
   }
 
@@ -39,52 +44,52 @@
 
   :root {
     /* Stone scale */
-    --stone-50: #F7F9FB;
-    --stone-100: #EFF3F6;
-    --stone-150: #E5EBEF;
-    --stone-200: #D8DFE5;
-    --stone-300: #BCC5CD;
-    --stone-400: #8B97A1;
-    --stone-500: #5F6B75;
-    --stone-600: #424C55;
-    --stone-700: #2C343B;
-    --stone-800: #1C2229;
-    --stone-900: #11161B;
-    --stone-950: #080B0E;
+    --stone-50: #f7f9fb;
+    --stone-100: #eff3f6;
+    --stone-150: #e5ebef;
+    --stone-200: #d8dfe5;
+    --stone-300: #bcc5cd;
+    --stone-400: #8b97a1;
+    --stone-500: #5f6b75;
+    --stone-600: #424c55;
+    --stone-700: #2c343b;
+    --stone-800: #1c2229;
+    --stone-900: #11161b;
+    --stone-950: #080b0e;
 
     /* Panda blue scale */
-    --panda-50: #E7F7FD;
-    --panda-100: #C7ECFA;
-    --panda-200: #92DAF3;
-    --panda-300: #54C4EB;
-    --panda-400: #20B0E0;
-    --panda-500: #0E97C7;
-    --panda-600: #0879A2;
-    --panda-700: #0A607F;
-    --panda-800: #0C495F;
-    --panda-900: #08323F;
+    --panda-50: #e7f7fd;
+    --panda-100: #c7ecfa;
+    --panda-200: #92daf3;
+    --panda-300: #54c4eb;
+    --panda-400: #20b0e0;
+    --panda-500: #0e97c7;
+    --panda-600: #0879a2;
+    --panda-700: #0a607f;
+    --panda-800: #0c495f;
+    --panda-900: #08323f;
 
     /* Semantic */
-    --success: #4F8A52;
-    --info: #3D7DD9;
-    --warning: #C98A2B;
-    --danger: #C8543F;
-    --success-foreground: #FFFFFF;
-    --info-foreground: #FFFFFF;
-    --warning-foreground: #FFFFFF;
-    --danger-foreground: #FFFFFF;
+    --success: #4f8a52;
+    --info: #3d7dd9;
+    --warning: #c98a2b;
+    --danger: #c8543f;
+    --success-foreground: #ffffff;
+    --info-foreground: #ffffff;
+    --warning-foreground: #ffffff;
+    --danger-foreground: #ffffff;
 
     /* shadcn semantic tokens — light mode */
     --background: var(--stone-50);
     --foreground: var(--stone-800);
-    --card: #FFFFFF;
+    --card: #ffffff;
     --card-foreground: var(--stone-800);
-    --popover: #FFFFFF;
+    --popover: #ffffff;
     --popover-foreground: var(--stone-800);
     --primary: var(--stone-800);
     --primary-foreground: var(--stone-50);
     --brand: var(--panda-400);
-    --brand-foreground: #FFFFFF;
+    --brand-foreground: #ffffff;
     --secondary: var(--stone-100);
     --secondary-foreground: var(--stone-700);
     --muted: var(--stone-100);
@@ -92,7 +97,7 @@
     --accent: var(--stone-150);
     --accent-foreground: var(--stone-800);
     --destructive: var(--danger);
-    --destructive-foreground: #FFFFFF;
+    --destructive-foreground: #ffffff;
     --border: var(--stone-200);
     --input: var(--stone-200);
     --ring: var(--panda-400);
@@ -128,7 +133,7 @@
     --primary: var(--stone-150);
     --primary-foreground: var(--stone-800);
     --brand: var(--panda-400);
-    --brand-foreground: #FFFFFF;
+    --brand-foreground: #ffffff;
     --secondary: var(--stone-700);
     --secondary-foreground: var(--stone-150);
     --muted: var(--stone-700);
@@ -136,7 +141,7 @@
     --accent: var(--stone-600);
     --accent-foreground: var(--stone-50);
     --destructive: var(--danger);
-    --destructive-foreground: #FFFFFF;
+    --destructive-foreground: #ffffff;
     --border: var(--stone-600);
     --input: var(--stone-600);
     --ring: var(--panda-400);
@@ -235,28 +240,28 @@
 
     /* Typography scale — Comfortaa across the system, JetBrains Mono for code.
        Body sizes override Tailwind defaults; text-md is new; text-display-* are new. */
-    --text-xs: 0.6875rem;        /* 11px */
+    --text-xs: 0.6875rem; /* 11px */
     --text-xs--line-height: 1.5;
     --text-xs--font-weight: 600;
     --text-xs--letter-spacing: 0.04em;
 
-    --text-sm: 0.8125rem;        /* 13px */
+    --text-sm: 0.8125rem; /* 13px */
     --text-sm--line-height: 1.5;
     --text-sm--font-weight: 500;
 
-    --text-base: 0.875rem;       /* 14px */
+    --text-base: 0.875rem; /* 14px */
     --text-base--line-height: 1.55;
     --text-base--font-weight: 400;
 
-    --text-md: 0.9375rem;        /* 15px */
+    --text-md: 0.9375rem; /* 15px */
     --text-md--line-height: 1.55;
     --text-md--font-weight: 400;
 
-    --text-lg: 1.0625rem;        /* 17px */
+    --text-lg: 1.0625rem; /* 17px */
     --text-lg--line-height: 1.5;
     --text-lg--font-weight: 500;
 
-    --text-xl: 1.25rem;          /* 20px */
+    --text-xl: 1.25rem; /* 20px */
     --text-xl--line-height: 1.45;
     --text-xl--font-weight: 500;
 
@@ -271,21 +276,21 @@
 
 @utility text-display-sm {
   font-family: var(--font-display);
-  font-size: 1.75rem;            /* 28px */
+  font-size: 1.75rem; /* 28px */
   line-height: 1.2;
   font-weight: 500;
 }
 
 @utility text-display-md {
   font-family: var(--font-display);
-  font-size: 2.5rem;             /* 40px */
+  font-size: 2.5rem; /* 40px */
   line-height: 1.15;
   font-weight: 600;
 }
 
 @utility text-display-lg {
   font-family: var(--font-display);
-  font-size: 3.5rem;             /* 56px */
+  font-size: 3.5rem; /* 56px */
   line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -293,7 +298,7 @@
 
 @utility text-display-xl {
   font-family: var(--font-display);
-  font-size: 4.5rem;             /* 72px */
+  font-size: 4.5rem; /* 72px */
   line-height: 1.05;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -303,7 +308,7 @@
 
 @utility text-mono-sm {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;          /* 11px */
+  font-size: 0.6875rem; /* 11px */
   line-height: 1.5;
   font-weight: 400;
   font-feature-settings: "calt" 0;
@@ -311,7 +316,7 @@
 
 @utility text-mono-md {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;          /* 13px */
+  font-size: 0.8125rem; /* 13px */
   line-height: 1.5;
   font-weight: 400;
   font-feature-settings: "calt" 0;
@@ -320,56 +325,32 @@
 /* ─── Pattern Background Utilities ─── */
 
 @utility bg-pattern-dots {
-  background-image: radial-gradient(
-    circle,
-    oklch(0.3 0 0 / 0.07) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(circle, oklch(0.3 0 0 / 0.07) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .dark .bg-pattern-dots {
-  background-image: radial-gradient(
-    circle,
-    oklch(1 0 0 / 0.07) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(circle, oklch(1 0 0 / 0.07) 1px, transparent 1px);
 }
 
 @utility bg-pattern-grid {
-  background-image: linear-gradient(
-      to right,
-      oklch(0.3 0 0 / 0.06) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      oklch(0.3 0 0 / 0.06) 1px,
-      transparent 1px
-    );
+  background-image:
+    linear-gradient(to right, oklch(0.3 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.3 0 0 / 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .dark .bg-pattern-grid {
-  background-image: linear-gradient(
-      to right,
-      oklch(1 0 0 / 0.06) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      oklch(1 0 0 / 0.06) 1px,
-      transparent 1px
-    );
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.06) 1px, transparent 1px);
 }
 
 @utility bg-pattern-cross {
   --_cross-color: oklch(0.3 0 0 / 0.06);
   --_cross-size: 20px;
-  background-image: linear-gradient(
-      var(--_cross-color) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(var(--_cross-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--_cross-color) 1px, transparent 1px);
   background-size: var(--_cross-size) var(--_cross-size);
   background-position: center center;
@@ -404,327 +385,129 @@
 /* ─── Aurora Pattern ─── */
 
 @utility bg-pattern-aurora {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 50%,
-      oklch(0.7 0.15 260 / 0.08) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 85% 20%,
-      oklch(0.7 0.15 300 / 0.06) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 85%,
-      oklch(0.7 0.12 200 / 0.06) 0%,
-      transparent 60%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 50%, oklch(0.7 0.15 260 / 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 20%, oklch(0.7 0.15 300 / 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.7 0.12 200 / 0.06) 0%, transparent 60%);
 }
 
 .dark .bg-pattern-aurora {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 50%,
-      oklch(0.4 0.15 260 / 0.15) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 85% 20%,
-      oklch(0.4 0.15 300 / 0.12) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 85%,
-      oklch(0.4 0.12 200 / 0.12) 0%,
-      transparent 60%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 50%, oklch(0.4 0.15 260 / 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 20%, oklch(0.4 0.15 300 / 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.4 0.12 200 / 0.12) 0%, transparent 60%);
 }
 
 /* ─── Aurora Color Variants ─── */
 
 @utility bg-pattern-aurora-blue {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.7 0.16 250 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 90% 15%,
-      oklch(0.75 0.12 230 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 90%,
-      oklch(0.65 0.14 270 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.7 0.16 250 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 15%, oklch(0.75 0.12 230 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 90%, oklch(0.65 0.14 270 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-blue {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.35 0.16 250 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 90% 15%,
-      oklch(0.4 0.12 230 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 90%,
-      oklch(0.3 0.14 270 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.35 0.16 250 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 15%, oklch(0.4 0.12 230 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 90%, oklch(0.3 0.14 270 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-purple {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 40%,
-      oklch(0.7 0.18 300 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.65 0.2 320 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 55% 85%,
-      oklch(0.7 0.15 280 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 40%, oklch(0.7 0.18 300 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.65 0.2 320 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 55% 85%, oklch(0.7 0.15 280 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-purple {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 40%,
-      oklch(0.35 0.18 300 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.3 0.2 320 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 55% 85%,
-      oklch(0.35 0.15 280 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 40%, oklch(0.35 0.18 300 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.3 0.2 320 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 55% 85%, oklch(0.35 0.15 280 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-peach {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 45%,
-      oklch(0.78 0.12 50 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 80% 25%,
-      oklch(0.75 0.14 30 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 50% 85%,
-      oklch(0.8 0.1 70 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.78 0.12 50 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.75 0.14 30 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.8 0.1 70 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-peach {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 45%,
-      oklch(0.4 0.12 50 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 80% 25%,
-      oklch(0.38 0.14 30 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 50% 85%,
-      oklch(0.42 0.1 70 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.4 0.12 50 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.38 0.14 30 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.42 0.1 70 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-indigo {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.55 0.22 270 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 85% 15%,
-      oklch(0.6 0.2 285 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 90%,
-      oklch(0.5 0.18 255 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.55 0.22 270 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 15%, oklch(0.6 0.2 285 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 90%, oklch(0.5 0.18 255 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-indigo {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.3 0.22 270 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 60% at 85% 15%,
-      oklch(0.3 0.2 285 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 90%,
-      oklch(0.28 0.18 255 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.3 0.22 270 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 85% 15%, oklch(0.3 0.2 285 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 90%, oklch(0.28 0.18 255 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-green {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.72 0.15 150 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.68 0.13 165 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 85%,
-      oklch(0.75 0.11 135 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.72 0.15 150 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.13 165 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.75 0.11 135 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-green {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.38 0.15 150 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.35 0.13 165 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 85%,
-      oklch(0.4 0.11 135 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.38 0.15 150 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.13 165 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.4 0.11 135 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-amber {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 45%,
-      oklch(0.8 0.14 80 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 80% 25%,
-      oklch(0.78 0.16 65 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 50% 85%,
-      oklch(0.82 0.12 90 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.8 0.14 80 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.78 0.16 65 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.82 0.12 90 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-amber {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 15% 45%,
-      oklch(0.42 0.14 80 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 80% 25%,
-      oklch(0.4 0.16 65 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 50% 85%,
-      oklch(0.44 0.12 90 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 45%, oklch(0.42 0.14 80 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 80% 25%, oklch(0.4 0.16 65 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 50% 85%, oklch(0.44 0.12 90 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-rose {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 45%,
-      oklch(0.7 0.18 10 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.68 0.2 350 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 85%,
-      oklch(0.72 0.15 25 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 45%, oklch(0.7 0.18 10 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.2 350 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.72 0.15 25 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-rose {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 45%,
-      oklch(0.38 0.18 10 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.35 0.2 350 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 50% 85%,
-      oklch(0.4 0.15 25 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 45%, oklch(0.38 0.18 10 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.2 350 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 85%, oklch(0.4 0.15 25 / 0.12) 0%, transparent 55%);
 }
 
 @utility bg-pattern-aurora-teal {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.72 0.12 185 / 0.1) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.68 0.14 175 / 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 85%,
-      oklch(0.74 0.1 195 / 0.07) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.72 0.12 185 / 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.68 0.14 175 / 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.74 0.1 195 / 0.07) 0%, transparent 55%);
 }
 
 .dark .bg-pattern-aurora-teal {
-  background-image: radial-gradient(
-      ellipse 60% 50% at 10% 50%,
-      oklch(0.38 0.12 185 / 0.2) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 85% 20%,
-      oklch(0.35 0.14 175 / 0.15) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 55% 45% at 55% 85%,
-      oklch(0.4 0.1 195 / 0.12) 0%,
-      transparent 55%
-    );
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 50%, oklch(0.38 0.12 185 / 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 55% at 85% 20%, oklch(0.35 0.14 175 / 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 55% 85%, oklch(0.4 0.1 195 / 0.12) 0%, transparent 55%);
 }

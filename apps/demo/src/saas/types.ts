@@ -1,13 +1,13 @@
-export type ProjectStatus = "planning" | "active" | "on-hold" | "completed";
-export type Priority = "low" | "medium" | "high" | "urgent";
-export type TaskStatus = "todo" | "in-progress" | "review" | "done";
+export type ProjectStatus = 'planning' | 'active' | 'on-hold' | 'completed';
+export type Priority = 'low' | 'medium' | 'high' | 'urgent';
+export type TaskStatus = 'todo' | 'in-progress' | 'review' | 'done';
 
 export interface Member {
   id: string;
   name: string;
   email: string;
   role: string;
-  department: "Engineering" | "Design" | "Product" | "Operations" | "Marketing";
+  department: 'Engineering' | 'Design' | 'Product' | 'Operations' | 'Marketing';
   timezone: string;
   avatarColor: string;
 }

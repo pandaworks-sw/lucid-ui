@@ -1,8 +1,8 @@
-import { type ComponentProps } from "react";
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+import { type ComponentProps } from 'react';
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 function AlertDialog({ ...props }: ComponentProps<typeof AlertDialogPrimitive.Root>) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
@@ -75,10 +75,7 @@ function AlertDialogTitle({ className, ...props }: ComponentProps<typeof AlertDi
   );
 }
 
-function AlertDialogDescription({
-  className,
-  ...props
-}: ComponentProps<typeof AlertDialogPrimitive.Description>) {
+function AlertDialogDescription({ className, ...props }: ComponentProps<typeof AlertDialogPrimitive.Description>) {
   return (
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
@@ -99,7 +96,9 @@ function AlertDialogAction({ className, children, ...props }: ComponentProps<typ
 function AlertDialogCancel({ className, children, ...props }: ComponentProps<typeof AlertDialogPrimitive.Cancel>) {
   return (
     <AlertDialogPrimitive.Cancel asChild {...props}>
-      <Button variant="outline" className={className}>{children}</Button>
+      <Button variant="outline" className={className}>
+        {children}
+      </Button>
     </AlertDialogPrimitive.Cancel>
   );
 }

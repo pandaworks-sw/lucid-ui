@@ -1,13 +1,16 @@
-import { DemoSection } from "@/showcase/component-page";
-import { CodeLabel } from "@/components/ui/code-label";
+import { DemoSection } from '@/showcase/component-page';
+import { CodeLabel } from '@/components/ui/code-label';
 
 export default function CodeLabelDemo() {
   return (
     <>
-      <DemoSection title="Default" code={`import { CodeLabel } from "@/components/ui/code-label"
+      <DemoSection
+        title="Default"
+        code={`import { CodeLabel } from "@/components/ui/code-label"
 
 <CodeLabel value="pnpm dlx shadcn@latest add button" />
-<CodeLabel value="EMP-2024-001" size="sm" />`}>
+<CodeLabel value="EMP-2024-001" size="sm" />`}
+      >
         <div className="flex flex-col gap-3">
           <CodeLabel value="pnpm dlx shadcn@latest add button" />
           <CodeLabel value="npm install @pandahrms/ui" />
@@ -24,9 +27,8 @@ export default function CodeLabelDemo() {
 
       <DemoSection title="Inline with text">
         <p className="text-sm text-muted-foreground">
-          Your employee ID is{" "}
-          <CodeLabel value="EMP-2024-001" size="sm" className="inline-flex" />{" "}
-          -- click the icon to copy.
+          Your employee ID is <CodeLabel value="EMP-2024-001" size="sm" className="inline-flex" /> -- click the icon to
+          copy.
         </p>
       </DemoSection>
     </>

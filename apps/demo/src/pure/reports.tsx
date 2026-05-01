@@ -1,59 +1,40 @@
 // PURE Reports — see pure-shared.tsx header for rules.
 
-import { useMemo, useState } from "react";
-import { BarChart3, Download, PieChart, Target, TrendingDown } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { CodeLabel } from "@/components/ui/code-label";
-import { MeterRow } from "@/components/ui/meter-row";
-import { PageHeader } from "@/components/ui/page-header";
-import { StatCard } from "@/components/ui/stat-card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useStore } from "../saas/store";
-import { PriorityBadge, StatusBadge, TaskStatusBadge, formatCurrency } from "./pure-shared";
-import type { Priority, ProjectStatus, TaskStatus } from "../saas/types";
+import { useMemo, useState } from 'react';
+import { BarChart3, Download, PieChart, Target, TrendingDown } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CodeLabel } from '@/components/ui/code-label';
+import { MeterRow } from '@/components/ui/meter-row';
+import { PageHeader } from '@/components/ui/page-header';
+import { StatCard } from '@/components/ui/stat-card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useStore } from '../saas/store';
+import { PriorityBadge, StatusBadge, TaskStatusBadge, formatCurrency } from './pure-shared';
+import type { Priority, ProjectStatus, TaskStatus } from '../saas/types';
 
-const PRIORITY_ORDER: Priority[] = ["urgent", "high", "medium", "low"];
-const STATUS_ORDER: ProjectStatus[] = ["planning", "active", "on-hold", "completed"];
+const PRIORITY_ORDER: Priority[] = ['urgent', 'high', 'medium', 'low'];
+const STATUS_ORDER: ProjectStatus[] = ['planning', 'active', 'on-hold', 'completed'];
 
-const STATUS_TONE: Record<
-  ProjectStatus,
-  "success" | "warning" | "info" | "muted"
-> = {
-  active: "success",
-  planning: "info",
-  "on-hold": "warning",
-  completed: "muted",
+const STATUS_TONE: Record<ProjectStatus, 'success' | 'warning' | 'info' | 'muted'> = {
+  active: 'success',
+  planning: 'info',
+  'on-hold': 'warning',
+  completed: 'muted',
 };
 
-const PRIORITY_TONE: Record<
-  Priority,
-  "destructive" | "warning" | "info" | "muted"
-> = {
-  urgent: "destructive",
-  high: "warning",
-  medium: "info",
-  low: "muted",
+const PRIORITY_TONE: Record<Priority, 'destructive' | 'warning' | 'info' | 'muted'> = {
+  urgent: 'destructive',
+  high: 'warning',
+  medium: 'info',
+  low: 'muted',
 };
 
 export function Reports() {
   const { projects, tasks, members } = useStore();
-  const [period, setPeriod] = useState<"month" | "quarter" | "year">("quarter");
+  const [period, setPeriod] = useState<'month' | 'quarter' | 'year'>('quarter');
 
   const projectByStatus = useMemo(() => {
     const map = new Map<ProjectStatus, number>();
@@ -82,13 +63,9 @@ export function Reports() {
   }, [projects, members]);
 
   const totalBudget = projects.reduce((sum, p) => sum + p.budget, 0);
-  const activeBudget = projects
-    .filter((p) => p.status === "active")
-    .reduce((sum, p) => sum + p.budget, 0);
+  const activeBudget = projects.filter((p) => p.status === 'active').reduce((sum, p) => sum + p.budget, 0);
   const avgProgress =
-    projects.length === 0
-      ? 0
-      : Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
+    projects.length === 0 ? 0 : Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
   const statusMax = Math.max(...Array.from(projectByStatus.values()), 1);
   const projectMax = Math.max(projects.length, 1);
 
@@ -106,7 +83,7 @@ export function Reports() {
                 <TabsTrigger value="year">Year</TabsTrigger>
               </TabsList>
             </Tabs>
-            <Button variant="outline" onClick={() => toast("Export queued")}>
+            <Button variant="outline" onClick={() => toast('Export queued')}>
               <Download className="size-4" />
               Export
             </Button>
@@ -172,7 +149,7 @@ export function Reports() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
-              {(["todo", "in-progress", "review", "done"] as TaskStatus[]).map((status) => {
+              {(['todo', 'in-progress', 'review', 'done'] as TaskStatus[]).map((status) => {
                 const count = taskByStatus.get(status) ?? 0;
                 return (
                   <div key={status} className="rounded-md border p-3">
@@ -234,12 +211,10 @@ export function Reports() {
                 {budgetByOwner.map(({ owner, total }) => {
                   const owned = projects.filter((p) => p.ownerId === owner?.id);
                   return (
-                    <TableRow key={owner?.id ?? "unknown"}>
+                    <TableRow key={owner?.id ?? 'unknown'}>
                       <TableCell>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">
-                            {owner?.name ?? "Unassigned"}
-                          </p>
+                          <p className="truncate text-sm font-medium">{owner?.name ?? 'Unassigned'}</p>
                           <p className="truncate text-xs text-muted-foreground">{owner?.role}</p>
                         </div>
                       </TableCell>
@@ -249,15 +224,11 @@ export function Reports() {
                             <CodeLabel key={p.id} value={p.key} size="sm" copyable={false} />
                           ))}
                           {owned.length > 3 && (
-                            <span className="text-xs text-muted-foreground">
-                              +{owned.length - 3}
-                            </span>
+                            <span className="text-xs text-muted-foreground">+{owned.length - 3}</span>
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right text-sm tabular-nums">
-                        {formatCurrency(total)}
-                      </TableCell>
+                      <TableCell className="text-right text-sm tabular-nums">{formatCurrency(total)}</TableCell>
                     </TableRow>
                   );
                 })}

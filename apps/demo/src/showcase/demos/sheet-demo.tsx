@@ -1,22 +1,17 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { DemoSection } from '@/showcase/component-page';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
-const SIDES = ["top", "right", "bottom", "left"] as const;
+const SIDES = ['top', 'right', 'bottom', 'left'] as const;
 
 export default function SheetDemo() {
   return (
     <>
-      <DemoSection title="Sheet Sides" code={`import {
+      <DemoSection
+        title="Sheet Sides"
+        code={`import {
   Sheet, SheetContent, SheetDescription,
   SheetHeader, SheetTitle, SheetTrigger,
 } from "@/components/ui/sheet"
@@ -37,7 +32,8 @@ import { Button } from "@/components/ui/button"
       {/* Sheet content */}
     </div>
   </SheetContent>
-</Sheet>`}>
+</Sheet>`}
+      >
         <div className="flex flex-wrap gap-2">
           {SIDES.map((side) => (
             <Sheet key={side}>
@@ -49,14 +45,12 @@ import { Button } from "@/components/ui/button"
               <SheetContent side={side}>
                 <SheetHeader>
                   <SheetTitle>Sheet from {side}</SheetTitle>
-                  <SheetDescription>
-                    This sheet opens from the {side} of the screen.
-                  </SheetDescription>
+                  <SheetDescription>This sheet opens from the {side} of the screen.</SheetDescription>
                 </SheetHeader>
                 <div className="py-4">
                   <p className="text-sm text-muted-foreground">
-                    Use sheets for supplementary content that does not require
-                    the user to leave the current page context.
+                    Use sheets for supplementary content that does not require the user to leave the current page
+                    context.
                   </p>
                 </div>
               </SheetContent>
@@ -73,9 +67,7 @@ import { Button } from "@/components/ui/button"
           <SheetContent side="right">
             <SheetHeader>
               <SheetTitle>Edit Profile</SheetTitle>
-              <SheetDescription>
-                Update your profile information. Click save when you are done.
-              </SheetDescription>
+              <SheetDescription>Update your profile information. Click save when you are done.</SheetDescription>
             </SheetHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-1.5">
@@ -84,11 +76,7 @@ import { Button } from "@/components/ui/button"
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="sheet-email">Email</Label>
-                <Input
-                  id="sheet-email"
-                  type="email"
-                  defaultValue="jane@company.com"
-                />
+                <Input id="sheet-email" type="email" defaultValue="jane@company.com" />
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="sheet-role">Role</Label>

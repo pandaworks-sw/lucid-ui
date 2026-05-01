@@ -1,69 +1,41 @@
 // PURE Team — see pure-shared.tsx header for rules.
 
-import { useMemo, useState } from "react";
-import {
-  Filter,
-  Mail,
-  MapPin,
-  MoreHorizontal,
-  Search,
-  Sparkles,
-  UserPlus,
-  Users,
-} from "lucide-react";
-import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { CodeLabel } from "@/components/ui/code-label";
+import { useMemo, useState } from 'react';
+import { Filter, Mail, MapPin, MoreHorizontal, Search, Sparkles, UserPlus, Users } from 'lucide-react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CodeLabel } from '@/components/ui/code-label';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { EmptyState } from "@/components/ui/empty-state";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PageHeader } from "@/components/ui/page-header";
-import { SearchInput } from "@/components/ui/search-input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { SelectPicker } from "@/components/ui/select-picker";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { useStore } from "../saas/store";
-import { useRouter } from "../saas/router";
-import { MemberAvatar, MemberStack } from "./pure-shared";
-import type { Member } from "../saas/types";
+} from '@/components/ui/dropdown-menu';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PageHeader } from '@/components/ui/page-header';
+import { SearchInput } from '@/components/ui/search-input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { SelectPicker } from '@/components/ui/select-picker';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { useStore } from '../saas/store';
+import { useRouter } from '../saas/router';
+import { MemberAvatar, MemberStack } from './pure-shared';
+import type { Member } from '../saas/types';
 
-const DEPARTMENTS = ["Engineering", "Design", "Product", "Operations", "Marketing"] as const;
+const DEPARTMENTS = ['Engineering', 'Design', 'Product', 'Operations', 'Marketing'] as const;
 
 export function Team() {
   const { members, projects } = useStore();
   const { navigate } = useRouter();
-  const [search, setSearch] = useState("");
-  const [dept, setDept] = useState<"all" | (typeof DEPARTMENTS)[number]>("all");
+  const [search, setSearch] = useState('');
+  const [dept, setDept] = useState<'all' | (typeof DEPARTMENTS)[number]>('all');
   const [inviteOpen, setInviteOpen] = useState(false);
 
   const projectsByMember = useMemo(() => {
@@ -78,15 +50,12 @@ export function Team() {
     return map;
   }, [projects]);
 
-  const projectById = useMemo(
-    () => Object.fromEntries(projects.map((p) => [p.id, p])),
-    [projects],
-  );
+  const projectById = useMemo(() => Object.fromEntries(projects.map((p) => [p.id, p])), [projects]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return members.filter((m) => {
-      if (dept !== "all" && m.department !== dept) return false;
+      if (dept !== 'all' && m.department !== dept) return false;
       if (!q) return true;
       return `${m.name} ${m.email} ${m.role} ${m.department}`.toLowerCase().includes(q);
     });
@@ -113,21 +82,13 @@ export function Team() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {DEPARTMENTS.map((d) => (
-          <Card
-            key={d}
-            className="cursor-pointer transition-colors hover:bg-muted/40"
-            onClick={() => setDept(d)}
-          >
+          <Card key={d} className="cursor-pointer transition-colors hover:bg-muted/40" onClick={() => setDept(d)}>
             <CardHeader className="space-y-1 pb-2">
               <CardDescription className="text-xs">{d}</CardDescription>
               <CardTitle className="text-xl">{deptCounts.get(d) ?? 0}</CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <MemberStack
-                members={members.filter((m) => m.department === d)}
-                size="xs"
-                max={4}
-              />
+              <MemberStack members={members.filter((m) => m.department === d)} size="xs" max={4} />
             </CardContent>
           </Card>
         ))}
@@ -181,33 +142,27 @@ export function Team() {
                     </p>
                     <p className="flex items-center gap-1.5">
                       <MapPin className="size-3" />
-                      {member.timezone.replace(/_/g, " ")}
+                      {member.timezone.replace(/_/g, ' ')}
                     </p>
                   </div>
                   <Separator />
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                      Projects
-                    </p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Projects</p>
                     {memberProjects.length === 0 ? (
-                      <p className="text-xs text-muted-foreground">
-                        Not assigned to any project.
-                      </p>
+                      <p className="text-xs text-muted-foreground">Not assigned to any project.</p>
                     ) : (
                       <div className="flex flex-wrap gap-1">
                         {memberProjects.slice(0, 4).map((p) => (
                           <button
                             key={p.id}
                             type="button"
-                            onClick={() => navigate({ name: "project", id: p.id })}
+                            onClick={() => navigate({ name: 'project', id: p.id })}
                             className="cursor-pointer"
                           >
                             <CodeLabel value={p.key} size="sm" copyable={false} />
                           </button>
                         ))}
-                        {memberProjects.length > 4 && (
-                          <Badge variant="muted">+{memberProjects.length - 4}</Badge>
-                        )}
+                        {memberProjects.length > 4 && <Badge variant="muted">+{memberProjects.length - 4}</Badge>}
                       </div>
                     )}
                   </div>
@@ -224,8 +179,8 @@ export function Team() {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      setDept("all");
-                      setSearch("");
+                      setDept('all');
+                      setSearch('');
                     }}
                   >
                     Reset filters
@@ -255,7 +210,7 @@ function MemberActions({ member }: { member: Member }) {
           <Mail className="size-4" />
           Message
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => toast("Profile opened")}>
+        <DropdownMenuItem onClick={() => toast('Profile opened')}>
           <Search className="size-4" />
           View profile
         </DropdownMenuItem>
@@ -264,33 +219,27 @@ function MemberActions({ member }: { member: Member }) {
   );
 }
 
-function InviteSheet({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
+function InviteSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const { projects } = useStore();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [department, setDepartment] = useState<string>("Engineering");
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [department, setDepartment] = useState<string>('Engineering');
   const [projectIds, setProjectIds] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   function reset() {
-    setEmail("");
-    setName("");
-    setRole("");
-    setDepartment("Engineering");
+    setEmail('');
+    setName('');
+    setRole('');
+    setDepartment('Engineering');
     setProjectIds([]);
-    setMessage("");
+    setMessage('');
   }
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    toast.success("Invite sent", {
-      description: `${email} will join as ${role || "teammate"} in ${department}.`,
+    toast.success('Invite sent', {
+      description: `${email} will join as ${role || 'teammate'} in ${department}.`,
     });
     onOpenChange(false);
     reset();
@@ -302,9 +251,7 @@ function InviteSheet({
         <form onSubmit={handleSubmit} className="flex h-full flex-col">
           <SheetHeader className="pb-4">
             <SheetTitle>Invite a teammate</SheetTitle>
-            <SheetDescription>
-              They'll get an email with a link to join your workspace.
-            </SheetDescription>
+            <SheetDescription>They'll get an email with a link to join your workspace.</SheetDescription>
           </SheetHeader>
 
           <div className="flex-1 space-y-6 overflow-y-auto pr-1">
@@ -396,8 +343,7 @@ function InviteSheet({
                 No real invite is sent.
               </p>
               <p className="mt-1">
-                In a live workspace, the recipient would receive an email with a secure magic link
-                valid for 24 hours.
+                In a live workspace, the recipient would receive an email with a secure magic link valid for 24 hours.
               </p>
             </div>
           </div>

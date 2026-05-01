@@ -1,12 +1,14 @@
-import { Download, Plus, Pencil, Trash2 } from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
-import { PageHeader } from "@/components/ui/page-header";
-import { Button } from "@/components/ui/button";
+import { Download, Plus, Pencil, Trash2 } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
+import { PageHeader } from '@/components/ui/page-header';
+import { Button } from '@/components/ui/button';
 
 export default function PageHeaderDemo() {
   return (
     <>
-      <DemoSection title="List page" code={`import { PageHeader } from "@/components/ui/page-header"
+      <DemoSection
+        title="List page"
+        code={`import { PageHeader } from "@/components/ui/page-header"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
@@ -22,7 +24,8 @@ import { Plus } from "lucide-react"
       </Button>
     </>
   }
-/>`}>
+/>`}
+      >
         <PageHeader
           title="Employees"
           description="Manage your team members and their information."
@@ -65,10 +68,7 @@ import { Plus } from "lucide-react"
       </DemoSection>
 
       <DemoSection title="With description, no actions">
-        <PageHeader
-          title="Dashboard"
-          description="Overview of key metrics and recent activity."
-        />
+        <PageHeader title="Dashboard" description="Overview of key metrics and recent activity." />
       </DemoSection>
     </>
   );

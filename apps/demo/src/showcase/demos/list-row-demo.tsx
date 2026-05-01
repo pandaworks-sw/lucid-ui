@@ -1,17 +1,17 @@
-import { Mail, Trash2 } from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { CodeLabel } from "@/components/ui/code-label";
-import { ListRow } from "@/components/ui/list-row";
+import { Mail, Trash2 } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { CodeLabel } from '@/components/ui/code-label';
+import { ListRow } from '@/components/ui/list-row';
 
 const TEAM = [
-  { id: "1", name: "Ahmad Razif", role: "Engineering Lead", initials: "AR" },
-  { id: "2", name: "Lee Wei Ming", role: "Senior Engineer", initials: "LW" },
-  { id: "3", name: "Nurul Izzah", role: "UX Designer", initials: "NI" },
-  { id: "4", name: "David Chen", role: "Frontend Engineer", initials: "DC" },
+  { id: '1', name: 'Ahmad Razif', role: 'Engineering Lead', initials: 'AR' },
+  { id: '2', name: 'Lee Wei Ming', role: 'Senior Engineer', initials: 'LW' },
+  { id: '3', name: 'Nurul Izzah', role: 'UX Designer', initials: 'NI' },
+  { id: '4', name: 'David Chen', role: 'Frontend Engineer', initials: 'DC' },
 ];
 
 export default function ListRowDemo() {
@@ -39,7 +39,11 @@ export default function ListRowDemo() {
                 }
                 title={m.name}
                 subtitle={m.role}
-                trailing={<Badge variant="success" dot>Active</Badge>}
+                trailing={
+                  <Badge variant="success" dot>
+                    Active
+                  </Badge>
+                }
               />
             ))}
           </CardContent>
@@ -72,9 +76,7 @@ export default function ListRowDemo() {
                 }
                 title={m.name}
                 subtitle={m.role}
-                trailing={
-                  <span className="text-xs text-muted-foreground">Click me</span>
-                }
+                trailing={<span className="text-xs text-muted-foreground">Click me</span>}
               />
             ))}
           </CardContent>

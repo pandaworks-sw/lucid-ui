@@ -1,7 +1,7 @@
-import { Inbox, FolderKanban, Users } from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
-import { EmptyState } from "@/components/ui/empty-state";
-import { Button } from "@/components/ui/button";
+import { Inbox, FolderKanban, Users } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Button } from '@/components/ui/button';
 
 export default function EmptyStateDemo() {
   return (
@@ -29,13 +29,13 @@ export default function EmptyStateDemo() {
 
       <DemoSection title="Sizes">
         <div className="space-y-3">
-          {(["sm", "md", "lg"] as const).map((size) => (
+          {(['sm', 'md', 'lg'] as const).map((size) => (
             <div key={size} className="rounded-lg border">
               <EmptyState
                 size={size}
                 icon={<Inbox />}
                 title={`Inbox · size="${size}"`}
-                description={size === "lg" ? "Plenty of breathing room for hero empties." : undefined}
+                description={size === 'lg' ? 'Plenty of breathing room for hero empties.' : undefined}
               />
             </div>
           ))}

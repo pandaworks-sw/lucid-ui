@@ -1,1 +1,1 @@
-export * from "./connection-banner"
+export * from './connection-banner';

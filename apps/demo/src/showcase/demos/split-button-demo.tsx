@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Save,
   FileText,
@@ -11,8 +11,8 @@ import {
   Mail,
   Clock,
   CheckCircle2,
-} from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
+} from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
 import {
   SplitButton,
   SplitButtonAction,
@@ -20,7 +20,7 @@ import {
   SplitButtonMenuItem,
   SplitButtonMenuSeparator,
   SplitButtonMenuLabel,
-} from "@/components/ui/split-button";
+} from '@/components/ui/split-button';
 
 export default function SplitButtonDemo() {
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,9 @@ export default function SplitButtonDemo() {
 
   return (
     <div className="space-y-8">
-      <DemoSection title="Basic" code={`import { Save, FileText, Send } from "lucide-react"
+      <DemoSection
+        title="Basic"
+        code={`import { Save, FileText, Send } from "lucide-react"
 import {
   SplitButton,
   SplitButtonAction,
@@ -52,7 +54,8 @@ import {
       <Send /> Save and Submit
     </SplitButtonMenuItem>
   </SplitButtonMenu>
-</SplitButton>`}>
+</SplitButton>`}
+      >
         <div className="flex flex-wrap items-center gap-4">
           <SplitButton>
             <SplitButtonAction onClick={() => {}}>
@@ -159,9 +162,7 @@ import {
               <SplitButtonMenuItem>Save and Submit</SplitButtonMenuItem>
             </SplitButtonMenu>
           </SplitButton>
-          <span className="text-sm text-muted-foreground">
-            Click to simulate a 2s loading state
-          </span>
+          <span className="text-sm text-muted-foreground">Click to simulate a 2s loading state</span>
         </div>
       </DemoSection>
 

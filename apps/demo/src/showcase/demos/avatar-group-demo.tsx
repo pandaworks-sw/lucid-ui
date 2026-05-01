@@ -1,15 +1,15 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarGroup } from "@/components/ui/avatar-group";
+import { DemoSection } from '@/showcase/component-page';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { AvatarGroup } from '@/components/ui/avatar-group';
 
 const TEAM = [
-  { id: "1", initials: "AR" },
-  { id: "2", initials: "BK" },
-  { id: "3", initials: "CL" },
-  { id: "4", initials: "DM" },
-  { id: "5", initials: "EN" },
-  { id: "6", initials: "FT" },
-  { id: "7", initials: "GH" },
+  { id: '1', initials: 'AR' },
+  { id: '2', initials: 'BK' },
+  { id: '3', initials: 'CL' },
+  { id: '4', initials: 'DM' },
+  { id: '5', initials: 'EN' },
+  { id: '6', initials: 'FT' },
+  { id: '7', initials: 'GH' },
 ];
 
 export default function AvatarGroupDemo() {
@@ -46,11 +46,9 @@ export default function AvatarGroupDemo() {
 
       <DemoSection title="Sizes">
         <div className="flex flex-col gap-4">
-          {(["xs", "sm", "md", "lg"] as const).map((size) => (
+          {(['xs', 'sm', 'md', 'lg'] as const).map((size) => (
             <div key={size} className="flex items-center gap-3">
-              <span className="w-12 text-xs font-medium text-muted-foreground">
-                {size}
-              </span>
+              <span className="w-12 text-xs font-medium text-muted-foreground">{size}</span>
               <AvatarGroup size={size} max={4}>
                 {TEAM.map((m) => (
                   <Avatar key={m.id}>

@@ -1,59 +1,41 @@
 // PURE Settings — see pure-shared.tsx header for rules.
 
-import { useState } from "react";
-import { Bell, Building2, Key, Shield, User, X } from "lucide-react";
-import { toast } from "sonner";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { CodeLabel } from "@/components/ui/code-label";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ListRow } from "@/components/ui/list-row";
-import { PageHeader } from "@/components/ui/page-header";
-import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "../saas/router";
-import { useStore } from "../saas/store";
+import { useState } from 'react';
+import { Bell, Building2, Key, Shield, User, X } from 'lucide-react';
+import { toast } from 'sonner';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { CodeLabel } from '@/components/ui/code-label';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ListRow } from '@/components/ui/list-row';
+import { PageHeader } from '@/components/ui/page-header';
+import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { useRouter } from '../saas/router';
+import { useStore } from '../saas/store';
 
-const TAB_VALUES = ["profile", "workspace", "notifications", "security", "api"] as const;
+const TAB_VALUES = ['profile', 'workspace', 'notifications', 'security', 'api'] as const;
 type Tab = (typeof TAB_VALUES)[number];
 
 export function Settings() {
   const { route, navigate } = useRouter();
   const { currentUser } = useStore();
-  const tab =
-    route.name === "settings" && TAB_VALUES.includes(route.tab as Tab)
-      ? (route.tab as Tab)
-      : "profile";
+  const tab = route.name === 'settings' && TAB_VALUES.includes(route.tab as Tab) ? (route.tab as Tab) : 'profile';
 
   function setTab(next: Tab) {
-    navigate({ name: "settings", tab: next });
+    navigate({ name: 'settings', tab: next });
   }
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Settings"
-        description="Manage your profile, workspace, and security preferences."
-      />
+      <PageHeader title="Settings" description="Manage your profile, workspace, and security preferences." />
 
       <Tabs
         value={tab}
@@ -109,9 +91,7 @@ export function Settings() {
 function ProfileSection({ defaultName, defaultEmail }: { defaultName: string; defaultEmail: string }) {
   const [name, setName] = useState(defaultName);
   const [email, setEmail] = useState(defaultEmail);
-  const [bio, setBio] = useState(
-    "Staff engineer leading the Atlas platform migration and Luna billing rewrite.",
-  );
+  const [bio, setBio] = useState('Staff engineer leading the Atlas platform migration and Luna billing rewrite.');
 
   return (
     <Card>
@@ -124,30 +104,16 @@ function ProfileSection({ defaultName, defaultEmail }: { defaultName: string; de
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="grid gap-2">
             <Label htmlFor="profile-name">Name</Label>
-            <Input
-              id="profile-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <Input id="profile-name" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="profile-email">Email</Label>
-            <Input
-              id="profile-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Input id="profile-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
         </div>
         <div className="grid gap-2">
           <Label htmlFor="profile-bio">Bio</Label>
-          <Textarea
-            id="profile-bio"
-            rows={3}
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
+          <Textarea id="profile-bio" rows={3} value={bio} onChange={(e) => setBio(e.target.value)} />
         </div>
         <div className="flex items-center justify-end gap-2 pt-2">
           <Button
@@ -159,7 +125,7 @@ function ProfileSection({ defaultName, defaultEmail }: { defaultName: string; de
           >
             Reset
           </Button>
-          <Button variant="brand" action="save" onClick={() => toast.success("Profile saved")} />
+          <Button variant="brand" action="save" onClick={() => toast.success('Profile saved')} />
         </div>
       </CardContent>
     </Card>
@@ -167,9 +133,9 @@ function ProfileSection({ defaultName, defaultEmail }: { defaultName: string; de
 }
 
 function WorkspaceSection() {
-  const [name, setName] = useState("Pandawork");
-  const [slug, setSlug] = useState("pandawork");
-  const [timezone, setTimezone] = useState("Asia/Kuala_Lumpur");
+  const [name, setName] = useState('Pandawork');
+  const [slug, setSlug] = useState('pandawork');
+  const [timezone, setTimezone] = useState('Asia/Kuala_Lumpur');
 
   return (
     <Card>
@@ -205,7 +171,7 @@ function WorkspaceSection() {
           </Select>
         </div>
         <div className="flex items-center justify-end gap-2 pt-2">
-          <Button variant="brand" action="save" onClick={() => toast.success("Workspace saved")} />
+          <Button variant="brand" action="save" onClick={() => toast.success('Workspace saved')} />
         </div>
       </CardContent>
     </Card>
@@ -278,7 +244,7 @@ function NotificationsSection() {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <Button variant="brand" action="save" onClick={() => toast.success("Preferences saved")} />
+          <Button variant="brand" action="save" onClick={() => toast.success('Preferences saved')} />
         </div>
       </CardContent>
     </Card>
@@ -349,23 +315,17 @@ function SecuritySection() {
       <Alert variant="destructive">
         <AlertTitle>Danger zone</AlertTitle>
         <AlertDescription>
-          Deleting the workspace removes all projects, tasks, and member access. This action cannot
-          be undone.
+          Deleting the workspace removes all projects, tasks, and member access. This action cannot be undone.
         </AlertDescription>
       </Alert>
 
       <Card className="border-destructive/40">
         <CardHeader>
           <CardTitle className="text-base text-destructive">Delete workspace</CardTitle>
-          <CardDescription>
-            This permanently removes every project, task, and file in this workspace.
-          </CardDescription>
+          <CardDescription>This permanently removes every project, task, and file in this workspace.</CardDescription>
         </CardHeader>
         <CardContent className="flex justify-end">
-          <Button
-            variant="destructive"
-            onClick={() => toast.error("Demo only — nothing was deleted")}
-          >
+          <Button variant="destructive" onClick={() => toast.error('Demo only — nothing was deleted')}>
             Delete workspace
           </Button>
         </CardContent>
@@ -377,31 +337,31 @@ function SecuritySection() {
 function ApiKeysSection() {
   const [keys, setKeys] = useState([
     {
-      id: "k1",
-      name: "Production · Atlas",
-      value: "pw_live_sk_7fc2••••c341",
-      scope: "read-write",
-      created: "2026-02-11",
+      id: 'k1',
+      name: 'Production · Atlas',
+      value: 'pw_live_sk_7fc2••••c341',
+      scope: 'read-write',
+      created: '2026-02-11',
     },
     {
-      id: "k2",
-      name: "Staging · Luna",
-      value: "pw_test_sk_a41d••••88ef",
-      scope: "read-only",
-      created: "2026-03-04",
+      id: 'k2',
+      name: 'Staging · Luna',
+      value: 'pw_test_sk_a41d••••88ef',
+      scope: 'read-only',
+      created: '2026-03-04',
     },
   ]);
 
   function createKey() {
     const next = {
       id: `k${Date.now()}`,
-      name: "New key",
+      name: 'New key',
       value: `pw_live_sk_${Math.random().toString(16).slice(2, 6)}••••${Math.random().toString(16).slice(2, 6)}`,
-      scope: "read-only",
+      scope: 'read-only',
       created: new Date().toISOString().slice(0, 10),
     };
     setKeys((prev) => [next, ...prev]);
-    toast.success("API key created", { description: "Copy it now — you won't see it again." });
+    toast.success('API key created', { description: "Copy it now — you won't see it again." });
   }
 
   return (
@@ -440,7 +400,7 @@ function ApiKeysSection() {
                   size="icon-sm"
                   onClick={() => {
                     setKeys((prev) => prev.filter((k) => k.id !== key.id));
-                    toast("Key revoked");
+                    toast('Key revoked');
                   }}
                   aria-label="Revoke key"
                 >

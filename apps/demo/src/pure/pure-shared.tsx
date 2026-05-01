@@ -7,10 +7,10 @@
 //   - Layout-only wrappers (e.g. mapping a domain enum to a registry variant)
 //     are allowed; new visual styling is not.
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarGroup } from "@/components/ui/avatar-group";
-import { Badge } from "@/components/ui/badge";
-import type { Member, Priority, ProjectStatus, TaskStatus } from "../saas/types";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { AvatarGroup } from '@/components/ui/avatar-group';
+import { Badge } from '@/components/ui/badge';
+import type { Member, Priority, ProjectStatus, TaskStatus } from '../saas/types';
 
 // -----------------------------------------------------------------------------
 // Formatters (data layer — same as saas)
@@ -18,23 +18,23 @@ import type { Member, Priority, ProjectStatus, TaskStatus } from "../saas/types"
 
 export function initials(name: string) {
   return name
-    .split(" ")
+    .split(' ')
     .map((p) => p[0])
     .filter(Boolean)
     .slice(0, 2)
-    .join("")
+    .join('')
     .toUpperCase();
 }
 
 export function formatDate(value: string | Date) {
-  const d = typeof value === "string" ? new Date(value) : value;
-  return d.toLocaleDateString("en-MY", { year: "numeric", month: "short", day: "numeric" });
+  const d = typeof value === 'string' ? new Date(value) : value;
+  return d.toLocaleDateString('en-MY', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
 export function formatCurrency(value: number) {
-  return new Intl.NumberFormat("en-MY", {
-    style: "currency",
-    currency: "USD",
+  return new Intl.NumberFormat('en-MY', {
+    style: 'currency',
+    currency: 'USD',
     maximumFractionDigits: 0,
   }).format(value);
 }
@@ -43,7 +43,7 @@ export function relativeTime(iso: string) {
   const then = new Date(iso).getTime();
   const now = Date.now();
   const diff = Math.round((now - then) / 1000);
-  if (diff < 60) return "just now";
+  if (diff < 60) return 'just now';
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
   if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
@@ -54,20 +54,20 @@ export function relativeTime(iso: string) {
 // Status / priority badges — domain enum → Badge variant
 // -----------------------------------------------------------------------------
 
-type BadgeVariant = "default" | "secondary" | "destructive" | "outline" | "success" | "warning" | "info" | "muted";
+type BadgeVariant = 'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info' | 'muted';
 
 const PROJECT_STATUS_VARIANT: Record<ProjectStatus, BadgeVariant> = {
-  active: "success",
-  planning: "info",
-  "on-hold": "warning",
-  completed: "muted",
+  active: 'success',
+  planning: 'info',
+  'on-hold': 'warning',
+  completed: 'muted',
 };
 
 const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
-  active: "Active",
-  planning: "Planning",
-  "on-hold": "On Hold",
-  completed: "Completed",
+  active: 'Active',
+  planning: 'Planning',
+  'on-hold': 'On Hold',
+  completed: 'Completed',
 };
 
 export function StatusBadge({ status }: { status: ProjectStatus }) {
@@ -79,17 +79,17 @@ export function StatusBadge({ status }: { status: ProjectStatus }) {
 }
 
 const TASK_STATUS_VARIANT: Record<TaskStatus, BadgeVariant> = {
-  todo: "muted",
-  "in-progress": "info",
-  review: "warning",
-  done: "success",
+  todo: 'muted',
+  'in-progress': 'info',
+  review: 'warning',
+  done: 'success',
 };
 
 const TASK_STATUS_LABEL: Record<TaskStatus, string> = {
-  todo: "To Do",
-  "in-progress": "In Progress",
-  review: "In Review",
-  done: "Done",
+  todo: 'To Do',
+  'in-progress': 'In Progress',
+  review: 'In Review',
+  done: 'Done',
 };
 
 export function TaskStatusBadge({ status }: { status: TaskStatus }) {
@@ -101,23 +101,21 @@ export function TaskStatusBadge({ status }: { status: TaskStatus }) {
 }
 
 const PRIORITY_VARIANT: Record<Priority, BadgeVariant> = {
-  urgent: "destructive",
-  high: "warning",
-  medium: "info",
-  low: "muted",
+  urgent: 'destructive',
+  high: 'warning',
+  medium: 'info',
+  low: 'muted',
 };
 
 const PRIORITY_LABEL: Record<Priority, string> = {
-  urgent: "Urgent",
-  high: "High",
-  medium: "Medium",
-  low: "Low",
+  urgent: 'Urgent',
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
 };
 
 export function PriorityBadge({ priority }: { priority: Priority }) {
-  return (
-    <Badge variant={PRIORITY_VARIANT[priority]}>{PRIORITY_LABEL[priority]}</Badge>
-  );
+  return <Badge variant={PRIORITY_VARIANT[priority]}>{PRIORITY_LABEL[priority]}</Badge>;
 }
 
 // -----------------------------------------------------------------------------
@@ -125,17 +123,17 @@ export function PriorityBadge({ priority }: { priority: Priority }) {
 // -----------------------------------------------------------------------------
 
 const AVATAR_SIZES = {
-  xs: "size-5 text-xs",
-  sm: "size-7 text-xs",
-  md: "size-9 text-sm",
-  lg: "size-14 text-base",
+  xs: 'size-5 text-xs',
+  sm: 'size-7 text-xs',
+  md: 'size-9 text-sm',
+  lg: 'size-14 text-base',
 } as const;
 
 type AvatarSize = keyof typeof AVATAR_SIZES;
 
 export function MemberAvatar({
   member,
-  size = "sm",
+  size = 'sm',
   className,
 }: {
   member?: Member;
@@ -143,25 +141,13 @@ export function MemberAvatar({
   className?: string;
 }) {
   return (
-    <Avatar className={[AVATAR_SIZES[size], className].filter(Boolean).join(" ")}>
-      {member ? (
-        <AvatarFallback colorize>{initials(member.name)}</AvatarFallback>
-      ) : (
-        <AvatarFallback>?</AvatarFallback>
-      )}
+    <Avatar className={[AVATAR_SIZES[size], className].filter(Boolean).join(' ')}>
+      {member ? <AvatarFallback colorize>{initials(member.name)}</AvatarFallback> : <AvatarFallback>?</AvatarFallback>}
     </Avatar>
   );
 }
 
-export function MemberStack({
-  members,
-  max = 4,
-  size = "sm",
-}: {
-  members: Member[];
-  max?: number;
-  size?: AvatarSize;
-}) {
+export function MemberStack({ members, max = 4, size = 'sm' }: { members: Member[]; max?: number; size?: AvatarSize }) {
   // AvatarGroup handles the +N overflow tile and ring spacing — pure-showcase
   // just provides the data → Avatar mapping.
   return (
@@ -175,18 +161,10 @@ export function MemberStack({
   );
 }
 
-export function ProjectTile({
-  member,
-  label,
-  size = "md",
-}: {
-  member?: Member;
-  label: string;
-  size?: AvatarSize;
-}) {
+export function ProjectTile({ member, label, size = 'md' }: { member?: Member; label: string; size?: AvatarSize }) {
   return (
     <Avatar shape="square" className={AVATAR_SIZES[size]}>
-      <AvatarFallback colorize>{member ? label : "??"}</AvatarFallback>
+      <AvatarFallback colorize>{member ? label : '??'}</AvatarFallback>
     </Avatar>
   );
 }

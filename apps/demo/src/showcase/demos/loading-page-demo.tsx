@@ -1,22 +1,16 @@
-import { DemoSection } from "@/showcase/component-page";
-import { LoadingPage } from "@/components/ui/loading-page";
+import { DemoSection } from '@/showcase/component-page';
+import { LoadingPage } from '@/components/ui/loading-page';
 
 export default function LoadingPageDemo() {
   return (
     <>
-      <DemoSection
-        title="Default"
-        code={`<LoadingPage />`}
-      >
+      <DemoSection title="Default" code={`<LoadingPage />`}>
         <div className="h-48">
           <LoadingPage />
         </div>
       </DemoSection>
 
-      <DemoSection
-        title="Custom message"
-        code={`<LoadingPage message="Fetching your data..." />`}
-      >
+      <DemoSection title="Custom message" code={`<LoadingPage message="Fetching your data..." />`}>
         <div className="h-48">
           <LoadingPage message="Fetching your data..." />
         </div>

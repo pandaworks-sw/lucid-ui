@@ -1,66 +1,54 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DemoSection } from '@/showcase/component-page';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const employees = [
   {
-    id: "EMP-001",
-    name: "Sarah Johnson",
-    department: "Engineering",
-    role: "Senior Developer",
-    status: "Active",
+    id: 'EMP-001',
+    name: 'Sarah Johnson',
+    department: 'Engineering',
+    role: 'Senior Developer',
+    status: 'Active',
   },
   {
-    id: "EMP-002",
-    name: "Michael Chen",
-    department: "Design",
-    role: "UI/UX Designer",
-    status: "Active",
+    id: 'EMP-002',
+    name: 'Michael Chen',
+    department: 'Design',
+    role: 'UI/UX Designer',
+    status: 'Active',
   },
   {
-    id: "EMP-003",
-    name: "Emily Davis",
-    department: "Marketing",
-    role: "Marketing Manager",
-    status: "On Leave",
+    id: 'EMP-003',
+    name: 'Emily Davis',
+    department: 'Marketing',
+    role: 'Marketing Manager',
+    status: 'On Leave',
   },
   {
-    id: "EMP-004",
-    name: "James Wilson",
-    department: "Engineering",
-    role: "DevOps Engineer",
-    status: "Active",
+    id: 'EMP-004',
+    name: 'James Wilson',
+    department: 'Engineering',
+    role: 'DevOps Engineer',
+    status: 'Active',
   },
   {
-    id: "EMP-005",
-    name: "Priya Patel",
-    department: "HR",
-    role: "HR Specialist",
-    status: "Active",
+    id: 'EMP-005',
+    name: 'Priya Patel',
+    department: 'HR',
+    role: 'HR Specialist',
+    status: 'Active',
   },
   {
-    id: "EMP-006",
-    name: "Robert Kim",
-    department: "Finance",
-    role: "Financial Analyst",
-    status: "Inactive",
+    id: 'EMP-006',
+    name: 'Robert Kim',
+    department: 'Finance',
+    role: 'Financial Analyst',
+    status: 'Inactive',
   },
 ];
 
 function StatusBadge({ status }: { status: string }) {
-  const variant =
-    status === "Active"
-      ? "default"
-      : status === "On Leave"
-        ? "secondary"
-        : "outline";
+  const variant = status === 'Active' ? 'default' : status === 'On Leave' ? 'secondary' : 'outline';
 
   return <Badge variant={variant}>{status}</Badge>;
 }
@@ -68,7 +56,9 @@ function StatusBadge({ status }: { status: string }) {
 export default function TableDemo() {
   return (
     <>
-      <DemoSection title="Employee Table" code={`import {
+      <DemoSection
+        title="Employee Table"
+        code={`import {
   Table, TableBody, TableCell,
   TableHead, TableHeader, TableRow,
 } from "@/components/ui/table"
@@ -88,7 +78,8 @@ export default function TableDemo() {
       <TableCell>Active</TableCell>
     </TableRow>
   </TableBody>
-</Table>`}>
+</Table>`}
+      >
         <Table>
           <TableHeader>
             <TableRow>

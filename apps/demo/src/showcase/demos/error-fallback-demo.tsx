@@ -1,9 +1,9 @@
-import { DemoSection } from "@/showcase/component-page";
-import { ErrorFallback } from "@/components/ui/error-fallback";
-import { Button } from "@/components/ui/button";
+import { DemoSection } from '@/showcase/component-page';
+import { ErrorFallback } from '@/components/ui/error-fallback';
+import { Button } from '@/components/ui/button';
 
 const sampleError = new Error("TypeError: Cannot read properties of undefined (reading 'map')");
-const handleReset = () => alert("Reset clicked");
+const handleReset = () => alert('Reset clicked');
 
 export default function ErrorFallbackDemo() {
   return (
@@ -16,12 +16,7 @@ export default function ErrorFallbackDemo() {
   variant="root"
 />`}
       >
-        <ErrorFallback
-          error={sampleError}
-          onReset={handleReset}
-          variant="root"
-          className="min-h-75"
-        />
+        <ErrorFallback error={sampleError} onReset={handleReset} variant="root" className="min-h-75" />
       </DemoSection>
 
       <DemoSection
@@ -32,11 +27,7 @@ export default function ErrorFallbackDemo() {
   variant="route"
 />`}
       >
-        <ErrorFallback
-          error={sampleError}
-          onReset={handleReset}
-          variant="route"
-        />
+        <ErrorFallback error={sampleError} onReset={handleReset} variant="route" />
       </DemoSection>
 
       <DemoSection
@@ -47,12 +38,7 @@ export default function ErrorFallbackDemo() {
   showDevDetails
 />`}
       >
-        <ErrorFallback
-          error={sampleError}
-          onReset={handleReset}
-          variant="route"
-          showDevDetails
-        />
+        <ErrorFallback error={sampleError} onReset={handleReset} variant="route" showDevDetails />
       </DemoSection>
 
       <DemoSection
@@ -69,7 +55,7 @@ export default function ErrorFallbackDemo() {
           onReset={handleReset}
           variant="route"
           secondaryAction={
-            <Button className="flex-1" onClick={() => alert("Navigate to dashboard")}>
+            <Button className="flex-1" onClick={() => alert('Navigate to dashboard')}>
               Go to Dashboard
             </Button>
           }

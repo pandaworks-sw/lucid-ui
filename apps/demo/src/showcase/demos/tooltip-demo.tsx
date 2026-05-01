@@ -1,16 +1,13 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { DemoSection } from "@/showcase/component-page";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function TooltipDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Tooltip Positions" code={`import {
+      <DemoSection
+        title="Tooltip Positions"
+        code={`import {
   Tooltip, TooltipContent,
   TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip"
@@ -25,7 +22,8 @@ import { Button } from "@/components/ui/button"
       <p>Tooltip text</p>
     </TooltipContent>
   </Tooltip>
-</TooltipProvider>`}>
+</TooltipProvider>`}
+      >
         <TooltipProvider>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Tooltip>

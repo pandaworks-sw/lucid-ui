@@ -1,1 +1,1 @@
-export * from "./attachment-input"
+export * from './attachment-input';

@@ -1,45 +1,38 @@
-import { useMemo, useState } from "react";
-import { Filter, Mail, MapPin, MoreHorizontal, Search, Sparkles, UserPlus, Users } from "lucide-react";
-import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMemo, useState } from 'react';
+import { Filter, Mail, MapPin, MoreHorizontal, Search, Sparkles, UserPlus, Users } from 'lucide-react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PageHeader } from "@/components/ui/page-header";
-import { SearchInput } from "@/components/ui/search-input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { SelectPicker } from "@/components/ui/select-picker";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { useStore } from "./store";
-import { useRouter } from "./router";
-import { MemberAvatar, MemberStack } from "./shared";
-import type { Member } from "./types";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PageHeader } from '@/components/ui/page-header';
+import { SearchInput } from '@/components/ui/search-input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { SelectPicker } from '@/components/ui/select-picker';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { useStore } from './store';
+import { useRouter } from './router';
+import { MemberAvatar, MemberStack } from './shared';
+import type { Member } from './types';
 
-const DEPARTMENTS = ["Engineering", "Design", "Product", "Operations", "Marketing"] as const;
+const DEPARTMENTS = ['Engineering', 'Design', 'Product', 'Operations', 'Marketing'] as const;
 
 export function Team() {
   const { members, projects } = useStore();
   const { navigate } = useRouter();
-  const [search, setSearch] = useState("");
-  const [dept, setDept] = useState<"all" | (typeof DEPARTMENTS)[number]>("all");
+  const [search, setSearch] = useState('');
+  const [dept, setDept] = useState<'all' | (typeof DEPARTMENTS)[number]>('all');
   const [inviteOpen, setInviteOpen] = useState(false);
 
   const projectsByMember = useMemo(() => {
@@ -59,7 +52,7 @@ export function Team() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return members.filter((m) => {
-      if (dept !== "all" && m.department !== dept) return false;
+      if (dept !== 'all' && m.department !== dept) return false;
       if (!q) return true;
       return `${m.name} ${m.email} ${m.role} ${m.department}`.toLowerCase().includes(q);
     });
@@ -92,11 +85,7 @@ export function Team() {
               <CardTitle className="text-xl">{deptCounts.get(d) ?? 0}</CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <MemberStack
-                members={members.filter((m) => m.department === d)}
-                size="xs"
-                max={4}
-              />
+              <MemberStack members={members.filter((m) => m.department === d)} size="xs" max={4} />
             </CardContent>
           </Card>
         ))}
@@ -133,7 +122,10 @@ export function Team() {
             const pids = projectsByMember.get(member.id) ?? [];
             const memberProjects = pids.map((id) => projectById[id]).filter(Boolean);
             return (
-              <Card key={member.id} className="border-border/50 bg-background/60 shadow-none transition-colors hover:bg-background/80 dark:border-border">
+              <Card
+                key={member.id}
+                className="border-border/50 bg-background/60 shadow-none transition-colors hover:bg-background/80 dark:border-border"
+              >
                 <CardHeader className="flex flex-row items-start gap-3 pb-2">
                   <MemberAvatar member={member} size="md" />
                   <div className="min-w-0 flex-1">
@@ -150,14 +142,12 @@ export function Team() {
                     </p>
                     <p className="flex items-center gap-1.5">
                       <MapPin className="size-3" />
-                      {member.timezone.replace(/_/g, " ")}
+                      {member.timezone.replace(/_/g, ' ')}
                     </p>
                   </div>
                   <Separator />
                   <div className="space-y-1">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                      Projects
-                    </p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Projects</p>
                     {memberProjects.length === 0 ? (
                       <p className="text-xs text-muted-foreground">Not assigned to any project.</p>
                     ) : (
@@ -166,7 +156,7 @@ export function Team() {
                           <button
                             key={p.id}
                             type="button"
-                            onClick={() => navigate({ name: "project", id: p.id })}
+                            onClick={() => navigate({ name: 'project', id: p.id })}
                             className="rounded border bg-muted/50 px-1.5 py-0.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                           >
                             {p.key}
@@ -190,7 +180,14 @@ export function Team() {
                 <Users className="size-5" />
               </div>
               <p className="text-sm font-medium">No members match this filter.</p>
-              <Button size="sm" variant="outline" onClick={() => { setDept("all"); setSearch(""); }}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  setDept('all');
+                  setSearch('');
+                }}
+              >
                 Reset filters
               </Button>
             </div>
@@ -216,7 +213,7 @@ function MemberActions({ member }: { member: Member }) {
           <Mail className="size-4" />
           Message
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => toast("Profile opened")}>
+        <DropdownMenuItem onClick={() => toast('Profile opened')}>
           <Search className="size-4" />
           View profile
         </DropdownMenuItem>
@@ -227,26 +224,26 @@ function MemberActions({ member }: { member: Member }) {
 
 function InviteSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const { projects } = useStore();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [department, setDepartment] = useState<string>("Engineering");
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [department, setDepartment] = useState<string>('Engineering');
   const [projectIds, setProjectIds] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   function reset() {
-    setEmail("");
-    setName("");
-    setRole("");
-    setDepartment("Engineering");
+    setEmail('');
+    setName('');
+    setRole('');
+    setDepartment('Engineering');
     setProjectIds([]);
-    setMessage("");
+    setMessage('');
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    toast.success("Invite sent", {
-      description: `${email} will join as ${role || "teammate"} in ${department}.`,
+    toast.success('Invite sent', {
+      description: `${email} will join as ${role || 'teammate'} in ${department}.`,
     });
     onOpenChange(false);
     reset();
@@ -258,12 +255,10 @@ function InviteSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (ope
         <form onSubmit={handleSubmit} className="flex h-full flex-col">
           <SheetHeader className="pb-4">
             <SheetTitle>Invite a teammate</SheetTitle>
-            <SheetDescription>
-              They'll get an email with a link to join your workspace.
-            </SheetDescription>
+            <SheetDescription>They'll get an email with a link to join your workspace.</SheetDescription>
           </SheetHeader>
 
-          <div className={cn("flex-1 space-y-6 overflow-y-auto pr-1")}>
+          <div className={cn('flex-1 space-y-6 overflow-y-auto pr-1')}>
             <div className="space-y-3">
               <div className="grid gap-2">
                 <Label htmlFor="invite-email">Work email</Label>

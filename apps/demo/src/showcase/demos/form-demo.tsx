@@ -1,29 +1,21 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { DemoSection } from "@/showcase/component-page";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { DemoSection } from '@/showcase/component-page';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const emailSchema = z.object({
-  email: z.string().email("Enter a valid email address."),
+  email: z.string().email('Enter a valid email address.'),
 });
 
 type EmailFormValues = z.infer<typeof emailSchema>;
 
 const profileSchema = z.object({
-  displayName: z.string().min(2, "Name must be at least 2 characters."),
-  bio: z.string().max(200, "Bio must be 200 characters or less.").optional(),
+  displayName: z.string().min(2, 'Name must be at least 2 characters.'),
+  bio: z.string().max(200, 'Bio must be 200 characters or less.').optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -75,7 +67,7 @@ const form = useForm({
 function EmailFormExample() {
   const form = useForm<EmailFormValues>({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: "" },
+    defaultValues: { email: '' },
   });
 
   return (
@@ -141,7 +133,7 @@ const fieldsCode = `const schema = z.object({
 function ProfileFormExample() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues: { displayName: "", bio: "" },
+    defaultValues: { displayName: '', bio: '' },
   });
 
   return (
@@ -186,8 +178,8 @@ export default function FormDemo() {
       <DemoSection title="Overview" code={overviewCode}>
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            The Form primitives wire react-hook-form fields to labels, descriptions, and error
-            messages with consistent spacing and accessibility.
+            The Form primitives wire react-hook-form fields to labels, descriptions, and error messages with consistent
+            spacing and accessibility.
           </p>
           <EmailFormExample />
         </div>

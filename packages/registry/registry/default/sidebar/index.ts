@@ -1,1 +1,1 @@
-export * from "../app-shell/sidebar"
+export * from '../app-shell/sidebar';

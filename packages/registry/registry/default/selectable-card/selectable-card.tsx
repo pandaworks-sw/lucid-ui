@@ -1,10 +1,10 @@
-import { type ReactNode } from "react";
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { cva, type VariantProps } from "class-variance-authority";
-import { CheckIcon, CircleIcon } from "lucide-react";
+import { type ReactNode } from 'react';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { CheckIcon, CircleIcon } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const selectableCardVariants = cva(
   'group flex w-full cursor-pointer items-center rounded-lg border border-border/70 bg-card text-left shadow-xs outline-none transition-[color,border-color,box-shadow,background-color] duration-150 hover:border-primary/50 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/5 data-[state=checked]:ring-1 data-[state=checked]:ring-primary/20 dark:border-border dark:data-[state=checked]:bg-primary/10',
@@ -28,12 +28,9 @@ const indicatorSizes = {
   lg: { outer: 'size-5', inner: 'size-2.5', check: 'size-3.5' },
 } as const;
 
-type SelectableCardSize = NonNullable<
-  VariantProps<typeof selectableCardVariants>['size']
->;
+type SelectableCardSize = NonNullable<VariantProps<typeof selectableCardVariants>['size']>;
 
-interface SelectableCardBaseProps
-  extends VariantProps<typeof selectableCardVariants> {
+interface SelectableCardBaseProps extends VariantProps<typeof selectableCardVariants> {
   children: ReactNode;
   className?: string;
   disabled?: boolean;
@@ -51,9 +48,7 @@ interface SelectableCardCheckboxProps extends SelectableCardBaseProps {
   value?: never;
 }
 
-type SelectableCardProps =
-  | SelectableCardRadioProps
-  | SelectableCardCheckboxProps;
+type SelectableCardProps = SelectableCardRadioProps | SelectableCardCheckboxProps;
 
 function SelectableCard(props: SelectableCardProps) {
   const { size = 'default', className, disabled, children } = props;
@@ -76,9 +71,7 @@ function SelectableCard(props: SelectableCardProps) {
           )}
         >
           <RadioGroupPrimitive.Indicator className="absolute inset-0 flex items-center justify-center">
-            <CircleIcon
-              className={cn('fill-primary text-primary', sizes.inner)}
-            />
+            <CircleIcon className={cn('fill-primary text-primary', sizes.inner)} />
           </RadioGroupPrimitive.Indicator>
         </div>
       </RadioGroupPrimitive.Item>
@@ -115,8 +108,4 @@ function SelectableCard(props: SelectableCardProps) {
 }
 
 export { SelectableCard, selectableCardVariants };
-export type {
-  SelectableCardProps,
-  SelectableCardRadioProps,
-  SelectableCardCheckboxProps,
-};
+export type { SelectableCardProps, SelectableCardRadioProps, SelectableCardCheckboxProps };

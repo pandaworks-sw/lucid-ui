@@ -6,13 +6,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { DemoSection } from "@/showcase/component-page";
+} from '@/components/ui/breadcrumb';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function BreadcrumbDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import {
+      <DemoSection
+        title="Default"
+        code={`import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink,
   BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
@@ -27,7 +29,8 @@ export default function BreadcrumbDemo() {
       <BreadcrumbPage>Current Page</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
-</Breadcrumb>`}>
+</Breadcrumb>`}
+      >
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

@@ -6,13 +6,15 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { DemoSection } from "@/showcase/component-page";
+} from '@/components/ui/pagination';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function PaginationDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import {
+      <DemoSection
+        title="Default"
+        code={`import {
   Pagination, PaginationContent, PaginationEllipsis,
   PaginationItem, PaginationLink,
   PaginationNext, PaginationPrevious,
@@ -33,7 +35,8 @@ export default function PaginationDemo() {
       <PaginationNext href="#" />
     </PaginationItem>
   </PaginationContent>
-</Pagination>`}>
+</Pagination>`}
+      >
         <Pagination>
           <PaginationContent>
             <PaginationItem>

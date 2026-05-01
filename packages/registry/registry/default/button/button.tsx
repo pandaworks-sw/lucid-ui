@@ -1,6 +1,6 @@
-import { forwardRef, type ButtonHTMLAttributes, type ElementType } from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import { forwardRef, type ButtonHTMLAttributes, type ElementType } from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
 import {
   Archive,
   Copy,
@@ -15,94 +15,82 @@ import {
   Trash2,
   Upload,
   X,
-} from "lucide-react"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 type ButtonAction =
-  | "create"
-  | "edit"
-  | "save"
-  | "delete"
-  | "cancel"
-  | "view"
-  | "export"
-  | "import"
-  | "archive"
-  | "duplicate"
-  | "print"
-  | "link"
+  | 'create'
+  | 'edit'
+  | 'save'
+  | 'delete'
+  | 'cancel'
+  | 'view'
+  | 'export'
+  | 'import'
+  | 'archive'
+  | 'duplicate'
+  | 'print'
+  | 'link';
 
 interface ActionPreset {
-  icon: ElementType
-  variant: NonNullable<VariantProps<typeof buttonVariants>["variant"]>
-  label: string
+  icon: ElementType;
+  variant: NonNullable<VariantProps<typeof buttonVariants>['variant']>;
+  label: string;
 }
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-px active:shadow-none active:transition-none disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  'relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-px active:shadow-none active:transition-none disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
-        brand:
-          "bg-brand text-brand-foreground shadow-xs hover:shadow-sm",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-xs hover:shadow-sm",
-        outline:
-          "border border-border bg-background text-foreground shadow-xs hover:bg-muted hover:shadow-sm",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:shadow-sm",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground active:translate-y-0",
-        link: "text-primary underline-offset-4 hover:underline active:translate-y-0 shadow-none",
+        default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+        brand: 'bg-brand text-brand-foreground shadow-xs hover:shadow-sm',
+        destructive: 'bg-destructive text-destructive-foreground shadow-xs hover:shadow-sm',
+        outline: 'border border-border bg-background text-foreground shadow-xs hover:bg-muted hover:shadow-sm',
+        secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:shadow-sm',
+        ghost: 'hover:bg-accent hover:text-accent-foreground active:translate-y-0',
+        link: 'text-primary underline-offset-4 hover:underline active:translate-y-0 shadow-none',
       },
       size: {
-        default: "h-9 px-4",
-        sm: "h-7 rounded-md px-3 text-xs",
-        lg: "h-11 rounded-md px-6",
-        icon: "h-9 w-9",
-        "icon-sm": "h-8 w-8",
-        "icon-lg": "h-10 w-10",
+        default: 'h-9 px-4',
+        sm: 'h-7 rounded-md px-3 text-xs',
+        lg: 'h-11 rounded-md px-6',
+        icon: 'h-9 w-9',
+        'icon-sm': 'h-8 w-8',
+        'icon-lg': 'h-10 w-10',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
-)
+);
 
 const ACTION_PRESETS: Record<ButtonAction, ActionPreset> = {
-  create: { icon: Plus, variant: "brand", label: "Create" },
-  edit: { icon: Pencil, variant: "outline", label: "Edit" },
-  save: { icon: Save, variant: "brand", label: "Save" },
-  delete: { icon: Trash2, variant: "destructive", label: "Delete" },
-  cancel: { icon: X, variant: "outline", label: "Cancel" },
-  view: { icon: Eye, variant: "ghost", label: "View" },
-  export: { icon: Download, variant: "outline", label: "Export" },
-  import: { icon: Upload, variant: "outline", label: "Import" },
-  archive: { icon: Archive, variant: "secondary", label: "Archive" },
-  duplicate: { icon: Copy, variant: "outline", label: "Duplicate" },
-  print: { icon: Printer, variant: "outline", label: "Print" },
-  link: { icon: ExternalLink, variant: "ghost", label: "Link" },
-}
+  create: { icon: Plus, variant: 'brand', label: 'Create' },
+  edit: { icon: Pencil, variant: 'outline', label: 'Edit' },
+  save: { icon: Save, variant: 'brand', label: 'Save' },
+  delete: { icon: Trash2, variant: 'destructive', label: 'Delete' },
+  cancel: { icon: X, variant: 'outline', label: 'Cancel' },
+  view: { icon: Eye, variant: 'ghost', label: 'View' },
+  export: { icon: Download, variant: 'outline', label: 'Export' },
+  import: { icon: Upload, variant: 'outline', label: 'Import' },
+  archive: { icon: Archive, variant: 'secondary', label: 'Archive' },
+  duplicate: { icon: Copy, variant: 'outline', label: 'Duplicate' },
+  print: { icon: Printer, variant: 'outline', label: 'Print' },
+  link: { icon: ExternalLink, variant: 'ghost', label: 'Link' },
+};
 
-const ICON_SIZES = new Set<ButtonProps["size"]>(["icon", "icon-sm", "icon-lg"])
+const ICON_SIZES = new Set<ButtonProps['size']>(['icon', 'icon-sm', 'icon-lg']);
 
-export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  action?: ButtonAction
-  icon?: ElementType
-  tooltip?: string
-  loading?: boolean
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  action?: ButtonAction;
+  icon?: ElementType;
+  tooltip?: string;
+  loading?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -122,52 +110,45 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const preset = action ? ACTION_PRESETS[action] : undefined
-    const resolvedVariant = variantProp ?? preset?.variant ?? "default"
-    const ResolvedIcon = loading ? Loader2 : (iconProp ?? preset?.icon ?? null)
-    const isIconOnly = ICON_SIZES.has(size)
+    const preset = action ? ACTION_PRESETS[action] : undefined;
+    const resolvedVariant = variantProp ?? preset?.variant ?? 'default';
+    const ResolvedIcon = loading ? Loader2 : (iconProp ?? preset?.icon ?? null);
+    const isIconOnly = ICON_SIZES.has(size);
 
     // Auto-label: if action set, no children, and not icon-only, use preset label
-    const resolvedChildren =
-      children ?? (!isIconOnly && preset ? preset.label : undefined)
+    const resolvedChildren = children ?? (!isIconOnly && preset ? preset.label : undefined);
 
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : 'button';
 
     const button = (
       <Comp
-        className={cn(
-          buttonVariants({ variant: resolvedVariant, size, className })
-        )}
+        className={cn(buttonVariants({ variant: resolvedVariant, size, className }))}
         ref={ref}
         disabled={disabled || loading}
         {...props}
       >
-        {ResolvedIcon && (
-          <ResolvedIcon
-            className={cn(loading && "animate-spin")}
-          />
-        )}
+        {ResolvedIcon && <ResolvedIcon className={cn(loading && 'animate-spin')} />}
         {resolvedChildren}
       </Comp>
-    )
+    );
 
     // Auto-tooltip for icon-only sizes
     if (isIconOnly && ResolvedIcon) {
-      const tooltipText = tooltip ?? preset?.label
+      const tooltipText = tooltip ?? preset?.label;
       if (tooltipText) {
         return (
           <Tooltip>
             <TooltipTrigger asChild>{button}</TooltipTrigger>
             <TooltipContent>{tooltipText}</TooltipContent>
           </Tooltip>
-        )
+        );
       }
     }
 
-    return button
+    return button;
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = 'Button';
 
-export { Button, buttonVariants }
-export type { ButtonAction }
+export { Button, buttonVariants };
+export type { ButtonAction };

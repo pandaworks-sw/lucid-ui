@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useState, type ReactNode } from "react";
+import { forwardRef, useCallback, useState, type ReactNode } from 'react';
 import {
   BarChart3,
   Bell,
@@ -12,9 +12,9 @@ import {
   Sparkles,
   User,
   Users,
-} from "lucide-react";
-import { AppShell } from "@/components/ui/app-shell";
-import { Button } from "@/components/ui/button";
+} from 'lucide-react';
+import { AppShell } from '@/components/ui/app-shell';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,23 +22,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { toast } from "sonner";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { RouterProvider, useRouter } from "./router";
-import { StoreProvider, useStore } from "./store";
-import { Dashboard } from "./dashboard";
-import { ProjectsList } from "./projects-list";
-import { ProjectDetail } from "./project-detail";
-import { Team } from "./team";
-import { Reports } from "./reports";
-import { Settings } from "./settings";
-import { ProjectFormModal } from "./project-form-modal";
-import { CommandPalette } from "./command-palette";
-import { MemberAvatar } from "./shared";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dropdown-menu';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { toast } from 'sonner';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { RouterProvider, useRouter } from './router';
+import { StoreProvider, useStore } from './store';
+import { Dashboard } from './dashboard';
+import { ProjectsList } from './projects-list';
+import { ProjectDetail } from './project-detail';
+import { Team } from './team';
+import { Reports } from './reports';
+import { Settings } from './settings';
+import { ProjectFormModal } from './project-form-modal';
+import { CommandPalette } from './command-palette';
+import { MemberAvatar } from './shared';
+import { cn } from '@/lib/utils';
 
 interface LinkProps {
   href: string;
@@ -48,7 +48,7 @@ interface LinkProps {
 
 const ShellLink = forwardRef<HTMLAnchorElement, LinkProps>(({ href, children, className, ...rest }, ref) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (href.startsWith("#")) {
+    if (href.startsWith('#')) {
       e.preventDefault();
       window.location.hash = href;
     }
@@ -60,20 +60,14 @@ const ShellLink = forwardRef<HTMLAnchorElement, LinkProps>(({ href, children, cl
     </a>
   );
 });
-ShellLink.displayName = "ShellLink";
+ShellLink.displayName = 'ShellLink';
 
 function useCurrentRouteName() {
   const { route } = useRouter();
   return route.name;
 }
 
-function TopBar({
-  onCreateProject,
-  onOpenPalette,
-}: {
-  onCreateProject: () => void;
-  onOpenPalette: () => void;
-}) {
+function TopBar({ onCreateProject, onOpenPalette }: { onCreateProject: () => void; onOpenPalette: () => void }) {
   const { currentUser } = useStore();
 
   return (
@@ -99,7 +93,7 @@ function TopBar({
           variant="ghost"
           size="icon-sm"
           aria-label="Notifications"
-          onClick={() => toast("No new notifications", { icon: <Bell className="size-4" /> })}
+          onClick={() => toast('No new notifications', { icon: <Bell className="size-4" /> })}
         >
           <Bell className="size-4" />
         </Button>
@@ -123,20 +117,23 @@ function TopBar({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => (window.location.hash = "#/settings?tab=profile")}>
+            <DropdownMenuItem onClick={() => (window.location.hash = '#/settings?tab=profile')}>
               <User className="size-4" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => (window.location.hash = "#/settings")}>
+            <DropdownMenuItem onClick={() => (window.location.hash = '#/settings')}>
               <SettingsIcon className="size-4" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => toast("Help docs opened")}>
+            <DropdownMenuItem onClick={() => toast('Help docs opened')}>
               <LifeBuoy className="size-4" />
               Help & docs
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => toast("Signed out (demo)")} className="text-destructive focus:text-destructive">
+            <DropdownMenuItem
+              onClick={() => toast('Signed out (demo)')}
+              className="text-destructive focus:text-destructive"
+            >
               <LogOut className="size-4" />
               Sign out
             </DropdownMenuItem>
@@ -150,17 +147,17 @@ function TopBar({
 function PageRenderer() {
   const { route } = useRouter();
   switch (route.name) {
-    case "dashboard":
+    case 'dashboard':
       return <Dashboard />;
-    case "projects":
+    case 'projects':
       return <ProjectsList />;
-    case "project":
+    case 'project':
       return <ProjectDetail projectId={route.id} />;
-    case "team":
+    case 'team':
       return <Team />;
-    case "reports":
+    case 'reports':
       return <Reports />;
-    case "settings":
+    case 'settings':
       return <Settings />;
   }
 }
@@ -179,65 +176,60 @@ function SaasShell() {
       <div className="min-h-svh bg-[radial-gradient(120%_120%_at_50%_0%,oklch(0.24_0.02_264)_0%,oklch(0.19_0.01_264)_42%,oklch(0.15_0.005_264)_100%)]">
         <AppShell
           branding={{
-            name: "Pandawork",
-            href: "#/dashboard",
+            name: 'Pandawork',
+            href: '#/dashboard',
           }}
           navigation={[
             {
-              label: "Workspace",
-              href: "#/dashboard",
+              label: 'Workspace',
+              href: '#/dashboard',
               icon: LayoutDashboard,
-              active: active === "dashboard",
+              active: active === 'dashboard',
             },
             {
-              label: "Projects",
-              href: "#/projects",
+              label: 'Projects',
+              href: '#/projects',
               icon: FolderKanban,
-              active: active === "projects" || active === "project",
+              active: active === 'projects' || active === 'project',
             },
             {
-              label: "Team",
-              href: "#/team",
+              label: 'Team',
+              href: '#/team',
               icon: Users,
-              active: active === "team",
+              active: active === 'team',
             },
             {
-              label: "Reports",
-              href: "#/reports",
+              label: 'Reports',
+              href: '#/reports',
               icon: BarChart3,
-              active: active === "reports",
+              active: active === 'reports',
             },
-            { type: "separator" },
+            { type: 'separator' },
             {
-              label: "Settings",
-              href: "#/settings",
+              label: 'Settings',
+              href: '#/settings',
               icon: SettingsIcon,
-              active: active === "settings",
+              active: active === 'settings',
             },
           ]}
           user={{
-            name: "Ahmad Razif",
-            email: "ahmad.razif@pandaworks.com",
+            name: 'Ahmad Razif',
+            email: 'ahmad.razif@pandaworks.com',
             actions: [
-              { label: "Profile", href: "#/settings?tab=profile", icon: User },
-              { label: "Settings", href: "#/settings", icon: SettingsIcon },
+              { label: 'Profile', href: '#/settings?tab=profile', icon: User },
+              { label: 'Settings', href: '#/settings', icon: SettingsIcon },
               {
-                label: "Sign out",
-                onClick: () => toast("Signed out (demo)"),
+                label: 'Sign out',
+                onClick: () => toast('Signed out (demo)'),
                 icon: LogOut,
-                variant: "destructive",
+                variant: 'destructive',
               },
             ],
           }}
-          header={
-            <TopBar
-              onCreateProject={handleCreateProject}
-              onOpenPalette={() => setPaletteOpen(true)}
-            />
-          }
+          header={<TopBar onCreateProject={handleCreateProject} onOpenPalette={() => setPaletteOpen(true)} />}
           linkComponent={ShellLink}
           maxWidth={1400}
-          contentClassName={cn("p-4 md:p-6 lg:p-8")}
+          contentClassName={cn('p-4 md:p-6 lg:p-8')}
         >
           <DemoBanner />
           <PageRenderer />
@@ -249,27 +241,23 @@ function SaasShell() {
         onOpenChange={setCreateOpen}
         onSubmit={(input) => {
           const created = addProject(input);
-          toast.success("Project created", {
+          toast.success('Project created', {
             description: `${created.name} · ${created.key}`,
             action: {
-              label: "Open",
-              onClick: () => navigate({ name: "project", id: created.id }),
+              label: 'Open',
+              onClick: () => navigate({ name: 'project', id: created.id }),
             },
           });
         }}
       />
 
-      <CommandPalette
-        open={paletteOpen}
-        onOpenChange={setPaletteOpen}
-        onCreateProject={handleCreateProject}
-      />
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onCreateProject={handleCreateProject} />
     </>
   );
 }
 
 function DemoBanner() {
-  const [dismissed, setDismissed] = useState(() => sessionStorage.getItem("saas-demo-banner") === "1");
+  const [dismissed, setDismissed] = useState(() => sessionStorage.getItem('saas-demo-banner') === '1');
   if (dismissed) return null;
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3 rounded-lg border bg-pattern-aurora-indigo p-3 text-sm">
@@ -279,15 +267,15 @@ function DemoBanner() {
       <div className="min-w-0 flex-1">
         <p className="font-medium">Pandawork · a full-stack showcase built on Pandaworks UI.</p>
         <p className="text-xs text-muted-foreground">
-          Everything on this screen — the shell, forms, modals, toasts, and tables — is wired from the registry.
-          State is in-memory, so feel free to poke around.
+          Everything on this screen — the shell, forms, modals, toasts, and tables — is wired from the registry. State
+          is in-memory, so feel free to poke around.
         </p>
       </div>
       <Button
         variant="ghost"
         size="sm"
         onClick={() => {
-          sessionStorage.setItem("saas-demo-banner", "1");
+          sessionStorage.setItem('saas-demo-banner', '1');
           setDismissed(true);
         }}
       >

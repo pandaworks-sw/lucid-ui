@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { DemoSection } from "@/showcase/component-page";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { DemoSection } from '@/showcase/component-page';
+import { Button } from '@/components/ui/button';
 
 export default function ActionButtonDemo() {
   const [saveLoading, setSaveLoading] = useState(false);
@@ -61,9 +61,15 @@ export default function ActionButtonDemo() {
 <Button action="delete">Remove Record</Button>`}
       >
         <div className="flex items-center gap-3">
-          <Button action="create" onClick={() => {}}>Add Employee</Button>
-          <Button action="save" onClick={() => {}}>Submit Form</Button>
-          <Button action="delete" onClick={() => {}}>Remove Record</Button>
+          <Button action="create" onClick={() => {}}>
+            Add Employee
+          </Button>
+          <Button action="save" onClick={() => {}}>
+            Submit Form
+          </Button>
+          <Button action="delete" onClick={() => {}}>
+            Remove Record
+          </Button>
         </div>
       </DemoSection>
 
@@ -89,9 +95,7 @@ export default function ActionButtonDemo() {
               setTimeout(() => setExportLoading(false), 2000);
             }}
           />
-          <span className="text-sm text-muted-foreground">
-            Click to simulate 2s loading
-          </span>
+          <span className="text-sm text-muted-foreground">Click to simulate 2s loading</span>
         </div>
       </DemoSection>
 
@@ -135,9 +139,9 @@ export default function ActionButtonDemo() {
             </thead>
             <tbody>
               {[
-                { name: "John Doe", dept: "Engineering", status: "Active" },
-                { name: "Jane Smith", dept: "Marketing", status: "Active" },
-                { name: "Bob Wilson", dept: "Sales", status: "Inactive" },
+                { name: 'John Doe', dept: 'Engineering', status: 'Active' },
+                { name: 'Jane Smith', dept: 'Marketing', status: 'Active' },
+                { name: 'Bob Wilson', dept: 'Sales', status: 'Inactive' },
               ].map((emp) => (
                 <tr key={emp.name} className="border-b">
                   <td className="p-3">{emp.name}</td>
@@ -162,9 +166,7 @@ export default function ActionButtonDemo() {
         <div className="flex items-center justify-between rounded-md border p-4">
           <div>
             <h3 className="text-lg font-semibold">Edit Employee</h3>
-            <p className="text-sm text-muted-foreground">
-              Update employee information
-            </p>
+            <p className="text-sm text-muted-foreground">Update employee information</p>
           </div>
           <div className="flex items-center gap-2">
             <Button action="cancel" onClick={() => {}} />

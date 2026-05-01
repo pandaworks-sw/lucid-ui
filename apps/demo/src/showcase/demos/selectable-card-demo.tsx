@@ -1,19 +1,12 @@
-import { useState } from "react";
-import { DemoSection } from "@/showcase/component-page";
-import { SelectableCard } from "@/components/ui/selectable-card";
-import { RadioGroup } from "@/components/ui/radio-group";
-import { Badge } from "@/components/ui/badge";
-import {
-  FileTextIcon,
-  BarChart3Icon,
-  UsersIcon,
-  ShieldCheckIcon,
-  ZapIcon,
-  LayersIcon,
-} from "lucide-react";
+import { useState } from 'react';
+import { DemoSection } from '@/showcase/component-page';
+import { SelectableCard } from '@/components/ui/selectable-card';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { Badge } from '@/components/ui/badge';
+import { FileTextIcon, BarChart3Icon, UsersIcon, ShieldCheckIcon, ZapIcon, LayersIcon } from 'lucide-react';
 
 function SingleSelectDemo() {
-  const [value, setValue] = useState("performance");
+  const [value, setValue] = useState('performance');
 
   return (
     <RadioGroup value={value} onValueChange={setValue} className="grid gap-3">
@@ -24,9 +17,7 @@ function SingleSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Performance Reviews</p>
-            <p className="text-sm text-muted-foreground">
-              Track and manage employee performance evaluations
-            </p>
+            <p className="text-sm text-muted-foreground">Track and manage employee performance evaluations</p>
           </div>
         </div>
       </SelectableCard>
@@ -37,9 +28,7 @@ function SingleSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Recruitment</p>
-            <p className="text-sm text-muted-foreground">
-              Manage job postings, candidates, and hiring pipelines
-            </p>
+            <p className="text-sm text-muted-foreground">Manage job postings, candidates, and hiring pipelines</p>
           </div>
         </div>
       </SelectableCard>
@@ -50,9 +39,7 @@ function SingleSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Compliance</p>
-            <p className="text-sm text-muted-foreground">
-              Ensure regulatory compliance across departments
-            </p>
+            <p className="text-sm text-muted-foreground">Ensure regulatory compliance across departments</p>
           </div>
         </div>
       </SelectableCard>
@@ -71,9 +58,7 @@ function MultiSelectDemo() {
     <div className="grid gap-3">
       <SelectableCard
         checked={features.notifications}
-        onCheckedChange={(checked) =>
-          setFeatures((prev) => ({ ...prev, notifications: checked }))
-        }
+        onCheckedChange={(checked) => setFeatures((prev) => ({ ...prev, notifications: checked }))}
       >
         <div className="flex items-center gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
@@ -81,17 +66,13 @@ function MultiSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Push Notifications</p>
-            <p className="text-sm text-muted-foreground">
-              Get notified about important updates in real-time
-            </p>
+            <p className="text-sm text-muted-foreground">Get notified about important updates in real-time</p>
           </div>
         </div>
       </SelectableCard>
       <SelectableCard
         checked={features.analytics}
-        onCheckedChange={(checked) =>
-          setFeatures((prev) => ({ ...prev, analytics: checked }))
-        }
+        onCheckedChange={(checked) => setFeatures((prev) => ({ ...prev, analytics: checked }))}
       >
         <div className="flex items-center gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
@@ -99,17 +80,13 @@ function MultiSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Advanced Analytics</p>
-            <p className="text-sm text-muted-foreground">
-              Detailed insights and trend analysis for your team
-            </p>
+            <p className="text-sm text-muted-foreground">Detailed insights and trend analysis for your team</p>
           </div>
         </div>
       </SelectableCard>
       <SelectableCard
         checked={features.export}
-        onCheckedChange={(checked) =>
-          setFeatures((prev) => ({ ...prev, export: checked }))
-        }
+        onCheckedChange={(checked) => setFeatures((prev) => ({ ...prev, export: checked }))}
       >
         <div className="flex items-center gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400">
@@ -117,9 +94,7 @@ function MultiSelectDemo() {
           </div>
           <div>
             <p className="font-medium">Export Reports</p>
-            <p className="text-sm text-muted-foreground">
-              Generate and download PDF or Excel reports
-            </p>
+            <p className="text-sm text-muted-foreground">Generate and download PDF or Excel reports</p>
           </div>
         </div>
       </SelectableCard>
@@ -128,18 +103,14 @@ function MultiSelectDemo() {
 }
 
 function SizeVariantsDemo() {
-  const [smValue, setSmValue] = useState("sm-a");
-  const [lgValue, setLgValue] = useState("lg-a");
+  const [smValue, setSmValue] = useState('sm-a');
+  const [lgValue, setLgValue] = useState('lg-a');
 
   return (
     <div className="space-y-6">
       <div>
         <p className="mb-2 text-sm font-medium text-muted-foreground">Small</p>
-        <RadioGroup
-          value={smValue}
-          onValueChange={setSmValue}
-          className="grid gap-2"
-        >
+        <RadioGroup value={smValue} onValueChange={setSmValue} className="grid gap-2">
           <SelectableCard value="sm-a" size="sm">
             <p className="text-sm font-medium">Option A</p>
           </SelectableCard>
@@ -150,11 +121,7 @@ function SizeVariantsDemo() {
       </div>
       <div>
         <p className="mb-2 text-sm font-medium text-muted-foreground">Large</p>
-        <RadioGroup
-          value={lgValue}
-          onValueChange={setLgValue}
-          className="grid gap-3"
-        >
+        <RadioGroup value={lgValue} onValueChange={setLgValue} className="grid gap-3">
           <SelectableCard value="lg-a" size="lg">
             <div className="flex items-center gap-4">
               <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -179,9 +146,7 @@ function SizeVariantsDemo() {
               </div>
               <div>
                 <p className="font-semibold">Starter Plan</p>
-                <p className="text-sm text-muted-foreground">
-                  Up to 10 users, basic features included
-                </p>
+                <p className="text-sm text-muted-foreground">Up to 10 users, basic features included</p>
                 <p className="mt-1 text-lg font-bold">$29/month</p>
               </div>
             </div>
@@ -208,7 +173,9 @@ function DisabledDemo() {
 export default function SelectableCardDemo() {
   return (
     <>
-      <DemoSection title="Single Select (Radio)" code={`import { SelectableCard } from "@/components/ui/selectable-card"
+      <DemoSection
+        title="Single Select (Radio)"
+        code={`import { SelectableCard } from "@/components/ui/selectable-card"
 import { RadioGroup } from "@/components/ui/radio-group"
 
 <RadioGroup value={value} onValueChange={setValue} className="grid gap-3">
@@ -220,7 +187,8 @@ import { RadioGroup } from "@/components/ui/radio-group"
     <p className="font-medium">Option B</p>
     <p className="text-sm text-muted-foreground">Description for option B</p>
   </SelectableCard>
-</RadioGroup>`}>
+</RadioGroup>`}
+      >
         <div className="max-w-lg">
           <SingleSelectDemo />
         </div>

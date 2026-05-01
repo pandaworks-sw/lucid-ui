@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { ACTIVITY, MEMBERS, PROJECTS, TASKS } from "./data";
-import type { ActivityEntry, Member, Project, Task } from "./types";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { ACTIVITY, MEMBERS, PROJECTS, TASKS } from './data';
+import type { ActivityEntry, Member, Project, Task } from './types';
 
 interface StoreContextValue {
   members: Member[];
@@ -8,10 +8,10 @@ interface StoreContextValue {
   tasks: Task[];
   activity: ActivityEntry[];
   currentUser: Member;
-  addProject: (input: Omit<Project, "id" | "createdAt">) => Project;
+  addProject: (input: Omit<Project, 'id' | 'createdAt'>) => Project;
   updateProject: (id: string, patch: Partial<Project>) => void;
   deleteProject: (id: string) => void;
-  addTask: (input: Omit<Task, "id" | "createdAt">) => Task;
+  addTask: (input: Omit<Task, 'id' | 'createdAt'>) => Task;
   updateTask: (id: string, patch: Partial<Task>) => void;
   deleteTask: (id: string) => void;
 }
@@ -30,10 +30,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const currentUser = members[0];
 
   const logActivity = useCallback(
-    (entry: Omit<ActivityEntry, "id" | "at" | "actorId"> & { actorId?: string }) => {
+    (entry: Omit<ActivityEntry, 'id' | 'at' | 'actorId'> & { actorId?: string }) => {
       setActivity((prev) => [
         {
-          id: uid("a"),
+          id: uid('a'),
           actorId: entry.actorId ?? currentUser.id,
           at: new Date().toISOString(),
           verb: entry.verb,
@@ -43,80 +43,80 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         ...prev,
       ]);
     },
-    [currentUser.id],
+    [currentUser.id]
   );
 
-  const addProject = useCallback<StoreContextValue["addProject"]>(
+  const addProject = useCallback<StoreContextValue['addProject']>(
     (input) => {
       const project: Project = {
         ...input,
-        id: uid("p"),
+        id: uid('p'),
         createdAt: new Date().toISOString().slice(0, 10),
       };
       setProjects((prev) => [project, ...prev]);
-      logActivity({ verb: "created project", object: project.name, projectId: project.id });
+      logActivity({ verb: 'created project', object: project.name, projectId: project.id });
       return project;
     },
-    [logActivity],
+    [logActivity]
   );
 
-  const updateProject = useCallback<StoreContextValue["updateProject"]>(
+  const updateProject = useCallback<StoreContextValue['updateProject']>(
     (id, patch) => {
       setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)));
       const target = projects.find((p) => p.id === id);
       if (target) {
-        logActivity({ verb: "updated project", object: target.name, projectId: id });
+        logActivity({ verb: 'updated project', object: target.name, projectId: id });
       }
     },
-    [logActivity, projects],
+    [logActivity, projects]
   );
 
-  const deleteProject = useCallback<StoreContextValue["deleteProject"]>(
+  const deleteProject = useCallback<StoreContextValue['deleteProject']>(
     (id) => {
       const target = projects.find((p) => p.id === id);
       setProjects((prev) => prev.filter((p) => p.id !== id));
       setTasks((prev) => prev.filter((t) => t.projectId !== id));
       if (target) {
-        logActivity({ verb: "archived project", object: target.name });
+        logActivity({ verb: 'archived project', object: target.name });
       }
     },
-    [logActivity, projects],
+    [logActivity, projects]
   );
 
-  const addTask = useCallback<StoreContextValue["addTask"]>(
+  const addTask = useCallback<StoreContextValue['addTask']>(
     (input) => {
       const task: Task = {
         ...input,
-        id: uid("t"),
+        id: uid('t'),
         createdAt: new Date().toISOString().slice(0, 10),
       };
       setTasks((prev) => [task, ...prev]);
-      logActivity({ verb: "created task", object: task.title, projectId: task.projectId });
+      logActivity({ verb: 'created task', object: task.title, projectId: task.projectId });
       return task;
     },
-    [logActivity],
+    [logActivity]
   );
 
-  const updateTask = useCallback<StoreContextValue["updateTask"]>(
+  const updateTask = useCallback<StoreContextValue['updateTask']>(
     (id, patch) => {
       setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)));
       const target = tasks.find((t) => t.id === id);
       if (target) {
-        logActivity({ verb: "updated task", object: target.title, projectId: target.projectId });
+        logActivity({ verb: 'updated task', object: target.title, projectId: target.projectId });
       }
     },
-    [logActivity, tasks],
+    [logActivity, tasks]
   );
 
-  const deleteTask = useCallback<StoreContextValue["deleteTask"]>(
+  const deleteTask = useCallback<StoreContextValue['deleteTask']>(
     (id) => {
       const target = tasks.find((t) => t.id === id);
       setTasks((prev) => prev.filter((t) => t.id !== id));
       if (target) {
-        logActivity({ verb: "deleted task", object: target.title, projectId: target.projectId });
+        logActivity({ verb: 'deleted task', object: target.title, projectId: target.projectId });
       }
     },
-    [logActivity, tasks],
+    [logActivity, tasks]
   );
 
   const value = useMemo<StoreContextValue>(
@@ -145,7 +145,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addTask,
       updateTask,
       deleteTask,
-    ],
+    ]
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
@@ -153,6 +153,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
 export function useStore() {
   const ctx = useContext(StoreContext);
-  if (!ctx) throw new Error("useStore must be used within StoreProvider");
+  if (!ctx) throw new Error('useStore must be used within StoreProvider');
   return ctx;
 }

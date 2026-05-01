@@ -1,29 +1,22 @@
-import { useMemo, useState } from "react";
-import { BarChart3, Download, PieChart, Target, TrendingDown, TrendingUp } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { PageHeader } from "@/components/ui/page-header";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import { useStore } from "./store";
-import { PROJECT_STATUS, TASK_STATUS, formatCurrency } from "./shared";
-import type { Priority, ProjectStatus, TaskStatus } from "./types";
+import { useMemo, useState } from 'react';
+import { BarChart3, Download, PieChart, Target, TrendingDown, TrendingUp } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PageHeader } from '@/components/ui/page-header';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import { useStore } from './store';
+import { PROJECT_STATUS, TASK_STATUS, formatCurrency } from './shared';
+import type { Priority, ProjectStatus, TaskStatus } from './types';
 
-const PRIORITY_ORDER: Priority[] = ["urgent", "high", "medium", "low"];
+const PRIORITY_ORDER: Priority[] = ['urgent', 'high', 'medium', 'low'];
 
 export function Reports() {
   const { projects, tasks, members } = useStore();
-  const [period, setPeriod] = useState<"month" | "quarter" | "year">("quarter");
+  const [period, setPeriod] = useState<'month' | 'quarter' | 'year'>('quarter');
 
   const projectByStatus = useMemo(() => {
     const map = new Map<ProjectStatus, number>();
@@ -57,11 +50,9 @@ export function Reports() {
   }, [projects, members]);
 
   const totalBudget = projects.reduce((sum, p) => sum + p.budget, 0);
-  const activeBudget = projects.filter((p) => p.status === "active").reduce((sum, p) => sum + p.budget, 0);
+  const activeBudget = projects.filter((p) => p.status === 'active').reduce((sum, p) => sum + p.budget, 0);
   const avgProgress =
-    projects.length === 0
-      ? 0
-      : Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
+    projects.length === 0 ? 0 : Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
 
   const statusEntries = Array.from(projectByStatus.entries());
   const statusMax = Math.max(...statusEntries.map(([, v]) => v), 1);
@@ -80,7 +71,7 @@ export function Reports() {
                 <TabsTrigger value="year">Year</TabsTrigger>
               </TabsList>
             </Tabs>
-            <Button variant="outline" size="sm" onClick={() => toast("Export queued")}>
+            <Button variant="outline" size="sm" onClick={() => toast('Export queued')}>
               <Download className="size-4" />
               Export
             </Button>
@@ -99,7 +90,7 @@ export function Reports() {
               <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
                 <TrendingUp className="size-3" />
                 +12%
-              </span>{" "}
+              </span>{' '}
               vs last {period}
             </p>
           </CardContent>
@@ -144,14 +135,14 @@ export function Reports() {
                 <div key={status} className="space-y-1">
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      <span className={cn("size-2 rounded-full", meta.dotClass)} />
+                      <span className={cn('size-2 rounded-full', meta.dotClass)} />
                       {meta.label}
                     </span>
                     <span className="tabular-nums text-muted-foreground">{count}</span>
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                     <div
-                      className={cn("h-full rounded-full", meta.dotClass)}
+                      className={cn('h-full rounded-full', meta.dotClass)}
                       style={{ width: `${(count / statusMax) * 100}%` }}
                     />
                   </div>
@@ -173,13 +164,13 @@ export function Reports() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
-              {(["todo", "in-progress", "review", "done"] as TaskStatus[]).map((status) => {
+              {(['todo', 'in-progress', 'review', 'done'] as TaskStatus[]).map((status) => {
                 const meta = TASK_STATUS[status];
                 const count = taskByStatus.get(status) ?? 0;
                 return (
                   <div key={status} className="rounded-md border border-border/50 bg-background/60 p-3 shadow-none">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span className={cn("size-1.5 rounded-full", meta.dotClass)} />
+                      <span className={cn('size-1.5 rounded-full', meta.dotClass)} />
                       {meta.label}
                     </div>
                     <p className="mt-1 text-2xl font-semibold tabular-nums">{count}</p>
@@ -212,11 +203,11 @@ export function Reports() {
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                   <div
                     className={cn(
-                      "h-full rounded-full transition-all",
-                      priority === "urgent" && "bg-rose-500",
-                      priority === "high" && "bg-amber-500",
-                      priority === "medium" && "bg-sky-500",
-                      priority === "low" && "bg-slate-400",
+                      'h-full rounded-full transition-all',
+                      priority === 'urgent' && 'bg-rose-500',
+                      priority === 'high' && 'bg-amber-500',
+                      priority === 'medium' && 'bg-sky-500',
+                      priority === 'low' && 'bg-slate-400'
                     )}
                     style={{ width: `${(count / Math.max(1, projects.length)) * 100}%` }}
                   />
@@ -249,10 +240,10 @@ export function Reports() {
                 {budgetByOwner.map(({ owner, total }) => {
                   const owned = projects.filter((p) => p.ownerId === owner?.id);
                   return (
-                    <TableRow key={owner?.id ?? "unknown"}>
+                    <TableRow key={owner?.id ?? 'unknown'}>
                       <TableCell>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">{owner?.name ?? "Unassigned"}</p>
+                          <p className="truncate text-sm font-medium">{owner?.name ?? 'Unassigned'}</p>
                           <p className="truncate text-xs text-muted-foreground">{owner?.role}</p>
                         </div>
                       </TableCell>
@@ -267,15 +258,11 @@ export function Reports() {
                             </code>
                           ))}
                           {owned.length > 3 && (
-                            <span className="text-xs text-muted-foreground">
-                              +{owned.length - 3}
-                            </span>
+                            <span className="text-xs text-muted-foreground">+{owned.length - 3}</span>
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right text-sm tabular-nums">
-                        {formatCurrency(total)}
-                      </TableCell>
+                      <TableCell className="text-right text-sm tabular-nums">{formatCurrency(total)}</TableCell>
                     </TableRow>
                   );
                 })}

@@ -1,84 +1,86 @@
-import { useState } from "react";
-import { Apple, Cherry, Citrus, Grape } from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
-import { SelectPicker } from "@/components/ui/select-picker";
+import { useState } from 'react';
+import { Apple, Cherry, Citrus, Grape } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
+import { SelectPicker } from '@/components/ui/select-picker';
 
 const fruitOptions = [
-  { value: "apple", label: "Apple" },
-  { value: "banana", label: "Banana" },
-  { value: "cherry", label: "Cherry" },
-  { value: "grape", label: "Grape" },
-  { value: "mango", label: "Mango" },
-  { value: "orange", label: "Orange" },
-  { value: "strawberry", label: "Strawberry" },
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+  { value: 'mango', label: 'Mango' },
+  { value: 'orange', label: 'Orange' },
+  { value: 'strawberry', label: 'Strawberry' },
 ];
 
 const iconOptions = [
   {
-    value: "apple",
-    label: "Apple",
+    value: 'apple',
+    label: 'Apple',
     icon: <Apple className="h-4 w-4" />,
-    subtitle: "Sweet and crunchy",
+    subtitle: 'Sweet and crunchy',
   },
   {
-    value: "cherry",
-    label: "Cherry",
+    value: 'cherry',
+    label: 'Cherry',
     icon: <Cherry className="h-4 w-4" />,
-    subtitle: "Small and tart",
+    subtitle: 'Small and tart',
   },
   {
-    value: "grape",
-    label: "Grape",
+    value: 'grape',
+    label: 'Grape',
     icon: <Grape className="h-4 w-4" />,
-    subtitle: "Juicy clusters",
+    subtitle: 'Juicy clusters',
   },
   {
-    value: "orange",
-    label: "Orange",
+    value: 'orange',
+    label: 'Orange',
     icon: <Citrus className="h-4 w-4" />,
-    subtitle: "Rich in vitamin C",
+    subtitle: 'Rich in vitamin C',
   },
 ];
 
 const roleOptions = [
   {
-    value: "admin",
-    label: "Admin",
-    subtitle: "Full access to all resources",
+    value: 'admin',
+    label: 'Admin',
+    subtitle: 'Full access to all resources',
   },
   {
-    value: "editor",
-    label: "Editor",
-    subtitle: "Can edit and publish content",
+    value: 'editor',
+    label: 'Editor',
+    subtitle: 'Can edit and publish content',
   },
   {
-    value: "viewer",
-    label: "Viewer",
-    subtitle: "Read-only access",
+    value: 'viewer',
+    label: 'Viewer',
+    subtitle: 'Read-only access',
   },
 ];
 
 const skillOptions = [
-  { value: "react", label: "React" },
-  { value: "typescript", label: "TypeScript" },
-  { value: "nextjs", label: "Next.js" },
-  { value: "tailwind", label: "Tailwind CSS" },
-  { value: "nodejs", label: "Node.js" },
-  { value: "python", label: "Python" },
-  { value: "docker", label: "Docker" },
-  { value: "postgresql", label: "PostgreSQL" },
+  { value: 'react', label: 'React' },
+  { value: 'typescript', label: 'TypeScript' },
+  { value: 'nextjs', label: 'Next.js' },
+  { value: 'tailwind', label: 'Tailwind CSS' },
+  { value: 'nodejs', label: 'Node.js' },
+  { value: 'python', label: 'Python' },
+  { value: 'docker', label: 'Docker' },
+  { value: 'postgresql', label: 'PostgreSQL' },
 ];
 
 export default function SelectPickerDemo() {
-  const [singleValue, setSingleValue] = useState("");
-  const [iconValue, setIconValue] = useState("");
-  const [subtitleValue, setSubtitleValue] = useState("");
+  const [singleValue, setSingleValue] = useState('');
+  const [iconValue, setIconValue] = useState('');
+  const [subtitleValue, setSubtitleValue] = useState('');
   const [multipleValues, setMultipleValues] = useState<string[]>([]);
   const [multiIconValues, setMultiIconValues] = useState<string[]>([]);
 
   return (
     <>
-      <DemoSection title="Single Select" code={`import { SelectPicker } from "@/components/ui/select-picker"
+      <DemoSection
+        title="Single Select"
+        code={`import { SelectPicker } from "@/components/ui/select-picker"
 
 const options = [
   { value: "apple", label: "Apple" },
@@ -91,7 +93,8 @@ const options = [
   onChange={setValue}
   placeholder="Select a fruit..."
   options={options}
-/>`}>
+/>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
           <p className="text-sm text-muted-foreground">
             Select a single item from the dropdown. Supports search filtering.
@@ -111,7 +114,9 @@ const options = [
         </div>
       </DemoSection>
 
-      <DemoSection title="With Icons and Subtitles" code={`import { Apple, Cherry, Grape, Citrus } from "lucide-react"
+      <DemoSection
+        title="With Icons and Subtitles"
+        code={`import { Apple, Cherry, Grape, Citrus } from "lucide-react"
 
 const options = [
   {
@@ -134,7 +139,8 @@ const options = [
   onChange={setValue}
   placeholder="Select a fruit..."
   options={options}
-/>`}>
+/>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
           <p className="text-sm text-muted-foreground">
             Options can include icons and subtitles. Icons appear in the trigger when selected.
@@ -149,7 +155,9 @@ const options = [
         </div>
       </DemoSection>
 
-      <DemoSection title="Subtitle Only" code={`const options = [
+      <DemoSection
+        title="Subtitle Only"
+        code={`const options = [
   { value: "admin", label: "Admin", subtitle: "Full access to all resources" },
   { value: "editor", label: "Editor", subtitle: "Can edit and publish content" },
   { value: "viewer", label: "Viewer", subtitle: "Read-only access" },
@@ -161,11 +169,10 @@ const options = [
   onChange={setValue}
   placeholder="Select a role..."
   options={options}
-/>`}>
+/>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
-          <p className="text-sm text-muted-foreground">
-            Subtitles can be used without icons to add descriptive text.
-          </p>
+          <p className="text-sm text-muted-foreground">Subtitles can be used without icons to add descriptive text.</p>
           <SelectPicker
             mode="single"
             value={subtitleValue}
@@ -176,7 +183,9 @@ const options = [
         </div>
       </DemoSection>
 
-      <DemoSection title="Multiple Select" code={`import { SelectPicker } from "@/components/ui/select-picker"
+      <DemoSection
+        title="Multiple Select"
+        code={`import { SelectPicker } from "@/components/ui/select-picker"
 
 const options = [
   { value: "react", label: "React" },
@@ -190,7 +199,8 @@ const options = [
   onChange={setValues}
   placeholder="Select skills..."
   options={options}
-/>`}>
+/>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
           <p className="text-sm text-muted-foreground">
             Select multiple items. Selected items appear as removable badges.
@@ -204,16 +214,16 @@ const options = [
           />
           {multipleValues.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              Selected ({multipleValues.length}):{" "}
-              {multipleValues
-                .map((v) => skillOptions.find((o) => o.value === v)?.label)
-                .join(", ")}
+              Selected ({multipleValues.length}):{' '}
+              {multipleValues.map((v) => skillOptions.find((o) => o.value === v)?.label).join(', ')}
             </p>
           )}
         </div>
       </DemoSection>
 
-      <DemoSection title="Multiple with Icons" code={`const options = [
+      <DemoSection
+        title="Multiple with Icons"
+        code={`const options = [
   { value: "apple", label: "Apple", icon: <Apple className="h-4 w-4" />, subtitle: "Sweet" },
   { value: "cherry", label: "Cherry", icon: <Cherry className="h-4 w-4" />, subtitle: "Tart" },
 ]
@@ -224,7 +234,8 @@ const options = [
   onChange={setValues}
   placeholder="Select fruits..."
   options={options}
-/>`}>
+/>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
           <p className="text-sm text-muted-foreground">
             Multiple select with icons and subtitles. Icons appear in badges.
@@ -241,9 +252,7 @@ const options = [
 
       <DemoSection title="Disabled">
         <div className="grid w-full max-w-sm gap-1.5">
-          <p className="text-sm text-muted-foreground">
-            A disabled select picker that cannot be interacted with.
-          </p>
+          <p className="text-sm text-muted-foreground">A disabled select picker that cannot be interacted with.</p>
           <SelectPicker
             mode="single"
             value="apple"

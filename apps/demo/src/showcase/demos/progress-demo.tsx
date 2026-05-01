@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Progress } from "@/components/ui/progress";
-import { DemoSection } from "@/showcase/component-page";
+import { useState, useEffect } from 'react';
+import { Progress } from '@/components/ui/progress';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function ProgressDemo() {
   const [progress, setProgress] = useState(13);
@@ -12,9 +12,12 @@ export default function ProgressDemo() {
 
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import { Progress } from "@/components/ui/progress"
+      <DemoSection
+        title="Default"
+        code={`import { Progress } from "@/components/ui/progress"
 
-<Progress value={66} />`}>
+<Progress value={66} />`}
+      >
         <div className="w-full max-w-md">
           <Progress value={progress} />
         </div>

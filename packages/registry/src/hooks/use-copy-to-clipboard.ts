@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 const RESET_DELAY_MS = 2000;
 
@@ -17,11 +17,11 @@ export function useCopyToClipboard() {
       if (onCopy) {
         await onCopy(value);
       } else {
-        toast.success("Copied to clipboard");
+        toast.success('Copied to clipboard');
       }
       timerRef.current = setTimeout(() => setCopied(false), RESET_DELAY_MS);
     } catch {
-      toast.error("Failed to copy to clipboard");
+      toast.error('Failed to copy to clipboard');
     }
   }, []);
 

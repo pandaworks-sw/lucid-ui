@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { Check, Copy, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from 'react';
+import { Check, Copy, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const SITE_URL = "https://pandaworks-software-plt.github.io/pandaworks-ui";
-const RAW_BASE =
-  "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r";
+const SITE_URL = 'https://pandaworks-software-plt.github.io/pandaworks-ui';
+const RAW_BASE = 'https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r';
 
 const AI_PROMPT = `I want to use the Pandaworks UI component registry in this React project.
 
@@ -52,7 +51,7 @@ export function AiIntegrationView() {
     () => () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     },
-    [],
+    []
   );
 
   async function copyPrompt() {
@@ -71,30 +70,19 @@ export function AiIntegrationView() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Sparkles className="size-5 text-primary" />
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Use with an AI Agent
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Use with an AI Agent</h1>
         </div>
         <p className="text-muted-foreground">
-          Paste this prompt into Claude Code, Cursor, Copilot, or any other AI
-          coding agent. It points the agent at the registry's{" "}
-          <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-            llms.txt
-          </code>{" "}
-          catalog and tells it how to install components into your project.
+          Paste this prompt into Claude Code, Cursor, Copilot, or any other AI coding agent. It points the agent at the
+          registry's <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">llms.txt</code> catalog and tells
+          it how to install components into your project.
         </p>
       </div>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium text-muted-foreground">
-            AI integration prompt
-          </h2>
-          <Button
-            size="sm"
-            variant={copied ? "secondary" : "default"}
-            onClick={copyPrompt}
-          >
+          <h2 className="text-sm font-medium text-muted-foreground">AI integration prompt</h2>
+          <Button size="sm" variant={copied ? 'secondary' : 'default'} onClick={copyPrompt}>
             {copied ? (
               <>
                 <Check className="mr-1.5 size-3.5" />
@@ -112,33 +100,21 @@ export function AiIntegrationView() {
           <button
             onClick={copyPrompt}
             aria-label="Copy prompt"
-            className={cn(
-              "absolute right-3 top-3 text-muted-foreground transition-colors hover:text-foreground",
-            )}
+            className={cn('absolute right-3 top-3 text-muted-foreground transition-colors hover:text-foreground')}
           >
-            {copied ? (
-              <Check className="size-4" />
-            ) : (
-              <Copy className="size-4" />
-            )}
+            {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
           </button>
           <pre className="overflow-x-auto p-4 pr-10">
-            <code className="whitespace-pre-wrap font-mono text-sm text-foreground">
-              {AI_PROMPT}
-            </code>
+            <code className="whitespace-pre-wrap font-mono text-sm text-foreground">{AI_PROMPT}</code>
           </pre>
         </div>
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-sm font-medium text-muted-foreground">
-          What the agent will fetch
-        </h2>
+        <h2 className="text-sm font-medium text-muted-foreground">What the agent will fetch</h2>
         <ul className="space-y-2 rounded-lg border bg-background p-4 text-sm">
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">
-              llms.txt
-            </span>
+            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">llms.txt</span>
             <a
               href={`${SITE_URL}/llms.txt`}
               target="_blank"
@@ -149,9 +125,7 @@ export function AiIntegrationView() {
             </a>
           </li>
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">
-              docs/
-            </span>
+            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">docs/</span>
             <a
               href={`${SITE_URL}/docs/decision-guide.md`}
               target="_blank"
@@ -162,12 +136,8 @@ export function AiIntegrationView() {
             </a>
           </li>
           <li className="flex items-start gap-3">
-            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">
-              r/
-            </span>
-            <span className="break-all text-muted-foreground">
-              {RAW_BASE}/&lt;name&gt;.json
-            </span>
+            <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">r/</span>
+            <span className="break-all text-muted-foreground">{RAW_BASE}/&lt;name&gt;.json</span>
           </li>
         </ul>
       </div>

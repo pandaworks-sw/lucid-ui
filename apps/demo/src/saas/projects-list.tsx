@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   Archive,
   ArrowUpDown,
@@ -14,11 +14,11 @@ import {
   Plus,
   Tag,
   Trash2,
-} from "lucide-react";
-import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,20 +26,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { PageHeader } from "@/components/ui/page-header";
-import { Progress } from "@/components/ui/progress";
-import { SearchInput } from "@/components/ui/search-input";
-import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from '@/components/ui/dropdown-menu';
+import { PageHeader } from '@/components/ui/page-header';
+import { Progress } from '@/components/ui/progress';
+import { SearchInput } from '@/components/ui/search-input';
+import { Separator } from '@/components/ui/separator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Pagination,
   PaginationContent,
@@ -48,37 +41,37 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from "@/components/ui/pagination";
-import { FilterButton, ActiveFilters, type ActiveFilter, type FilterField } from "@/components/ui/filter-bar";
-import { SplitButton, SplitButtonAction, SplitButtonMenu, SplitButtonMenuItem } from "@/components/ui/split-button";
-import { cn } from "@/lib/utils";
-import { useStore } from "./store";
-import { useRouter } from "./router";
-import { MemberStack, PriorityBadge, StatusPill, formatCurrency, formatDate } from "./shared";
-import type { Project, ProjectStatus } from "./types";
-import { ProjectFormModal } from "./project-form-modal";
-import { ConfirmDialog } from "./confirm-dialog";
+} from '@/components/ui/pagination';
+import { FilterButton, ActiveFilters, type ActiveFilter, type FilterField } from '@/components/ui/filter-bar';
+import { SplitButton, SplitButtonAction, SplitButtonMenu, SplitButtonMenuItem } from '@/components/ui/split-button';
+import { cn } from '@/lib/utils';
+import { useStore } from './store';
+import { useRouter } from './router';
+import { MemberStack, PriorityBadge, StatusPill, formatCurrency, formatDate } from './shared';
+import type { Project, ProjectStatus } from './types';
+import { ProjectFormModal } from './project-form-modal';
+import { ConfirmDialog } from './confirm-dialog';
 
-type SortKey = "name" | "status" | "progress" | "dueDate" | "budget";
-type SortDir = "asc" | "desc";
+type SortKey = 'name' | 'status' | 'progress' | 'dueDate' | 'budget';
+type SortDir = 'asc' | 'desc';
 
 const PAGE_SIZE = 5;
 
 const STATUS_ORDER: Record<ProjectStatus, number> = {
   active: 0,
   planning: 1,
-  "on-hold": 2,
+  'on-hold': 2,
   completed: 3,
 };
 
 export function ProjectsList() {
   const { projects, tasks, members, addProject, updateProject, deleteProject } = useStore();
   const { navigate } = useRouter();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<ActiveFilter[]>([]);
-  const [view, setView] = useState<"table" | "grid">("table");
-  const [sortKey, setSortKey] = useState<SortKey>("name");
-  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const [view, setView] = useState<'table' | 'grid'>('table');
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [page, setPage] = useState(1);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -91,7 +84,7 @@ export function ProjectsList() {
     for (const t of tasks) {
       const entry = map.get(t.projectId) ?? { total: 0, open: 0 };
       entry.total += 1;
-      if (t.status !== "done") entry.open += 1;
+      if (t.status !== 'done') entry.open += 1;
       map.set(t.projectId, entry);
     }
     return map;
@@ -100,39 +93,39 @@ export function ProjectsList() {
   const filterFields: FilterField[] = useMemo(
     () => [
       {
-        type: "option",
-        key: "status",
-        label: "Status",
+        type: 'option',
+        key: 'status',
+        label: 'Status',
         icon: Flag,
         options: [
-          { value: "planning", label: "Planning" },
-          { value: "active", label: "Active" },
-          { value: "on-hold", label: "On Hold" },
-          { value: "completed", label: "Completed" },
+          { value: 'planning', label: 'Planning' },
+          { value: 'active', label: 'Active' },
+          { value: 'on-hold', label: 'On Hold' },
+          { value: 'completed', label: 'Completed' },
         ],
       },
       {
-        type: "option",
-        key: "priority",
-        label: "Priority",
+        type: 'option',
+        key: 'priority',
+        label: 'Priority',
         icon: Flag,
         options: [
-          { value: "low", label: "Low" },
-          { value: "medium", label: "Medium" },
-          { value: "high", label: "High" },
-          { value: "urgent", label: "Urgent" },
+          { value: 'low', label: 'Low' },
+          { value: 'medium', label: 'Medium' },
+          { value: 'high', label: 'High' },
+          { value: 'urgent', label: 'Urgent' },
         ],
       },
       {
-        type: "option",
-        key: "owner",
-        label: "Owner",
+        type: 'option',
+        key: 'owner',
+        label: 'Owner',
         options: members.map((m) => ({ value: m.id, label: m.name })),
       },
       {
-        type: "option",
-        key: "tag",
-        label: "Tag",
+        type: 'option',
+        key: 'tag',
+        label: 'Tag',
         icon: Tag,
         options: Array.from(new Set(projects.flatMap((p) => p.tags))).map((t) => ({
           value: t,
@@ -140,32 +133,32 @@ export function ProjectsList() {
         })),
       },
       {
-        type: "date-range",
-        key: "due",
-        label: "Due date",
+        type: 'date-range',
+        key: 'due',
+        label: 'Due date',
       },
     ],
-    [members, projects],
+    [members, projects]
   );
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return projects.filter((p) => {
       if (q) {
-        const hay = `${p.name} ${p.key} ${p.description} ${p.tags.join(" ")}`.toLowerCase();
+        const hay = `${p.name} ${p.key} ${p.description} ${p.tags.join(' ')}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       for (const f of filters) {
-        if (f.type === "pending") continue;
-        if (f.key === "status" && f.type === "option") {
+        if (f.type === 'pending') continue;
+        if (f.key === 'status' && f.type === 'option') {
           if (!f.values.includes(p.status)) return false;
-        } else if (f.key === "priority" && f.type === "option") {
+        } else if (f.key === 'priority' && f.type === 'option') {
           if (!f.values.includes(p.priority)) return false;
-        } else if (f.key === "owner" && f.type === "option") {
+        } else if (f.key === 'owner' && f.type === 'option') {
           if (!f.values.includes(p.ownerId)) return false;
-        } else if (f.key === "tag" && f.type === "option") {
+        } else if (f.key === 'tag' && f.type === 'option') {
           if (!p.tags.some((t) => f.values.includes(t))) return false;
-        } else if (f.key === "due" && f.type === "date-range") {
+        } else if (f.key === 'due' && f.type === 'date-range') {
           const due = new Date(p.dueDate).getTime();
           if (due < f.start.getTime() || due > f.end.getTime()) return false;
         }
@@ -176,19 +169,21 @@ export function ProjectsList() {
 
   const sorted = useMemo(() => {
     const copy = [...filtered];
-    const dir = sortDir === "asc" ? 1 : -1;
+    const dir = sortDir === 'asc' ? 1 : -1;
     copy.sort((a, b) => {
       switch (sortKey) {
-        case "name":
+        case 'name':
           return a.name.localeCompare(b.name) * dir;
-        case "status":
+        case 'status':
           return (STATUS_ORDER[a.status] - STATUS_ORDER[b.status]) * dir;
-        case "progress":
+        case 'progress':
           return (a.progress - b.progress) * dir;
-        case "dueDate":
+        case 'dueDate':
           return (new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()) * dir;
-        case "budget":
+        case 'budget':
           return (a.budget - b.budget) * dir;
+        default:
+          return 0;
       }
     });
     return copy;
@@ -200,10 +195,10 @@ export function ProjectsList() {
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortKey(key);
-      setSortDir("asc");
+      setSortDir('asc');
     }
   }
 
@@ -217,17 +212,17 @@ export function ProjectsList() {
     setModalOpen(true);
   }
 
-  function handleSubmit(input: Omit<Project, "id" | "createdAt">) {
+  function handleSubmit(input: Omit<Project, 'id' | 'createdAt'>) {
     if (editing) {
       updateProject(editing.id, input);
       toast.success(`Updated "${input.name}"`);
     } else {
       const created = addProject(input);
-      toast.success("Project created", {
+      toast.success('Project created', {
         description: `${created.name} · ${created.key}`,
         action: {
-          label: "Open",
-          onClick: () => navigate({ name: "project", id: created.id }),
+          label: 'Open',
+          onClick: () => navigate({ name: 'project', id: created.id }),
         },
       });
     }
@@ -238,28 +233,28 @@ export function ProjectsList() {
       ...project,
       name: `${project.name} (copy)`,
       key: `${project.key}-COPY`,
-      status: "planning",
+      status: 'planning',
       progress: 0,
     });
-    toast.success("Project duplicated", { description: copy.key });
+    toast.success('Project duplicated', { description: copy.key });
   }
 
   function handleArchive(project: Project) {
-    updateProject(project.id, { status: "on-hold" });
+    updateProject(project.id, { status: 'on-hold' });
     toast.message(`${project.name} moved to On Hold`, {
-      description: "You can resume it anytime from the status filter.",
+      description: 'You can resume it anytime from the status filter.',
     });
   }
 
   function handleActivate(project: Project) {
-    updateProject(project.id, { status: "active" });
+    updateProject(project.id, { status: 'active' });
     toast.success(`${project.name} is active`);
   }
 
   function handleDelete(project: Project) {
     const snapshot = project;
     deleteProject(project.id);
-    toast.success("Project deleted", {
+    toast.success('Project deleted', {
       description: `${snapshot.name} is gone.`,
     });
     setConfirmDelete(null);
@@ -272,19 +267,17 @@ export function ProjectsList() {
         description="Browse, filter, and manage every project across the workspace."
         actions={
           <>
-            <Button variant="outline" size="sm" action="export" onClick={() => toast("Export queued")} />
+            <Button variant="outline" size="sm" action="export" onClick={() => toast('Export queued')} />
             <SplitButton variant="default" size="default">
               <SplitButtonAction onClick={openCreate}>
                 <Plus className="size-4" />
                 New project
               </SplitButtonAction>
               <SplitButtonMenu>
-                <SplitButtonMenuItem onClick={() => toast("From template — coming soon")}>
+                <SplitButtonMenuItem onClick={() => toast('From template — coming soon')}>
                   From template
                 </SplitButtonMenuItem>
-                <SplitButtonMenuItem onClick={() => toast("Imported 0 projects")}>
-                  Import from CSV
-                </SplitButtonMenuItem>
+                <SplitButtonMenuItem onClick={() => toast('Imported 0 projects')}>Import from CSV</SplitButtonMenuItem>
               </SplitButtonMenu>
             </SplitButton>
           </>
@@ -305,7 +298,7 @@ export function ProjectsList() {
                 fields={filterFields}
                 activeKeys={new Set(filters.map((f) => f.key))}
                 onAdd={(key) => {
-                  setFilters((prev) => [...prev, { key, type: "pending" }]);
+                  setFilters((prev) => [...prev, { key, type: 'pending' }]);
                 }}
               />
               <span className="text-xs text-muted-foreground">
@@ -314,7 +307,7 @@ export function ProjectsList() {
               </span>
             </div>
           </div>
-          <Tabs value={view} onValueChange={(v) => setView(v as "table" | "grid")}>
+          <Tabs value={view} onValueChange={(v) => setView(v as 'table' | 'grid')}>
             <TabsList>
               <TabsTrigger value="table" className="gap-1">
                 <List className="size-3.5" />
@@ -337,7 +330,7 @@ export function ProjectsList() {
         )}
         <Separator />
         <CardContent className="p-0">
-          {view === "table" ? (
+          {view === 'table' ? (
             <TableView
               items={pageItems}
               memberById={memberById}
@@ -345,7 +338,7 @@ export function ProjectsList() {
               sortKey={sortKey}
               sortDir={sortDir}
               onSort={toggleSort}
-              onOpen={(id) => navigate({ name: "project", id })}
+              onOpen={(id) => navigate({ name: 'project', id })}
               onEdit={openEdit}
               onDuplicate={handleDuplicate}
               onArchive={handleArchive}
@@ -357,7 +350,7 @@ export function ProjectsList() {
               items={pageItems}
               memberById={memberById}
               taskCount={taskCount}
-              onOpen={(id) => navigate({ name: "project", id })}
+              onOpen={(id) => navigate({ name: 'project', id })}
               onEdit={openEdit}
               onDelete={(p) => setConfirmDelete(p)}
             />
@@ -379,8 +372,8 @@ export function ProjectsList() {
             <Separator />
             <div className="flex items-center justify-between px-6 py-3 text-sm">
               <p className="text-xs text-muted-foreground">
-                Showing {(currentPage - 1) * PAGE_SIZE + 1}-
-                {Math.min(currentPage * PAGE_SIZE, sorted.length)} of {sorted.length}
+                Showing {(currentPage - 1) * PAGE_SIZE + 1}-{Math.min(currentPage * PAGE_SIZE, sorted.length)} of{' '}
+                {sorted.length}
               </p>
               <ProjectPagination page={currentPage} pageCount={pageCount} onChange={setPage} />
             </div>
@@ -388,12 +381,7 @@ export function ProjectsList() {
         )}
       </Card>
 
-      <ProjectFormModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        project={editing}
-        onSubmit={handleSubmit}
-      />
+      <ProjectFormModal open={modalOpen} onOpenChange={setModalOpen} project={editing} onSubmit={handleSubmit} />
       <ConfirmDialog
         open={!!confirmDelete}
         onOpenChange={(o) => !o && setConfirmDelete(null)}
@@ -408,7 +396,7 @@ export function ProjectsList() {
 
 interface TableViewProps {
   items: Project[];
-  memberById: Record<string, import("./types").Member>;
+  memberById: Record<string, import('./types').Member>;
   taskCount: Map<string, { total: number; open: number }>;
   sortKey: SortKey;
   sortDir: SortDir;
@@ -439,13 +427,13 @@ function SortHeader({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground",
-        active && "text-foreground",
-        className,
+        'inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground',
+        active && 'text-foreground',
+        className
       )}
     >
       {children}
-      <ArrowUpDown className={cn("size-3", active ? "opacity-80" : "opacity-40", dir === "desc" && "rotate-180")} />
+      <ArrowUpDown className={cn('size-3', active ? 'opacity-80' : 'opacity-40', dir === 'desc' && 'rotate-180')} />
     </button>
   );
 }
@@ -469,29 +457,34 @@ function TableView({
       <TableHeader>
         <TableRow>
           <TableHead>
-            <SortHeader active={sortKey === "name"} dir={sortDir} onClick={() => onSort("name")}>
+            <SortHeader active={sortKey === 'name'} dir={sortDir} onClick={() => onSort('name')}>
               Project
             </SortHeader>
           </TableHead>
           <TableHead className="hidden lg:table-cell">Owner & team</TableHead>
           <TableHead className="hidden md:table-cell">
-            <SortHeader active={sortKey === "status"} dir={sortDir} onClick={() => onSort("status")}>
+            <SortHeader active={sortKey === 'status'} dir={sortDir} onClick={() => onSort('status')}>
               Status
             </SortHeader>
           </TableHead>
           <TableHead className="hidden md:table-cell">Priority</TableHead>
           <TableHead className="w-48">
-            <SortHeader active={sortKey === "progress"} dir={sortDir} onClick={() => onSort("progress")}>
+            <SortHeader active={sortKey === 'progress'} dir={sortDir} onClick={() => onSort('progress')}>
               Progress
             </SortHeader>
           </TableHead>
           <TableHead className="hidden xl:table-cell">
-            <SortHeader active={sortKey === "dueDate"} dir={sortDir} onClick={() => onSort("dueDate")}>
+            <SortHeader active={sortKey === 'dueDate'} dir={sortDir} onClick={() => onSort('dueDate')}>
               Due
             </SortHeader>
           </TableHead>
           <TableHead className="hidden xl:table-cell text-right">
-            <SortHeader active={sortKey === "budget"} dir={sortDir} onClick={() => onSort("budget")} className="ml-auto">
+            <SortHeader
+              active={sortKey === 'budget'}
+              dir={sortDir}
+              onClick={() => onSort('budget')}
+              className="ml-auto"
+            >
               Budget
             </SortHeader>
           </TableHead>
@@ -504,20 +497,16 @@ function TableView({
           const team = project.memberIds.map((id) => memberById[id]).filter(Boolean);
           const counts = taskCount.get(project.id) ?? { total: 0, open: 0 };
           return (
-            <TableRow
-              key={project.id}
-              className="cursor-pointer"
-              onClick={() => onOpen(project.id)}
-            >
+            <TableRow key={project.id} className="cursor-pointer" onClick={() => onOpen(project.id)}>
               <TableCell>
                 <div className="flex items-center gap-3">
                   <div
                     className="flex size-10 items-center justify-center rounded-md border text-xs font-semibold text-muted-foreground"
                     style={{
-                      backgroundColor: `color-mix(in oklch, ${owner?.avatarColor ?? "oklch(0.7 0.05 260)"} 12%, transparent)`,
+                      backgroundColor: `color-mix(in oklch, ${owner?.avatarColor ?? 'oklch(0.7 0.05 260)'} 12%, transparent)`,
                     }}
                   >
-                    {project.key.split("-")[1]?.slice(0, 2) ?? "PW"}
+                    {project.key.split('-')[1]?.slice(0, 2) ?? 'PW'}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -545,7 +534,7 @@ function TableView({
               <TableCell className="hidden lg:table-cell">
                 <div className="flex items-center gap-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">{owner?.name ?? "Unassigned"}</p>
+                    <p className="truncate text-sm font-medium">{owner?.name ?? 'Unassigned'}</p>
                     <p className="truncate text-xs text-muted-foreground">{owner?.role}</p>
                   </div>
                   <MemberStack members={team} size="xs" max={3} />
@@ -600,7 +589,7 @@ function GridView({
   onDelete,
 }: {
   items: Project[];
-  memberById: Record<string, import("./types").Member>;
+  memberById: Record<string, import('./types').Member>;
   taskCount: Map<string, { total: number; open: number }>;
   onOpen: (id: string) => void;
   onEdit: (project: Project) => void;
@@ -624,9 +613,7 @@ function GridView({
                   {project.key}
                 </code>
                 <CardTitle className="line-clamp-1 text-base">{project.name}</CardTitle>
-                <CardDescription className="line-clamp-2 text-xs">
-                  {project.description}
-                </CardDescription>
+                <CardDescription className="line-clamp-2 text-xs">{project.description}</CardDescription>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
@@ -635,13 +622,21 @@ function GridView({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onEdit(project); }}>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(project);
+                    }}
+                  >
                     <Pencil className="size-4" />
                     Edit
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-destructive"
-                    onClick={(e) => { e.stopPropagation(); onDelete(project); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(project);
+                    }}
                   >
                     <Trash2 className="size-4" />
                     Delete
@@ -664,8 +659,10 @@ function GridView({
               <div className="flex items-center justify-between text-xs">
                 <MemberStack members={team} size="xs" max={4} />
                 <div className="text-right text-muted-foreground">
-                  <p className="font-medium text-foreground">{owner?.name ?? "Unassigned"}</p>
-                  <p>{counts.open} open · due {formatDate(project.dueDate)}</p>
+                  <p className="font-medium text-foreground">{owner?.name ?? 'Unassigned'}</p>
+                  <p>
+                    {counts.open} open · due {formatDate(project.dueDate)}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -716,7 +713,7 @@ function RowActions({
           Duplicate
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {project.status === "active" ? (
+        {project.status === 'active' ? (
           <DropdownMenuItem onClick={onArchive}>
             <Archive className="size-4" />
             Move to on-hold
@@ -746,7 +743,7 @@ function ProjectPagination({
   onChange: (page: number) => void;
 }) {
   const pages = useMemo(() => {
-    const list: (number | "ellipsis")[] = [];
+    const list: (number | 'ellipsis')[] = [];
     const pushRange = (from: number, to: number) => {
       for (let i = from; i <= to; i += 1) list.push(i);
     };
@@ -754,9 +751,9 @@ function ProjectPagination({
       pushRange(1, pageCount);
     } else {
       list.push(1);
-      if (page > 3) list.push("ellipsis");
+      if (page > 3) list.push('ellipsis');
       pushRange(Math.max(2, page - 1), Math.min(pageCount - 1, page + 1));
-      if (page < pageCount - 2) list.push("ellipsis");
+      if (page < pageCount - 2) list.push('ellipsis');
       list.push(pageCount);
     }
     return list;
@@ -773,11 +770,11 @@ function ProjectPagination({
               if (page > 1) onChange(page - 1);
             }}
             aria-disabled={page === 1}
-            className={page === 1 ? "pointer-events-none opacity-50" : undefined}
+            className={page === 1 ? 'pointer-events-none opacity-50' : undefined}
           />
         </PaginationItem>
         {pages.map((p, idx) =>
-          p === "ellipsis" ? (
+          p === 'ellipsis' ? (
             <PaginationItem key={`e${idx}`}>
               <PaginationEllipsis />
             </PaginationItem>
@@ -794,7 +791,7 @@ function ProjectPagination({
                 {p}
               </PaginationLink>
             </PaginationItem>
-          ),
+          )
         )}
         <PaginationItem>
           <PaginationNext
@@ -804,7 +801,7 @@ function ProjectPagination({
               if (page < pageCount) onChange(page + 1);
             }}
             aria-disabled={page === pageCount}
-            className={page === pageCount ? "pointer-events-none opacity-50" : undefined}
+            className={page === pageCount ? 'pointer-events-none opacity-50' : undefined}
           />
         </PaginationItem>
       </PaginationContent>

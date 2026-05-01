@@ -1,11 +1,13 @@
-import { AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { DemoSection } from "@/showcase/component-page";
+import { AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function ToggleGroupDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Single" code={`import { AlignLeft, AlignCenter, AlignRight } from "lucide-react"
+      <DemoSection
+        title="Single"
+        code={`import { AlignLeft, AlignCenter, AlignRight } from "lucide-react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 <ToggleGroup type="single" defaultValue="center">
@@ -18,7 +20,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
   <ToggleGroupItem value="right" aria-label="Align right">
     <AlignRight />
   </ToggleGroupItem>
-</ToggleGroup>`}>
+</ToggleGroup>`}
+      >
         <ToggleGroup type="single" defaultValue="center">
           <ToggleGroupItem value="left" aria-label="Align left">
             <AlignLeft />

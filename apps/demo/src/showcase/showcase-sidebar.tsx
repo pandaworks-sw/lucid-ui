@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { ExternalLink, Search, Sparkles } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { cn } from "@/lib/utils";
+import { useState } from 'react';
+import { ExternalLink, Search, Sparkles } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { cn } from '@/lib/utils';
 
 export interface SidebarCategory {
   label: string;
@@ -14,21 +14,15 @@ interface ShowcaseSidebarProps {
   onSelect: (name: string) => void;
 }
 
-export function ShowcaseSidebar({
-  categories,
-  active,
-  onSelect,
-}: ShowcaseSidebarProps) {
-  const [search, setSearch] = useState("");
+export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSidebarProps) {
+  const [search, setSearch] = useState('');
   const query = search.toLowerCase();
 
   const filtered = categories
     .map((cat) => ({
       ...cat,
       items: cat.items.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query) ||
-          item.name.toLowerCase().includes(query)
+        (item) => item.title.toLowerCase().includes(query) || item.name.toLowerCase().includes(query)
       ),
     }))
     .filter((cat) => cat.items.length > 0);
@@ -36,26 +30,20 @@ export function ShowcaseSidebar({
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
       <div className="flex items-center gap-2 border-b px-4 py-3">
-        <h1 className="text-sm font-semibold tracking-tight">
-          Pandahrms UI
-        </h1>
-        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
-          Registry
-        </span>
+        <h1 className="text-sm font-semibold tracking-tight">Pandahrms UI</h1>
+        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">Registry</span>
       </div>
 
       <div className="space-y-2 px-3 pt-3">
         <button
-          onClick={() => onSelect("ai-integration")}
+          onClick={() => onSelect('ai-integration')}
           className={cn(
-            "group flex w-full items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-left text-sm transition-colors hover:border-primary/40",
-            active === "ai-integration" && "border-primary/60",
+            'group flex w-full items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-left text-sm transition-colors hover:border-primary/40',
+            active === 'ai-integration' && 'border-primary/60'
           )}
         >
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Use with AI
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Use with AI</p>
             <p className="text-xs text-muted-foreground group-hover:text-foreground">
               Copy the prompt for Claude, Cursor, etc.
             </p>
@@ -99,7 +87,7 @@ export function ShowcaseSidebar({
             <ul className="space-y-0.5">
               {cat.items.map((item) => (
                 <li key={item.name}>
-                  {item.name === "full-demo" ? (
+                  {item.name === 'full-demo' ? (
                     <a
                       href={`${import.meta.env.BASE_URL}full-demo.html`}
                       target="_blank"
@@ -113,10 +101,10 @@ export function ShowcaseSidebar({
                     <button
                       onClick={() => onSelect(item.name)}
                       className={cn(
-                        "w-full rounded-md px-2 py-1.5 text-left text-sm transition-colors",
+                        'w-full rounded-md px-2 py-1.5 text-left text-sm transition-colors',
                         active === item.name
-                          ? "bg-primary/10 font-medium text-primary"
-                          : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                          ? 'bg-primary/10 font-medium text-primary'
+                          : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                       )}
                     >
                       {item.title}
@@ -128,9 +116,7 @@ export function ShowcaseSidebar({
           </div>
         ))}
         {filtered.length === 0 && (
-          <p className="px-2 py-4 text-center text-sm text-muted-foreground">
-            No components found.
-          </p>
+          <p className="px-2 py-4 text-center text-sm text-muted-foreground">No components found.</p>
         )}
       </nav>
 

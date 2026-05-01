@@ -1,5 +1,5 @@
-import { DemoSection } from "@/showcase/component-page";
-import { ExpandableText } from "@/components/ui/expandable-text";
+import { DemoSection } from '@/showcase/component-page';
+import { ExpandableText } from '@/components/ui/expandable-text';
 
 const LONG_TEXT = `This is the first line of a long paragraph.
 Second line continues here with more detail.
@@ -13,7 +13,7 @@ const SHORT_TEXT = `This is a short text.
 It only has two lines.`;
 
 const WRAPPED_TEXT =
-  "This is a very long single line of text that should wrap naturally when it exceeds the container width. It demonstrates that the component handles both explicit newline characters and CSS-wrapped long lines correctly. The expandable behavior should work seamlessly in both cases.";
+  'This is a very long single line of text that should wrap naturally when it exceeds the container width. It demonstrates that the component handles both explicit newline characters and CSS-wrapped long lines correctly. The expandable behavior should work seamlessly in both cases.';
 
 export default function ExpandableTextDemo() {
   return (
@@ -46,11 +46,7 @@ export default function ExpandableTextDemo() {
       </DemoSection>
 
       <DemoSection title="Custom labels">
-        <ExpandableText
-          visibleLines={2}
-          showMoreLabel="Read more..."
-          showLessLabel="Read less..."
-        >
+        <ExpandableText visibleLines={2} showMoreLabel="Read more..." showLessLabel="Read less...">
           {LONG_TEXT}
         </ExpandableText>
       </DemoSection>

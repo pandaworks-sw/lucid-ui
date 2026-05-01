@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface LoadingPageProps {
   /** Logo or icon to display above the loading dots */
@@ -11,18 +11,11 @@ interface LoadingPageProps {
   className?: string;
 }
 
-function LoadingPage({
-  logo,
-  message = "Loading...",
-  className,
-}: LoadingPageProps) {
+function LoadingPage({ logo, message = 'Loading...', className }: LoadingPageProps) {
   return (
     <div
       data-slot="loading-page"
-      className={cn(
-        "flex h-full w-full flex-col items-center justify-center gap-6",
-        className
-      )}
+      className={cn('flex h-full w-full flex-col items-center justify-center gap-6', className)}
     >
       {logo && (
         <div className="relative">
@@ -32,18 +25,9 @@ function LoadingPage({
       )}
       <div className="flex flex-col items-center gap-3">
         <div className="flex space-x-1">
-          <div
-            className="h-2 w-2 animate-bounce rounded-full bg-primary"
-            style={{ animationDelay: "0ms" }}
-          />
-          <div
-            className="h-2 w-2 animate-bounce rounded-full bg-primary"
-            style={{ animationDelay: "150ms" }}
-          />
-          <div
-            className="h-2 w-2 animate-bounce rounded-full bg-primary"
-            style={{ animationDelay: "300ms" }}
-          />
+          <div className="h-2 w-2 animate-bounce rounded-full bg-primary" style={{ animationDelay: '0ms' }} />
+          <div className="h-2 w-2 animate-bounce rounded-full bg-primary" style={{ animationDelay: '150ms' }} />
+          <div className="h-2 w-2 animate-bounce rounded-full bg-primary" style={{ animationDelay: '300ms' }} />
         </div>
         <p className="text-sm text-muted-foreground">{message}</p>
       </div>

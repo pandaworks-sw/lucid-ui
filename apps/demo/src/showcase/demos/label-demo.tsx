@@ -1,17 +1,20 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { DemoSection } from '@/showcase/component-page';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export default function LabelDemo() {
   return (
     <>
-      <DemoSection title="Label with Input" code={`import { Label } from "@/components/ui/label"
+      <DemoSection
+        title="Label with Input"
+        code={`import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
 <div className="grid w-full max-w-sm gap-1.5">
   <Label htmlFor="email">Email</Label>
   <Input type="email" id="email" placeholder="name@example.com" />
-</div>`}>
+</div>`}
+      >
         <div className="grid w-full max-w-sm gap-1.5">
           <Label htmlFor="email">Email</Label>
           <Input type="email" id="email" placeholder="name@example.com" />
@@ -24,9 +27,7 @@ import { Input } from "@/components/ui/input"
             Full Name <span className="text-destructive">*</span>
           </Label>
           <Input id="fullname" placeholder="Enter your full name" />
-          <p className="text-sm text-muted-foreground">
-            This field is required.
-          </p>
+          <p className="text-sm text-muted-foreground">This field is required.</p>
         </div>
       </DemoSection>
 
@@ -35,15 +36,9 @@ import { Input } from "@/components/ui/input"
           <Label htmlFor="disabled-input" className="opacity-70">
             Department
           </Label>
-          <Input
-            id="disabled-input"
-            placeholder="Engineering"
-            disabled
-            value="Engineering"
-          />
+          <Input id="disabled-input" placeholder="Engineering" disabled value="Engineering" />
           <p className="text-sm text-muted-foreground">
-            The label inherits the disabled appearance when its peer input is
-            disabled.
+            The label inherits the disabled appearance when its peer input is disabled.
           </p>
         </div>
       </DemoSection>

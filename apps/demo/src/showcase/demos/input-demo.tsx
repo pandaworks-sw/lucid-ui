@@ -1,13 +1,16 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DemoSection } from '@/showcase/component-page';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function InputDemo() {
   return (
     <>
-      <DemoSection title="Default" code={`import { Input } from "@/components/ui/input"
+      <DemoSection
+        title="Default"
+        code={`import { Input } from "@/components/ui/input"
 
-<Input placeholder="Search employees..." />`}>
+<Input placeholder="Search employees..." />`}
+      >
         <div className="max-w-sm">
           <Input />
         </div>
@@ -35,35 +38,21 @@ export default function InputDemo() {
       <DemoSection title="Email">
         <div className="grid w-full max-w-sm gap-1.5">
           <Label htmlFor="input-email">Email</Label>
-          <Input
-            type="email"
-            id="input-email"
-            placeholder="name@company.com"
-          />
+          <Input type="email" id="input-email" placeholder="name@company.com" />
         </div>
       </DemoSection>
 
       <DemoSection title="Password">
         <div className="grid w-full max-w-sm gap-1.5">
           <Label htmlFor="input-password">Password</Label>
-          <Input
-            type="password"
-            id="input-password"
-            placeholder="Enter password"
-          />
+          <Input type="password" id="input-password" placeholder="Enter password" />
         </div>
       </DemoSection>
 
       <DemoSection title="Number">
         <div className="grid w-full max-w-sm gap-1.5">
           <Label htmlFor="input-number">Years of Experience</Label>
-          <Input
-            type="number"
-            id="input-number"
-            placeholder="0"
-            min={0}
-            max={50}
-          />
+          <Input type="number" id="input-number" placeholder="0" min={0} max={50} />
         </div>
       </DemoSection>
 

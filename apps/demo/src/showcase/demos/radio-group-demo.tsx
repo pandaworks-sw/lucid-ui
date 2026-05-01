@@ -1,14 +1,16 @@
-import { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { DemoSection } from "@/showcase/component-page";
+import { useState } from 'react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function RadioGroupDemo() {
-  const [value, setValue] = useState("comfortable");
+  const [value, setValue] = useState('comfortable');
 
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+      <DemoSection
+        title="Default"
+        code={`import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 
 <RadioGroup value={value} onValueChange={setValue}>
@@ -20,7 +22,8 @@ import { Label } from "@/components/ui/label"
     <RadioGroupItem value="comfortable" id="r2" />
     <Label htmlFor="r2">Comfortable</Label>
   </div>
-</RadioGroup>`}>
+</RadioGroup>`}
+      >
         <RadioGroup value={value} onValueChange={setValue}>
           <div className="flex items-center gap-2">
             <RadioGroupItem value="default" id="r1" />
@@ -35,9 +38,7 @@ import { Label } from "@/components/ui/label"
             <Label htmlFor="r3">Compact</Label>
           </div>
         </RadioGroup>
-        {value && (
-          <p className="mt-2 text-sm text-muted-foreground">Selected: {value}</p>
-        )}
+        {value && <p className="mt-2 text-sm text-muted-foreground">Selected: {value}</p>}
       </DemoSection>
 
       <DemoSection title="Horizontal">
@@ -61,11 +62,15 @@ import { Label } from "@/components/ui/label"
         <RadioGroup defaultValue="option-one" disabled>
           <div className="flex items-center gap-2">
             <RadioGroupItem value="option-one" id="d1" />
-            <Label htmlFor="d1" className="opacity-50">Selected (disabled)</Label>
+            <Label htmlFor="d1" className="opacity-50">
+              Selected (disabled)
+            </Label>
           </div>
           <div className="flex items-center gap-2">
             <RadioGroupItem value="option-two" id="d2" />
-            <Label htmlFor="d2" className="opacity-50">Unselected (disabled)</Label>
+            <Label htmlFor="d2" className="opacity-50">
+              Unselected (disabled)
+            </Label>
           </div>
         </RadioGroup>
       </DemoSection>

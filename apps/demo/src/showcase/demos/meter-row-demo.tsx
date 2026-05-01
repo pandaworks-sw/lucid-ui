@@ -1,27 +1,27 @@
-import { DemoSection } from "@/showcase/component-page";
-import { MeterRow } from "@/components/ui/meter-row";
-import { Badge } from "@/components/ui/badge";
+import { DemoSection } from '@/showcase/component-page';
+import { MeterRow } from '@/components/ui/meter-row';
+import { Badge } from '@/components/ui/badge';
 
 const STATUS_DATA: Array<{
   label: string;
   count: number;
-  tone: "info" | "success" | "warning" | "muted";
+  tone: 'info' | 'success' | 'warning' | 'muted';
 }> = [
-  { label: "Planning", count: 2, tone: "info" },
-  { label: "Active", count: 5, tone: "success" },
-  { label: "On Hold", count: 1, tone: "warning" },
-  { label: "Completed", count: 1, tone: "muted" },
+  { label: 'Planning', count: 2, tone: 'info' },
+  { label: 'Active', count: 5, tone: 'success' },
+  { label: 'On Hold', count: 1, tone: 'warning' },
+  { label: 'Completed', count: 1, tone: 'muted' },
 ];
 
 const PRIORITY_DATA: Array<{
   label: string;
   count: number;
-  tone: "destructive" | "warning" | "info" | "muted";
+  tone: 'destructive' | 'warning' | 'info' | 'muted';
 }> = [
-  { label: "Urgent", count: 2, tone: "destructive" },
-  { label: "High", count: 2, tone: "warning" },
-  { label: "Medium", count: 3, tone: "info" },
-  { label: "Low", count: 2, tone: "muted" },
+  { label: 'Urgent', count: 2, tone: 'destructive' },
+  { label: 'High', count: 2, tone: 'warning' },
+  { label: 'Medium', count: 3, tone: 'info' },
+  { label: 'Low', count: 2, tone: 'muted' },
 ];
 
 export default function MeterRowDemo() {
@@ -57,7 +57,11 @@ export default function MeterRowDemo() {
           {STATUS_DATA.map((d) => (
             <MeterRow
               key={d.label}
-              label={<Badge variant={d.tone} dot>{d.label}</Badge>}
+              label={
+                <Badge variant={d.tone} dot>
+                  {d.label}
+                </Badge>
+              }
               value={d.count}
               max={statusMax}
               valueLabel={d.count}
@@ -72,11 +76,7 @@ export default function MeterRowDemo() {
           {PRIORITY_DATA.map((d) => (
             <MeterRow
               key={d.label}
-              label={
-                <Badge variant={d.tone === "destructive" ? "destructive" : d.tone}>
-                  {d.label}
-                </Badge>
-              }
+              label={<Badge variant={d.tone === 'destructive' ? 'destructive' : d.tone}>{d.label}</Badge>}
               value={d.count}
               max={Math.max(...PRIORITY_DATA.map((x) => x.count))}
               valueLabel={d.count}

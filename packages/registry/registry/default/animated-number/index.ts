@@ -1,1 +1,1 @@
-export * from "./animated-number"
+export * from './animated-number';

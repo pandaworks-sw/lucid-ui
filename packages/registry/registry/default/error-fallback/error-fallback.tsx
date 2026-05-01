@@ -1,13 +1,7 @@
-import { AlertCircle, RefreshCcw, RotateCcw } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { AlertCircle, RefreshCcw, RotateCcw } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ErrorFallbackProps {
   /** The error object */
@@ -15,7 +9,7 @@ interface ErrorFallbackProps {
   /** Called when user clicks "Try Again" */
   onReset: () => void;
   /** Variant: "root" = full-screen with reload, "route" = inline with custom secondary */
-  variant?: "root" | "route";
+  variant?: 'root' | 'route';
   /** Title text */
   title?: string;
   /** Description text */
@@ -31,29 +25,24 @@ interface ErrorFallbackProps {
 function ErrorFallback({
   error,
   onReset,
-  variant = "root",
-  title = "Something went wrong",
+  variant = 'root',
+  title = 'Something went wrong',
   description,
   secondaryAction,
   showDevDetails = false,
   className,
 }: ErrorFallbackProps) {
-  const errorMessage =
-    error instanceof Error ? error.message : "An unknown error occurred";
+  const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
 
   const defaultDescription =
     description ??
-    (variant === "root"
-      ? "The application encountered an unexpected error. Please reload the page or try again."
-      : "This section encountered an error. Please try again or navigate away.");
+    (variant === 'root'
+      ? 'The application encountered an unexpected error. Please reload the page or try again.'
+      : 'This section encountered an error. Please try again or navigate away.');
 
   const defaultSecondaryAction =
-    !secondaryAction && variant === "root" ? (
-      <Button
-        onClick={() => window.location.reload()}
-        variant="default"
-        className="flex-1"
-      >
+    !secondaryAction && variant === 'root' ? (
+      <Button onClick={() => window.location.reload()} variant="default" className="flex-1">
         <RotateCcw className="mr-2 h-4 w-4" /> Reload Page
       </Button>
     ) : null;
@@ -62,8 +51,8 @@ function ErrorFallback({
     <div
       data-slot="error-fallback"
       className={cn(
-        "flex items-center justify-center p-4",
-        variant === "root" ? "min-h-screen bg-background" : "min-h-[400px]",
+        'flex items-center justify-center p-4',
+        variant === 'root' ? 'min-h-screen bg-background' : 'min-h-[400px]',
         className
       )}
     >
@@ -71,20 +60,14 @@ function ErrorFallback({
         <CardHeader>
           <div className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
-            <CardTitle className="text-red-900 dark:text-red-100">
-              {title}
-            </CardTitle>
+            <CardTitle className="text-red-900 dark:text-red-100">{title}</CardTitle>
           </div>
-          <CardDescription className="text-red-700 dark:text-red-300">
-            {defaultDescription}
-          </CardDescription>
+          <CardDescription className="text-red-700 dark:text-red-300">{defaultDescription}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {showDevDetails && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-950/30">
-              <p className="break-all font-mono text-sm text-red-900 dark:text-red-100">
-                {errorMessage}
-              </p>
+              <p className="break-all font-mono text-sm text-red-900 dark:text-red-100">{errorMessage}</p>
             </div>
           )}
           <div className="flex gap-2">

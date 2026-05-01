@@ -1,16 +1,12 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DemoSection } from "@/showcase/component-page";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function SelectDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Basic Select" code={`import {
+      <DemoSection
+        title="Basic Select"
+        code={`import {
   Select,
   SelectContent,
   SelectItem,
@@ -27,7 +23,8 @@ export default function SelectDemo() {
     <SelectItem value="banana">Banana</SelectItem>
     <SelectItem value="cherry">Cherry</SelectItem>
   </SelectContent>
-</Select>`}>
+</Select>`}
+      >
         <div className="max-w-xs">
           <Select>
             <SelectTrigger>

@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { Check, Copy } from "lucide-react";
-import { InstallCommand } from "@/components/install-command";
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect } from 'react';
+import { Check, Copy } from 'lucide-react';
+import { InstallCommand } from '@/components/install-command';
+import { cn } from '@/lib/utils';
 
 interface ComponentPageProps {
   title: string;
@@ -10,12 +10,7 @@ interface ComponentPageProps {
   children: React.ReactNode;
 }
 
-export function ComponentPage({
-  title,
-  description,
-  installName,
-  children,
-}: ComponentPageProps) {
+export function ComponentPage({ title, description, installName, children }: ComponentPageProps) {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
@@ -37,11 +32,16 @@ interface DemoSectionProps {
 }
 
 export function DemoSection({ title, code, children }: DemoSectionProps) {
-  const [view, setView] = useState<"preview" | "code">("preview");
+  const [view, setView] = useState<'preview' | 'code'>('preview');
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
-  useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
+  useEffect(
+    () => () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    },
+    []
+  );
 
   async function copyCode() {
     if (!code) return;
@@ -50,7 +50,9 @@ export function DemoSection({ title, code, children }: DemoSectionProps) {
       setCopied(true);
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => setCopied(false), 2000);
-    } catch { /* clipboard not available */ }
+    } catch {
+      /* clipboard not available */
+    }
   }
 
   return (
@@ -60,23 +62,23 @@ export function DemoSection({ title, code, children }: DemoSectionProps) {
         {code && (
           <div className="flex items-center gap-0.5 rounded-md border bg-muted p-0.5">
             <button
-              onClick={() => setView("preview")}
+              onClick={() => setView('preview')}
               className={cn(
-                "rounded-sm px-2.5 py-1 text-xs font-medium transition-colors",
-                view === "preview"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                'rounded-sm px-2.5 py-1 text-xs font-medium transition-colors',
+                view === 'preview'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               Preview
             </button>
             <button
-              onClick={() => setView("code")}
+              onClick={() => setView('code')}
               className={cn(
-                "rounded-sm px-2.5 py-1 text-xs font-medium transition-colors",
-                view === "code"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                'rounded-sm px-2.5 py-1 text-xs font-medium transition-colors',
+                view === 'code'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               Code
@@ -84,7 +86,7 @@ export function DemoSection({ title, code, children }: DemoSectionProps) {
           </div>
         )}
       </div>
-      {view === "preview" || !code ? (
+      {view === 'preview' || !code ? (
         <div className="rounded-lg border bg-background p-6">{children}</div>
       ) : (
         <div className="relative rounded-lg border bg-muted">

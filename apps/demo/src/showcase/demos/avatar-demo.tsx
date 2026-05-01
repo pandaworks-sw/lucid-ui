@@ -1,15 +1,18 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { DemoSection } from '@/showcase/component-page';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export default function AvatarDemo() {
   return (
     <>
-      <DemoSection title="Default" code={`import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+      <DemoSection
+        title="Default"
+        code={`import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 <Avatar>
   <AvatarImage src="/avatar.png" alt="John Doe" />
   <AvatarFallback>JD</AvatarFallback>
-</Avatar>`}>
+</Avatar>`}
+      >
         <div className="flex items-center gap-4">
           <Avatar>
             <AvatarFallback>JD</AvatarFallback>
@@ -73,9 +76,9 @@ export default function AvatarDemo() {
       <DemoSection title="With Names">
         <div className="space-y-4">
           {[
-            { initials: "AR", name: "Alice Reyes", role: "HR Manager" },
-            { initials: "BK", name: "Bob Kim", role: "Team Lead" },
-            { initials: "CL", name: "Clara Lee", role: "Designer" },
+            { initials: 'AR', name: 'Alice Reyes', role: 'HR Manager' },
+            { initials: 'BK', name: 'Bob Kim', role: 'Team Lead' },
+            { initials: 'CL', name: 'Clara Lee', role: 'Designer' },
           ].map((person) => (
             <div key={person.initials} className="flex items-center gap-3">
               <Avatar>
@@ -90,13 +93,15 @@ export default function AvatarDemo() {
         </div>
       </DemoSection>
 
-      <DemoSection title="Square shape" code={`<Avatar shape="square">
+      <DemoSection
+        title="Square shape"
+        code={`<Avatar shape="square">
   <AvatarFallback colorize>PW</AvatarFallback>
-</Avatar>`}>
+</Avatar>`}
+      >
         <p className="text-sm text-muted-foreground">
-          Pass <code className="font-mono text-xs">shape="square"</code> to switch from the default
-          circle to a rounded-square tile. Useful for project keys, app icons, and other "thing"
-          identities (vs people).
+          Pass <code className="font-mono text-xs">shape="square"</code> to switch from the default circle to a
+          rounded-square tile. Useful for project keys, app icons, and other "thing" identities (vs people).
         </p>
         <div className="flex items-center gap-4 pt-3">
           <Avatar shape="square">
@@ -114,17 +119,19 @@ export default function AvatarDemo() {
         </div>
       </DemoSection>
 
-      <DemoSection title="Colorized" code={`<Avatar>
+      <DemoSection
+        title="Colorized"
+        code={`<Avatar>
   <AvatarFallback colorize>JD</AvatarFallback>
-</Avatar>`}>
+</Avatar>`}
+      >
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Pass <code className="font-mono text-xs">colorize</code> to derive a
-            background color from the first character (A–Z mapped to 26 evenly
-            spaced hues).
+            Pass <code className="font-mono text-xs">colorize</code> to derive a background color from the first
+            character (A–Z mapped to 26 evenly spaced hues).
           </p>
           <div className="flex flex-wrap gap-2">
-            {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+            {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((letter) => (
               <Avatar key={letter}>
                 <AvatarFallback colorize>{letter}</AvatarFallback>
               </Avatar>
@@ -132,12 +139,12 @@ export default function AvatarDemo() {
           </div>
           <div className="space-y-3 pt-2">
             {[
-              { initials: "AR", name: "Alice Reyes" },
-              { initials: "BK", name: "Bob Kim" },
-              { initials: "CL", name: "Clara Lee" },
-              { initials: "DM", name: "Devi Marasinghe" },
-              { initials: "EN", name: "Eli Ng" },
-              { initials: "FT", name: "Farah Tan" },
+              { initials: 'AR', name: 'Alice Reyes' },
+              { initials: 'BK', name: 'Bob Kim' },
+              { initials: 'CL', name: 'Clara Lee' },
+              { initials: 'DM', name: 'Devi Marasinghe' },
+              { initials: 'EN', name: 'Eli Ng' },
+              { initials: 'FT', name: 'Farah Tan' },
             ].map((person) => (
               <div key={person.initials} className="flex items-center gap-3">
                 <Avatar>

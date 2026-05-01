@@ -1,14 +1,17 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { DemoSection } from "@/showcase/component-page";
+import { Skeleton } from '@/components/ui/skeleton';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function SkeletonDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Basic Shapes" code={`import { Skeleton } from "@/components/ui/skeleton"
+      <DemoSection
+        title="Basic Shapes"
+        code={`import { Skeleton } from "@/components/ui/skeleton"
 
 <Skeleton className="h-4 w-[250px]" />
 <Skeleton className="h-4 w-[200px]" />
-<Skeleton className="h-12 w-12 rounded-full" />`}>
+<Skeleton className="h-12 w-12 rounded-full" />`}
+      >
         <div className="space-y-3">
           <Skeleton className="h-4 w-[250px]" />
           <Skeleton className="h-4 w-[200px]" />

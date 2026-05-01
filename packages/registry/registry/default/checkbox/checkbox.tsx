@@ -1,8 +1,8 @@
-import { type ComponentProps } from "react";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { CheckIcon, MinusIcon } from "lucide-react";
+import { type ComponentProps } from 'react';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { CheckIcon, MinusIcon } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface CheckboxProps extends Omit<ComponentProps<typeof CheckboxPrimitive.Root>, 'checked'> {
   checked?: boolean | 'indeterminate';

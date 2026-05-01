@@ -1,1 +1,1 @@
-export * from "../app-shell/app-shell-types"
+export * from '../app-shell/app-shell-types';

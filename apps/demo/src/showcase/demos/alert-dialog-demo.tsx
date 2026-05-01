@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,13 +9,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { DemoSection } from "@/showcase/component-page";
+} from '@/components/ui/alert-dialog';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function AlertDialogDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import {
+      <DemoSection
+        title="Default"
+        code={`import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader,
@@ -36,7 +38,8 @@ export default function AlertDialogDemo() {
       <AlertDialogAction>Continue</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
-</AlertDialog>`}>
+</AlertDialog>`}
+      >
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline">Delete Account</Button>
@@ -45,8 +48,8 @@ export default function AlertDialogDemo() {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                This action cannot be undone. This will permanently delete your account and remove your data from our
+                servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

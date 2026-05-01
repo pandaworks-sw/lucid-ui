@@ -4,7 +4,7 @@
 // can express a real SaaS app without local custom UI. Where a screen forces
 // a workaround, see docs/REGISTRY-GAPS.md.
 
-import { forwardRef, useCallback, useState, type ReactNode } from "react";
+import { forwardRef, useCallback, useState, type ReactNode } from 'react';
 import {
   BarChart3,
   FolderKanban,
@@ -14,22 +14,22 @@ import {
   Settings as SettingsIcon,
   User,
   Users,
-} from "lucide-react";
-import { toast } from "sonner";
-import { AppShell } from "@/components/ui/app-shell";
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { RouterProvider, useRouter } from "../saas/router";
-import { StoreProvider, useStore } from "../saas/store";
-import { ProjectFormModal } from "../saas/project-form-modal";
-import { Dashboard } from "./dashboard";
-import { ProjectsList } from "./projects-list";
-import { ProjectDetail } from "./project-detail";
-import { Team } from "./team";
-import { Reports } from "./reports";
-import { Settings } from "./settings";
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { AppShell } from '@/components/ui/app-shell';
+import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { RouterProvider, useRouter } from '../saas/router';
+import { StoreProvider, useStore } from '../saas/store';
+import { ProjectFormModal } from '../saas/project-form-modal';
+import { Dashboard } from './dashboard';
+import { ProjectsList } from './projects-list';
+import { ProjectDetail } from './project-detail';
+import { Team } from './team';
+import { Reports } from './reports';
+import { Settings } from './settings';
 
 interface LinkProps {
   href: string;
@@ -37,38 +37,36 @@ interface LinkProps {
   className?: string;
 }
 
-const ShellLink = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ href, children, className, ...rest }, ref) => {
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      if (href.startsWith("#")) {
-        e.preventDefault();
-        window.location.hash = href;
-      }
-    };
+const ShellLink = forwardRef<HTMLAnchorElement, LinkProps>(({ href, children, className, ...rest }, ref) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      window.location.hash = href;
+    }
+  };
 
-    return (
-      <a ref={ref} href={href} className={className} onClick={handleClick} {...rest}>
-        {children}
-      </a>
-    );
-  },
-);
-ShellLink.displayName = "ShellLink";
+  return (
+    <a ref={ref} href={href} className={className} onClick={handleClick} {...rest}>
+      {children}
+    </a>
+  );
+});
+ShellLink.displayName = 'ShellLink';
 
 function PageRenderer() {
   const { route } = useRouter();
   switch (route.name) {
-    case "dashboard":
+    case 'dashboard':
       return <Dashboard />;
-    case "projects":
+    case 'projects':
       return <ProjectsList />;
-    case "project":
+    case 'project':
       return <ProjectDetail projectId={route.id} />;
-    case "team":
+    case 'team':
       return <Team />;
-    case "reports":
+    case 'reports':
       return <Reports />;
-    case "settings":
+    case 'settings':
       return <Settings />;
   }
 }
@@ -82,59 +80,57 @@ function PureShell() {
   return (
     <>
       <AppShell
-        branding={{ name: "Pandawork · Pure", href: "#/dashboard" }}
+        branding={{ name: 'Pandawork · Pure', href: '#/dashboard' }}
         navigation={[
           {
-            label: "Workspace",
-            href: "#/dashboard",
+            label: 'Workspace',
+            href: '#/dashboard',
             icon: LayoutDashboard,
-            active: route.name === "dashboard",
+            active: route.name === 'dashboard',
           },
           {
-            label: "Projects",
-            href: "#/projects",
+            label: 'Projects',
+            href: '#/projects',
             icon: FolderKanban,
-            active: route.name === "projects" || route.name === "project",
+            active: route.name === 'projects' || route.name === 'project',
           },
           {
-            label: "Team",
-            href: "#/team",
+            label: 'Team',
+            href: '#/team',
             icon: Users,
-            active: route.name === "team",
+            active: route.name === 'team',
           },
           {
-            label: "Reports",
-            href: "#/reports",
+            label: 'Reports',
+            href: '#/reports',
             icon: BarChart3,
-            active: route.name === "reports",
+            active: route.name === 'reports',
           },
-          { type: "separator" },
+          { type: 'separator' },
           {
-            label: "Settings",
-            href: "#/settings",
+            label: 'Settings',
+            href: '#/settings',
             icon: SettingsIcon,
-            active: route.name === "settings",
+            active: route.name === 'settings',
           },
         ]}
         user={{
-          name: "Ahmad Razif",
-          email: "ahmad.razif@pandaworks.com",
+          name: 'Ahmad Razif',
+          email: 'ahmad.razif@pandaworks.com',
           actions: [
-            { label: "Profile", href: "#/settings?tab=profile", icon: User },
-            { label: "Settings", href: "#/settings", icon: SettingsIcon },
+            { label: 'Profile', href: '#/settings?tab=profile', icon: User },
+            { label: 'Settings', href: '#/settings', icon: SettingsIcon },
             {
-              label: "Sign out",
-              onClick: () => toast("Signed out (demo)"),
+              label: 'Sign out',
+              onClick: () => toast('Signed out (demo)'),
               icon: LogOut,
-              variant: "destructive",
+              variant: 'destructive',
             },
           ],
         }}
         header={
           <div className="flex w-full items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">
-              Pure showcase — registry-only
-            </span>
+            <span className="text-sm font-medium text-muted-foreground">Pure showcase — registry-only</span>
             <div className="ml-auto flex items-center gap-2">
               <Button variant="brand" onClick={handleCreateProject}>
                 <Plus className="size-4" />
@@ -156,11 +152,11 @@ function PureShell() {
         onOpenChange={setCreateOpen}
         onSubmit={(input) => {
           const created = addProject(input);
-          toast.success("Project created", {
+          toast.success('Project created', {
             description: `${created.name} · ${created.key}`,
             action: {
-              label: "Open",
-              onClick: () => navigate({ name: "project", id: created.id }),
+              label: 'Open',
+              onClick: () => navigate({ name: 'project', id: created.id }),
             },
           });
         }}

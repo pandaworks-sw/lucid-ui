@@ -1,11 +1,13 @@
-import { Bold, Italic, Underline } from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
-import { DemoSection } from "@/showcase/component-page";
+import { Bold, Italic, Underline } from 'lucide-react';
+import { Toggle } from '@/components/ui/toggle';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function ToggleDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Default" code={`import { Bold, Italic } from "lucide-react"
+      <DemoSection
+        title="Default"
+        code={`import { Bold, Italic } from "lucide-react"
 import { Toggle } from "@/components/ui/toggle"
 
 <Toggle aria-label="Toggle bold">
@@ -15,7 +17,8 @@ import { Toggle } from "@/components/ui/toggle"
 <Toggle variant="outline" aria-label="Toggle italic">
   <Italic />
   Italic
-</Toggle>`}>
+</Toggle>`}
+      >
         <div className="flex gap-2">
           <Toggle aria-label="Toggle bold">
             <Bold />

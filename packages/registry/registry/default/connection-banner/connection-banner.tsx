@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { WifiOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { WifiOff } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface ConnectionBannerProps {
   /** Whether the connection is currently online */
@@ -38,7 +38,7 @@ function ConnectionBanner({
       role="alert"
       aria-live="assertive"
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between bg-destructive px-4 text-destructive-foreground shadow-md transition-transform duration-300",
+        'fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between bg-destructive px-4 text-destructive-foreground shadow-md transition-transform duration-300',
         className
       )}
     >
@@ -53,7 +53,7 @@ function ConnectionBanner({
         disabled={isRetrying}
         className="bg-white text-destructive hover:bg-white/90 dark:bg-gray-100 dark:text-destructive dark:hover:bg-gray-200"
       >
-        {isRetrying ? "Retrying..." : "Retry"}
+        {isRetrying ? 'Retrying...' : 'Retry'}
       </Button>
     </div>
   );

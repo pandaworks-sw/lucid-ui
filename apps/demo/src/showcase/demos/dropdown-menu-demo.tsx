@@ -10,21 +10,23 @@ import {
   PlusCircle,
   Plus,
   LogOut,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { DemoSection } from "@/showcase/component-page";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { DemoSection } from '@/showcase/component-page';
 
 export default function DropdownMenuDemo() {
   return (
     <div className="space-y-8">
-      <DemoSection title="Basic Dropdown Menu" code={`import {
+      <DemoSection
+        title="Basic Dropdown Menu"
+        code={`import {
   DropdownMenu, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -41,7 +43,8 @@ import { Button } from "@/components/ui/button"
     <DropdownMenuSeparator />
     <DropdownMenuItem>Log out</DropdownMenuItem>
   </DropdownMenuContent>
-</DropdownMenu>`}>
+</DropdownMenu>`}
+      >
         <div className="flex justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

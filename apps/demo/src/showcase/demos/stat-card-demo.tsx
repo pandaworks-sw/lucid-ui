@@ -1,11 +1,6 @@
-import {
-  CheckCircle2,
-  ClipboardList,
-  FolderKanban,
-  Users,
-} from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
-import { StatCard } from "@/components/ui/stat-card";
+import { CheckCircle2, ClipboardList, FolderKanban, Users } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
+import { StatCard } from '@/components/ui/stat-card';
 
 export default function StatCardDemo() {
   return (
@@ -47,14 +42,7 @@ export default function StatCardDemo() {
             delta="+4 pts"
             deltaTone="up"
           />
-          <StatCard
-            icon={Users}
-            label="People"
-            value={48}
-            hint="across 5 departments"
-            delta="±0"
-            deltaTone="flat"
-          />
+          <StatCard icon={Users} label="People" value={48} hint="across 5 departments" delta="±0" deltaTone="flat" />
         </div>
       </DemoSection>
 

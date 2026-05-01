@@ -1,7 +1,7 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DemoSection } from '@/showcase/component-page';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Modal,
   ModalBody,
@@ -10,7 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTrigger,
-} from "@/components/ui/modal";
+} from '@/components/ui/modal';
 
 export default function ModalDemo() {
   return (
@@ -49,14 +49,11 @@ import { Button } from "@/components/ui/button"
             <Button>Open Modal</Button>
           </ModalTrigger>
           <ModalContent>
-            <ModalHeader
-              title="Edit Profile"
-              description="Make changes to your profile here."
-            />
+            <ModalHeader title="Edit Profile" description="Make changes to your profile here." />
             <ModalBody>
               <p className="text-sm text-muted-foreground">
-                This is a basic modal with a sticky header, scrollable body, and
-                sticky footer. The default width is <code>sm:min-w-4xl</code>.
+                This is a basic modal with a sticky header, scrollable body, and sticky footer. The default width is{' '}
+                <code>sm:min-w-4xl</code>.
               </p>
             </ModalBody>
             <ModalFooter>
@@ -75,10 +72,7 @@ import { Button } from "@/components/ui/button"
             <Button>Add Employee</Button>
           </ModalTrigger>
           <ModalContent>
-            <ModalHeader
-              title="Add New Employee"
-              description="Fill in the details below to add a new employee."
-            />
+            <ModalHeader title="Add New Employee" description="Fill in the details below to add a new employee." />
             <ModalBody>
               <div className="grid gap-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -93,11 +87,7 @@ import { Button } from "@/components/ui/button"
                 </div>
                 <div className="grid gap-1.5">
                   <Label htmlFor="modal-email">Email</Label>
-                  <Input
-                    id="modal-email"
-                    type="email"
-                    placeholder="john@company.com"
-                  />
+                  <Input id="modal-email" type="email" placeholder="john@company.com" />
                 </div>
                 <div className="grid gap-1.5">
                   <Label htmlFor="modal-department">Department</Label>
@@ -130,12 +120,10 @@ import { Button } from "@/components/ui/button"
               <div className="space-y-4 text-sm text-muted-foreground">
                 {Array.from({ length: 12 }, (_, i) => (
                   <p key={i}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur.
                   </p>
                 ))}
               </div>
@@ -163,8 +151,7 @@ import { Button } from "@/components/ui/button"
             />
             <ModalBody>
               <p className="text-sm text-muted-foreground">
-                This modal has no close button in the header. Users must use the
-                footer buttons to dismiss it.
+                This modal has no close button in the header. Users must use the footer buttons to dismiss it.
               </p>
             </ModalBody>
             <ModalFooter>

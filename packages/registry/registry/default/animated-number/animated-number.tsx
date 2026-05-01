@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 interface AnimatedNumberProps {
   /** Target value to animate to */
@@ -47,9 +47,7 @@ function AnimatedNumber({
       const easeOutQuad = easeOutQuadFn(progress);
       const current = startValue + (endValue - startValue) * easeOutQuad;
 
-      setDisplayValue(
-        decimals > 0 ? Number(current.toFixed(decimals)) : Math.round(current)
-      );
+      setDisplayValue(decimals > 0 ? Number(current.toFixed(decimals)) : Math.round(current));
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animate);

@@ -1,5 +1,5 @@
-import type { ComponentType, ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
+import type { ComponentType, ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
 
 export interface AppShellProps {
   branding: {
@@ -35,7 +35,7 @@ export interface AppShellProps {
 export type NavItem = NavLinkItem | NavSeparatorItem;
 
 export interface NavLinkItem {
-  type?: "link";
+  type?: 'link';
   label: string;
   href: string;
   icon?: LucideIcon;
@@ -44,7 +44,7 @@ export interface NavLinkItem {
 }
 
 export interface NavSeparatorItem {
-  type: "separator";
+  type: 'separator';
 }
 
 export interface UserAction {
@@ -52,5 +52,5 @@ export interface UserAction {
   href?: string;
   onClick?: () => void;
   icon?: LucideIcon;
-  variant?: "default" | "destructive";
+  variant?: 'default' | 'destructive';
 }

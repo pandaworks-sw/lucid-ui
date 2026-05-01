@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Building2, AlertCircle, Settings } from "lucide-react";
-import { DemoSection } from "@/showcase/component-page";
+import { useState } from 'react';
+import { Building2, AlertCircle, Settings } from 'lucide-react';
+import { DemoSection } from '@/showcase/component-page';
 import {
   DetailPage,
   DetailPageHeader,
@@ -9,43 +9,19 @@ import {
   DetailPageSidebar,
   DetailPageMetaItem,
   DetailPageSidebarSection,
-} from "@/components/ui/detail-page";
-import { Button } from "@/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { SelectableCard } from "@/components/ui/selectable-card";
-import { RadioGroup } from "@/components/ui/radio-group";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { SplitButton } from "@/components/ui/split-button";
+} from '@/components/ui/detail-page';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { SelectableCard } from '@/components/ui/selectable-card';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SplitButton } from '@/components/ui/split-button';
 
 function OrganizationDetailDemo() {
-  const [membership, setMembership] = useState("unlimited");
+  const [membership, setMembership] = useState('unlimited');
 
   return (
     <DetailPage>
@@ -60,9 +36,7 @@ function OrganizationDetailDemo() {
             <Button variant="outline" size="sm">
               Show JSON
             </Button>
-            <SplitButton size="sm">
-              Actions
-            </SplitButton>
+            <SplitButton size="sm">Actions</SplitButton>
           </>
         }
       />
@@ -81,14 +55,10 @@ function OrganizationDetailDemo() {
               <Card>
                 <CardHeader>
                   <CardTitle>Profile</CardTitle>
-                  <CardDescription>
-                    Organization profile information.
-                  </CardDescription>
+                  <CardDescription>Organization profile information.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Profile content goes here.
-                  </p>
+                  <p className="text-sm text-muted-foreground">Profile content goes here.</p>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -97,16 +67,10 @@ function OrganizationDetailDemo() {
               <Card>
                 <CardHeader>
                   <CardTitle>Membership limit</CardTitle>
-                  <CardDescription>
-                    Edit Organization membership limit
-                  </CardDescription>
+                  <CardDescription>Edit Organization membership limit</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RadioGroup
-                    value={membership}
-                    onValueChange={setMembership}
-                    className="grid gap-3"
-                  >
+                  <RadioGroup value={membership} onValueChange={setMembership} className="grid gap-3">
                     <SelectableCard value="unlimited">
                       <div>
                         <div className="flex items-center gap-2">
@@ -114,8 +78,7 @@ function OrganizationDetailDemo() {
                           <Badge variant="outline">Add-on</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Allow this organization to have an unlimited number of
-                          members and pending invitations.
+                          Allow this organization to have an unlimited number of members and pending invitations.
                         </p>
                       </div>
                     </SelectableCard>
@@ -123,8 +86,7 @@ function OrganizationDetailDemo() {
                       <div>
                         <p className="font-medium">Limited members</p>
                         <p className="text-sm text-muted-foreground">
-                          Limit this organization to the following number of
-                          members, including pending invitations.
+                          Limit this organization to the following number of members, including pending invitations.
                         </p>
                       </div>
                     </SelectableCard>
@@ -137,18 +99,14 @@ function OrganizationDetailDemo() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <CardTitle>Roles</CardTitle>
-                      <CardDescription>
-                        Manage default roles for this organization
-                      </CardDescription>
+                      <CardDescription>Manage default roles for this organization</CardDescription>
                     </div>
                     <Select defaultValue="default">
                       <SelectTrigger className="w-[180px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="default">
-                          Default role set
-                        </SelectItem>
+                        <SelectItem value="default">Default role set</SelectItem>
                         <SelectItem value="custom">Custom role set</SelectItem>
                       </SelectContent>
                     </Select>
@@ -170,21 +128,16 @@ function OrganizationDetailDemo() {
                           <div>
                             <p className="font-medium">Admin</p>
                             <p className="text-sm text-muted-foreground">
-                              Role with elevated permissions in the
-                              organization.
+                              Role with elevated permissions in the organization.
                             </p>
                           </div>
                         </TableCell>
                         <TableCell>0</TableCell>
-                        <TableCell className="font-mono text-sm">
-                          org:admin
-                        </TableCell>
+                        <TableCell className="font-mono text-sm">org:admin</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1.5">
                             <Badge variant="secondary">Manage domains</Badge>
-                            <span className="text-sm text-muted-foreground">
-                              +7 more
-                            </span>
+                            <span className="text-sm text-muted-foreground">+7 more</span>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -196,21 +149,16 @@ function OrganizationDetailDemo() {
                               <Badge variant="outline">Default role</Badge>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Role with non-privileged permissions in the
-                              organization.
+                              Role with non-privileged permissions in the organization.
                             </p>
                           </div>
                         </TableCell>
                         <TableCell>0</TableCell>
-                        <TableCell className="font-mono text-sm">
-                          org:member
-                        </TableCell>
+                        <TableCell className="font-mono text-sm">org:member</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1.5">
                             <Badge variant="secondary">Read members</Badge>
-                            <span className="text-sm text-muted-foreground">
-                              +1 more
-                            </span>
+                            <span className="text-sm text-muted-foreground">+1 more</span>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -222,16 +170,8 @@ function OrganizationDetailDemo() {
           </DetailPageContent>
 
           <DetailPageSidebar>
-            <DetailPageMetaItem
-              label="Org ID"
-              value="org_3APXw...9IHNe0EhU"
-              copyable
-            />
-            <DetailPageMetaItem
-              label="Slug"
-              value="pandaworks"
-              copyable
-            />
+            <DetailPageMetaItem label="Org ID" value="org_3APXw...9IHNe0EhU" copyable />
+            <DetailPageMetaItem label="Slug" value="pandaworks" copyable />
             <DetailPageMetaItem
               label="Created by"
               value={
@@ -241,15 +181,9 @@ function OrganizationDetailDemo() {
                 </span>
               }
             />
-            <DetailPageMetaItem
-              label="Max allowed memberships"
-              value="Unlimited"
-            />
+            <DetailPageMetaItem label="Max allowed memberships" value="Unlimited" />
             <DetailPageMetaItem label="Created" value="Mar 3, 2026" />
-            <DetailPageMetaItem
-              label="Organization updated"
-              value="4m ago"
-            />
+            <DetailPageMetaItem label="Organization updated" value="4m ago" />
           </DetailPageSidebar>
         </DetailPageMain>
       </Tabs>
@@ -260,7 +194,9 @@ function OrganizationDetailDemo() {
 export default function DetailPageDemo() {
   return (
     <>
-      <DemoSection title="Organization detail page" code={`import {
+      <DemoSection
+        title="Organization detail page"
+        code={`import {
   DetailPage, DetailPageHeader, DetailPageMain,
   DetailPageContent, DetailPageSidebar,
   DetailPageMetaItem,
@@ -285,18 +221,14 @@ import { Building2 } from "lucide-react"
       <DetailPageMetaItem label="ID" value="org_abc123" copyable />
     </DetailPageSidebar>
   </DetailPageMain>
-</DetailPage>`}>
+</DetailPage>`}
+      >
         <OrganizationDetailDemo />
       </DemoSection>
 
       <DemoSection title="Sidebar sections (GitHub-style)">
         <DetailPage>
-          <DetailPageHeader
-            backHref="#"
-            backLabel="Issues"
-            title="Add sidebar section component"
-            subtitle="#42"
-          />
+          <DetailPageHeader backHref="#" backLabel="Issues" title="Add sidebar section component" subtitle="#42" />
           <DetailPageMain>
             <DetailPageContent>
               <Card>
@@ -305,8 +237,8 @@ import { Building2 } from "lucide-react"
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    The detail page sidebar should support a section pattern
-                    with header labels, action icons, and free-form content.
+                    The detail page sidebar should support a section pattern with header labels, action icons, and
+                    free-form content.
                   </p>
                 </CardContent>
               </Card>
@@ -314,13 +246,26 @@ import { Building2 } from "lucide-react"
             <DetailPageSidebar>
               <DetailPageSidebarSection
                 label="Assignees"
-                action={<button className="rounded-md p-1 hover:bg-accent"><Settings className="size-4" /></button>}
+                action={
+                  <button className="rounded-md p-1 hover:bg-accent">
+                    <Settings className="size-4" />
+                  </button>
+                }
               >
-                <p>No one – <a href="#" className="text-primary hover:underline">Assign yourself</a></p>
+                <p>
+                  No one –{' '}
+                  <a href="#" className="text-primary hover:underline">
+                    Assign yourself
+                  </a>
+                </p>
               </DetailPageSidebarSection>
               <DetailPageSidebarSection
                 label="Labels"
-                action={<button className="rounded-md p-1 hover:bg-accent"><Settings className="size-4" /></button>}
+                action={
+                  <button className="rounded-md p-1 hover:bg-accent">
+                    <Settings className="size-4" />
+                  </button>
+                }
               >
                 <p>No labels</p>
               </DetailPageSidebarSection>

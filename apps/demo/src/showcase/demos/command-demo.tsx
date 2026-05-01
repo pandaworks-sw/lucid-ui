@@ -1,4 +1,4 @@
-import { DemoSection } from "@/showcase/component-page";
+import { DemoSection } from '@/showcase/component-page';
 import {
   Command,
   CommandEmpty,
@@ -7,22 +7,15 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  User,
-  Search,
-  FileText,
-  Mail,
-} from "lucide-react";
+} from '@/components/ui/command';
+import { Calculator, Calendar, CreditCard, Settings, User, Search, FileText, Mail } from 'lucide-react';
 
 export default function CommandDemo() {
   return (
     <>
-      <DemoSection title="Command Palette" code={`import {
+      <DemoSection
+        title="Command Palette"
+        code={`import {
   Command, CommandEmpty, CommandGroup,
   CommandInput, CommandItem, CommandList,
 } from "@/components/ui/command"
@@ -36,7 +29,8 @@ export default function CommandDemo() {
       <CommandItem>Search</CommandItem>
     </CommandGroup>
   </CommandList>
-</Command>`}>
+</Command>`}
+      >
         <Command className="rounded-lg border shadow-md md:min-w-[450px]">
           <CommandInput placeholder="Type a command or search..." />
           <CommandList>

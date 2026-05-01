@@ -1,15 +1,18 @@
-import { DemoSection } from "@/showcase/component-page";
-import { Badge } from "@/components/ui/badge";
+import { DemoSection } from '@/showcase/component-page';
+import { Badge } from '@/components/ui/badge';
 
 export default function BadgeDemo() {
   return (
     <>
-      <DemoSection title="Default" code={`import { Badge } from "@/components/ui/badge"
+      <DemoSection
+        title="Default"
+        code={`import { Badge } from "@/components/ui/badge"
 
 <Badge>Active</Badge>
 <Badge variant="secondary">Pending</Badge>
 <Badge variant="destructive">Rejected</Badge>
-<Badge variant="outline">Remote</Badge>`}>
+<Badge variant="outline">Remote</Badge>`}
+      >
         <div className="flex flex-wrap gap-2">
           <Badge>Active</Badge>
           <Badge>Full-time</Badge>
@@ -41,22 +44,32 @@ export default function BadgeDemo() {
         </div>
       </DemoSection>
 
-      <DemoSection title="Truncation with Tooltip" code={`// Long text auto-truncates; hover for full text via tooltip
+      <DemoSection
+        title="Truncation with Tooltip"
+        code={`// Long text auto-truncates; hover for full text via tooltip
 <Badge className="max-w-30">Senior Software Engineer Lead</Badge>
 
 // Custom tooltip text
-<Badge tooltipText="Performance Management Department">PMD</Badge>`}>
+<Badge tooltipText="Performance Management Department">PMD</Badge>`}
+      >
         <div className="flex flex-wrap items-center gap-2">
           <Badge className="max-w-30">Senior Software Engineer Lead</Badge>
-          <Badge variant="secondary" className="max-w-25">Performance Management Department</Badge>
-          <Badge variant="outline" tooltipText="Performance Management Department">PMD</Badge>
+          <Badge variant="secondary" className="max-w-25">
+            Performance Management Department
+          </Badge>
+          <Badge variant="outline" tooltipText="Performance Management Department">
+            PMD
+          </Badge>
         </div>
       </DemoSection>
 
-      <DemoSection title="Semantic tones" code={`<Badge variant="success">Active</Badge>
+      <DemoSection
+        title="Semantic tones"
+        code={`<Badge variant="success">Active</Badge>
 <Badge variant="warning">On Hold</Badge>
 <Badge variant="info">Planning</Badge>
-<Badge variant="muted">Archived</Badge>`}>
+<Badge variant="muted">Archived</Badge>`}
+      >
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="success">Active</Badge>
           <Badge variant="warning">On Hold</Badge>
@@ -65,16 +78,29 @@ export default function BadgeDemo() {
         </div>
       </DemoSection>
 
-      <DemoSection title="With status dot" code={`<Badge variant="success" dot>Active</Badge>
+      <DemoSection
+        title="With status dot"
+        code={`<Badge variant="success" dot>Active</Badge>
 <Badge variant="warning" dot>On Hold</Badge>
 <Badge variant="info" dot>Planning</Badge>
-<Badge variant="destructive" dot>Failed</Badge>`}>
+<Badge variant="destructive" dot>Failed</Badge>`}
+      >
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="success" dot>Active</Badge>
-          <Badge variant="warning" dot>On Hold</Badge>
-          <Badge variant="info" dot>Planning</Badge>
-          <Badge variant="destructive" dot>Failed</Badge>
-          <Badge variant="muted" dot>Archived</Badge>
+          <Badge variant="success" dot>
+            Active
+          </Badge>
+          <Badge variant="warning" dot>
+            On Hold
+          </Badge>
+          <Badge variant="info" dot>
+            Planning
+          </Badge>
+          <Badge variant="destructive" dot>
+            Failed
+          </Badge>
+          <Badge variant="muted" dot>
+            Archived
+          </Badge>
         </div>
       </DemoSection>
 
