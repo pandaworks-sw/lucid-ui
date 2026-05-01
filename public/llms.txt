@@ -1,36 +1,65 @@
-# Pandaworks UI Registry
+# Lucid UI
 
-> Shared component registry for Pandahrms frontend projects. Built on shadcn/ui with Tailwind CSS v4, OKLCH color space, and Radix UI primitives.
+> Shared React component library for Pandahrms frontend projects. Built with Tailwind CSS v4 (OKLCH color space) and Radix UI primitives. Distributed two ways: as the `@pandaworks-sw/ui` npm package on **GitHub Packages** (preferred for internal apps) and as a shadcn-compatible registry under `public/r/*.json` (legacy / external use).
 
 ## Installation
 
-### Where files land
+### Option A — npm package (preferred)
 
-Every component in this registry installs to `src/components/pandaworks-ui/` regardless of your project's `aliases.ui` setting. The destination is baked into the registry output (each file ships with an explicit `target` field and uses `@/components/pandaworks-ui/*` for cross-component imports), so:
+The package is published to **GitHub Packages**, not the public npm registry. Consumers need a project-level `.npmrc`:
+
+```
+@pandaworks-sw:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+…and a `GITHUB_TOKEN` env var (classic PAT with `read:packages` scope) on every machine and CI job that runs `pnpm install`.
+
+```bash
+pnpm add @pandaworks-sw/ui
+```
+
+Then import named components:
+
+```tsx
+import { Button, Badge, Modal, StatCard, MeterRow } from '@pandaworks-sw/ui';
+```
+
+Peer dependencies the consumer must already have: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The consuming project's Tailwind setup must define the design tokens this library expects (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.). Use `apps/demo/src/index.css` in this repo as the reference if you're bootstrapping from scratch.
+
+Tree-shaking works out of the box because the package ships ESM with `sideEffects: false`.
+
+### Option B — shadcn registry (legacy / external)
+
+Use this only when you intentionally want to fork components in the consumer project. Internal Pandahrms apps should prefer Option A — drift surfaced by past audits is what motivated the npm-package distribution.
+
+#### Where files land
+
+Every component in this registry installs to `src/components/lucid/` regardless of your project's `aliases.ui` setting. The destination is baked into the registry output (each file ships with an explicit `target` field and uses `@/components/lucid/*` for cross-component imports), so:
 
 - **Your existing `aliases.ui = "@/components/ui"` stays untouched.** Standard `pnpm dlx shadcn@latest add button` from the official shadcn registry continues to land at `@/components/ui/`. No collision.
-- **No `components.json` changes required** to install pandaworks components. Just run the commands below.
-- **Pandaworks components are clearly owned.** Anything under `components/pandaworks-ui/` is registry-managed — safe to overwrite on upgrade. Anything under `components/ui/` stays yours.
+- **No `components.json` changes required** to install lucid components. Just run the commands below.
+- **Lucid components are clearly owned.** Anything under `components/lucid/` is registry-managed — safe to overwrite on upgrade. Anything under `components/ui/` stays yours.
 
-The only requirement: your project must have a `@/` path alias pointing at `src/` (the standard Vite/Next/CRA setup). pandaworks components import each other via `@/components/pandaworks-ui/*` and import shared utilities via `@/lib/utils` and `@/hooks/*` — those still resolve via your project's standard `lib`/`hooks` aliases.
+The only requirement: your project must have a `@/` path alias pointing at `src/` (the standard Vite/Next/CRA setup). lucid components import each other via `@/components/lucid/*` and import shared utilities via `@/lib/utils` and `@/hooks/*` — those still resolve via your project's standard `lib`/`hooks` aliases.
 
 ### Install a single component
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/<component-name>.json
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/<component-name>.json
 ```
 
-The file lands at `src/components/pandaworks-ui/<name>.tsx`. Import from `@/components/pandaworks-ui/<name>`.
+The file lands at `src/components/lucid/<name>.tsx`. Import from `@/components/lucid/<name>`.
 
 ### Install or refresh the entire registry
 
 For first-time install of every component, or to re-sync a project to the latest registry version when you don't know which components changed upstream, use the `_all` meta-component:
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/_all.json --overwrite
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/_all.json --overwrite
 ```
 
-`_all` carries every other component in its `registryDependencies`, so shadcn fetches and writes the latest source for all of them. Drop the `--overwrite` flag to be prompted per file. The `_all.ts` marker file it places at `src/components/pandaworks-ui/_all.ts` carries no runtime behavior and can be deleted.
+`_all` carries every other component in its `registryDependencies`, so shadcn fetches and writes the latest source for all of them. Drop the `--overwrite` flag to be prompted per file. The `_all.ts` marker file it places at `src/components/lucid/_all.ts` carries no runtime behavior and can be deleted.
 
 ## Tech Stack
 
@@ -192,6 +221,35 @@ Each entry contains:
 ---
 
 ### 2026-05-01
+
+#### npm package scope rename + GitHub Packages distribution
+
+- change: renamed
+- breaking: yes
+- details: The npm package was renamed from `@lucid/ui` to `@pandaworks-sw/ui` and is now published to **GitHub Packages** (not the public npm registry). The demo workspace was likewise renamed from `@lucid/demo` to `@pandaworks-sw/demo`. GitHub Packages requires the npm scope to match the GitHub org owning the repository, so the repo is moving to `github.com/pandaworks-sw/lucid-ui`. A new release workflow at [.github/workflows/publish.yml] publishes the package whenever a GitHub Release is published. The shadcn registry channel is unaffected — `src/components/lucid/` install paths and `public/r/*.json` URLs remain the same.
+- action:
+  - For npm-package consumers: add an `.npmrc` at the project root with `@pandaworks-sw:registry=https://npm.pkg.github.com` and `//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`. Set `GITHUB_TOKEN` to a classic PAT with `read:packages` scope on every developer machine and CI job. Update `package.json` from `@lucid/ui` to `@pandaworks-sw/ui`, then rewrite all `from '@lucid/ui'` imports to `from '@pandaworks-sw/ui'`. Run `pnpm install` to refresh the lockfile.
+  - For shadcn-registry consumers: no action required — install URLs and component paths are unchanged.
+
+#### rebrand (Pandaworks UI → Lucid UI)
+
+- change: renamed
+- breaking: yes
+- details: Library rebranded from `Pandaworks UI` to `Lucid UI`. The npm package was renamed from `@pandaworks-ui/components` to `@lucid/ui`. The demo workspace was renamed from `@pandaworks-ui/demo` to `@lucid/demo`. The shadcn registry's install destination folder was renamed from `src/components/pandaworks-ui/` to `src/components/lucid/` (cross-component imports inside registry source rewrite from `@/components/pandaworks-ui/*` to `@/components/lucid/*`). The GitHub repo was renamed from `pandaworks-software-plt/pandaworks-ui` to `pandaworks-software-plt/lucid-ui`; GitHub auto-redirects the old URL but raw.githubusercontent.com URLs in this changelog and AI-integration prompt now point at the new path. The post-build rewrite script at [packages/registry/scripts/rewrite-pandaworks-namespace.mjs] was renamed to [packages/registry/scripts/rewrite-lucid-namespace.mjs]. The `_all` marker file's exported constant changed from `PANDAWORKS_UI_INSTALLED` to `LUCID_UI_INSTALLED`. Internal-only library — no external consumers were affected.
+- action:
+  - For npm-package consumers: update `package.json` from `@pandaworks-ui/components` to `@lucid/ui`, then update all `from '@pandaworks-ui/components'` imports to `from '@lucid/ui'`
+  - For shadcn-registry consumers: re-run `pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/_all.json --overwrite` to land sources at `src/components/lucid/`. Then run a codemod to rewrite `from '@/components/pandaworks-ui/<name>'` → `from '@/components/lucid/<name>'`. Delete the old `src/components/pandaworks-ui/` folder
+  - If you have `@pandaworks` configured as a registry alias in `components.json`, rename it to `@lucid` and update the URL to `https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/{name}.json`
+
+#### distribution (npm package added alongside shadcn registry)
+
+- change: added
+- breaking: no
+- details: Component sources now publish as the `@pandaworks-ui/components` npm package in addition to the existing shadcn registry under `public/r/`. The previously private `packages/registry/` workspace package was renamed from `@pandaworks-ui/registry` to `@pandaworks-ui/components`, made public, and given a proper `exports` map (`./dist/index.js` ESM + `./dist/index.d.ts`). New build artifacts: [packages/registry/src/index.ts](packages/registry/src/index.ts) re-exports all 59 component folders + hooks (`useCopyToClipboard`, plus `useIsMobile` via the `app-shell` barrel) + the `cn` util; [packages/registry/tsup.config.ts](packages/registry/tsup.config.ts) emits ESM + DTS to `packages/registry/dist/` (185 KB ESM, 56 KB types, sourcemaps, tree-shakeable with `sideEffects: false`). Peer deps: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. Both distribution channels build from the same source tree and coexist; new internal Pandahrms apps should prefer the npm package, the shadcn registry stays available for external/forking use.
+- action:
+  - For new Pandahrms apps: `pnpm add @pandaworks-ui/components` and `import { Button, Badge, … } from '@pandaworks-ui/components'`
+  - For existing apps already on the shadcn registry: no immediate action — the registry continues to publish. Migrate to the npm package on your own schedule by running a codemod that rewrites `from '@/components/pandaworks-ui/<name>'` → `from '@pandaworks-ui/components'` and deleting `src/components/pandaworks-ui/`
+  - Tailwind v4 must already be configured in the consumer with the design tokens this library expects (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.). See `apps/demo/src/index.css` for the canonical token set
 
 #### tooling (drop deprecated tsconfig baseUrl)
 

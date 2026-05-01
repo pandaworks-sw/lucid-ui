@@ -1,11 +1,11 @@
-# pandawork-ui
+# lucid-ui
 
 Monorepo containing the shared shadcn/ui component registry and demo showcase for Pandahrms frontend projects. Components are plain React + shadcn/ui that can be consumed by any React frontend project.
 
 ## Project Structure
 
 ```
-pandawork-ui/
+lucid-ui/
   apps/
     demo/              # Vite showcase app (imports directly from registry)
   packages/
@@ -31,9 +31,19 @@ pandawork-ui/
 ```bash
 pnpm dev                     # Start demo dev server
 pnpm build                   # Build registry + demo
-pnpm registry:build          # Build registry JSON output to public/r/
+pnpm registry:build          # Build shadcn registry JSON output to public/r/
+pnpm --filter @pandaworks-sw/ui build:lib  # Build the npm-package output to packages/registry/dist/
 pnpm lint                    # Lint demo app
 ```
+
+## Two Distribution Channels
+
+The component sources in `packages/registry/registry/default/` ship through **two** channels:
+
+1. **npm package** — `@pandaworks-sw/ui`, published from `packages/registry/` to **GitHub Packages** (not public npm). Consumers configure an `.npmrc` for the `@pandaworks-sw` scope (see [README.md](README.md) for the exact config + `GITHUB_TOKEN` setup), then `pnpm add @pandaworks-sw/ui` and `import { Button, Badge } from "@pandaworks-sw/ui"`. Released by publishing a GitHub release on the repo — [.github/workflows/publish.yml](.github/workflows/publish.yml) builds and pushes to GH Packages. **Preferred for internal Pandahrms apps** — versioned, drift-proof, tree-shakeable.
+2. **shadcn registry** — `public/r/*.json`. Consumers run `pnpm dlx shadcn@latest add <url>` and the source files are copy-pasted into their `src/components/lucid/`. Kept for backward compatibility with projects already on this model and for any external consumer who wants to fork components locally.
+
+Both channels are produced from the same source tree on every release. Pick channel #1 for new Pandahrms projects.
 
 ## How It Works
 
@@ -58,51 +68,76 @@ When committing, update both files under a dated heading for today (e.g., `## 20
 1. Create component in `packages/registry/registry/default/<component>/<component>.tsx`
 2. Add barrel `index.ts` exporting from the component file
 3. Add entry to `packages/registry/registry.json` items array
-4. Run `pnpm registry:build`
-5. Add a demo page in `apps/demo/src/showcase/demos/<component>-demo.tsx`
-6. Add API docs to the appropriate file in `public/docs/` (dedicated file for complex components, category file for simple ones)
-7. Add a catalog entry in `public/llms.txt`
-8. Update changelogs (`CHANGELOG.md` and the Changelog section in `public/llms.txt`)
-9. Commit everything including `public/r/` output
+4. Add a `export * from '../registry/default/<component>'` line to `packages/registry/src/index.ts` (npm-package barrel) — keep alphabetical
+5. Run `pnpm registry:build` and `pnpm --filter @pandaworks-sw/ui build:lib`
+6. Add a demo page in `apps/demo/src/showcase/demos/<component>-demo.tsx`
+7. Add API docs to the appropriate file in `public/docs/` (dedicated file for complex components, category file for simple ones)
+8. Add a catalog entry in `public/llms.txt`
+9. Update changelogs (`CHANGELOG.md` and the Changelog section in `public/llms.txt`)
+10. Commit everything including `public/r/` output (note: `packages/registry/dist/` is a build artifact and should be `.gitignore`d — only the published npm tarball ships it)
 
 ## Modifying a Component
 
 1. Edit the source file in `packages/registry/registry/default/<component>/`
-2. Run `pnpm registry:build`
+2. Run `pnpm registry:build` and `pnpm --filter @pandaworks-sw/ui build:lib`
 3. Verify in demo (`pnpm dev`)
 4. Update the component's doc file in `public/docs/` if API changed
 5. Update changelogs
-6. Commit both the source and the rebuilt `public/r/` output
+6. Commit both the source and the rebuilt `public/r/` output (do not commit `packages/registry/dist/`)
 
 ## Consuming
 
-### Where files land
+### Option A — npm package (preferred for new Pandahrms apps)
 
-All components in this registry install to `src/components/pandaworks-ui/` regardless of the consumer's `aliases.ui` setting. The destination is baked into the registry output by [packages/registry/scripts/rewrite-pandaworks-namespace.mjs](packages/registry/scripts/rewrite-pandaworks-namespace.mjs), which runs after `shadcn build` and:
+The package lives on **GitHub Packages**, not the public npm registry. The consumer needs an `.npmrc` that maps the `@pandaworks-sw` scope to GitHub's registry, and a `GITHUB_TOKEN` env var with the `read:packages` scope. See [README.md](README.md#installation) for the full setup.
 
-1. Sets an explicit `target: "components/pandaworks-ui/<filename>"` on every file so shadcn doesn't fall back to `aliases.ui`.
+```bash
+# After .npmrc is in place:
+pnpm add @pandaworks-sw/ui
+```
+
+Then import directly:
+
+```tsx
+import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+```
+
+Required peer dependencies: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. Tailwind v4 must be configured in the consumer with the same design tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …) — copy `apps/demo/src/index.css` as a reference if starting from scratch.
+
+Pros: no drift, real semver, tree-shakeable named exports, faster install.
+Cons: cannot fork a single component locally — customizations must land upstream in this repo.
+
+### Option B — shadcn registry (legacy / external use)
+
+The same component sources also publish as a shadcn-compatible registry. Use this only when you need to copy-paste components into a project that intentionally forks them (rare for internal Pandahrms apps).
+
+### Where files land (shadcn registry path)
+
+All components in this registry install to `src/components/lucid/` regardless of the consumer's `aliases.ui` setting. The destination is baked into the registry output by [packages/registry/scripts/rewrite-lucid-namespace.mjs](packages/registry/scripts/rewrite-lucid-namespace.mjs), which runs after `shadcn build` and:
+
+1. Sets an explicit `target: "components/lucid/<filename>"` on every file so shadcn doesn't fall back to `aliases.ui`.
 2. Switches each file's `type` from `registry:ui` to `registry:component` so shadcn respects `target`.
-3. Rewrites `@/components/ui/*` → `@/components/pandaworks-ui/*` inside file content so cross-component imports resolve to siblings in the new folder. Imports of `@/lib/utils` and `@/hooks/*` are left alone — those still resolve via the consumer's standard aliases.
+3. Rewrites `@/components/ui/*` → `@/components/lucid/*` inside file content so cross-component imports resolve to siblings in the new folder. Imports of `@/lib/utils` and `@/hooks/*` are left alone — those still resolve via the consumer's standard aliases.
 
-The result for consumers: their existing `aliases.ui = "@/components/ui"` (and any other shadcn components under it) stays untouched. Pandaworks components live in a clearly-owned sibling folder. Re-running `_all` only rewrites `components/pandaworks-ui/`, so consumer-local forks of standard shadcn components survive.
+The result for consumers: their existing `aliases.ui = "@/components/ui"` (and any other shadcn components under it) stays untouched. Lucid components live in a clearly-owned sibling folder. Re-running `_all` only rewrites `components/lucid/`, so consumer-local forks of standard shadcn components survive.
 
 ### Single component
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/<component>.json
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r/<component>.json
 ```
 
-Lands at `src/components/pandaworks-ui/<name>.tsx`. No `components.json` changes required.
+Lands at `src/components/lucid/<name>.tsx`. No `components.json` changes required.
 
 ### Whole registry
 
 Install or refresh everything via the `_all` meta-component (auto-regenerated on every `pnpm registry:build`, so its dependency list always mirrors the current registry):
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/_all.json --overwrite
+pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r/_all.json --overwrite
 ```
 
-Use this for first-time install of every component, or as a "I don't know what changed upstream, just sync me to latest" upgrade path. Drop `--overwrite` to be prompted per file. The `_all.ts` marker file it places at `src/components/pandaworks-ui/_all.ts` has no runtime behavior — delete it after install if you want.
+Use this for first-time install of every component, or as a "I don't know what changed upstream, just sync me to latest" upgrade path. Drop `--overwrite` to be prompted per file. The `_all.ts` marker file it places at `src/components/lucid/_all.ts` has no runtime behavior — delete it after install if you want.
 
 The `_all` entry is generated by [packages/registry/scripts/sync-all-meta.mjs](packages/registry/scripts/sync-all-meta.mjs) before `shadcn build`. Adding, renaming, or removing components in `registry.json` requires no manual update to `_all`.
 

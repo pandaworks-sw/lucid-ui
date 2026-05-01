@@ -1,54 +1,47 @@
-# pandawork-ui
+# lucid-ui
 
-Shared [shadcn/ui](https://ui.shadcn.com) component registry for Pandahrms frontend projects.
+Shared component library for Pandahrms frontend projects. Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
 
-Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
+Internal-only — distributed as the `@pandaworks-sw/ui` npm package via GitHub Packages.
 
-## Naming
+## Installation
 
-- Local workspace/package name: `pandawork-ui`
-- GitHub repo and registry URL slug: `pandaworks-ui`
+The package lives on GitHub Packages, so consumers need an `.npmrc` that points the `@pandaworks-sw` scope at GitHub's registry.
 
-## Documentation Note
-
-Historical design/implementation plan files under `docs/plans/` were intentionally retired and removed.
-
-## Using the Registry
-
-### 1. Add the registry to your project
-
-In your project's `components.json`, add the `@pandaworks` registry:
-
-```json
-{
-  "registries": {
-    "@pandaworks": {
-      "url": "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/{name}.json"
-    }
-  }
-}
-```
-
-### 2. Install components
+**1. Create a GitHub personal access token (classic) with the `read:packages` scope.** Set it as an environment variable on your machine (e.g. `~/.zshrc`):
 
 ```bash
-# Install a single component
-npx shadcn@latest add @pandaworks/button
-
-# Install multiple components
-npx shadcn@latest add @pandaworks/button @pandaworks/card @pandaworks/input
-
-# Update an existing component
-npx shadcn@latest add @pandaworks/button --overwrite --yes
+export GITHUB_TOKEN=ghp_xxx_with_read_packages
 ```
 
-### Alternative: Install via direct URL
+**2. Add an `.npmrc` to the consumer project root (commit it — it has no secret in it):**
 
-If you prefer not to configure the registry, install components directly:
+```
+@pandaworks-sw:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+**3. Install:**
 
 ```bash
-pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/button.json
+pnpm add @pandaworks-sw/ui
 ```
+
+Required peer dependencies:
+
+```bash
+pnpm add react react-dom lucide-react react-hook-form tailwindcss
+```
+
+CI: set `GITHUB_TOKEN` (or a dedicated `read:packages` PAT) in the workflow env so `pnpm install` can resolve the scope.
+
+## Usage
+
+```tsx
+import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+```
+
+Tailwind v4 must be configured in the consumer with the same design tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …). Copy `apps/demo/src/index.css` from this repo as a reference if starting from scratch.
 
 ## Available Components
 
@@ -72,7 +65,7 @@ pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software
 
 ## AI Agent Reference
 
-For AI agents consuming this registry, see [`public/llms.txt`](public/llms.txt) for complete component API documentation and a machine-readable changelog.
+For AI agents consuming this library, see [`public/llms.txt`](public/llms.txt) for complete component API documentation and machine-readable changelog.
 
 For deeper component docs, see [`public/docs/`](public/docs/).
 
@@ -81,11 +74,11 @@ For deeper component docs, see [`public/docs/`](public/docs/).
 ```bash
 pnpm install          # Install dependencies
 pnpm dev              # Start demo showcase
-pnpm registry:build   # Build registry JSON
-pnpm build            # Build everything
+pnpm registry:build   # Build shadcn registry JSON output to public/r/
+pnpm build            # Build registry + demo
 pnpm lint             # Lint demo app
 ```
 
 ## License
 
-Private -- Pandaworks Sdn Bhd
+Private — Pandaworks Sdn Bhd
