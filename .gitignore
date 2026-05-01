@@ -24,3 +24,8 @@ pnpm-debug.log*
 # Build/cache
 .turbo/
 coverage/
+
+# Local AI/agent artifacts
+.agents/
+.claude/
+skills-lock.json
