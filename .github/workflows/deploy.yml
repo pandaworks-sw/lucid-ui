@@ -30,6 +30,9 @@ jobs:
 
       - run: pnpm --filter @pandaworks-ui/demo build
 
+      - name: Copy registry assets into Pages artifact
+        run: cp -R public/llms.txt public/docs public/r apps/demo/dist/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/demo/dist
