@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Post-processes the built registry JSONs in public/r so every file installs into
-// `components/pandaworks-ui/` regardless of the consumer's `aliases.ui`. Three
+// `components/lucid/` regardless of the consumer's `aliases.ui`. Three
 // changes per item: (1) set an explicit `target` path so shadcn doesn't fall back
 // to the alias, (2) rewrite any `@/components/ui/*` imports inside the content to
-// `@/components/pandaworks-ui/*` so cross-component references resolve to siblings,
+// `@/components/lucid/*` so cross-component references resolve to siblings,
 // (3) rewrite bare local names in `registryDependencies` to full raw.githubusercontent
 // URLs so shadcn-cli fetches dependents from this registry instead of falling back
 // to ui.shadcn.com (which fails for any component shadcn doesn't ship). Hooks
@@ -16,11 +16,10 @@ import { dirname, resolve, basename } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outputDir = resolve(__dirname, '..', 'public', 'r');
 
-const NAMESPACE_DIR = 'components/pandaworks-ui';
+const NAMESPACE_DIR = 'components/lucid';
 const OLD_PREFIX = '@/components/ui/';
-const NEW_PREFIX = '@/components/pandaworks-ui/';
-const REGISTRY_BASE_URL =
-  'https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r';
+const NEW_PREFIX = '@/components/lucid/';
+const REGISTRY_BASE_URL = 'https://raw.githubusercontent.com/pandaworks-sw/lucid-ui/main/public/r';
 
 const files = readdirSync(outputDir).filter((f) => f.endsWith('.json') && f !== 'registry.json');
 

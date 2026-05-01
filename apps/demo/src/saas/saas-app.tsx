@@ -265,7 +265,7 @@ function DemoBanner() {
         <Sparkles className="size-4" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="font-medium">Pandawork · a full-stack showcase built on Pandaworks UI.</p>
+        <p className="font-medium">Pandawork · a full-stack showcase built on Lucid UI.</p>
         <p className="text-xs text-muted-foreground">
           Everything on this screen — the shell, forms, modals, toasts, and tables — is wired from the registry. State
           is in-memory, so feel free to poke around.

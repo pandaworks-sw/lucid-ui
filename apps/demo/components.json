@@ -19,8 +19,8 @@
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@pandaworks": {
-      "url": "https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/{name}.json"
+    "@lucid": {
+      "url": "https://raw.githubusercontent.com/pandaworks-software-plt/lucid-ui/main/public/r/{name}.json"
     }
   }
 }
