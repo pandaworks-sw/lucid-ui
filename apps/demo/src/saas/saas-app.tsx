@@ -71,20 +71,20 @@ function TopBar({ onCreateProject, onOpenPalette }: { onCreateProject: () => voi
   const { currentUser } = useStore();
 
   return (
-    <div className="flex w-full items-center gap-3">
+    <div className="flex w-full min-w-0 items-center gap-3">
       <button
         type="button"
         onClick={onOpenPalette}
-        className="flex h-8 flex-1 items-center gap-2 rounded-md border bg-muted/50 px-3 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:bg-muted sm:max-w-md"
+        className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-md border bg-muted/50 px-3 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:bg-muted sm:max-w-md"
       >
-        <Search className="size-3.5" />
-        <span className="flex-1 text-left">Search projects, people, or commands…</span>
+        <Search className="size-3.5 shrink-0" />
+        <span className="min-w-0 flex-1 truncate text-left">Search projects, people, or commands…</span>
         <kbd className="hidden items-center gap-1 rounded border bg-background px-1.5 py-0.5 text-xs font-medium sm:inline-flex">
           <span>⌘</span>K
         </kbd>
       </button>
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ml-auto flex shrink-0 items-center gap-2">
         <Button variant="brand" size="sm" className="hidden sm:inline-flex" onClick={onCreateProject}>
           <Plus className="size-4" />
           New project
