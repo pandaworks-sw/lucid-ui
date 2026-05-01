@@ -68,6 +68,23 @@ export default function StatCardDemo() {
           <StatCard label="Last sync" value="N/A" hint="never run" />
         </div>
       </DemoSection>
+
+      <DemoSection
+        title="Auto-shrink for long values"
+        code={`{/* Headline class steps down by rendered length */}
+{/* ≤10 → text-xl, ≤16 → text-lg, ≤24 → text-base, >24 → text-sm */}
+<StatCard label="Short" value={42} />
+<StatCard label="Medium" value="Enterprise Plus" />
+<StatCard label="Long" value={1234567890} suffix=" USD" />
+<StatCard label="Very long" value="Quarterly recurring revenue projection" />`}
+      >
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard label="Short" value={42} hint="≤10 chars" />
+          <StatCard label="Medium" value="Enterprise Plus" hint="≤16 chars" />
+          <StatCard label="Long" value={1234567890} suffix=" USD" hint="≤24 chars" />
+          <StatCard label="Very long" value="Quarterly recurring revenue projection" hint=">24 chars" />
+        </div>
+      </DemoSection>
     </>
   );
 }

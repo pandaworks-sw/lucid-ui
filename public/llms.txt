@@ -209,6 +209,15 @@ Each entry contains:
   - No migration needed for existing numeric usage.
   - When showing a non-animated label (status, tier, ratio, "N/A"), pass the string directly instead of building a custom `Card` wrapper.
 
+#### stat-card — headline auto-shrinks for long values
+
+- change: modified
+- breaking: no
+- details: The headline class steps down based on the rendered value's length so long values still fit inside the tile without overflowing or wrapping awkwardly: `≤10 chars → text-xl`, `≤16 → text-lg`, `≤24 → text-base`, `>24 → text-sm`. Length is computed from the string for string values, from `formatter(value)` when a formatter is provided, and from `prefix + integer digits + decimals + suffix` for plain numbers. Pure CSS — no `ResizeObserver`, no measurement, no extra render — so the cost is zero. The headline wrapper also gets `min-w-0` so it can shrink inside narrower grid columns. Short numeric values (the common case, e.g. `value={42}` or `value={73} suffix="%"`) keep `text-xl` and look identical to before.
+- action:
+  - No migration needed.
+  - If a value is now appearing smaller than expected, count the rendered length (string, or `prefix + digits + decimals + suffix`) and compare against the thresholds. If the value is supposed to be a hero number, the tile is the wrong primitive — use a plain `Card` with custom typography.
+
 ### 2026-05-01
 
 #### avatar — `getInitialName` utility + `AvatarFallback` auto-converts full names

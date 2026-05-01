@@ -347,6 +347,8 @@ Props:
 
 `StatCard` ships at a single SaaS-density size — tight padding (`px-4`), `text-xs` label, `size-3.5` icon, and a `text-xl` headline number — so multiple tiles fit comfortably on a dashboard without dominating the page. Don't override these via `className` to "go bigger"; if you need a hero number, use a plain `Card` with custom typography.
 
+The headline class auto-shrinks based on the rendered value length so long values still fit inside the tile: `≤10 chars → text-xl`, `≤16 → text-lg`, `≤24 → text-base`, `>24 → text-sm`. Length is computed from the string for string values, from `formatter(value)` when a formatter is provided, and from `prefix + integer digits + decimals + suffix` otherwise. The shrink is purely length-based (no measurement) — it's predictable and adds zero runtime cost, but it's a heuristic, so a wide character at a boundary may still clip in extreme cases.
+
 ## AnimatedNumber
 
 A number display that animates smoothly between values using requestAnimationFrame with easeOutQuad easing.

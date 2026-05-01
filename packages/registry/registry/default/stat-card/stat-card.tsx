@@ -20,6 +20,28 @@ const DELTA_ICON: Record<DeltaTone, ComponentType<{ className?: string }>> = {
   flat: Minus,
 };
 
+function getHeadlineSizeClass(length: number): string {
+  if (length <= 10) return 'text-xl';
+  if (length <= 16) return 'text-lg';
+  if (length <= 24) return 'text-base';
+  return 'text-sm';
+}
+
+function getRenderedLength(
+  value: number | string,
+  prefix: string | undefined,
+  suffix: string | undefined,
+  decimals: number | undefined,
+  formatter: ((value: number) => string) | undefined,
+): number {
+  if (typeof value === 'string') return value.length;
+  if (formatter) return formatter(value).length;
+  const sign = value < 0 ? 1 : 0;
+  const integerDigits = String(Math.trunc(Math.abs(value))).length;
+  const fractional = decimals && decimals > 0 ? decimals + 1 : 0;
+  return (prefix?.length ?? 0) + sign + integerDigits + fractional + (suffix?.length ?? 0);
+}
+
 export interface StatCardProps {
   /** Optional leading icon shown next to the label. */
   icon?: ComponentType<{ className?: string }>;
@@ -66,7 +88,12 @@ function StatCard({
         {Icon && <Icon className="size-3.5 text-muted-foreground" />}
       </CardHeader>
       <CardContent className="space-y-0.5 px-4 pb-3">
-        <div className="text-xl font-semibold tracking-tight">
+        <div
+          className={cn(
+            'min-w-0 font-semibold tracking-tight',
+            getHeadlineSizeClass(getRenderedLength(value, prefix, suffix, decimals, formatter)),
+          )}
+        >
           {typeof value === 'string' ? (
             value
           ) : formatter ? (
