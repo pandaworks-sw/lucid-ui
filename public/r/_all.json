@@ -69,7 +69,8 @@
     {
       "path": "registry/default/_all/_all.ts",
       "content": "// Marker file for the pandaworks-ui `_all` meta-install. Safe to delete after install\n// — this file has no runtime behavior. The `_all` registry item exists only to fan out\n// every other component via shadcn's registryDependencies resolution.\nexport const PANDAWORKS_UI_INSTALLED = true;\n",
-      "type": "registry:ui"
+      "type": "registry:component",
+      "target": "components/pandaworks-ui/_all.ts"
     }
   ],
   "type": "registry:ui"

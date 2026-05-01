@@ -4,28 +4,15 @@
 
 ## Installation
 
-### Recommended: install to `components/pandaworks-ui/`
+### Where files land
 
-Before installing any component, change the `ui` alias in your project's `components.json` so pandaworks components land in their own folder, separate from any other shadcn components you maintain:
+Every component in this registry installs to `src/components/pandaworks-ui/` regardless of your project's `aliases.ui` setting. The destination is baked into the registry output (each file ships with an explicit `target` field and uses `@/components/pandaworks-ui/*` for cross-component imports), so:
 
-```json
-{
-  "aliases": {
-    "ui": "@/components/pandaworks-ui",
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
-  }
-}
-```
+- **Your existing `aliases.ui = "@/components/ui"` stays untouched.** Standard `pnpm dlx shadcn@latest add button` from the official shadcn registry continues to land at `@/components/ui/`. No collision.
+- **No `components.json` changes required** to install pandaworks components. Just run the commands below.
+- **Pandaworks components are clearly owned.** Anything under `components/pandaworks-ui/` is registry-managed — safe to overwrite on upgrade. Anything under `components/ui/` stays yours.
 
-Why a dedicated folder:
-- **Clear ownership.** Files under `components/pandaworks-ui/` are owned by this registry — safe to overwrite during upgrades. Files under `components/ui/` (or wherever your project keeps its own shadcn primitives) stay yours, never touched by `_all` re-installs.
-- **No name collisions.** If your project already has its own `Button`, `Card`, etc. under `components/ui/`, pulling in pandaworks `Button` won't clobber it.
-- **Surgical upgrades.** Re-running `_all` only rewrites the pandaworks folder, so any local forks you've made of standard shadcn components survive.
-
-shadcn rewrites imports during install based on this alias, so internal references like `import { Button } from "@/components/ui/button"` inside, say, `SelectPicker` get rewritten to `import { Button } from "@/components/pandaworks-ui/button"` automatically. Both file destinations and import paths stay aligned.
+The only requirement: your project must have a `@/` path alias pointing at `src/` (the standard Vite/Next/CRA setup). pandaworks components import each other via `@/components/pandaworks-ui/*` and import shared utilities via `@/lib/utils` and `@/hooks/*` — those still resolve via your project's standard `lib`/`hooks` aliases.
 
 ### Install a single component
 
@@ -33,7 +20,7 @@ shadcn rewrites imports during install based on this alias, so internal referenc
 pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/<component-name>.json
 ```
 
-With the recommended alias, the file lands at `src/components/pandaworks-ui/<name>/`. Import from `@/components/pandaworks-ui/<name>`.
+The file lands at `src/components/pandaworks-ui/<name>.tsx`. Import from `@/components/pandaworks-ui/<name>`.
 
 ### Install or refresh the entire registry
 
@@ -43,7 +30,7 @@ For first-time install of every component, or to re-sync a project to the latest
 pnpm dlx shadcn@latest add https://raw.githubusercontent.com/pandaworks-software-plt/pandaworks-ui/main/public/r/_all.json --overwrite
 ```
 
-`_all` carries every other component in its `registryDependencies`, so shadcn fetches and writes the latest source for all of them. Drop the `--overwrite` flag to be prompted per file. The `_all.ts` marker file it places in your tree carries no runtime behavior and can be deleted.
+`_all` carries every other component in its `registryDependencies`, so shadcn fetches and writes the latest source for all of them. Drop the `--overwrite` flag to be prompted per file. The `_all.ts` marker file it places at `src/components/pandaworks-ui/_all.ts` carries no runtime behavior and can be deleted.
 
 ## Tech Stack
 
@@ -217,14 +204,14 @@ Each entry contains:
   - Drop `--overwrite` to be prompted per file
   - The marker file installed at `<aliases.ui>/_all/_all.ts` (e.g. `@/components/pandaworks-ui/_all/_all.ts` if you followed the recommended alias setup) carries no runtime behavior and can be deleted after install
 
-#### installation guidance (docs only)
+#### pandaworks namespace baked into registry output
 
 - change: added
 - breaking: no
-- details: `public/llms.txt` "Installation" and CLAUDE.md "Consuming" now recommend that consumers set `aliases.ui` to `@/components/pandaworks-ui` in their `components.json` before installing, so pandaworks components land in a dedicated folder rather than commingling with the consumer's own shadcn primitives under `components/ui/`. Rationale: clear ownership boundary, no name collisions with consumer-maintained components, surgical `_all` re-installs that only rewrite the pandaworks folder. shadcn rewrites internal `@/components/ui/*` imports inside registry sources during install based on this alias, so cross-component references stay valid.
+- details: New build step [packages/registry/scripts/rewrite-pandaworks-namespace.mjs](packages/registry/scripts/rewrite-pandaworks-namespace.mjs) runs after `shadcn build` and post-processes every JSON in `public/r/`. Each file gets `target: "components/pandaworks-ui/<filename>"`, `type` switches from `registry:ui` to `registry:component` so shadcn respects the explicit target, and the file content has `@/components/ui/*` imports rewritten to `@/components/pandaworks-ui/*`. Result: all pandaworks components install to `src/components/pandaworks-ui/` regardless of the consumer's `aliases.ui`. The consumer's existing `@/components/ui/*` folder (where their own shadcn primitives live) is never touched. Imports of `@/lib/utils` and `@/hooks/*` inside registry sources are intentionally left alone — those still resolve via the consumer's standard `lib`/`hooks` aliases. This replaces yesterday's recommendation to change `aliases.ui` to `@/components/pandaworks-ui`; consumers no longer need to make any `components.json` changes.
 - action:
-  - First-time setup in a new consumer project: edit `components.json` and set `"aliases": { "ui": "@/components/pandaworks-ui", ... }` before running any `add` command
-  - Existing consumer projects already on `@/components/ui` continue to work; switching is opt-in but recommended for any project that also has its own shadcn components
+  - No consumer-side action required. Run `pnpm dlx shadcn@latest add <pandaworks component url>` and the file lands at `src/components/pandaworks-ui/<name>.tsx` automatically
+  - If you previously followed the (now-superseded) recommendation to set `aliases.ui = "@/components/pandaworks-ui"`, you can revert it back to `@/components/ui` (or whatever it was). Pandaworks installs work either way; reverting frees the alias back up for your own shadcn primitives
 
 #### stat-card
 
