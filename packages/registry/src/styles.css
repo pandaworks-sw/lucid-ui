@@ -90,6 +90,19 @@
     --warning-foreground: #ffffff;
     --danger-foreground: #ffffff;
 
+    /* WCAG AA text-on-soft-bg foregrounds (Badge `bg-X/10` etc.).
+       The chroma `--success`/`--info`/`--warning` values cannot pass 4.5:1 on tinted
+       backgrounds — these darker (light) / lighter (dark) variants do.
+       Tuned for ~4.7–5.9:1 (AA with breathing room) so the chroma still reads as
+       green/blue/amber/red rather than near-black. */
+    --success-soft-fg: #377336;
+    --info-soft-fg: #2964c4;
+    --warning-soft-fg: #955b0e;
+    --destructive-soft-fg: #a23120;
+    /* WCAG AA solid red for destructive bg-+-white-text controls (badge, button).
+       White-on-#a8392a clears 4.5:1; #c8543f does not (4.38:1). */
+    --destructive-aa: #a8392a;
+
     /* shadcn semantic tokens — light mode */
     --background: var(--stone-50);
     --foreground: var(--stone-800);
@@ -130,6 +143,8 @@
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     --radius: 0.75rem;
   }
+
+  /* Dark mode overrides for the WCAG-AA tokens declared in :root. */
 
   .dark {
     color-scheme: dark;
@@ -173,6 +188,15 @@
     --font-display: "Comfortaa", "Inter", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     --radius: 0.75rem;
+
+    /* Dark-mode WCAG AA text-on-soft-bg foregrounds (lighter so they pass 4.5:1
+       against the 15% chroma tint over stone-800). */
+    --success-soft-fg: #9fd0a2;
+    --info-soft-fg: #9fc2f0;
+    --warning-soft-fg: #f0c47a;
+    --destructive-soft-fg: #f0a896;
+    /* `#a8392a` clears white-text 4.5:1 in dark mode too (6.3:1). */
+    --destructive-aa: #a8392a;
   }
 
   @theme inline {
@@ -244,6 +268,13 @@
     --color-warning-foreground: var(--warning-foreground);
     --color-danger: var(--danger);
     --color-danger-foreground: var(--danger-foreground);
+
+    /* WCAG AA tokens — see :root / .dark for derivation notes. */
+    --color-success-soft-fg: var(--success-soft-fg);
+    --color-info-soft-fg: var(--info-soft-fg);
+    --color-warning-soft-fg: var(--warning-soft-fg);
+    --color-destructive-soft-fg: var(--destructive-soft-fg);
+    --color-destructive-aa: var(--destructive-aa);
 
     --font-sans: var(--font-sans);
     --font-display: var(--font-display);

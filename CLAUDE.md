@@ -165,6 +165,50 @@ Rules of thumb:
 - No `"use client"` directives -- this is not a Next.js project
 - No `import * as React from "react"` -- use named imports only (e.g. `import { forwardRef, type MouseEventHandler } from "react"`). With React 19's JSX transform, the namespace import is unnecessary.
 
+## Accessibility — Core WCAG 2.1 / 2.2 Contrast Rules
+
+Every component variant must clear these contrast minimums in **both light and dark modes** before it can ship. Treat this as a release gate, not a nice-to-have.
+
+### Required ratios
+
+| WCAG SC | Surface | Ratio (AA) | Ratio (AAA) |
+|---|---|---|---|
+| 1.4.3 Contrast (Minimum) | Normal text — body, labels, table cells, **all Badge text (`text-xs` 11px is normal text, NOT large)** | **4.5:1** | 7:1 |
+| 1.4.3 Contrast (Minimum) | Large text — ≥18pt regular OR ≥14pt bold (≈ 24px regular / 18.66px bold) | **3:1** | 4.5:1 |
+| 1.4.11 Non-text Contrast | Interactive UI component states & boundaries (input border, button outline, focus ring, checkbox, radio outline) vs adjacent color | **3:1** | — |
+| 1.4.11 Non-text Contrast | Graphical objects required to understand content (chart bars, status icons, meter fills) | **3:1** | — |
+
+`text-xs` ≈ 11px ≈ 8.25pt. The "large text" exception starts at 14pt bold (≈ 18.66px). Badge text **never** qualifies as large.
+
+### Patterns that always fail — don't ship them
+
+1. **Same chroma for bg AND text** (`bg-success/10 text-success`). A mid-luminance hex over a near-white tint of itself can never reach 4.5:1.
+2. **Reusing chroma for both light and dark**. A red dark enough to clear 4.5:1 white-on-it (e.g. `#a8392a`) is too dark to use as `text-X` over a dark-mode bg. Foreground text needs **theme-specific** values.
+3. **White text on the original `--danger` (`#c8543f`)**. Measures 4.38:1 — under AA. Use `--destructive-aa` (`#a8392a`, 6.3:1) for solid red controls.
+
+> Note on Card/panel boundaries: the current Card uses `border-border/70` which sits below SC 1.4.11's 3:1 against the page bg. This is an accepted decorative gap — the card's contents (typography, internal contrast) carry the grouping, and a darker compliant border was deemed too visually heavy. If a project requires strict compliance, opt into a darker border locally rather than re-skinning the registry.
+
+### Tokens already provisioned for AA — use these
+
+Defined in [packages/registry/src/styles.css](packages/registry/src/styles.css), light + dark:
+
+| Token | Purpose |
+|---|---|
+| `--success-soft-fg`, `--info-soft-fg`, `--warning-soft-fg`, `--destructive-soft-fg` | Text on tinted (`bg-X/10`, `bg-X/15`) backgrounds. Light-mode values are darker than `--X`; dark-mode values are lighter. |
+| `--destructive-aa` | Solid red bg for controls with white text. Use INSTEAD of `--destructive` when the surface is a button/badge/banner with white-on-red text. |
+
+The chroma tokens (`--success`, `--info`, `--warning`, `--danger`, `--destructive`, `--border`) are intentionally untouched — they remain available for non-text fills (meter bars, dots, chart fills) where 4.5:1 doesn't apply.
+
+### Workflow — when adding or modifying a component
+
+1. Compute contrast for every `variant × theme` pair before opening a PR. Use Stark, Figma's plugin, the WebAIM checker, or a quick local sRGB → relative-luminance script.
+2. If the component has tinted-bg text, reach for the `--*-soft-fg` tokens first; only add new tokens if those don't fit.
+3. If the component has solid red + white text, use `--destructive-aa`, not `--destructive`.
+4. Don't ship a variant that fails AA in either theme. If a brand color literally cannot pass, the right answer is to introduce a paired AA-safe foreground/background token, not to lower the bar.
+5. Document the contrast pass in the changelog entry (both `CHANGELOG.md` and `public/llms.txt`) — record measured ratios for any newly introduced color.
+
+References: [WCAG 2.2 SC 1.4.3](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [WCAG 2.2 SC 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html).
+
 ## Showcase Purity Rules
 
 There are three demo apps under `apps/demo/src/`:

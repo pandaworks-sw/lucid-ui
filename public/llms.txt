@@ -201,6 +201,32 @@ Each entry contains:
 
 ### 2026-05-02
 
+#### badge / button / styles — WCAG 2.1/2.2 contrast pass
+
+- change: modified
+- breaking: no
+- details: |
+    Audited Badge and Button destructive against SC 1.4.3 (Contrast Minimum, 4.5:1 for normal text — Badge text is `text-xs` / 11px / semibold, classified as normal text under WCAG, NOT large text). Multiple variants failed in either or both themes; fixed by introducing scoped tokens that pass AA. The chroma tokens themselves (`--success`, `--info`, `--warning`, `--danger`, `--destructive`, `--border`) are untouched, so any component consuming `text-success` / `bg-warning` / etc. directly continues to render the same color.
+
+    Tokens added in `packages/registry/src/styles.css` (both `:root` and `.dark`):
+      - `--success-soft-fg` (light `#377336` / dark `#9fd0a2`) — Badge `text-success-soft-fg` over `bg-success/15` light and `bg-success/20` dark (tints bumped from `/10` and `/15` so the chroma reads on both themes). Pre-fix contrast 3.51 / 3.24. Post-fix ~4.7 / 7.4.
+      - `--info-soft-fg` (light `#2964c4` / dark `#9fc2f0`) — same pattern. Pre-fix 3.50 / 3.29. Post-fix ~4.7 / 7.2.
+      - `--warning-soft-fg` (light `#955b0e` / dark `#f0c47a`) — same pattern. Pre-fix 2.53 / 4.33 (the worst offender). Post-fix ~5.2 / 7.2.
+      - `--destructive-soft-fg` (light `#a23120` / dark `#f0a896`) — reserved for future soft destructive variants; not yet wired.
+      - `--destructive-aa: #a8392a` (same in both themes) — solid red bg with white text. Pre-fix `#c8543f` gave 4.38:1; `#a8392a` gives 6.30:1. Used by Badge `destructive` and Button `destructive`.
+
+    Component changes:
+      - `packages/registry/registry/default/badge/badge.tsx` — `success` / `warning` / `info` variants now use `text-success-soft-fg` / `text-warning-soft-fg` / `text-info-soft-fg` (was `text-success` / `text-warning` / `text-info`). `destructive` variant now uses `bg-destructive-aa` + `hover:bg-destructive-aa/90` (was `bg-destructive` + `hover:bg-destructive/80`). `muted` variant adds `dark:text-stone-300` (was `text-muted-foreground` only — `stone-400` on `stone-700` measured 4.24:1; `stone-300` is ~7.3:1).
+      - `packages/registry/registry/default/button/button.tsx` — `destructive` variant now uses `bg-destructive-aa` (was `bg-destructive`). The `delete` action preset (`<Button action="delete">`) inherits the fix.
+
+    Variant names, prop shapes, and component APIs are unchanged. Visual change is intentional and minor: destructive controls are a slightly darker red, and tinted-bg badges have a slightly darker (light mode) / lighter (dark mode) text color. `MeterRow`/`Alert`/`DropdownMenu` etc. that consume the chroma tokens for non-text fills or for solid `bg-destructive` are unaffected — only Badge and Button were rewired to the AA tokens.
+
+    Known gaps left intentionally for now: (1) Card boundary uses `border-border/70` (light, ~1.18:1) / `dark:border-border` (dark, ~1.47:1) — under SC 1.4.11's 3:1, but the boundary is decorative and the current visual treatment was preferred over the heavier stone-400-grade border that strict compliance would require. (2) `text-destructive` used as text in `Alert` destructive, `DropdownMenu` destructive items, `Form` error messages, and `Connection-banner` still pulls the chroma `--destructive` directly. A follow-up could add a `--destructive-text` token (theme-specific) or migrate these to `text-destructive-aa`.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui`
+  - No code changes required for consumers — the variant names and APIs are the same. If you previously hand-replicated Badge's `bg-success/10 text-success` pattern in your own code, switch your local pattern to `text-success-soft-fg` (or define an equivalent token) so it clears AA.
+  - Re-screenshot any visual snapshots/regressions covering Badge `destructive` / `success` / `warning` / `info` / `muted (dark)` and Button `destructive` — colors shifted intentionally.
+
 #### meter-row — `label` is now optional; bare-bar mode skips the label row
 
 - change: modified
