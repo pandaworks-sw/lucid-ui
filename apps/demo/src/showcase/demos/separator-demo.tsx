@@ -23,8 +23,8 @@ export default function SeparatorDemo() {
       >
         <div className="space-y-4">
           <div>
-            <h3 className="text-lg font-medium">Pandahrms</h3>
-            <p className="text-sm text-muted-foreground">Human Resource Management System</p>
+            <h3 className="text-lg font-medium">Lucid UI</h3>
+            <p className="text-sm text-muted-foreground">Shared component library for Pandahrms apps.</p>
           </div>
           <Separator />
           <div>

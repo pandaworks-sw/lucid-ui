@@ -859,7 +859,7 @@ export default function App() {
     <TooltipProvider>
       <AppShell
         branding={{
-          name: 'Pandahrms',
+          name: 'Lucid UI',
           href: '/',
         }}
         navigation={[

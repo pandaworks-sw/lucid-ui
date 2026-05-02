@@ -21,10 +21,10 @@ export default function LoadingPageDemo() {
         code={`<LoadingPage
   logo={
     <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
-      P
+      L
     </div>
   }
-  message="Starting Pandahrms..."
+  message="Starting Lucid UI..."
 />`}
       >
         <div className="h-48">
@@ -34,7 +34,7 @@ export default function LoadingPageDemo() {
                 P
               </div>
             }
-            message="Starting Pandahrms..."
+            message="Starting Lucid UI..."
           />
         </div>
       </DemoSection>
