@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-02
 
+### Fixed
+
+- **`Button` crashed at render whenever `asChild` was set.** [packages/registry/registry/default/button/button.tsx](packages/registry/registry/default/button/button.tsx) — the previous implementation always rendered `<Comp>{ResolvedIcon && <Icon/>}{resolvedChildren}</Comp>`, so when `Comp` was Radix `Slot` (`asChild=true`), JSX collapsed the two children into a 2-item array and `Slot.SlotClone` threw `React.Children.only expected to receive a single React element child`. Every `<Button asChild><Link>...</Link></Button>` consumer hit this on first render. Fix: split the render path — when `asChild` is true, render `<Slot>` with only `resolvedChildren` (the consumer's element); auto-icon, the tooltip wrapper, and `disabled || loading` only apply to the native-button path. `icon`, `action`, and `loading` are now documented as ignored under `asChild` (the consumer's child element owns its own internals). Non-breaking: every previously working call site keeps working; previously broken `asChild` call sites now work. Added an "As Child (link styled as button)" demo section so the regression can't return silently.
+
 ### Changed
 
 - **WCAG 2.1/2.2 contrast pass on `Badge` and `Button` destructive.** [packages/registry/src/styles.css](packages/registry/src/styles.css), [packages/registry/registry/default/badge/badge.tsx](packages/registry/registry/default/badge/badge.tsx), [packages/registry/registry/default/button/button.tsx](packages/registry/registry/default/button/button.tsx). Audit measured each variant × theme pair against SC 1.4.3 (Contrast Minimum, 4.5:1 for normal text — Badge text is `text-xs` 11px, semibold, classified as normal). Failures and fixes:

@@ -36,6 +36,10 @@ Resolution order:
 - **Icon**: `loading` spinner > explicit `icon` prop > action preset icon > none
 - **Children**: explicit children > action preset label (only for non-icon sizes)
 
+`asChild` notes:
+- Use `asChild` when you need a non-button element (e.g. an `<a>` or a router `<Link>`) styled as a button. Radix `Slot` requires the child to be a single React element, so the consumer's element fully owns its internals.
+- `icon`, `action`, and `loading` are ignored when `asChild` is true — render any icon inside the child element yourself. Auto-tooltip for icon-only sizes is also skipped (the slotted element renders directly without the tooltip wrapper).
+
 ```tsx
 import { Button } from "@/components/ui/button"
 

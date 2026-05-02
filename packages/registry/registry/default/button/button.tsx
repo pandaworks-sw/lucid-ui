@@ -118,10 +118,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Auto-label: if action set, no children, and not icon-only, use preset label
     const resolvedChildren = children ?? (!isIconOnly && preset ? preset.label : undefined);
 
-    const Comp = asChild ? Slot : 'button';
-
-    const button = (
-      <Comp
+    // When `asChild`, the consumer's element owns its own internals — Radix Slot
+    // requires exactly one React element child, so we must not also inject the
+    // auto-icon (that would make the children prop a 2-item array and trip
+    // `React.Children.only`). Icons + presets only apply to the native-button path.
+    const button = asChild ? (
+      <Slot className={cn(buttonVariants({ variant: resolvedVariant, size, className }))} ref={ref} {...props}>
+        {resolvedChildren}
+      </Slot>
+    ) : (
+      <button
         className={cn(buttonVariants({ variant: resolvedVariant, size, className }))}
         ref={ref}
         disabled={disabled || loading}
@@ -129,7 +135,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {ResolvedIcon && <ResolvedIcon className={cn(loading && 'animate-spin')} />}
         {resolvedChildren}
-      </Comp>
+      </button>
     );
 
     // Auto-tooltip for icon-only sizes

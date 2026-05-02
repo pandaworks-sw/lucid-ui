@@ -201,6 +201,23 @@ Each entry contains:
 
 ### 2026-05-02
 
+#### button — fix `asChild` crash (`React.Children.only`)
+
+- change: modified
+- breaking: no
+- details: |
+    `Button` crashed at render whenever `asChild={true}` was used. The implementation always built children as `[ResolvedIcon && <Icon/>, resolvedChildren]`, so when `Comp` was Radix `Slot` (the `asChild` branch) JSX collapsed children into a 2-item array and `Slot.SlotClone` called `React.Children.only`, throwing `React.Children.only expected to receive a single React element child`. Every `<Button asChild><a>...</a></Button>` and `<Button asChild><Link>...</Link></Button>` consumer hit this on first render.
+
+    Fix in `packages/registry/registry/default/button/button.tsx`: split the render path. When `asChild=true`, render `<Slot>` with only `resolvedChildren` (the consumer's element). The auto-icon, the auto-tooltip wrapper, and `disabled={disabled || loading}` are only applied on the native-button path. The consumer's element owns its own internals — render any icon inside the child element yourself.
+
+    Added an "As Child (link styled as button)" section to the showcase demo (`apps/demo/src/showcase/demos/button-demo.tsx`) covering ghost / outline / default variants with `<a>` children, so a future refactor can't silently re-introduce the crash. `public/docs/button.md` now documents that `icon`, `action`, and `loading` are ignored under `asChild`.
+
+    Variant names, prop shapes, public API, and the native-button render path are unchanged. Previously working call sites keep working; previously broken `asChild` call sites now work.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up the fix.
+  - No code changes required for consumers. `<Button asChild>` is now safe to use across all variants.
+  - If you previously worked around this by applying `buttonVariants(...)` className directly to a `<Link>` / `<a>`, you can now switch to `<Button asChild>` for consistency with the rest of the registry.
+
 #### badge / button / styles — WCAG 2.1/2.2 contrast pass
 
 - change: modified

@@ -129,6 +129,34 @@ export default function ButtonDemo() {
           <Button action="cancel" />
         </div>
       </DemoSection>
+
+      <DemoSection
+        title="As Child (link styled as button)"
+        code={`<Button asChild variant="ghost" size="sm">
+  <a href="/somewhere">
+    <Heart className="h-3 w-3" />
+    Open
+  </a>
+</Button>`}
+      >
+        <div className="flex flex-wrap items-center gap-3">
+          <Button asChild variant="ghost" size="sm">
+            <a href="#aschild-ghost">
+              <Heart className="h-3 w-3" />
+              Open
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <a href="#aschild-outline">External link</a>
+          </Button>
+          <Button asChild variant="default">
+            <a href="#aschild-default">
+              <ArrowRight className="h-3.5 w-3.5" />
+              Continue
+            </a>
+          </Button>
+        </div>
+      </DemoSection>
     </div>
   );
 }
