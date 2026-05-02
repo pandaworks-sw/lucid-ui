@@ -30,7 +30,7 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
       <div className="flex items-center gap-2 border-b px-4 py-3">
-        <h1 className="text-sm font-semibold tracking-tight">Pandahrms UI</h1>
+        <h1 className="text-sm font-semibold tracking-tight">Lucid UI</h1>
         <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">Registry</span>
       </div>
 
@@ -52,11 +52,11 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
         </button>
 
         <a
-          href={`${import.meta.env.BASE_URL}saas-showcase`}
+          href={`${import.meta.env.BASE_URL}pure-showcase`}
           className="group flex items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-sm transition-colors hover:border-primary/40"
         >
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">SaaS showcase</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Pure SaaS</p>
             <p className="text-xs text-muted-foreground group-hover:text-foreground">
               A full demo app using the registry
             </p>
