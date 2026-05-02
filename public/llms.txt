@@ -1,6 +1,6 @@
 # Lucid UI
 
-> Shared React component library for Pandahrms frontend projects. Built with Tailwind CSS v4 (OKLCH color space) and Radix UI primitives. Distributed as the `@pandaworks-sw/ui` npm package on **GitHub Packages**.
+> Shared React component library for Pandahrms frontend projects. Built with Tailwind CSS v4 (OKLCH color space) and Radix UI primitives. Distributed as the `@pandaworks-sw/lucid-ui` npm package on **GitHub Packages**.
 
 ## Installation
 
@@ -14,22 +14,22 @@ The package is published to **GitHub Packages**, not the public npm registry. Co
 …and a `GITHUB_TOKEN` env var (classic PAT with `read:packages` scope) on every machine and CI job that runs `pnpm install`.
 
 ```bash
-pnpm add @pandaworks-sw/ui
+pnpm add @pandaworks-sw/lucid-ui
 ```
 
 Then import named components:
 
 ```tsx
-import { Button, Badge, Modal, StatCard, MeterRow } from '@pandaworks-sw/ui';
+import { Button, Badge, Modal, StatCard, MeterRow } from '@pandaworks-sw/lucid-ui';
 ```
 
 Peer dependencies the consumer must already have: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The package ships its own design-token stylesheet — consumers wire it up in their entry CSS:
 
 ```css
 @import "tailwindcss";
-@import "@pandaworks-sw/ui/styles.css";
+@import "@pandaworks-sw/lucid-ui/styles.css";
 
-@source "../node_modules/@pandaworks-sw/ui";
+@source "../node_modules/@pandaworks-sw/lucid-ui";
 ```
 
 The `styles.css` import provides every token (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, etc.), the base layer, and the `text-display-*` / `text-mono-*` / `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 scan the package's compiled JSX so class names used inside components survive tree-shaking. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded separately by the consumer.
@@ -38,7 +38,7 @@ Tree-shaking works out of the box because the package ships ESM with `sideEffect
 
 ### Customizing components
 
-Customizations land upstream in the lucid-ui repo. Don't fork a single component locally — open a PR against lucid-ui or wrap the component in a project-local component that lives outside of `@pandaworks-sw/ui`'s exports.
+Customizations land upstream in the lucid-ui repo. Don't fork a single component locally — open a PR against lucid-ui or wrap the component in a project-local component that lives outside of `@pandaworks-sw/lucid-ui`'s exports.
 
 ## Tech Stack
 
@@ -180,7 +180,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 ## Styling Conventions
 
 - Always support dark mode via the `.dark` class (set on `<html>` or an ancestor) plus `dark:` Tailwind variants
-- All theme colors are CSS variables defined in `@pandaworks-sw/ui/styles.css` (stone neutrals + panda-blue accent + semantic success/info/warning/danger)
+- All theme colors are CSS variables defined in `@pandaworks-sw/lucid-ui/styles.css` (stone neutrals + panda-blue accent + semantic success/info/warning/danger)
 - Color space: OKLCH for `bg-pattern-*` utilities; design tokens use HEX for portability
 - Icons: Lucide React (`lucide-react`)
 - Fonts: Inter (sans), Comfortaa (display), JetBrains Mono (mono) — load via Google Fonts in your `index.html`
@@ -188,7 +188,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 ## Changelog
 
 Machine-readable changelog for AI agents consuming this library.
-When upgrading `@pandaworks-sw/ui` in a downstream project, use this section to determine what changed and what actions are required.
+When upgrading `@pandaworks-sw/lucid-ui` in a downstream project, use this section to determine what changed and what actions are required.
 
 Each entry contains:
 - **component**: the component name
@@ -200,6 +200,18 @@ Each entry contains:
 ---
 
 ### 2026-05-02
+
+#### package — npm package renamed to `@pandaworks-sw/lucid-ui`
+
+- change: renamed
+- breaking: yes
+- details: The npm package was renamed from `@pandaworks-sw/ui` to `@pandaworks-sw/lucid-ui` so the package name matches the `lucid-ui` repo it ships from. The previous `@pandaworks-sw/ui` package on GitHub Packages stops receiving updates at v0.1.4; v0.2.0 is the first release under the new name. No source code, exports, public API, or styling tokens change — only the package name and subpath import paths.
+- action:
+  - In `package.json`, replace `"@pandaworks-sw/ui": "<old>"` with `"@pandaworks-sw/lucid-ui": "^0.2.0"`.
+  - Rewrite every import: `from '@pandaworks-sw/ui'` → `from '@pandaworks-sw/lucid-ui'`. Stylesheet too: `@import "@pandaworks-sw/ui/styles.css"` → `@import "@pandaworks-sw/lucid-ui/styles.css"`.
+  - Update Tailwind v4 source line: `@source "../node_modules/@pandaworks-sw/ui"` → `@source "../node_modules/@pandaworks-sw/lucid-ui"`.
+  - `.npmrc` is unchanged — the scope `@pandaworks-sw` is the same; only the package within the scope changed.
+  - Run `pnpm install` to refresh the lockfile.
 
 #### multi-stat-card — new component
 

@@ -8,11 +8,11 @@ export default function CodeLabelDemo() {
         title="Default"
         code={`import { CodeLabel } from "@/components/ui/code-label"
 
-<CodeLabel value="pnpm add @pandaworks-sw/ui" />
+<CodeLabel value="pnpm add @pandaworks-sw/lucid-ui" />
 <CodeLabel value="EMP-2024-001" size="sm" />`}
       >
         <div className="flex flex-col gap-3">
-          <CodeLabel value="pnpm add @pandaworks-sw/ui" />
+          <CodeLabel value="pnpm add @pandaworks-sw/lucid-ui" />
           <CodeLabel value="EMP-2024-001" />
         </div>
       </DemoSection>

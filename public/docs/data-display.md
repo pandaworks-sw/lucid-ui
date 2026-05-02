@@ -45,7 +45,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 </Avatar>
 ```
 
-`AvatarFallback` runs string children through `getInitialName` (exported from `@pandaworks-sw/ui` and from `@/lib`), so a full name is auto-converted to a 2-character monogram: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"`, `"Eli" → "EL"`. Already-short strings (e.g. `"JD"`) pass through unchanged.
+`AvatarFallback` runs string children through `getInitialName` (exported from `@pandaworks-sw/lucid-ui` and from `@/lib`), so a full name is auto-converted to a 2-character monogram: `"John Doe" → "JD"`, `"Devi Marasinghe" → "DM"`, `"Eli" → "EL"`. Already-short strings (e.g. `"JD"`) pass through unchanged.
 
 By default the fallback is colorized — the background color is derived from the first rendered character (A–Z map to 26 evenly spaced OKLCH hues, digits and other characters fall back to a deterministic hash). Foreground is white and works in both light and dark mode.
 
@@ -74,7 +74,7 @@ Props (`AvatarFallback`):
 If you need the initials helper outside the Avatar (e.g. for `aria-label`, sorting, or non-Avatar UI), import it directly:
 
 ```tsx
-import { getInitialName } from "@pandaworks-sw/ui"; // or "@/lib" inside the registry
+import { getInitialName } from "@pandaworks-sw/lucid-ui"; // or "@/lib" inside the registry
 
 getInitialName("John Doe");        // → "JD"
 getInitialName("Devi Marasinghe"); // → "DM"

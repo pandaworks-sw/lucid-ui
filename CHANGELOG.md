@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-05-02
 
+### Changed
+
+- **npm package renamed: `@pandaworks-sw/ui` → `@pandaworks-sw/lucid-ui` (BREAKING).** [packages/registry/package.json](packages/registry/package.json) — the package name now matches the `lucid-ui` repo it ships from, so the brand and the npm name no longer drift. The previous `@pandaworks-sw/ui` package on GitHub Packages stops receiving updates at v0.1.4; v0.2.0 is the first release under the new name. No source code, exports, or styling tokens change — only the package name and subpath import paths.
+  - **Migration:**
+    1. `package.json`: replace `"@pandaworks-sw/ui": "<old>"` with `"@pandaworks-sw/lucid-ui": "^0.2.0"`.
+    2. Imports: rewrite every `from '@pandaworks-sw/ui'` → `from '@pandaworks-sw/lucid-ui'`. Stylesheet too: `@import "@pandaworks-sw/ui/styles.css"` → `@import "@pandaworks-sw/lucid-ui/styles.css"`.
+    3. Tailwind v4 `@source`: `@source "../node_modules/@pandaworks-sw/ui"` → `@source "../node_modules/@pandaworks-sw/lucid-ui"`.
+    4. `.npmrc` is unchanged (the scope `@pandaworks-sw` is the same; only the package within the scope changed).
+    5. `pnpm install` to refresh the lockfile.
+
 ### Added
 
 - **`MultiStatCard` component.** [packages/registry/registry/default/multi-stat-card/multi-stat-card.tsx](packages/registry/registry/default/multi-stat-card/multi-stat-card.tsx) — renders 2+ related stat metrics inside a single card with dividers between cells (vertical dividers when `orientation="horizontal"`, the default; horizontal dividers when `orientation="vertical"`). Each cell mirrors `StatCard` (icon + label, animated headline value, optional hint and delta chip) and shares its design tokens, headline auto-shrink heuristic, and delta-chip rendering via a new sibling [packages/registry/registry/default/stat-card/stat-card-shared.ts](packages/registry/registry/default/stat-card/stat-card-shared.ts) module. Per-cell shape is `MultiStatCardItem` — a subset of `StatCardProps` minus `className`: `icon`, `label`, `value`, `prefix`, `suffix`, `decimals`, `formatter`, `hint`, `delta`, `deltaTone`. Cells use `flex-1 min-w-0` so widths split evenly and long values still shrink. Use it for funnel metrics (Total / In Progress / Completed), date pairs (Form Start / Submission Due), or any "metrics that belong together" cluster you don't want broken across separate tiles. When mixing into a grid of single `StatCard`s, give the `MultiStatCard` a `col-span` equal to its cell count so the row stays balanced. The showcase ships a dedicated demo page with funnel, deltas, two-cell, vertical-orientation, and mixed-grid examples.

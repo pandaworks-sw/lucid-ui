@@ -1,4 +1,4 @@
-// Barrel entry for @pandaworks-sw/ui.
+// Barrel entry for @pandaworks-sw/lucid-ui.
 // Re-exports every component (and supporting hooks/utils) from the registry sources.
 // Generated to mirror packages/registry/registry/default/*; keep in sync when adding components.
 

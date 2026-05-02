@@ -1,6 +1,6 @@
 # lucid-ui
 
-Monorepo containing the shared component library and demo showcase for Pandahrms frontend projects. Components are plain React + shadcn-style primitives, distributed as the `@pandaworks-sw/ui` npm package on GitHub Packages.
+Monorepo containing the shared component library and demo showcase for Pandahrms frontend projects. Components are plain React + shadcn-style primitives, distributed as the `@pandaworks-sw/lucid-ui` npm package on GitHub Packages.
 
 ## Project Structure
 
@@ -30,13 +30,13 @@ lucid-ui/
 ```bash
 pnpm dev                                    # Start demo dev server
 pnpm build                                  # Build npm package + demo
-pnpm --filter @pandaworks-sw/ui build:lib   # Build the npm-package output to packages/registry/dist/
+pnpm --filter @pandaworks-sw/lucid-ui build:lib   # Build the npm-package output to packages/registry/dist/
 pnpm lint                                   # Lint demo app
 ```
 
 ## Distribution
 
-Component sources in `packages/registry/registry/default/` are packaged and published as **`@pandaworks-sw/ui`** to **GitHub Packages** (not the public npm registry). Consumers configure an `.npmrc` for the `@pandaworks-sw` scope (see [README.md](README.md) for the exact config + `GITHUB_TOKEN` setup), then `pnpm add @pandaworks-sw/ui` and `import { Button, Badge } from "@pandaworks-sw/ui"`. Released by publishing a GitHub release on the repo — [.github/workflows/publish.yml](.github/workflows/publish.yml) builds and pushes to GH Packages.
+Component sources in `packages/registry/registry/default/` are packaged and published as **`@pandaworks-sw/lucid-ui`** to **GitHub Packages** (not the public npm registry). Consumers configure an `.npmrc` for the `@pandaworks-sw` scope (see [README.md](README.md) for the exact config + `GITHUB_TOKEN` setup), then `pnpm add @pandaworks-sw/lucid-ui` and `import { Button, Badge } from "@pandaworks-sw/lucid-ui"`. Released by publishing a GitHub release on the repo — [.github/workflows/publish.yml](.github/workflows/publish.yml) builds and pushes to GH Packages.
 
 ## How It Works
 
@@ -61,7 +61,7 @@ When committing, update both files under a dated heading for today (e.g., `## 20
 1. Create component in `packages/registry/registry/default/<component>/<component>.tsx`
 2. Add barrel `index.ts` exporting from the component file
 3. Add an `export * from '../registry/default/<component>'` line to `packages/registry/src/index.ts` (npm-package barrel) — keep alphabetical
-4. Run `pnpm --filter @pandaworks-sw/ui build:lib` to verify the package still builds
+4. Run `pnpm --filter @pandaworks-sw/lucid-ui build:lib` to verify the package still builds
 5. Add a demo page in `apps/demo/src/showcase/demos/<component>-demo.tsx`
 6. Add API docs to the appropriate file in `public/docs/` (dedicated file for complex components, category file for simple ones)
 7. Add a catalog entry in `public/llms.txt`
@@ -71,7 +71,7 @@ When committing, update both files under a dated heading for today (e.g., `## 20
 ## Modifying a Component
 
 1. Edit the source file in `packages/registry/registry/default/<component>/`
-2. Run `pnpm --filter @pandaworks-sw/ui build:lib` to verify the package still builds
+2. Run `pnpm --filter @pandaworks-sw/lucid-ui build:lib` to verify the package still builds
 3. Verify in demo (`pnpm dev`)
 4. Update the component's doc file in `public/docs/` if API changed
 5. Update changelogs
@@ -83,27 +83,27 @@ The package lives on **GitHub Packages**, not the public npm registry. The consu
 
 ```bash
 # After .npmrc is in place:
-pnpm add @pandaworks-sw/ui
+pnpm add @pandaworks-sw/lucid-ui
 ```
 
 Then import directly:
 
 ```tsx
-import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/lucid-ui';
 ```
 
-Required peer dependencies: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The package ships its own design-token stylesheet at `@pandaworks-sw/ui/styles.css` — consumers wire it up in their entry CSS:
+Required peer dependencies: `react >=19`, `react-dom >=19`, `lucide-react >=0.500`, `react-hook-form >=7`, `tailwindcss >=4`. The package ships its own design-token stylesheet at `@pandaworks-sw/lucid-ui/styles.css` — consumers wire it up in their entry CSS:
 
 ```css
 @import "tailwindcss";
-@import "@pandaworks-sw/ui/styles.css";
+@import "@pandaworks-sw/lucid-ui/styles.css";
 
-@source "../node_modules/@pandaworks-sw/ui";
+@source "../node_modules/@pandaworks-sw/lucid-ui";
 ```
 
 `styles.css` contains the `:root` / `.dark` token blocks, the `@theme inline` mapping, the base layer, the `text-display-*` / `text-mono-*` utilities, and the `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 see class names used inside the package's compiled JSX. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded by the consumer — see `apps/demo/index.html` for the Google Fonts `<link>` tags. The single source of truth for these tokens is [packages/registry/src/styles.css](packages/registry/src/styles.css); the demo imports the same file via [apps/demo/src/index.css](apps/demo/src/index.css).
 
-Customizations must land upstream in this repo — you cannot fork a single component locally. If a component needs a behavior or variant it doesn't have, open a PR against lucid-ui or wrap the component in a project-local component that lives outside `@pandaworks-sw/ui`'s exports.
+Customizations must land upstream in this repo — you cannot fork a single component locally. If a component needs a behavior or variant it doesn't have, open a PR against lucid-ui or wrap the component in a project-local component that lives outside `@pandaworks-sw/lucid-ui`'s exports.
 
 ## Button Action Presets
 

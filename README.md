@@ -2,7 +2,7 @@
 
 Shared component library for Pandahrms frontend projects. Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
 
-Internal-only — distributed as the `@pandaworks-sw/ui` npm package via GitHub Packages.
+Internal-only — distributed as the `@pandaworks-sw/lucid-ui` npm package via GitHub Packages.
 
 ## Installation
 
@@ -24,7 +24,7 @@ export GITHUB_TOKEN=ghp_xxx_with_read_packages
 **3. Install:**
 
 ```bash
-pnpm add @pandaworks-sw/ui
+pnpm add @pandaworks-sw/lucid-ui
 ```
 
 Required peer dependencies:
@@ -38,16 +38,16 @@ CI: set `GITHUB_TOKEN` (or a dedicated `read:packages` PAT) in the workflow env 
 ## Usage
 
 ```tsx
-import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';
+import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/lucid-ui';
 ```
 
 Wire up Tailwind v4 + the design tokens by importing the package's stylesheet. In your app's entry CSS:
 
 ```css
 @import "tailwindcss";
-@import "@pandaworks-sw/ui/styles.css";
+@import "@pandaworks-sw/lucid-ui/styles.css";
 
-@source "../node_modules/@pandaworks-sw/ui";
+@source "../node_modules/@pandaworks-sw/lucid-ui";
 ```
 
 That gives you all the tokens (`--primary`, `--brand`, `--success`, `--info`, `--warning`, `--muted`, …), the base layer, the `text-display-*` / `text-mono-*` utilities, and the `bg-pattern-*` utilities. The `@source` line lets Tailwind v4 scan the package's compiled JSX for class names so they aren't tree-shaken out. Fonts (Inter, Comfortaa, JetBrains Mono) must be loaded by the consumer — see `apps/demo/index.html` for the Google Fonts `<link>` tags.

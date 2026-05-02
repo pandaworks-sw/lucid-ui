@@ -12,7 +12,7 @@ Read these first, in order:
 1. ${SITE_URL}/llms.txt — the catalog. Every component, a one-line description, links to per-component docs, a decision guide, and a changelog. Always start here. Never recommend a component without confirming it exists in this catalog.
 2. ${SITE_URL}/docs/<name>.md — per-component or per-category API docs (e.g. button.md, forms.md, decision-guide.md). Fetch on demand for props or usage examples.
 
-Lucid is distributed as the \`@pandaworks-sw/ui\` npm package on **GitHub Packages** (not the public npm registry).
+Lucid is distributed as the \`@pandaworks-sw/lucid-ui\` npm package on **GitHub Packages** (not the public npm registry).
 
 Setup:
 
@@ -23,15 +23,15 @@ Setup:
 
 2. Set \`GITHUB_TOKEN\` (classic PAT with \`read:packages\` scope) on every developer machine and CI job that runs \`pnpm install\`.
 
-3. Install: \`pnpm add @pandaworks-sw/ui\`
+3. Install: \`pnpm add @pandaworks-sw/lucid-ui\`
 
 4. Wire up Tailwind v4 + design tokens in your app's entry CSS:
 
    @import "tailwindcss";
-   @import "@pandaworks-sw/ui/styles.css";
-   @source "../node_modules/@pandaworks-sw/ui";
+   @import "@pandaworks-sw/lucid-ui/styles.css";
+   @source "../node_modules/@pandaworks-sw/lucid-ui";
 
-5. Import components: \`import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/ui';\`
+5. Import components: \`import { Button, Badge, Modal, StatCard } from '@pandaworks-sw/lucid-ui';\`
 
 Peer deps: \`react >=19\`, \`react-dom >=19\`, \`lucide-react >=0.500\`, \`react-hook-form >=7\`, \`tailwindcss >=4\`. Fonts (Inter, Comfortaa, JetBrains Mono) are not bundled — load them via Google Fonts \`<link>\` in your index.html.
 
@@ -77,7 +77,7 @@ export function AiIntegrationView() {
           Paste this prompt into Claude Code, Cursor, Copilot, or any other AI coding agent. It points the agent at the
           library's <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">llms.txt</code> catalog and tells
           it how to install the{' '}
-          <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">@pandaworks-sw/ui</code> npm package from
+          <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">@pandaworks-sw/lucid-ui</code> npm package from
           GitHub Packages.
         </p>
       </div>
@@ -141,7 +141,7 @@ export function AiIntegrationView() {
           <li className="flex items-start gap-3">
             <span className="mt-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary">npm</span>
             <span className="break-all text-muted-foreground">
-              @pandaworks-sw/ui{' '}
+              @pandaworks-sw/lucid-ui{' '}
               <span className="text-foreground/60">(GitHub Packages, not the public npm registry)</span>
             </span>
           </li>

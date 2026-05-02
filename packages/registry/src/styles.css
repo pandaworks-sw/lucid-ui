@@ -4,8 +4,8 @@
  * Consumers add this file after `@import "tailwindcss"` in their app's entry CSS:
  *
  *   @import "tailwindcss";
- *   @import "@pandaworks-sw/ui/styles.css";
- *   @source "../node_modules/@pandaworks-sw/ui";
+ *   @import "@pandaworks-sw/lucid-ui/styles.css";
+ *   @source "../node_modules/@pandaworks-sw/lucid-ui";
  *
  * The third line lets Tailwind v4 scan the package's compiled JSX for class names.
  * Required peer setup: react >=19, react-dom >=19, lucide-react >=0.500,

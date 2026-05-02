@@ -26,9 +26,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter @pandaworks-sw/ui build
+      - run: pnpm --filter @pandaworks-sw/lucid-ui build
 
-      - name: Publish @pandaworks-sw/ui
+      - name: Publish @pandaworks-sw/lucid-ui
         working-directory: packages/registry
         run: pnpm publish --no-git-checks --access restricted
         env:
