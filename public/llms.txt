@@ -101,6 +101,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Skeleton | Loading placeholder | [data-display.md](docs/data-display.md) |
 | Progress | Progress bar | [data-display.md](docs/data-display.md) |
 | StatCard | Dashboard stat tile (Card + AnimatedNumber + Badge) with delta chip | [data-display.md](docs/data-display.md) |
+| MultiStatCard | Two or more related stat metrics inside one card with dividers between cells; horizontal or vertical orientation | [data-display.md](docs/data-display.md) |
 | MeterRow | Labeled horizontal bar with per-row tone (success/warning/info/destructive/muted) | [data-display.md](docs/data-display.md) |
 | ListRow | Avatar/icon + title + subtitle + trailing-meta row primitive; supports interactive `asButton` mode | [data-display.md](docs/data-display.md) |
 | CodeLabel | Inline monospace label with optional copy button (`copyable` prop) | [data-display.md](docs/data-display.md) |
@@ -199,6 +200,16 @@ Each entry contains:
 ---
 
 ### 2026-05-02
+
+#### multi-stat-card — new component
+
+- change: added
+- breaking: no
+- details: New `MultiStatCard` component renders 2+ related stat metrics inside a single card with dividers between cells. Each cell mirrors `StatCard` (icon + label, animated headline value, optional hint and delta chip) and reuses the same design tokens, headline auto-shrink heuristic, and delta-chip rendering. Per-cell shape is `MultiStatCardItem` (subset of `StatCardProps` minus `className`): `icon`, `label`, `value`, `prefix`, `suffix`, `decimals`, `formatter`, `hint`, `delta`, `deltaTone`. `orientation` (default `"horizontal"`) controls divider direction (`divide-x` vs `divide-y`); cells use `flex-1 min-w-0` so widths split evenly and long values still shrink. Use it for funnel metrics (Total / In Progress / Completed), date pairs (Form Start / Submission Due), or any "metrics that belong together" cluster you don't want broken across separate tiles. Internally, the shared helpers (`DELTA_VARIANT`, `DELTA_ICON`, `getHeadlineSizeClass`, `getRenderedLength`, `DeltaTone`) were extracted from `stat-card.tsx` into a new sibling `stat-card/stat-card-shared.ts` so both components stay in sync — no behavior change for existing `StatCard` usage.
+- action:
+  - Upgrade `@pandaworks-sw/ui`
+  - Replace ad-hoc multi-cell `Card`s (e.g. a `Card` containing a 3-column grid of label/number divs) with `<MultiStatCard items={[...]} />`
+  - When mixing into a grid of single `StatCard` tiles, give the `MultiStatCard` a `col-span` equal to its cell count so the row stays balanced (e.g. `className="sm:col-span-2 xl:col-span-3"` for a 3-cell card inside an `xl:grid-cols-6` grid)
 
 #### stat-card — `value` prop now accepts strings
 

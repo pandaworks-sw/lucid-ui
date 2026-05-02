@@ -349,6 +349,54 @@ Props:
 
 The headline class auto-shrinks based on the rendered value length so long values still fit inside the tile: `≤10 chars → text-xl`, `≤16 → text-lg`, `≤24 → text-base`, `>24 → text-sm`. Length is computed from the string for string values, from `formatter(value)` when a formatter is provided, and from `prefix + integer digits + decimals + suffix` otherwise. The shrink is purely length-based (no measurement) — it's predictable and adds zero runtime cost, but it's a heuristic, so a wide character at a boundary may still clip in extreme cases.
 
+## MultiStatCard
+
+Two or more related stat metrics rendered inside a **single** card with dividers between cells. Use when metrics belong together conceptually (a funnel: Total → In Progress → Completed; a pair: Form Start / Submission Due) and you want fewer visible cards in the row without losing the StatCard look-and-feel.
+
+```tsx
+import { MultiStatCard } from "@/components/ui/multi-stat-card"
+import { CheckCircle, TrendingUp, Users } from "lucide-react"
+
+<MultiStatCard
+  items={[
+    { icon: Users, label: "Total", value: 124, hint: "Appraisals in stage" },
+    { icon: TrendingUp, label: "In Progress", value: 47, hint: "Being processed" },
+    { icon: CheckCircle, label: "Completed", value: 77, hint: "Finished reviews" },
+  ]}
+/>
+```
+
+Props:
+- `items: MultiStatCardItem[]` — two or more cells. Each item shape mirrors `StatCard` minus `className`: `icon`, `label`, `value`, `prefix`, `suffix`, `decimals`, `formatter`, `hint`, `delta`, `deltaTone`. Same string-vs-number rules and same headline auto-shrink behavior as `StatCard`.
+- `orientation?: "horizontal" | "vertical"` — default `"horizontal"`. Horizontal lays cells in a row separated by vertical dividers (`divide-x`); vertical stacks them with horizontal dividers (`divide-y`). Each cell uses `flex-1 min-w-0` so widths split evenly and long values still shrink.
+- `className?: string` — applied to the outer `Card`. Use for grid spans (e.g. `xl:col-span-3`) or sizing constraints.
+
+A `MultiStatCard` is one card visually, so when mixing it into a grid of single `StatCard` tiles, give it a `col-span` equal to the number of cells so the row stays balanced:
+
+```tsx
+<div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-6">
+  <StatCard label="Review Period" value="01 Sep – 30 Apr" hint="Period being evaluated" />
+  <StatCard label="Form Start Date" value="01 Sep 2025" hint="When form opens" />
+  <StatCard label="Submission Due Date" value="30 Apr 2026" hint="When form is due" />
+  <MultiStatCard
+    className="sm:col-span-2 xl:col-span-3"
+    items={[
+      { icon: Users, label: "Total", value: 124, hint: "Appraisals in stage" },
+      { icon: TrendingUp, label: "In Progress", value: 47, hint: "Being processed" },
+      { icon: CheckCircle, label: "Completed", value: 77, hint: "Finished reviews" },
+    ]}
+  />
+</div>
+```
+
+Pick `MultiStatCard` over a row of `StatCard`s when:
+- The metrics together form a single concept (funnel, ratio, before/after) — separating them into individual tiles dilutes that.
+- You want to free up grid columns for other content.
+
+Stick with separate `StatCard`s when each metric stands on its own (different units, unrelated business meaning) — separating them into individual tiles helps scannability.
+
+`MultiStatCard` shares its design tokens, headline-shrink heuristic, and delta-chip rendering with `StatCard` via a small shared module (`stat-card-shared.ts`), so the two stay visually consistent.
+
 ## AnimatedNumber
 
 A number display that animates smoothly between values using requestAnimationFrame with easeOutQuad easing.

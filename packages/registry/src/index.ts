@@ -36,6 +36,7 @@ export * from '../registry/default/list-row';
 export * from '../registry/default/loading-page';
 export * from '../registry/default/meter-row';
 export * from '../registry/default/modal';
+export * from '../registry/default/multi-stat-card';
 export * from '../registry/default/page-header';
 export * from '../registry/default/pagination';
 export * from '../registry/default/popover';

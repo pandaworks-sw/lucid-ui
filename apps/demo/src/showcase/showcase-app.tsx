@@ -64,6 +64,7 @@ import SearchInputDemo from './demos/search-input-demo';
 import AvatarGroupDemo from './demos/avatar-group-demo';
 import EmptyStateDemo from './demos/empty-state-demo';
 import StatCardDemo from './demos/stat-card-demo';
+import MultiStatCardDemo from './demos/multi-stat-card-demo';
 import MeterRowDemo from './demos/meter-row-demo';
 import ListRowDemo from './demos/list-row-demo';
 
@@ -439,6 +440,13 @@ const COMPONENTS: ComponentMeta[] = [
     demo: StatCardDemo,
   },
   {
+    name: 'multi-stat-card',
+    title: 'Multi Stat Card',
+    description:
+      'Two or more related stat metrics rendered inside a single card with dividers between cells. Each cell mirrors StatCard (icon + label, headline value, optional hint and delta chip). Horizontal or vertical orientation.',
+    demo: MultiStatCardDemo,
+  },
+  {
     name: 'meter-row',
     title: 'Meter Row',
     description:
@@ -501,6 +509,7 @@ const CATEGORIES: SidebarCategory[] = [
         'expandable-text',
         'list-row',
         'meter-row',
+        'multi-stat-card',
         'progress',
         'skeleton',
         'stat-card',

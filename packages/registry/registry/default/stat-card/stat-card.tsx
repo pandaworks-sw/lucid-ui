@@ -1,46 +1,10 @@
 import { type ComponentType, type ReactNode } from 'react';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AnimatedNumber } from '@/components/ui/animated-number';
 import { Badge } from '@/components/ui/badge';
-
-type DeltaTone = 'up' | 'down' | 'flat';
-
-const DELTA_VARIANT: Record<DeltaTone, 'success' | 'destructive' | 'muted'> = {
-  up: 'success',
-  down: 'destructive',
-  flat: 'muted',
-};
-
-const DELTA_ICON: Record<DeltaTone, ComponentType<{ className?: string }>> = {
-  up: TrendingUp,
-  down: TrendingDown,
-  flat: Minus,
-};
-
-function getHeadlineSizeClass(length: number): string {
-  if (length <= 10) return 'text-xl';
-  if (length <= 16) return 'text-lg';
-  if (length <= 24) return 'text-base';
-  return 'text-sm';
-}
-
-function getRenderedLength(
-  value: number | string,
-  prefix: string | undefined,
-  suffix: string | undefined,
-  decimals: number | undefined,
-  formatter: ((value: number) => string) | undefined,
-): number {
-  if (typeof value === 'string') return value.length;
-  if (formatter) return formatter(value).length;
-  const sign = value < 0 ? 1 : 0;
-  const integerDigits = String(Math.trunc(Math.abs(value))).length;
-  const fractional = decimals && decimals > 0 ? decimals + 1 : 0;
-  return (prefix?.length ?? 0) + sign + integerDigits + fractional + (suffix?.length ?? 0);
-}
+import { type DeltaTone, DELTA_ICON, DELTA_VARIANT, getHeadlineSizeClass, getRenderedLength } from './stat-card-shared';
 
 export interface StatCardProps {
   /** Optional leading icon shown next to the label. */
@@ -91,7 +55,7 @@ function StatCard({
         <div
           className={cn(
             'min-w-0 font-semibold tracking-tight',
-            getHeadlineSizeClass(getRenderedLength(value, prefix, suffix, decimals, formatter)),
+            getHeadlineSizeClass(getRenderedLength(value, prefix, suffix, decimals, formatter))
           )}
         >
           {typeof value === 'string' ? (
