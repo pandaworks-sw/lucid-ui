@@ -201,6 +201,15 @@ Each entry contains:
 
 ### 2026-05-02
 
+#### meter-row — `label` is now optional; bare-bar mode skips the label row
+
+- change: modified
+- breaking: no
+- details: `MeterRow.label` is widened from required `ReactNode` to optional `ReactNode | undefined`. The component now renders the label-row container (`flex items-center justify-between gap-2 text-sm` + the outer `space-y-1` gap) only when `label != null || valueLabel !== undefined`. Previously the label row was unconditional — even `label={null}` left ~24px of phantom blank space above the bar because the empty `<span>` still picked up `text-sm` line-height inside the flex container. The new behavior: pass a `label` (and optionally `valueLabel`) to keep the existing labeled layout, or omit both to render a bare progress bar that sits flush against its parent. Useful for compact list-row indicators where the count is shown separately above, KPI metric tiles where the label lives in the surrounding wrapper, and any case where the consumer renders its own label/value pair around the bar. Existing callers that pass a `label` are unchanged. Closes the gap that forced consumers to keep hand-rolled `<div className="h-X bg-muted"><div className="h-full bg-{tone}" style={{ width }} /></div>` patterns whenever they wanted a tone-aware progress bar without `MeterRow`'s built-in label slot.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui`
+  - Replace remaining hand-rolled tone-aware progress bars (`<div bg-muted><div bg-success/info/warning style={{ width }}>`) with `<MeterRow value={pct} tone="success" size="sm" />` (omit `label` for bare bars). Pick `size` to match the original height: `sm`=h-1, `default`=h-1.5, `lg`=h-2.
+
 #### package — npm package renamed to `@pandaworks-sw/lucid-ui`
 
 - change: renamed

@@ -229,10 +229,13 @@ import { Badge } from "@/components/ui/badge"
   valueLabel={5}
   tone="success"
 />
+
+// Bare bar — label rendered separately above/around by the caller
+<MeterRow value={progress} tone="info" />
 ```
 
 Props:
-- `label: ReactNode` — leading label. Plain string or any node (typically a Badge for status/priority charts).
+- `label?: ReactNode` — leading label. Plain string or any node (typically a Badge for status/priority charts). Optional: when omitted (and `valueLabel` is also omitted) the label-row container is not rendered, leaving a bare progress bar useful for compact list rows or inline tone-aware bars where the label is shown separately.
 - `value: number` — numeric value used for the fill width.
 - `max?: number` — maximum value used to compute width. Defaults to `100`.
 - `valueLabel?: ReactNode` — trailing value text/node. Omit to hide.
