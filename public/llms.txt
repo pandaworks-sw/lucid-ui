@@ -203,6 +203,21 @@ Each entry contains:
 
 ### 2026-05-03
 
+#### typography — Comfortaa scoped to PageHeader + display utilities; everything else reverts to Inter
+
+- change: modified
+- breaking: no (token names unchanged; visual change only)
+- details: |
+    Removed the global base-layer rule that applied Comfortaa to every `<h1>`–`<h6>`. Comfortaa now renders only on the `PageHeader` title and the `text-display-sm/md/lg/xl` hero/marketing utilities; all other headings, body text, labels, and dialog/card titles render in Inter via `--font-sans`.
+
+    The `--font-display` CSS variable and the `font-display` Tailwind utility are unchanged — both still resolve to Comfortaa. `PageHeader` now applies `font-display` to its title `<h1>` so the brand face stays on that one component without leaking via global selectors. The `text-display-*` utilities continue to use `var(--font-display)`.
+
+    No accessibility regression — Inter is already the body face and clears AA at all sizes used in headings; Comfortaa retention on hero text is unchanged.
+- action:
+  - If your app relied on the removed global heading rule to render headings in Comfortaa, add `font-display` (or one of the `text-display-*` utilities) explicitly on the headings that should keep the brand face.
+
+---
+
 #### progress-stat-card — new component
 
 - change: added
