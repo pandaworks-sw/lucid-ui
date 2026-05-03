@@ -1,0 +1,110 @@
+name: Release on Version Bump
+
+# Cuts a GitHub Release and publishes the npm package whenever a push to main
+# bumps the version in packages/registry/package.json. The gate is the absence
+# of a `v{version}` git tag — pushes that don't change the version are no-ops.
+# Manual republishes still work via publish.yml's workflow_dispatch.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read package version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./packages/registry/package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check if release tag already exists
+        id: tag_check
+        run: |
+          if git rev-parse "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists — skipping release."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tag ${{ steps.version.outputs.tag }} not found — proceeding with release."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        if: steps.tag_check.outputs.exists == 'false'
+
+      - uses: actions/setup-node@v4
+        if: steps.tag_check.outputs.exists == 'false'
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: '@pandaworks-sw'
+
+      - name: Install dependencies
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm --filter @pandaworks-sw/lucid-ui build
+
+      - name: Extract release notes from CHANGELOG.md
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # Grab the first `## YYYY-MM-DD` section in CHANGELOG.md and stop
+          # before the next `## ` heading. If no dated section is found, fall
+          # back to a one-liner so the release still has a body.
+          awk '
+            /^## [0-9]{4}-[0-9]{2}-[0-9]{2}/ {
+              if (found) exit
+              found = 1
+              print
+              next
+            }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "Release ${{ steps.version.outputs.tag }} — see CHANGELOG.md for details." > release-notes.md
+          fi
+          echo "--- release-notes.md ---"
+          cat release-notes.md
+
+      - name: Create git tag
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes-file release-notes.md
+
+      - name: Publish to GitHub Packages
+        if: steps.tag_check.outputs.exists == 'false'
+        working-directory: packages/registry
+        run: pnpm publish --no-git-checks --access restricted
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

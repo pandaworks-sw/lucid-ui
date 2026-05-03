@@ -36,7 +36,9 @@ pnpm lint                                   # Lint demo app
 
 ## Distribution
 
-Component sources in `packages/registry/registry/default/` are packaged and published as **`@pandaworks-sw/lucid-ui`** to **GitHub Packages** (not the public npm registry). Consumers configure an `.npmrc` for the `@pandaworks-sw` scope (see [README.md](README.md) for the exact config + `GITHUB_TOKEN` setup), then `pnpm add @pandaworks-sw/lucid-ui` and `import { Button, Badge } from "@pandaworks-sw/lucid-ui"`. Released by publishing a GitHub release on the repo — [.github/workflows/publish.yml](.github/workflows/publish.yml) builds and pushes to GH Packages.
+Component sources in `packages/registry/registry/default/` are packaged and published as **`@pandaworks-sw/lucid-ui`** to **GitHub Packages** (not the public npm registry). Consumers configure an `.npmrc` for the `@pandaworks-sw` scope (see [README.md](README.md) for the exact config + `GITHUB_TOKEN` setup), then `pnpm add @pandaworks-sw/lucid-ui` and `import { Button, Badge } from "@pandaworks-sw/lucid-ui"`.
+
+**Release flow (auto)**: bump `version` in [packages/registry/package.json](packages/registry/package.json), update [CHANGELOG.md](CHANGELOG.md) under today's `## YYYY-MM-DD` heading, then push to `main`. [.github/workflows/release.yml](.github/workflows/release.yml) detects the new version (no existing `v{version}` tag), creates the tag, opens a GitHub Release using the latest dated CHANGELOG section as the body, and publishes the npm tarball to GH Packages. Pushes that don't change the version are no-ops. Manual republishes still work via [.github/workflows/publish.yml](.github/workflows/publish.yml)'s `workflow_dispatch`.
 
 ## How It Works
 
