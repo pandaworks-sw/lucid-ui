@@ -47,7 +47,7 @@ const buttonVariants = cva(
         default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
         brand: 'bg-brand text-brand-foreground shadow-xs hover:shadow-sm',
         destructive: 'bg-destructive-aa text-destructive-foreground shadow-xs hover:shadow-sm',
-        outline: 'border border-border bg-background text-foreground shadow-xs hover:bg-muted hover:shadow-sm',
+        outline: 'border border-border bg-input-bg text-foreground shadow-xs hover:bg-muted hover:shadow-sm',
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:shadow-sm',
         ghost: 'hover:bg-accent hover:text-accent-foreground active:translate-y-0',
         link: 'text-primary underline-offset-4 hover:underline active:translate-y-0 shadow-none',

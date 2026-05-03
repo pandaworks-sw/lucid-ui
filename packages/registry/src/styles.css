@@ -171,6 +171,7 @@
     --destructive-foreground: #ffffff;
     --border: var(--stone-200);
     --input: var(--stone-200);
+    --input-bg: var(--stone-100);
     --ring: var(--panda-400);
     --chart-1: var(--panda-400);
     --chart-2: var(--panda-600);
@@ -217,6 +218,7 @@
     --destructive-foreground: #ffffff;
     --border: var(--stone-600);
     --input: var(--stone-600);
+    --input-bg: var(--stone-800);
     --ring: var(--panda-400);
     --chart-1: var(--panda-300);
     --chart-2: var(--panda-500);
@@ -267,6 +269,7 @@
     --color-destructive-foreground: var(--destructive-foreground);
     --color-border: var(--border);
     --color-input: var(--input);
+    --color-input-bg: var(--input-bg);
     --color-ring: var(--ring);
     --color-chart-1: var(--chart-1);
     --color-chart-2: var(--chart-2);

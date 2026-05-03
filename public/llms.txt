@@ -219,6 +219,27 @@ Each entry contains:
 
 ### 2026-05-03
 
+#### form-fields — fields and outline buttons now render on a tinted `--input-bg` surface
+
+- change: modified
+- breaking: no
+- details: |
+    Added a new `--input-bg` design token (light: `var(--stone-100)` `#EFF3F6`, dark: `var(--stone-800)` `#1C2229`) and switched the field surface on `Input`, `Textarea`, `SelectTrigger`, outline `Button`, and `AttachmentInput`'s compact trigger from `bg-background` to `bg-input-bg`. Pickers (`DatePicker`, `DateRangePicker`, `SelectPicker`) inherit through `Button` outline; `SearchInput` inherits through `Input`.
+
+    Previously every form surface used `bg-background` (`stone-50` `#F7F9FB` light / `stone-800` dark). In light mode that sat at ~1.02:1 against the `#FFFFFF` `Card`/`Dialog` surface, so inputs and outline buttons inside panels effectively blended in and only the 1px border carried the boundary. The new tint sits at a visible offset against both white cards and the page bg, while still reading as a "field" rather than a heavy filled control.
+
+    Dark mode is intentionally unchanged in appearance — `--input-bg: var(--stone-800)` resolves to the same value `bg-background` was already producing in dark mode, so the existing pressed-in-field look is preserved (input darker than the stone-700 card surface).
+
+    Contrast: foreground text (`--foreground` stone-800) on `--input-bg` (stone-100) ≈ 14.4:1 (AAA) light; placeholder (`--muted-foreground` stone-600) on `--input-bg` ≈ 7.0:1 (AAA) light. Dark-mode contrast is unchanged from prior baseline.
+
+    The `--input` token (input border color, `stone-200` light / `stone-600` dark) is unchanged — this change adds a separate background token rather than repurposing the existing border token. The `@theme inline` block now exposes `--color-input-bg` so the `bg-input-bg` Tailwind utility resolves correctly.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up the change.
+  - If your consumer overrides `bg-background` on inputs locally (e.g. `Input className="bg-white"`), decide whether to drop that override (and inherit the new token) or keep it (and stay flat-on-card).
+  - No code or markup changes required for default usage.
+
+---
+
 #### accordion — animation keyframes + theme tokens shipped (silent no-op fix)
 
 - change: fixed
