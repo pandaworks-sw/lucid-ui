@@ -165,6 +165,24 @@ Rules of thumb:
 - No `"use client"` directives -- this is not a Next.js project
 - No `import * as React from "react"` -- use named imports only (e.g. `import { forwardRef, type MouseEventHandler } from "react"`). With React 19's JSX transform, the namespace import is unnecessary.
 
+## Heading Font Policy (strict)
+
+Comfortaa (`var(--font-display)`, Tailwind `font-display`) is reserved for **two surfaces only**:
+
+1. The `<PageHeader>` component title — already wired internally; do not re-apply.
+2. The `text-display-sm/md/lg/xl` hero/marketing utilities.
+
+**Every other heading and text surface in the app renders in Inter (`var(--font-sans)`).** This includes `CardTitle`, `DialogTitle`, `SheetTitle`, `AccordionTrigger`, sidebar section labels, table headers, and every bare `<h1>`–`<h6>` in user-authored content.
+
+[packages/registry/src/styles.css](packages/registry/src/styles.css) ships an explicit `h1, h2, h3, h4, h5, h6 { font-family: var(--font-sans) }` reset in `@layer base` so consumers get the policy by default.
+
+Rules when adding or modifying components in this repo:
+
+- **DO NOT** add a global `h1, h2, h3, h4, h5, h6 { font-family: var(--font-display) }` rule anywhere in `styles.css` or component CSS. The reset is intentional — re-introducing the global rule reverts the brand-face restriction across the entire app.
+- **DO NOT** apply `font-display` (or `text-display-*`) inside `CardTitle`, `DialogTitle`, `SheetTitle`, `ModalHeader`, `SheetHeader`, `DialogHeader`, sidebar section labels, table header cells, or any internal `<h{n}>` of a non-PageHeader component. Those surfaces are deliberately Inter.
+- **DO** opt a single element into Comfortaa with `className="font-display"` (or a `text-display-*` utility) only when the component is genuinely a hero/marketing surface or the lone `PageHeader` title.
+- When auditing whether a change is safe, grep both this repo and consumer projects for `font-family.*var\(--font-display\)` on raw `h[1-6]` selectors — there should be **zero** matches outside the `PageHeader` component and the `text-display-*` `@utility` blocks.
+
 ## Accessibility — Core WCAG 2.1 / 2.2 Contrast Rules
 
 Every component variant must clear these contrast minimums in **both light and dark modes** before it can ship. Treat this as a release gate, not a nice-to-have.

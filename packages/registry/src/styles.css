@@ -30,11 +30,67 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Heading font policy — Comfortaa is reserved for `<PageHeader>` and the
+     `text-display-*` hero utilities ONLY. Every other heading renders in Inter
+     (`var(--font-sans)`). This explicit reset stops a stray downstream
+     `h1, h2, h3, h4, h5, h6 { font-family: var(--font-display) }` rule from
+     leaking the brand face onto card titles, dialog titles, sidebar labels,
+     and user-authored content. To opt a single heading into Comfortaa, add
+     `className="font-display"` (or use a `text-display-*` utility) on that
+     element — do NOT add a global heading rule. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+  }
+
   code,
   kbd,
   pre,
   samp {
     font-family: var(--font-mono);
+  }
+
+  /* Custom scrollbar styling — token-driven so light/dark stay consistent with
+     the design system. Consumers get this for free; if a project needs a wider
+     bar or different chroma, scope an override to the relevant container
+     rather than re-defining these globally. */
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--stone-300) transparent;
+  }
+  .dark * {
+    scrollbar-color: var(--stone-600) transparent;
+  }
+
+  /* WebKit (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--stone-300);
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--stone-400);
+    background-clip: padding-box;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--stone-600);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--stone-500);
   }
 }
 
@@ -304,6 +360,32 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+
+    /* Animation tokens — `Accordion` (Radix) reads `--radix-accordion-content-height`
+       at runtime; the keyframes below close the loop. Without these, AccordionContent
+       collapses/expands instantly with no transition. */
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+  }
+}
+
+/* ─── Animation keyframes ─── */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
   }
 }
 

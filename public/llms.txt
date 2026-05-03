@@ -187,6 +187,22 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 - Icons: Lucide React (`lucide-react`)
 - Fonts: Inter (sans), Comfortaa (display), JetBrains Mono (mono) — load via Google Fonts in your `index.html`
 
+### Heading font policy (strict)
+
+Comfortaa (`var(--font-display)`) is reserved for **two surfaces only**:
+
+1. The `<PageHeader>` component title (already wired internally — do not re-apply).
+2. The `text-display-sm/md/lg/xl` utilities — large hero/marketing text.
+
+**Everything else in the app renders in Inter (`var(--font-sans)`)** — including all card titles, dialog/modal titles, sheet titles, sidebar section labels, table headers, accordion triggers, page subheadings, `<h2>`/`<h3>`/`<h4>` in user-authored content, etc.
+
+Rules for AI agents and humans editing consumer projects:
+
+- **DO NOT add a global `h1, h2, h3, h4, h5, h6 { font-family: var(--font-display) }` rule.** Lucid UI's stylesheet now ships an explicit reset that pins headings to Inter; a downstream global heading rule defeats the policy and re-introduces the brand face across the entire app. If you find such a rule in a consumer's `globals.css` / `index.css` / `app.css`, remove it.
+- **DO NOT** wrap `<CardTitle>`, `<DialogTitle>`, `<SheetTitle>`, `<AccordionTrigger>`, etc. in `font-display` to "match the page header" — those surfaces are deliberately Inter.
+- **DO** add `className="font-display"` (or use a `text-display-*` utility) on a single element when you genuinely need Comfortaa on a marketing/hero surface inside a consumer app. Per-element opt-in only.
+- **DO** keep the consumer's CSS import order as documented (`@import "tailwindcss"` → `@import "@pandaworks-sw/lucid-ui/styles.css"` → consumer styles). Lucid UI's reset must come before consumer overrides for the policy to hold.
+
 ## Changelog
 
 Machine-readable changelog for AI agents consuming this library.
@@ -203,18 +219,50 @@ Each entry contains:
 
 ### 2026-05-03
 
+#### accordion — animation keyframes + theme tokens shipped (silent no-op fix)
+
+- change: fixed
+- breaking: no
+- details: |
+    `AccordionContent` already applied `data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down` (driven by Radix's `data-state`), but the package never shipped the matching `@keyframes accordion-down` / `@keyframes accordion-up` or the `--animate-accordion-down` / `--animate-accordion-up` `@theme inline` tokens. The animation classes resolved to nothing, so AccordionContent collapsed/expanded instantly with no transition unless the consumer hand-defined the keyframes (against `--radix-accordion-content-height`) in their own `globals.css`.
+
+    Added both keyframes and both animation tokens to [packages/registry/src/styles.css](packages/registry/src/styles.css). Animation now works out of the box.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up the keyframes.
+  - If your consumer's `globals.css` (or `index.css`) defines `@keyframes accordion-down` / `@keyframes accordion-up` and/or `--animate-accordion-down` / `--animate-accordion-up`, **delete those local copies** — they are now duplicated in the package. Cascade order makes the local copy win silently, but it's redundant and will drift.
+
+---
+
+#### styles — token-driven scrollbar styling shipped in `@layer base`
+
+- change: added
+- breaking: no
+- details: |
+    Added Firefox (`scrollbar-width: thin`, `scrollbar-color: var(--stone-300) transparent`, dark-mode `var(--stone-600)`) and WebKit (`::-webkit-scrollbar` 10×10, thumb on `--stone-300`/`--stone-400` light and `--stone-600`/`--stone-500` dark, transparent track, 6px radius) scrollbar rules to the package's base layer. The block uses only existing `--stone-*` tokens, so it tracks the design system's neutral scale automatically.
+
+    Previously every consumer that wanted consistent scrollbar chrome rebuilt these rules locally against the same tokens (Pandahrms-Performance, etc.). Consolidating upstream removes that duplication and prevents drift if the stone scale ever shifts.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui`.
+  - Delete any local `* { scrollbar-width: thin; scrollbar-color: var(--stone-300) transparent }` / `::-webkit-scrollbar*` block from your consumer's `globals.css` — the package now provides it. Consumers with project-specific scrollbar overrides continue to win via cascade order; the package only fills the default.
+
+---
+
 #### typography — Comfortaa scoped to PageHeader + display utilities; everything else reverts to Inter
 
 - change: modified
 - breaking: no (token names unchanged; visual change only)
 - details: |
-    Removed the global base-layer rule that applied Comfortaa to every `<h1>`–`<h6>`. Comfortaa now renders only on the `PageHeader` title and the `text-display-sm/md/lg/xl` hero/marketing utilities; all other headings, body text, labels, and dialog/card titles render in Inter via `--font-sans`.
+    Removed the global base-layer rule that applied Comfortaa to every `<h1>`–`<h6>`, and replaced it with an explicit `h1, h2, h3, h4, h5, h6 { font-family: var(--font-sans) }` reset inside `@layer base`. Comfortaa now renders only on the `PageHeader` title and the `text-display-sm/md/lg/xl` hero/marketing utilities; all other headings, body text, labels, and dialog/card titles render in Inter via `--font-sans`.
 
     The `--font-display` CSS variable and the `font-display` Tailwind utility are unchanged — both still resolve to Comfortaa. `PageHeader` now applies `font-display` to its title `<h1>` so the brand face stays on that one component without leaking via global selectors. The `text-display-*` utilities continue to use `var(--font-display)`.
 
+    A new "Heading font policy (strict)" section in this file (and a matching block in the project `CLAUDE.md`) documents the rule for AI agents and devs working in downstream consumers: do not add a global `h1–h6 { font-family: var(--font-display) }` rule, and remove any stale copy you find in a consumer's `globals.css` / `index.css` / `app.css`.
+
     No accessibility regression — Inter is already the body face and clears AA at all sizes used in headings; Comfortaa retention on hero text is unchanged.
 - action:
-  - If your app relied on the removed global heading rule to render headings in Comfortaa, add `font-display` (or one of the `text-display-*` utilities) explicitly on the headings that should keep the brand face.
+  - Audit consumer projects for a stray `h1, h2, h3, h4, h5, h6 { font-family: var(--font-display) }` block (commonly in `globals.css` or `index.css`). If found, **delete it** — it overrides Lucid UI's reset and re-introduces Comfortaa across the entire app.
+  - If your app legitimately needs Comfortaa on a specific heading or hero element, add `className="font-display"` (or use a `text-display-*` utility) on that single element. Per-element opt-in only.
+  - Confirm the CSS import order in your consumer entry CSS is `@import "tailwindcss";` then `@import "@pandaworks-sw/lucid-ui/styles.css";` then your own styles — the reset only wins if Lucid UI's stylesheet loads before consumer overrides.
 
 ---
 
