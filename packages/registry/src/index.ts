@@ -41,6 +41,7 @@ export * from '../registry/default/page-header';
 export * from '../registry/default/pagination';
 export * from '../registry/default/popover';
 export * from '../registry/default/progress';
+export * from '../registry/default/progress-stat-card';
 export * from '../registry/default/radio-group';
 export * from '../registry/default/scroll-area';
 export * from '../registry/default/search-input';

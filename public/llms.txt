@@ -102,6 +102,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Progress | Progress bar | [data-display.md](docs/data-display.md) |
 | StatCard | Dashboard stat tile (Card + AnimatedNumber + Badge) with delta chip | [data-display.md](docs/data-display.md) |
 | MultiStatCard | Two or more related stat metrics inside one card with dividers between cells; horizontal or vertical orientation | [data-display.md](docs/data-display.md) |
+| ProgressStatCard | Card combining a titled headline, a Progress bar, and a row of tone-aware stat cells (cycle/pipeline/completion summaries) | [data-display.md](docs/data-display.md) |
 | MeterRow | Labeled horizontal bar with per-row tone (success/warning/info/destructive/muted) | [data-display.md](docs/data-display.md) |
 | ListRow | Avatar/icon + title + subtitle + trailing-meta row primitive; supports interactive `asButton` mode | [data-display.md](docs/data-display.md) |
 | CodeLabel | Inline monospace label with optional copy button (`copyable` prop) | [data-display.md](docs/data-display.md) |
@@ -166,6 +167,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Table filtering with chips | FilterButton + ActiveFilters |
 | Multi-step wizard progress | Stepper |
 | Animated score/metric display | AnimatedNumber |
+| Card with one progress + breakdown counts | ProgressStatCard |
 | Collapsible long text | ExpandableText |
 | Confirmation before destructive action | AlertDialog |
 | Form modal / side panel | Dialog or Sheet |
@@ -196,6 +198,27 @@ Each entry contains:
 - **action**: what consuming projects must do
 - **breaking**: whether this is a breaking change
 - **details**: concise description of the change
+
+---
+
+### 2026-05-03
+
+#### progress-stat-card — new component
+
+- change: added
+- breaking: no
+- details: |
+    New `ProgressStatCard` component composes `Card`, `Progress`, and a tone-aware stat-cell row into a single card. Header lays out a left-side `title` with an optional right-side trailing slot — `value` (bold `text-2xl`) for a single percent/number headline, OR `valueHint` (small `text-sm text-muted-foreground`) for ratio-style subtitles like `"5 of 12"`. The `Progress` bar sits below the header. The `items` prop renders 2+ stat cells underneath in a responsive grid (2-column on mobile, `auto-cols-fr grid-flow-col` row on `sm:` and above), each cell styled as `text-xl font-semibold tabular-nums` value over a `text-xs text-muted-foreground` label. Each item accepts an optional `tone` (`default | success | destructive | warning | info | muted`) that swaps the value color via the chroma tokens (`text-success`, `text-destructive`, etc.) — the same pattern hand-rolled across multiple project dashboards.
+
+    The cell tone colors come from the chroma layer (`--success`, `--destructive`, `--warning`, `--info`) and are intended as graphical emphasis on a count, treated under WCAG SC 1.4.11 (Non-text Contrast, 3:1) rather than 1.4.3. The doc page calls this out and recommends `tone="default"` plus a `Badge` or icon when AA-strict text is required.
+
+    Closes the gap surfaced by the Pandahrms-Performance dashboard's `CycleStatusAdmin` / `CycleStatusManager` widgets, which previously hand-rolled a `<div>` card containing `Progress` plus a `<dl>` grid of stat cells. The shape is general enough to cover any "one progress reading + a breakdown of counts" surface (cycle progress, onboarding pipeline, KPI completion band).
+
+    `Card` is composed without `CardHeader`/`CardContent` (their grid layout would force a clumsy override) — the component supplies a single `p-5` padding via className on the outer Card and lays the header / progress / cells out internally. `data-slot="progress-stat-card"` is set for theming hooks. No new design tokens introduced; everything reuses existing chroma + foreground/muted-foreground + Card/Progress styles.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up `ProgressStatCard`.
+  - Replace hand-rolled `<div className="rounded-lg border bg-card p-5"><h3/><span>%</span><Progress/><dl>cells</dl></div>` cycle/pipeline cards with `<ProgressStatCard title="..." value="..." progress={n} items={[{ label, value, tone }, ...]} />`.
+  - For ratio-headline variants (`5 of 12`, `12 of 18`), pass `valueHint` instead of `value`.
 
 ---
 

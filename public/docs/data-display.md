@@ -400,6 +400,59 @@ Stick with separate `StatCard`s when each metric stands on its own (different un
 
 `MultiStatCard` shares its design tokens, headline-shrink heuristic, and delta-chip rendering with `StatCard` via a small shared module (`stat-card-shared.ts`), so the two stay visually consistent.
 
+## ProgressStatCard
+
+A single card that combines a titled headline, a `Progress` bar, and a row of tone-aware stat cells underneath. Use it for "one cycle, here's the breakdown"-style summaries where the progress and its component counts belong together — performance review cycles, onboarding pipelines, content publishing funnels, KPI completion bands.
+
+```tsx
+import { ProgressStatCard } from "@/components/ui/progress-stat-card"
+
+<ProgressStatCard
+  title="Annual Performance Review 2026"
+  value="28.6%"
+  progress={28.6}
+  items={[
+    { label: "Published", value: 2, tone: "success" },
+    { label: "In progress", value: 3 },
+    { label: "Overdue", value: 0, tone: "destructive" },
+    { label: "Not started", value: 2 },
+  ]}
+/>
+```
+
+For a ratio-style headline (e.g. manager dashboards showing `5 of 12`), use `valueHint` instead of `value` — it renders smaller and muted, alongside the title:
+
+```tsx
+<ProgressStatCard
+  title="Team completion"
+  valueHint="5 of 12"
+  progress={42}
+  items={[
+    { label: "In progress", value: 4 },
+    { label: "Completed", value: 5, tone: "success" },
+    { label: "Overdue", value: 3, tone: "destructive" },
+  ]}
+/>
+```
+
+Props:
+- `title: ReactNode` — top-left heading.
+- `value?: ReactNode` — bold trailing headline (top-right). Use for a single number/percent.
+- `valueHint?: ReactNode` — muted trailing hint (top-right). Use for a ratio or short subtitle. `value` wins when both are passed; supply only one.
+- `progress: number` — Progress bar fill, 0–100.
+- `items: ProgressStatCardItem[]` — stat cells below the bar. Each item has `label`, `value: number | string`, and an optional `tone` (`"default" | "success" | "destructive" | "warning" | "info" | "muted"`). The cell value uses the tone color; the label is always muted.
+- `className?: string` — applied to the outer `Card`. Use for grid spans (e.g. `xl:col-span-2`) or sizing constraints.
+
+The cells lay out as a 2-column grid on mobile and an evenly-spaced row (`auto-cols-fr`) on `sm:` and above, so a 3-cell or 4-cell card spreads across the row instead of wrapping. Item count is not capped — keep it under ~6 for readability.
+
+Pick `ProgressStatCard` over composing `Card + Progress + MultiStatCard` by hand when:
+- You want one progress reading with its breakdown, in one card.
+- The breakdown cells are short numeric counts (no delta chips, no large icons) — those want `MultiStatCard` or individual `StatCard`s instead.
+
+If the breakdown cells need delta chips, hint text, or per-cell icons, use `MultiStatCard` separately and surface the progress somewhere else (e.g. a `MeterRow` above it).
+
+The cell tone tokens (`text-success`, `text-destructive`, etc.) come from the chroma layer and are intended for graphical emphasis on the stat value, not body text — under WCAG these qualify as graphical objects (SC 1.4.11, 3:1) rather than normal text. If you need AA-strict text, use `tone="default"` (or `"muted"`) and lean on icons or badges to convey the trend instead.
+
 ## AnimatedNumber
 
 A number display that animates smoothly between values using requestAnimationFrame with easeOutQuad easing.

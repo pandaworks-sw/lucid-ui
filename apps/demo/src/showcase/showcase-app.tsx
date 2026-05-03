@@ -65,6 +65,7 @@ import AvatarGroupDemo from './demos/avatar-group-demo';
 import EmptyStateDemo from './demos/empty-state-demo';
 import StatCardDemo from './demos/stat-card-demo';
 import MultiStatCardDemo from './demos/multi-stat-card-demo';
+import ProgressStatCardDemo from './demos/progress-stat-card-demo';
 import MeterRowDemo from './demos/meter-row-demo';
 import ListRowDemo from './demos/list-row-demo';
 
@@ -447,6 +448,13 @@ const COMPONENTS: ComponentMeta[] = [
     demo: MultiStatCardDemo,
   },
   {
+    name: 'progress-stat-card',
+    title: 'Progress Stat Card',
+    description:
+      'Card combining a titled headline, a Progress bar, and a row of tone-aware stat cells. Use for cycle / pipeline / completion summaries where one progress metric and its breakdown belong on the same card.',
+    demo: ProgressStatCardDemo,
+  },
+  {
     name: 'meter-row',
     title: 'Meter Row',
     description:
@@ -511,6 +519,7 @@ const CATEGORIES: SidebarCategory[] = [
         'meter-row',
         'multi-stat-card',
         'progress',
+        'progress-stat-card',
         'skeleton',
         'stat-card',
         'table',

@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-03
+
+### Added
+
+- **`ProgressStatCard` component.** [packages/registry/registry/default/progress-stat-card/progress-stat-card.tsx](packages/registry/registry/default/progress-stat-card/progress-stat-card.tsx) — composes `Card`, `Progress`, and a tone-aware row of stat cells into a single tile. Header lays out a left-side `title` with an optional right-side trailing slot — `value` (bold `text-2xl`) for a single percent/number headline, OR `valueHint` (small `text-sm text-muted-foreground`) for ratio-style subtitles like `"5 of 12"`. The `Progress` bar sits below the header. The `items` prop renders 2+ stat cells underneath in a responsive grid (2-column on mobile, `auto-cols-fr grid-flow-col` row on `sm:` and above), each cell styled as `text-xl font-semibold tabular-nums` value over a `text-xs text-muted-foreground` label. Each item accepts an optional `tone` (`default | success | destructive | warning | info | muted`) that swaps the value color via the chroma tokens (`text-success`, `text-destructive`, etc.) — the same pattern hand-rolled across multiple project dashboards. Cell tone colors are graphical-emphasis under WCAG SC 1.4.11 (3:1) rather than 1.4.3 (4.5:1); the doc page calls this out and recommends `tone="default"` plus a `Badge` or icon when AA-strict text is required. Closes the gap surfaced by the Pandahrms-Performance dashboard's `CycleStatusAdmin` / `CycleStatusManager` widgets, which previously hand-rolled a `<div>` card around `Progress` plus a `<dl>` grid of stat cells. The shape is general enough to cover any "one progress reading + a breakdown of counts" surface (cycle progress, onboarding pipeline, KPI completion band). Showcase ships a dedicated demo page with admin (percent), manager (ratio hint), bare-progress, and all-tones examples.
+
 ## 2026-05-02
 
 ### Fixed
