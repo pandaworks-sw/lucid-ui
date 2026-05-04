@@ -39,6 +39,33 @@ import { Input } from "@/components/ui/input"
 <Input type="email" placeholder="name@example.com" />
 ```
 
+## PasswordInput
+
+A password field that wraps `Input` with a built-in show/hide toggle button. Forwards refs to the underlying input and accepts every standard input prop (`value`, `onChange`, `placeholder`, `autoComplete`, `disabled`, `name`, `required`, `aria-*`, etc.).
+
+```tsx
+import { PasswordInput } from "@/components/ui/password-input"
+
+<PasswordInput placeholder="Password" autoComplete="current-password" />
+```
+
+Behavior:
+
+- **Visibility toggle**: an Eye / EyeOff icon button sits inside the field (right side). Clicking flips `type` between `password` and `text`. The button has `aria-pressed` and a stateful `aria-label` ("Show password" / "Hide password").
+- **Disabled lockstep**: `disabled` on the component disables both the input and the toggle button.
+- **Initial state**: pass `defaultVisible` to start in revealed mode (useful for one-time codes or temporary passwords).
+- **Customizable label**: pass `toggleLabel={{ show, hide }}` for localized strings.
+- The field already has `pr-9` to make room for the toggle button — pass extra `className` for additional padding if needed.
+
+Props:
+
+- All standard `<input>` props except `type` (it's controlled internally).
+- `defaultVisible?: boolean` — initial visibility. Default `false`.
+- `toggleLabel?: { show: string; hide: string }` — override the toggle button's `aria-label` per state.
+- `className?: string` — applied to the underlying `Input`.
+
+Dependencies: input, lucide-react
+
 ## NumberInput
 
 A controlled numeric input with constraint handling, step-aware decimal precision, optional suffix, and inline validation messaging. Wraps `Input` and `Label`.

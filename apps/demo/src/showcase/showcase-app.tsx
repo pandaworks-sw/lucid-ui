@@ -9,6 +9,7 @@ const AI_INTEGRATION_KEY = 'ai-integration';
 import ButtonDemo from './demos/button-demo';
 import InputDemo from './demos/input-demo';
 import NumberInputDemo from './demos/number-input-demo';
+import PasswordInputDemo from './demos/password-input-demo';
 import LabelDemo from './demos/label-demo';
 import CheckboxDemo from './demos/checkbox-demo';
 import TextareaDemo from './demos/textarea-demo';
@@ -116,6 +117,13 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'A controlled numeric input with min/max clamping, step-aware decimal precision, suffix, error state, and arrow-key stepping. Ignores wheel scrolling so values don’t change accidentally on focused fields.',
     demo: NumberInputDemo,
+  },
+  {
+    name: 'password-input',
+    title: 'Password Input',
+    description:
+      'A password field with a built-in show/hide toggle. Forwards refs and accepts every standard input prop; the toggle button is fully keyboard-accessible and is disabled in lockstep with the input.',
+    demo: PasswordInputDemo,
   },
   {
     name: 'search-input',
@@ -499,6 +507,7 @@ const CATEGORIES: SidebarCategory[] = [
         'form',
         'input',
         'number-input',
+        'password-input',
         'search-input',
         'label',
         'radio-group',

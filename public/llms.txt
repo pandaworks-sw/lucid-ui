@@ -72,6 +72,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Button | Variants, action presets, icon, tooltip, loading | [button.md](docs/button.md) |
 | Input | Text input field | [forms.md](docs/forms.md) |
 | NumberInput | Controlled numeric input with min/max clamp, step-driven decimals, suffix, error state, arrow-key stepping | [forms.md](docs/forms.md) |
+| PasswordInput | Password field with a built-in show/hide eye toggle; forwards refs and accepts all native input props | [forms.md](docs/forms.md) |
 | Label | Accessible form label | [forms.md](docs/forms.md) |
 | Textarea | Multi-line text input | [forms.md](docs/forms.md) |
 | Checkbox | Checkbox with label support | [forms.md](docs/forms.md) |
@@ -166,6 +167,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Primary + secondary actions | SplitButton |
 | Search/filter input with debounce | SearchInput |
 | Bounded numeric input (score, percent, hours, weights) | NumberInput |
+| Password input with show/hide toggle | PasswordInput |
 | Table filtering with chips | FilterButton + ActiveFilters |
 | Multi-step wizard progress | Stepper |
 | Animated score/metric display | AnimatedNumber |
@@ -220,6 +222,23 @@ Each entry contains:
 ---
 
 ### 2026-05-04
+
+#### password-input — new component
+
+- change: added
+- breaking: no
+- details: |
+    New `PasswordInput` thin wrapper around `Input` that renders an Eye / EyeOff icon button inside the field (right side, `pr-9` reserved on the input). Clicking the toggle flips the input's `type` between `password` and `text`. Forwards refs to the underlying input via `forwardRef` so it composes with `react-hook-form` register and other ref-based form libs. Accepts every standard `<input>` prop except `type` (owned by the toggle), plus `defaultVisible?: boolean` for one-time / temporary-password fields and `toggleLabel?: { show: string; hide: string }` for localized aria-labels.
+
+    The toggle button sits in the natural tab order (no `tabIndex={-1}`), uses `aria-pressed` semantics, has a stateful `aria-label` ("Show password" / "Hide password"), gets `focus-visible:ring-2 focus-visible:ring-ring`, and disables in lockstep with the input's `disabled` prop.
+
+    Visually it reuses the existing `--input-bg` form surface and the standard `focus-visible:ring-ring` focus treatment — no new design tokens introduced. Icon comes from `lucide-react` (already a peer dep), so no new dependency added.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up `PasswordInput`.
+  - Replace any local "Input + manual eye-toggle button" wrapper with `<PasswordInput value={value} onChange={...} autoComplete="current-password" />`. For new-password screens, pass `autoComplete="new-password"`.
+  - For temporary-password / OTP-style reveal-by-default fields, pass `defaultVisible`.
+
+---
 
 #### number-input — new component
 
