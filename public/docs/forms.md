@@ -39,6 +39,52 @@ import { Input } from "@/components/ui/input"
 <Input type="email" placeholder="name@example.com" />
 ```
 
+## NumberInput
+
+A controlled numeric input with constraint handling, step-aware decimal precision, optional suffix, and inline validation messaging. Wraps `Input` and `Label`.
+
+```tsx
+import { useState } from "react"
+import { NumberInput } from "@/components/ui/number-input"
+
+const [score, setScore] = useState<number | "">(0)
+
+<NumberInput
+  id="score"
+  label="Score"
+  value={score}
+  onChange={setScore}
+  minimum={0}
+  maximum={100}
+  step={5}
+  suffix="%"
+  helperText="0–100, increments of 5."
+/>
+```
+
+Behavior:
+
+- **Empty state**: pass `""` (not `undefined`) for the empty value; the `onChange` callback fires with `""` when the field is cleared.
+- **Step + decimals**: the precision shown after blur is derived from `step` (e.g. `step={0.05}` → 2 decimal places). Values are formatted with `toFixed(decimalPlaces)`.
+- **Constraint messaging**: when blur (or programmatic input) clamps the value to `minimum` / `maximum`, a transient info message appears below the field for ~3 seconds. Pass an `error` string to suppress validation messaging in favor of the persistent error.
+- **Keyboard stepping**: ↑ / ↓ adjust by `step` and clamp to bounds. Wheel scrolling on a focused input is intentionally blocked.
+- **Suffix**: rendered as a non-interactive label inside the field (e.g. `%`, `h`, `x`); the input gets `pr-12` to make room.
+
+Props:
+
+- `value: number | ""` — controlled value; `""` represents an empty field.
+- `onChange: (value: number | "") => void` — fires while typing (when the parsed number passes constraints) and on blur with the formatted value.
+- `id?: string`, `label?: string`, `placeholder?: string`, `helperText?: string`, `error?: string`
+- `required?: boolean` — adds a destructive `*` after the label.
+- `disabled?: boolean`
+- `minimum?: number`, `maximum?: number` — inclusive bounds. When omitted, that side is unbounded.
+- `step?: number` — defaults to `1`. Drives both arrow-key increment and decimal precision.
+- `suffix?: string` — short trailing label rendered inside the field.
+- `onBlur?: () => void` — fires after the internal blur formatting completes.
+- `className?: string` — applied to the outer wrapper.
+
+Dependencies: input, label
+
 ## Label
 
 Accessible label for form controls.

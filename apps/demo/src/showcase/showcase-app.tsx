@@ -8,6 +8,7 @@ const AI_INTEGRATION_KEY = 'ai-integration';
 
 import ButtonDemo from './demos/button-demo';
 import InputDemo from './demos/input-demo';
+import NumberInputDemo from './demos/number-input-demo';
 import LabelDemo from './demos/label-demo';
 import CheckboxDemo from './demos/checkbox-demo';
 import TextareaDemo from './demos/textarea-demo';
@@ -108,6 +109,13 @@ const COMPONENTS: ComponentMeta[] = [
     title: 'Input',
     description: 'A styled text input field for forms.',
     demo: InputDemo,
+  },
+  {
+    name: 'number-input',
+    title: 'Number Input',
+    description:
+      'A controlled numeric input with min/max clamping, step-aware decimal precision, suffix, error state, and arrow-key stepping. Ignores wheel scrolling so values don’t change accidentally on focused fields.',
+    demo: NumberInputDemo,
   },
   {
     name: 'search-input',
@@ -490,6 +498,7 @@ const CATEGORIES: SidebarCategory[] = [
         'filter-bar',
         'form',
         'input',
+        'number-input',
         'search-input',
         'label',
         'radio-group',

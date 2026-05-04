@@ -4,7 +4,11 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## 2026-05-03
+## 2026-05-04
+
+### Added
+
+- **`NumberInput` component.** [packages/registry/registry/default/number-input/number-input.tsx](packages/registry/registry/default/number-input/number-input.tsx), [packages/registry/registry/default/number-input/number-input-validator.ts](packages/registry/registry/default/number-input/number-input-validator.ts) — controlled numeric input that wraps `Input` and `Label` with min/max clamping, step-derived decimal precision, optional `suffix` label rendered inside the field, persistent `error` state, transient inline validation messaging when blur clamps a value to bounds, and ↑/↓ keyboard stepping. Wheel scrolling on a focused input is blocked via a non-passive listener so values do not change accidentally when the page is scrolled. The empty state is modeled as `value: number | ""` (matching what `<input value>` accepts) so callers don't have to translate `undefined` ↔ `""`. The validation helper lives in a sibling `number-input-validator.ts` so it can be unit-tested in isolation; it is not re-exported from the package barrel. Imported from the Pandahrms-Performance project's local `src/components/ui/number-input.tsx` so multiple consumer apps can share the same constraint behavior. Visually it reuses the existing `--input-bg` form surface and the `aria-invalid` / `border-destructive` error treatment, so it inherits the same dark-mode tokens as the rest of the form-fields family — no new design tokens introduced. Showcase ships a dedicated demo page covering default, min/max with helper text, decimal `step` + suffix, required + empty, error state, and disabled.
 
 ### Changed
 

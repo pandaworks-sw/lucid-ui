@@ -71,6 +71,7 @@ For full API docs, props, and code examples, read the linked doc file.
 |-----------|-------------|------|
 | Button | Variants, action presets, icon, tooltip, loading | [button.md](docs/button.md) |
 | Input | Text input field | [forms.md](docs/forms.md) |
+| NumberInput | Controlled numeric input with min/max clamp, step-driven decimals, suffix, error state, arrow-key stepping | [forms.md](docs/forms.md) |
 | Label | Accessible form label | [forms.md](docs/forms.md) |
 | Textarea | Multi-line text input | [forms.md](docs/forms.md) |
 | Checkbox | Checkbox with label support | [forms.md](docs/forms.md) |
@@ -164,6 +165,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Standard action (create/edit/delete) | Button (action prop) |
 | Primary + secondary actions | SplitButton |
 | Search/filter input with debounce | SearchInput |
+| Bounded numeric input (score, percent, hours, weights) | NumberInput |
 | Table filtering with chips | FilterButton + ActiveFilters |
 | Multi-step wizard progress | Stepper |
 | Animated score/metric display | AnimatedNumber |
@@ -214,6 +216,26 @@ Each entry contains:
 - **action**: what consuming projects must do
 - **breaking**: whether this is a breaking change
 - **details**: concise description of the change
+
+---
+
+### 2026-05-04
+
+#### number-input — new component
+
+- change: added
+- breaking: no
+- details: |
+    New `NumberInput` controlled component that wraps `Input` + `Label`. Models the empty state as `value: number | ''` (matching what `<input value>` accepts) so callers don't have to translate `undefined` ↔ `''`. Supports `minimum` / `maximum` inclusive bounds with clamping, `step` (defaults to `1`) which also drives `toFixed(decimalPlaces)` formatting on blur, an inline `suffix` rendered inside the field (`%`, `h`, `x`, ...) with the input padded to `pr-12`, ↑/↓ keyboard stepping that clamps to bounds, and a non-passive `wheel` listener that prevents accidental value changes when the page scrolls with a focused input.
+
+    Two messaging surfaces below the field: a transient info message (`text-info`, ~3s auto-dismiss) appears when blur clamps the typed value to `minimum`/`maximum`, and a persistent destructive message appears when the parent passes `error`. The persistent error suppresses the transient/helper text. The error state also flips the input to `aria-invalid` plus a `border-destructive` + `focus-visible:ring-destructive/40` outline.
+
+    Imported from the Pandahrms-Performance project's local `src/components/ui/number-input.tsx` so multiple consumer apps can share the same constraint behavior. The validation helper lives in a sibling `number-input-validator.ts` so it can be unit-tested in isolation; it is not re-exported from the package barrel.
+
+    Visually it reuses the existing `--input-bg` form surface and the `aria-invalid` / `border-destructive` error treatment, so it inherits the same dark-mode tokens as the rest of the form-fields family — no new design tokens introduced.
+- action:
+  - Upgrade `@pandaworks-sw/lucid-ui` to pick up `NumberInput`.
+  - Replace any local hand-rolled "Input + decimal step + clamp + suffix + error" wrapper with `<NumberInput value={value} onChange={setValue} minimum={n} maximum={n} step={n} suffix="..." error={error} />`. If the consumer was using `value: number | undefined`, switch to `number | ''` (callers should map `undefined` → `''` before passing in).
 
 ---
 
