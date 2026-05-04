@@ -70,6 +70,9 @@ import MultiStatCardDemo from './demos/multi-stat-card-demo';
 import ProgressStatCardDemo from './demos/progress-stat-card-demo';
 import MeterRowDemo from './demos/meter-row-demo';
 import ListRowDemo from './demos/list-row-demo';
+import ColorsDemo from './demos/colors-demo';
+import TypographyDemo from './demos/typography-demo';
+import TonesDemo from './demos/tones-demo';
 
 interface ComponentMeta {
   name: string;
@@ -79,6 +82,27 @@ interface ComponentMeta {
 }
 
 const COMPONENTS: ComponentMeta[] = [
+  {
+    name: 'colors',
+    title: 'Colors',
+    description:
+      'Stone neutrals, panda-blue brand accent, semantic chroma (success/info/warning/danger), WCAG AA pairings, and the adaptive shadcn-style theme tokens.',
+    demo: ColorsDemo,
+  },
+  {
+    name: 'typography',
+    title: 'Typography',
+    description:
+      'Inter (sans), Comfortaa (display), JetBrains Mono (mono), the body / display / mono size scales, and the strict heading-font policy.',
+    demo: TypographyDemo,
+  },
+  {
+    name: 'tones',
+    title: 'Tones',
+    description:
+      'Shared semantic vocabulary used across Badge, MeterRow, ProgressStatCard, and StatCard delta — pick the tone by what the value means, not by what color you want.',
+    demo: TonesDemo,
+  },
   {
     name: 'app-shell',
     title: 'App Shell',
@@ -487,6 +511,12 @@ const COMPONENTS: ComponentMeta[] = [
 ];
 
 const CATEGORIES: SidebarCategory[] = [
+  {
+    label: 'Foundations',
+    items: COMPONENTS.filter((c) => ['colors', 'typography', 'tones'].includes(c.name)).sort((a, b) =>
+      a.title.localeCompare(b.title)
+    ),
+  },
   {
     label: 'Layout',
     items: COMPONENTS.filter((c) => ['app-shell', 'detail-page', 'page-header', 'empty-state'].includes(c.name)).sort(

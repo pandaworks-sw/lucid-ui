@@ -48,6 +48,111 @@ Customizations land upstream in the lucid-ui repo. Don't fork a single component
 - class-variance-authority for variants
 - Lucide icons
 
+## Foundations
+
+The design tokens and typography rules every component is built on. Showcased in the demo under the **Foundations** sidebar group (`/#/colors`, `/#/typography`, `/#/tones`).
+
+### Color tokens
+
+All tokens live in [packages/registry/src/styles.css](../packages/registry/src/styles.css). Use the semantic theme tokens by default — they remap automatically across light and dark.
+
+**Stone scale (cool neutrals)** — `--stone-50` `#F7F9FB` → `--stone-950` `#080B0E` (50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950). Tailwind utilities: `bg-stone-{50…950}`, `text-stone-*`, `border-stone-*`. Use directly only when you need a specific neutral step; for app surfaces prefer the semantic theme tokens.
+
+**Panda blue (brand accent)** — `--panda-50` `#E7F7FD` → `--panda-900` `#08323F` (50, 100, 200, 300, 400, 500, 600, 700, 800, 900). `--brand` and `--ring` resolve to `--panda-400` `#20B0E0`.
+
+**Semantic chroma (non-text fills)** — used for meter bars, status dots, chart fills, icon glyphs:
+- `--success` `#4F8A52`
+- `--info` `#3D7DD9`
+- `--warning` `#C98A2B`
+- `--danger` `#C8543F`
+- `--destructive` aliases `--danger`
+
+Each has a `--{name}-foreground: #FFFFFF` companion for solid-bg-+-white-text controls.
+
+**WCAG AA pairings (text on tinted bg)** — the chroma tokens cannot pass 4.5:1 against their own tints. For text on `bg-X/15` (light) and `bg-X/20` (dark), use:
+- `--success-soft-fg` (light `#377336` / dark `#9FD0A2`) — ~4.7:1 / ~7.4:1
+- `--info-soft-fg` (light `#2964C4` / dark `#9FC2F0`) — ~4.7:1 / ~7.2:1
+- `--warning-soft-fg` (light `#955B0E` / dark `#F0C47A`) — ~5.2:1 / ~7.2:1
+- `--destructive-soft-fg` (light `#A23120` / dark `#F0A896`) — ~5.5:1 / ~7.0:1
+- `--destructive-aa: #A8392A` (same in both themes) — solid red bg with white text, 6.3:1
+
+**Adaptive theme tokens (shadcn-style)** — these swap values between light and dark:
+- `--background` (stone-50 / stone-800), `--foreground` (stone-800 / stone-150)
+- `--card` (white / stone-700), `--popover` (white / stone-700)
+- `--primary` (stone-800 / stone-150), `--secondary` (stone-100 / stone-700)
+- `--muted` (stone-100 / stone-700), `--accent` (stone-150 / stone-600)
+- `--brand` (panda-400, both modes), `--destructive` (chroma --danger, both modes)
+- `--border`, `--input` (stone-200 / stone-600); `--input-bg` (stone-100 / stone-800) — field surface for `Input`, `Textarea`, `SelectTrigger`, outline `Button`, `AttachmentInput` compact
+- `--ring` (panda-400, both modes)
+- `--chart-{1..5}` for data viz palettes
+- Sidebar mirror tokens: `--sidebar-background`, `--sidebar-foreground`, `--sidebar-primary`, `--sidebar-accent`, `--sidebar-border`, `--sidebar-ring`
+
+**Rule of thumb:** never pair `bg-X/10` with `text-X` on the same chroma — use the matching `*-soft-fg` token. Reserve raw chroma tokens for non-text fills.
+
+### Typography
+
+Three font families, loaded by the consumer (Google Fonts `<link>` in `index.html`):
+
+| Family | Token | Tailwind utility | Role |
+|--------|-------|-------------------|------|
+| Inter | `--font-sans` | `font-sans` (default) | Body, headings, labels — every surface that isn't PageHeader or hero |
+| Comfortaa | `--font-display` | `font-display` + `text-display-{sm,md,lg,xl}` | `PageHeader` title and hero/marketing surfaces ONLY |
+| JetBrains Mono | `--font-mono` | `font-mono` + `text-mono-{sm,md}` | Code, IDs, copyable values, tabular numerics |
+
+**Body scale (Inter)** — token-driven; each utility carries its own line-height and weight:
+
+| Utility | Size | Line-height | Weight | Notes |
+|---------|------|-------------|--------|-------|
+| `text-xs` | 11px | 1.5 | 600 | letter-spacing 0.04em — eyebrows, badges, captions |
+| `text-sm` | 13px | 1.5 | 500 | secondary body, labels, helper text |
+| `text-base` | 14px | 1.55 | 400 | default body |
+| `text-md` | 15px | 1.55 | 400 | slightly emphasized body |
+| `text-lg` | 17px | 1.5 | 500 | section subheading |
+| `text-xl` | 20px | 1.45 | 500 | Card / Dialog title |
+
+**Display scale (Comfortaa)** — hero/marketing only:
+
+| Utility | Size | Line-height | Weight | Notes |
+|---------|------|-------------|--------|-------|
+| `text-display-sm` | 28px | 1.2 | 500 | `PageHeader` title size |
+| `text-display-md` | 40px | 1.15 | 600 | hero subhead |
+| `text-display-lg` | 56px | 1.1 | 600 | letter-spacing -0.01em |
+| `text-display-xl` | 72px | 1.05 | 600 | letter-spacing -0.02em |
+
+**Mono scale (JetBrains Mono):**
+
+| Utility | Size | Line-height | Weight |
+|---------|------|-------------|--------|
+| `text-mono-sm` | 11px | 1.5 | 400 |
+| `text-mono-md` | 13px | 1.5 | 400 |
+
+**Heading font policy (strict)** — see the existing "Heading Font Policy" subsection further down. Comfortaa is reserved for the `PageHeader` title (wired internally — do not re-apply) and the `text-display-*` utilities. Do **not** add a global `h1, h2, h3, h4, h5, h6 { font-family: var(--font-display) }` rule; the package ships an explicit Inter reset and a downstream global rule defeats it.
+
+### Tones
+
+Shared semantic vocabulary used across `Badge` (variant), `MeterRow` (tone), `ProgressStatCard` items (tone), `StatCard` (deltaTone), and other tone-aware components. **Pick the tone by what the value means, not by what color you want.**
+
+| Tone | Meaning | Badge variant | MeterRow tone | ProgressStatCard cell tone |
+|------|---------|---------------|----------------|----------------------------|
+| `success` | Live, approved, healthy, on track, paid | `success` | `success` | `success` |
+| `warning` | Approaching a soft limit, needs attention, partial | `warning` | `warning` | `warning` |
+| `info` | Informational, planning, not started, scheduled | `info` | `info` | `info` |
+| `destructive` | Failed, rejected, cancelled, hard limit exceeded, overdue | `destructive` | `destructive` | `destructive` |
+| `muted` | Archived, inactive, deprecated | `muted` | `muted` | `muted` |
+| `default` / `secondary` | Generic / categorical / goal progress without good-bad meaning | `secondary` (categorical) or `default` (emphasis) | `default` | `default` |
+
+In a breakdown chart of project status (Active / On Hold / Planning / Blocked), match each row's `MeterRow` tone to the corresponding `Badge` tone — pair the same visual language.
+
+`StatCard` `deltaTone` follows **desirability**, not arrow direction:
+- Metric went up and that's good (revenue, active users) → `up`
+- Metric went down and that's good (errors, churn, latency) → also `up` — tone follows desirability
+- Metric moved against goal → `down`
+- No meaningful change (within noise) → `flat`
+
+Stat cell tones in `ProgressStatCard` are graphical emphasis on a count (treated under WCAG SC 1.4.11 / 3:1, not 1.4.3 / 4.5:1). For AA-strict text, pair the cell with a `Badge` or icon and leave the cell tone at `default`.
+
+For full per-component tone tables (incl. when to use `dot`), see [decision-guide.md](docs/decision-guide.md).
+
 ## Component Catalog
 
 For full API docs, props, and code examples, read the linked doc file.
@@ -222,6 +327,27 @@ Each entry contains:
 ---
 
 ### 2026-05-04
+
+#### foundations — Colors / Typography / Tones showcase pages + llms.txt section
+
+- change: added
+- breaking: no
+- details: |
+    Added a new "Foundations" sidebar group to the demo with three pages:
+      - `/#/colors` — stone scale, panda blue scale, semantic chroma, WCAG AA pairings (success/info/warning/destructive soft-fg + destructive-aa), adaptive theme tokens (background, foreground, card, primary, secondary, muted, accent, brand, destructive, border, input, input-bg, ring), and chart tokens. Each swatch shows the token name plus a click-to-copy hex/value caption.
+      - `/#/typography` — the three font families (Inter / Comfortaa / JetBrains Mono) with sample text, the body / display / mono size scales (size, line-height, weight, letter-spacing), and a "Heading font policy (strict)" callout with correct/incorrect examples.
+      - `/#/tones` — shared semantic-tone palette table (success / warning / info / destructive / muted / default) with paired Badge + MeterRow rendering, plus live demos of how `Badge`, `MeterRow`, `ProgressStatCard`, and `StatCard` `deltaTone` consume the tones.
+
+    No new tokens, components, or utilities introduced — these pages document tokens that already shipped. New showcase files: `apps/demo/src/showcase/demos/colors-demo.tsx`, `typography-demo.tsx`, `tones-demo.tsx`. The showcase app's `CATEGORIES` array gains a leading "Foundations" group so they appear above the component catalog in the sidebar.
+
+    `public/llms.txt` gains a new "Foundations" section between the Tech Stack table and the Component Catalog, listing every color token (with hex), the three font families with their utilities, both size scales, and the tone vocabulary cross-referenced to the components that consume it. The decision-guide reference is preserved as the canonical "which Badge variant?"-style lookup.
+- action:
+  - No consumer action required — these are documentation surfaces.
+  - When choosing a color: reach for the adaptive theme tokens first (`bg-background`, `bg-card`, `bg-muted`, `bg-primary`, `bg-brand`); reach for raw stone/panda/chroma steps only when you genuinely need a specific neutral or non-text fill.
+  - When pairing text on a tinted-bg control (badge, banner, chip), use `text-success-soft-fg` / `text-info-soft-fg` / `text-warning-soft-fg` / `text-destructive-soft-fg` rather than the chroma `text-success` / etc. — only the soft-fg tokens clear AA on `bg-X/15` (light) and `bg-X/20` (dark).
+  - When picking a tone for a Badge/MeterRow/ProgressStatCard cell/StatCard delta, pick by meaning (success = healthy, warning = needs attention, etc.) and match the same tone across paired components in a single chart.
+
+---
 
 #### password-input — new component
 
