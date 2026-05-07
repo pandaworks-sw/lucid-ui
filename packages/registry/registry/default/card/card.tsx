@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -60,9 +60,44 @@ const CardAction = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({
 ));
 CardAction.displayName = 'CardAction';
 
-const CardTitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('text-2xl font-semibold leading-none tracking-tight', className)} {...props} />
-));
+interface CardTitleProps extends HTMLAttributes<HTMLDivElement> {
+  /** Optional leading icon — renders before children with consistent spacing. */
+  icon?: ReactNode;
+  /** Optional trailing slot — typically a Badge or count. */
+  trailing?: ReactNode;
+}
+
+const CardTitle = forwardRef<HTMLDivElement, CardTitleProps>(
+  ({ className, icon, trailing, children, ...props }, ref) => {
+    const hasAdornment = icon !== undefined || trailing !== undefined;
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'text-2xl font-semibold leading-none tracking-tight',
+          hasAdornment && 'flex items-center gap-2',
+          trailing !== undefined && 'justify-between',
+          className
+        )}
+        {...props}
+      >
+        {icon !== undefined && (
+          <span data-slot="card-title-icon" className="flex shrink-0 items-center text-muted-foreground">
+            {icon}
+          </span>
+        )}
+        <span className={cn(trailing !== undefined && 'min-w-0 flex-1', icon !== undefined && 'min-w-0 flex-1')}>
+          {children}
+        </span>
+        {trailing !== undefined && (
+          <span data-slot="card-title-trailing" className="shrink-0">
+            {trailing}
+          </span>
+        )}
+      </div>
+    );
+  }
+);
 CardTitle.displayName = 'CardTitle';
 
 const CardDescription = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (

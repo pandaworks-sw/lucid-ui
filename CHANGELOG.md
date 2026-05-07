@@ -4,6 +4,22 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-07
+
+### Added
+
+- **`Timeline` component.** [packages/registry/registry/default/timeline/timeline.tsx](packages/registry/registry/default/timeline/timeline.tsx) — vertical event-feed primitive with a connector line and tone-coded dots per item. Each `TimelineItem` exposes `id`, `tone` (`'default' | 'info' | 'success' | 'warning' | 'destructive' | 'muted'`), `title`, optional `subtitle`, optional `meta` (right-aligned trailing slot), and an optional `icon` override that replaces the dot. Top-level props: `items`, `defaultTone`, `hideConnector` (single-event compact mode), `emptyState`. The connector line uses `bg-border` (decorative); dots use semantic-tone backgrounds with a `ring-4 ring-background` so they read against any card surface. Use for activity streams, audit logs, changelog histories. Showcase ships mixed-tone, single-event-no-connector, and empty-state demos.
+
+- **`IconBadge` component.** [packages/registry/registry/default/icon-badge/icon-badge.tsx](packages/registry/registry/default/icon-badge/icon-badge.tsx) — decorative icon container with semantic tone variants (`default` / `info` / `success` / `warning` / `destructive` / `muted` / `primary`) × size (`sm` 32px / `md` 48px / `lg` 64px) × shape (`rounded` xl / `circle` full / `square` md). Tones use 10–15% chroma tints so they pair with any surface. Children are rendered through a fixed-size aria-hidden inner span so Lucide icons inherit the right size. Not a button — for clickable surfaces use `Button`. Use for centered hero icons on auth pages, setup wizards, status flags, empty states. Replaces the hand-rolled `<div class="rounded-full bg-primary/10"><CheckCircle /></div>` pattern.
+
+- **`CardGroup` component.** [packages/registry/registry/default/card-group/card-group.tsx](packages/registry/registry/default/card-group/card-group.tsx) — responsive grid container for groups of related `Card`s with consistent gutters. `columns: 1 | 2 | 3 | 4` (auto-collapses to 1 on mobile, 2 on `md`, target columns on `xl`). `gap: 'sm' | 'default' | 'lg'`. Optional `title` (rendered as a small `<h3>`) and `action` (right-aligned trailing slot) render a shared header above the grid. Replaces the ad-hoc `<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">` pattern that keeps re-appearing in consumer code. Showcase ships 3-col responsive demo + 2-col with title/action demo.
+
+- **`InlineEditableField` component.** [packages/registry/registry/default/inline-editable-field/inline-editable-field.tsx](packages/registry/registry/default/inline-editable-field/inline-editable-field.tsx) — single field that toggles between a display value (with an Edit affordance) and an inline editor (with built-in Save / Cancel buttons). Manages the `editing` and `isSaving` state internally. The `editor` is a render prop receiving `{ save, cancel, isSaving }` so consumers can wire Enter/Escape and disable the editor while save is in-flight. Props: `label`, `display`, `emptyText` (rendered when `display` resolves to falsy), `editor`, `onSave` (sync or async — the component awaits the promise to drive `isSaving`), `onCancel`, `disabled` (hides the Edit button entirely), `editLabel` (override "Edit"). Replaces the hand-rolled "Card → CardHeader (label + Edit button) → CardContent (paragraph or Textarea + Save/Cancel)" pattern. Showcase ships single-line, multiline + empty-state, and disabled demos.
+
+### Changed
+
+- **`CardTitle` gains optional `icon` and `trailing` props.** [packages/registry/registry/default/card/card.tsx](packages/registry/registry/default/card/card.tsx) — when either prop is set, `CardTitle` becomes a flex row with consistent spacing. `icon` renders before children in `text-muted-foreground`; `trailing` renders right-aligned (typically a `Badge` or count). Replaces the `<CardTitle className="flex items-center gap-2"><Icon /> Title</CardTitle>` pattern that was duplicated across consumer code. Plain `<CardTitle>Text</CardTitle>` usage is unchanged. Non-breaking.
+
 ## 2026-05-04
 
 ### Added

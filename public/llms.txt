@@ -164,6 +164,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | AppShell | Data-driven app layout with collapsible sidebar, header, user menu | [app-shell.md](docs/app-shell.md) |
 | PageHeader | Page title, description, and action buttons | [layout.md](docs/layout.md) |
 | DetailPage | Resource detail/show page layout with sidebar | [detail-page.md](docs/detail-page.md) |
+| CardGroup | Responsive grid container for related cards (1–4 cols, auto-collapse, optional shared title + action) | [layout.md](docs/layout.md) |
 | EmptyState | Centered empty state with icon, title, description, action | [layout.md](docs/layout.md) |
 | Modal | Form modal with sticky header/footer, size variants | [modal.md](docs/modal.md) |
 | Stepper | Multi-step progress (horizontal or vertical); descriptions only on current step | [layout.md](docs/layout.md) |
@@ -175,6 +176,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Component | Description | Docs |
 |-----------|-------------|------|
 | Button | Variants, action presets, icon, tooltip, loading | [button.md](docs/button.md) |
+| InlineEditableField | Display ↔ inline-edit toggle with built-in Save/Cancel + `editor` render prop receiving programmatic save/cancel + isSaving | [forms.md](docs/forms.md) |
 | Input | Text input field | [forms.md](docs/forms.md) |
 | NumberInput | Controlled numeric input with min/max clamp, step-driven decimals, suffix, error state, arrow-key stepping | [forms.md](docs/forms.md) |
 | PasswordInput | Password field with a built-in show/hide eye toggle; forwards refs and accepts all native input props | [forms.md](docs/forms.md) |
@@ -212,6 +214,8 @@ For full API docs, props, and code examples, read the linked doc file.
 | ProgressStatCard | Card combining a titled headline, a Progress bar, and a row of tone-aware stat cells (cycle/pipeline/completion summaries) | [data-display.md](docs/data-display.md) |
 | MeterRow | Labeled horizontal bar with per-row tone (success/warning/info/destructive/muted) | [data-display.md](docs/data-display.md) |
 | ListRow | Avatar/icon + title + subtitle + trailing-meta row primitive; supports interactive `asButton` mode | [data-display.md](docs/data-display.md) |
+| Timeline | Vertical event feed with tone-coded dots, optional connector line, title/subtitle/meta slots per item, optional icon override | [data-display.md](docs/data-display.md) |
+| IconBadge | Decorative tone-tinted icon container (rounded/circle/square × sm/md/lg). Use for hero icons; not a button | [data-display.md](docs/data-display.md) |
 | CodeLabel | Inline monospace label with optional copy button (`copyable` prop) | [data-display.md](docs/data-display.md) |
 | AnimatedNumber | Animated number display with easing | [data-display.md](docs/data-display.md) |
 | ExpandableText | Collapsible long text with show more/less | [data-display.md](docs/data-display.md) |
@@ -325,6 +329,48 @@ Each entry contains:
 - **details**: concise description of the change
 
 ---
+
+### 2026-05-07
+
+#### timeline — new component (vertical activity feed with tone-coded dots)
+
+- **component**: Timeline
+- **change**: added
+- **breaking**: no
+- **details**: Vertical event-feed primitive with a connector line and tone-coded dots per item. Each `TimelineItem` exposes `id`, `tone` ('default' | 'info' | 'success' | 'warning' | 'destructive' | 'muted'), `title`, optional `subtitle`, optional `meta` (right-aligned trailing slot), and an optional `icon` override that replaces the dot. Top-level props: `items`, `defaultTone`, `hideConnector` (single-event compact mode), `emptyState`. The connector line uses `bg-border` (decorative); dots use semantic-tone backgrounds with a 4px `ring-background` so they read against any card surface. Use for activity streams, audit logs, changelog histories.
+- **action**: none — additive
+
+#### icon-badge — new component (decorative tone-tinted icon container)
+
+- **component**: IconBadge
+- **change**: added
+- **breaking**: no
+- **details**: Decorative icon container with semantic tone variants (`default`, `info`, `success`, `warning`, `destructive`, `muted`, `primary`) × size (`sm` 32px / `md` 48px / `lg` 64px) × shape (`rounded` xl / `circle` full / `square` md). Tones use 10–15% chroma tints so they pair with any surface. Children are rendered through a fixed-size aria-hidden inner span so consumer Lucide icons inherit the right size. Not a button — for clickable surfaces use `Button`. Use for centered hero icons on auth pages, setup wizards, status flags, empty states.
+- **action**: none — additive
+
+#### card-group — new component (responsive related-card grid)
+
+- **component**: CardGroup
+- **change**: added
+- **breaking**: no
+- **details**: Responsive grid container for groups of related `Card`s with consistent gutters. `columns: 1 | 2 | 3 | 4` (auto-collapses to 1 on mobile, 2 on `md`, target columns on `xl`). `gap: 'sm' | 'default' | 'lg'`. Optional `title` (rendered as a small `<h3>`) and `action` (right-aligned trailing slot) render a shared header above the grid. Replaces the ad-hoc `<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">` pattern that consumer code keeps re-creating.
+- **action**: none — additive
+
+#### inline-editable-field — new component (display ↔ inline edit toggle)
+
+- **component**: InlineEditableField
+- **change**: added
+- **breaking**: no
+- **details**: Single field that toggles between a display value (with an Edit affordance) and an inline editor (with built-in Save / Cancel buttons). Manages the `editing` and `isSaving` state internally. The `editor` is a render prop receiving `{ save, cancel, isSaving }` so the consumer can wire Enter/Escape and disable the editor while save is in flight. Props: `label`, `display`, `emptyText` (rendered when `display` is empty), `editor`, `onSave` (sync or async — component awaits the promise to drive `isSaving`), `onCancel`, `disabled` (hides the Edit button entirely), `editLabel` (override "Edit"). Replaces the hand-rolled "Card → CardHeader (label + Edit button) → CardContent (paragraph or Textarea + Save/Cancel)" pattern.
+- **action**: none — additive
+
+#### card — `CardTitle` gains optional `icon` and `trailing` props
+
+- **component**: CardTitle
+- **change**: modified
+- **breaking**: no
+- **details**: `CardTitle` now accepts optional `icon` (leading) and `trailing` (right-aligned slot) props. When set, the title automatically becomes a flex row with consistent spacing — replacing the ad-hoc `<CardTitle className="flex items-center gap-2"><Icon /> Title</CardTitle>` pattern that was sprinkled across consumer code. Both props are `ReactNode`. Existing `<CardTitle>Plain text</CardTitle>` usage is unchanged. Icon renders in `text-muted-foreground` for visual consistency.
+- **action**: optional — replace `<CardTitle className="flex items-center gap-2"><Icon /> Title</CardTitle>` patterns with `<CardTitle icon={<Icon />}>Title</CardTitle>`
 
 ### 2026-05-04
 

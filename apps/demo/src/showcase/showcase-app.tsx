@@ -70,6 +70,10 @@ import MultiStatCardDemo from './demos/multi-stat-card-demo';
 import ProgressStatCardDemo from './demos/progress-stat-card-demo';
 import MeterRowDemo from './demos/meter-row-demo';
 import ListRowDemo from './demos/list-row-demo';
+import TimelineDemo from './demos/timeline-demo';
+import IconBadgeDemo from './demos/icon-badge-demo';
+import CardGroupDemo from './demos/card-group-demo';
+import InlineEditableFieldDemo from './demos/inline-editable-field-demo';
 import ColorsDemo from './demos/colors-demo';
 import TypographyDemo from './demos/typography-demo';
 import TonesDemo from './demos/tones-demo';
@@ -508,6 +512,34 @@ const COMPONENTS: ComponentMeta[] = [
       'Avatar/icon + title + subtitle + trailing-meta layout primitive. Renders as a div by default; pass asButton for keyboard-accessible clickable rows.',
     demo: ListRowDemo,
   },
+  {
+    name: 'timeline',
+    title: 'Timeline',
+    description:
+      'Vertical event feed with tone-coded dots and optional connector line. Each item supports title, subtitle, trailing meta, and optional icon override. Use for activity streams, audit logs, and changelog-style histories.',
+    demo: TimelineDemo,
+  },
+  {
+    name: 'icon-badge',
+    title: 'Icon Badge',
+    description:
+      'Decorative tone-tinted icon container (rounded / circle / square × sm / md / lg). Use for centered hero icons on auth pages, setup wizards, status panels, empty states. Not a button — use Button for clickable controls.',
+    demo: IconBadgeDemo,
+  },
+  {
+    name: 'card-group',
+    title: 'Card Group',
+    description:
+      'Responsive grid container for groups of related cards with consistent gutters. Auto-collapses to single-column on mobile, two columns on md, configurable up to four. Optional shared title + trailing action.',
+    demo: CardGroupDemo,
+  },
+  {
+    name: 'inline-editable-field',
+    title: 'Inline Editable Field',
+    description:
+      'Display ↔ inline edit toggle with built-in Save / Cancel buttons. The editor is a render prop receiving programmatic save/cancel + isSaving so editors can wire Enter/Escape and disable while saving.',
+    demo: InlineEditableFieldDemo,
+  },
 ];
 
 const CATEGORIES: SidebarCategory[] = [
@@ -519,9 +551,9 @@ const CATEGORIES: SidebarCategory[] = [
   },
   {
     label: 'Layout',
-    items: COMPONENTS.filter((c) => ['app-shell', 'detail-page', 'page-header', 'empty-state'].includes(c.name)).sort(
-      (a, b) => a.title.localeCompare(b.title)
-    ),
+    items: COMPONENTS.filter((c) =>
+      ['app-shell', 'card-group', 'detail-page', 'page-header', 'empty-state'].includes(c.name)
+    ).sort((a, b) => a.title.localeCompare(b.title)),
   },
   {
     label: 'Forms',
@@ -535,6 +567,7 @@ const CATEGORIES: SidebarCategory[] = [
         'date-range-picker',
         'filter-bar',
         'form',
+        'inline-editable-field',
         'input',
         'number-input',
         'password-input',
@@ -563,6 +596,7 @@ const CATEGORIES: SidebarCategory[] = [
         'card',
         'code-label',
         'expandable-text',
+        'icon-badge',
         'list-row',
         'meter-row',
         'multi-stat-card',
@@ -571,6 +605,7 @@ const CATEGORIES: SidebarCategory[] = [
         'skeleton',
         'stat-card',
         'table',
+        'timeline',
       ].includes(c.name)
     ).sort((a, b) => a.title.localeCompare(b.title)),
   },
