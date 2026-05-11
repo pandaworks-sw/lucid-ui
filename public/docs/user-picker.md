@@ -53,7 +53,7 @@ Props:
 | `value` | `string[]` | required | Multi mode selected user ids. |
 | `onValueChange` | `(userIds: string[]) => void` | required | Multi mode change handler. |
 | `maxAvatarsShown` | `number` | `3` | Multi mode only. Passed to `AvatarGroup`; overflow renders as `+N`. |
-| `size` | `AvatarSize` (`"xs" \| "sm" \| "md" \| "lg"`) | `"md"` | Trigger avatar size. Aligns with `Avatar` / `AvatarGroup`: `xs` = `size-5 text-[10px]`, `sm` = `size-7 text-xs`, `md` = `size-9 text-sm`, `lg` = `size-12 text-base`. |
+| `size` | `AvatarSize` (`"xs" \| "sm" \| "md" \| "lg" \| "xl"`) | `"md"` | Trigger avatar size. Aligns with `Avatar` / `AvatarGroup`: `xs` = `size-5 text-[10px]`, `sm` = `size-7 text-xs`, `md` = `size-9 text-sm`, `lg` = `size-12 text-base`, `xl` = `size-16 text-lg`. |
 | `compact` | `boolean` | `false` | Shorthand for `size="xs"`. Use inside dense table rows or inline list cells where a normal avatar would push the row height up. Wins over `size` when both are set. |
 | `align` | `"start" \| "center" \| "end"` | `"start"` | Popover alignment. |
 | `searchable` | `boolean` | `users.length > 8` | Controls whether the Command search input is shown. |

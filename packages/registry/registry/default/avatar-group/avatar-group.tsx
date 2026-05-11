@@ -19,6 +19,7 @@ const avatarGroupVariants = cva('flex items-center', {
       sm: '-space-x-2',
       md: '-space-x-2',
       lg: '-space-x-3',
+      xl: '-space-x-4',
     },
   },
   defaultVariants: {

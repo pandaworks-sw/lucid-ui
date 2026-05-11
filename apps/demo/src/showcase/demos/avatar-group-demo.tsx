@@ -46,7 +46,7 @@ export default function AvatarGroupDemo() {
 
       <DemoSection title="Sizes">
         <div className="flex flex-col gap-4">
-          {(['xs', 'sm', 'md', 'lg'] as const).map((size) => (
+          {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
             <div key={size} className="flex items-center gap-3">
               <span className="w-12 text-xs font-medium text-muted-foreground">{size}</span>
               <AvatarGroup size={size} max={4}>

@@ -187,7 +187,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Switch | Toggle switch | [forms.md](docs/forms.md) |
 | Select | Static dropdown (< 10 items) | [forms.md](docs/forms.md) |
 | SelectPicker | Searchable dropdown, single/multi select | [select-picker.md](docs/select-picker.md) |
-| UserPicker | Avatar-trigger picker for assigning one user or many; searchable past 8 users; props include `users`, `mode`, `value`, `onValueChange`, `currentUserId`, `allowUnassigned`, `maxAvatarsShown`, `size`, `compact`, `searchable` | [user-picker.md](docs/user-picker.md) |
+| UserPicker | Avatar-trigger picker for assigning one user or many; searchable past 8 users; props include `users`, `mode`, `value`, `onValueChange`, `currentUserId`, `allowUnassigned`, `maxAvatarsShown`, `size` (`xs \| sm \| md \| lg \| xl`), `compact`, `searchable` | [user-picker.md](docs/user-picker.md) |
 | DatePicker | Single date picker | [forms.md](docs/forms.md) |
 | DateRangePicker | Date range picker with presets | [forms.md](docs/forms.md) |
 | Slider | Range slider | [forms.md](docs/forms.md) |
@@ -205,8 +205,8 @@ For full API docs, props, and code examples, read the linked doc file.
 | Card | Container with header, content, footer | [data-display.md](docs/data-display.md) |
 | Table | Data table with header, body, footer | [data-display.md](docs/data-display.md) |
 | Badge | Status indicator with semantic tones (default/secondary/destructive/outline/success/warning/info/muted) and optional dot | [data-display.md](docs/data-display.md) |
-| Avatar | User/entity avatar with image and fallback; `<AvatarFallback>` auto-converts a full-name string to a 2-char monogram and is colorized by default (opt out via `colorize={false}`); supports `shape="circle"` (default) or `"square"` | [data-display.md](docs/data-display.md) |
-| AvatarGroup | Stack of overlapping Avatars with `max` overflow tile; inherits the Avatar shape | [data-display.md](docs/data-display.md) |
+| Avatar | User/entity avatar with image and fallback; `<AvatarFallback>` auto-converts a full-name string to a 2-char monogram and is colorized by default (opt out via `colorize={false}`); supports `shape="circle"` (default) or `"square"` and `size="xs \| sm \| md \| lg \| xl"` (shared scale with AvatarGroup) | [data-display.md](docs/data-display.md) |
+| AvatarGroup | Stack of overlapping Avatars with `max` overflow tile; inherits the Avatar shape; `size` accepts `xs \| sm \| md \| lg \| xl` | [data-display.md](docs/data-display.md) |
 | Calendar | Date calendar | [data-display.md](docs/data-display.md) |
 | Skeleton | Loading placeholder | [data-display.md](docs/data-display.md) |
 | Progress | Progress bar | [data-display.md](docs/data-display.md) |
@@ -336,6 +336,14 @@ Each entry contains:
 ---
 
 ### 2026-05-11
+
+#### avatar — adds `xl` size; AvatarGroup and UserPicker pick it up automatically
+
+- **component**: Avatar, AvatarGroup, UserPicker
+- **change**: modified
+- **breaking**: no
+- **details**: Extends `AvatarSize` from `'xs' | 'sm' | 'md' | 'lg'` to `'xs' | 'sm' | 'md' | 'lg' | 'xl'`. The new `xl` token renders at `size-16 text-lg` (64px), one step above `lg` (48px). The `avatarSizeClass` map exported from the `avatar` module gains the `xl` entry, so every consumer of the shared scale picks it up: `AvatarGroup` gets `xl: '-space-x-4'` overlap spacing and `UserPicker` forwards `size="xl"` directly to its trigger Avatar / AvatarGroup. Contrast and shape behaviour are unchanged — same colorize logic, same `circle` / `square` shapes, same fallback rules. Use `xl` for profile headers, settings page member identity, and oversized assignment triggers where the existing `lg` (48px) reads as too small next to surrounding form-row text.
+- **action**: optional — pass `size="xl"` on `Avatar`, `AvatarGroup`, or `UserPicker` where a 64px avatar fits the design. No migration required for existing call sites.
 
 #### truncated-label — new component (ellipsis label with hover-to-reveal full text)
 

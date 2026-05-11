@@ -4,7 +4,7 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn, getInitialName } from '@/lib';
 
 type AvatarShape = 'circle' | 'square';
-type AvatarSize = 'xs' | 'sm' | 'md' | 'lg';
+type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const shapeClass = (shape?: AvatarShape) => (shape === 'square' ? 'rounded-md' : 'rounded-full');
 
@@ -15,6 +15,7 @@ const avatarSizeClass: Record<AvatarSize, string> = {
   sm: 'size-7 text-xs',
   md: 'size-9 text-sm',
   lg: 'size-12 text-base',
+  xl: 'size-16 text-lg',
 };
 
 type AvatarProps = ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> & {

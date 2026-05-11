@@ -67,6 +67,8 @@ Pass `shape="square"` for an entity-style rounded-square tile (project icons, ap
 
 Props (`Avatar`):
 - `shape?: "circle" | "square"` — defaults to `"circle"`. Square uses `rounded-md`. The shape propagates into `AvatarFallback` via `rounded-[inherit]`.
+- `size?: "xs" | "sm" | "md" | "lg" | "xl"` — pick a size from the shared `AvatarSize` scale (`xs` `size-5`, `sm` `size-7`, `md` `size-9`, `lg` `size-12`, `xl` `size-16`). Omit to keep the historical `h-10 w-10` default. The same scale is exported as `avatarSizeClass` and reused by `AvatarGroup` and `UserPicker`.
+- `compact?: boolean` — shorthand for `size="xs"`. Wins over `size` when both are set.
 
 Props (`AvatarFallback`):
 - `colorize?: boolean` -- derive background color from the first rendered character (default: `true`). Pass `colorize={false}` to fall back to `bg-muted`.
@@ -103,7 +105,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
 
 Props:
 - `max?: number` — show this many avatars then collapse the rest into a `+N` tile. Omit to show all.
-- `size?: "xs" | "sm" | "md" | "lg"` — tile size. Default `sm`.
+- `size?: "xs" | "sm" | "md" | "lg" | "xl"` — tile size. Default `sm`.
 - `shape?: "circle" | "square"` — group-level shape; per-`Avatar` `shape` wins if set.
 
 Each child `Avatar`'s `className` is merged with the group's size and ring classes — children don't need their own size className.
@@ -116,6 +118,7 @@ Sizing:
 | Card-tile member preview, project tile assignees, dense filter bar | `sm` (default) |
 | Detail page sidebar / dashboard card "team" widget | `md` |
 | Hero member showcase, marketing or onboarding surface | `lg` |
+| Profile header, settings page member identity, oversized assignment trigger | `xl` |
 
 Shape rule: `circle` for people, `square` for non-human entities (project teams stay circle even though the host card is for a project — the avatars themselves represent humans). See the Avatar shape rule.
 

@@ -29,38 +29,29 @@ export default function AvatarDemo() {
         </div>
       </DemoSection>
 
-      <DemoSection title="Sizes">
-        <div className="flex items-end gap-4">
-          <div className="flex flex-col items-center gap-2">
-            <Avatar compact>
-              <AvatarFallback>CO</AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground">Compact</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-xs">SM</AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground">Small</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Avatar>
-              <AvatarFallback>MD</AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground">Default</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Avatar className="h-12 w-12">
-              <AvatarFallback>LG</AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground">Large</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Avatar className="h-16 w-16">
-              <AvatarFallback className="text-lg">XL</AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground">Extra Large</span>
-          </div>
+      <DemoSection
+        title="Sizes"
+        code={`<Avatar size="xs"><AvatarFallback>XS</AvatarFallback></Avatar>
+<Avatar size="sm"><AvatarFallback>SM</AvatarFallback></Avatar>
+<Avatar size="md"><AvatarFallback>MD</AvatarFallback></Avatar>
+<Avatar size="lg"><AvatarFallback>LG</AvatarFallback></Avatar>
+<Avatar size="xl"><AvatarFallback>XL</AvatarFallback></Avatar>`}
+      >
+        <p className="text-sm text-muted-foreground">
+          Pass <code className="font-mono text-xs">size</code> for any preset on the shared{' '}
+          <code className="font-mono text-xs">AvatarSize</code> scale. The scale is shared with{' '}
+          <code className="font-mono text-xs">AvatarGroup</code> so a standalone avatar and a grouped one render at
+          identical pixel sizes for the same token.
+        </p>
+        <div className="flex items-end gap-4 pt-3">
+          {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
+            <div key={size} className="flex flex-col items-center gap-2">
+              <Avatar size={size}>
+                <AvatarFallback>{size.toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <span className="text-xs text-muted-foreground">{size}</span>
+            </div>
+          ))}
         </div>
       </DemoSection>
 
