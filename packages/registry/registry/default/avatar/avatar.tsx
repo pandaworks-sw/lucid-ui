@@ -4,22 +4,51 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn, getInitialName } from '@/lib';
 
 type AvatarShape = 'circle' | 'square';
+type AvatarSize = 'xs' | 'sm' | 'md' | 'lg';
 
 const shapeClass = (shape?: AvatarShape) => (shape === 'square' ? 'rounded-md' : 'rounded-full');
 
+// Size scale shared with AvatarGroup so a standalone Avatar and an Avatar inside
+// an AvatarGroup render at identical dimensions for the same `size` prop.
+const avatarSizeClass: Record<AvatarSize, string> = {
+  xs: 'size-5 text-[10px]',
+  sm: 'size-7 text-xs',
+  md: 'size-9 text-sm',
+  lg: 'size-12 text-base',
+};
+
 type AvatarProps = ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> & {
   shape?: AvatarShape;
+  /**
+   * Avatar dimensions. Aligns with the AvatarGroup size scale.
+   * Omit to keep the historical default of h-10 w-10.
+   */
+  size?: AvatarSize;
+  /**
+   * Shorthand for `size="xs"` — designed for dense surfaces such as table rows
+   * or inline list cells. Wins over `size` when both are set.
+   */
+  compact?: boolean;
 };
 
 const Avatar = forwardRef<ElementRef<typeof AvatarPrimitive.Root>, AvatarProps>(
-  ({ className, shape, ...props }, ref) => (
-    <AvatarPrimitive.Root
-      ref={ref}
-      data-shape={shape ?? 'circle'}
-      className={cn('relative flex h-10 w-10 shrink-0 overflow-hidden', shapeClass(shape), className)}
-      {...props}
-    />
-  )
+  ({ className, shape, size, compact, ...props }, ref) => {
+    const resolvedSize: AvatarSize | undefined = compact ? 'xs' : size;
+    return (
+      <AvatarPrimitive.Root
+        ref={ref}
+        data-shape={shape ?? 'circle'}
+        data-size={resolvedSize}
+        className={cn(
+          'relative flex shrink-0 overflow-hidden',
+          resolvedSize ? avatarSizeClass[resolvedSize] : 'h-10 w-10',
+          shapeClass(shape),
+          className
+        )}
+        {...props}
+      />
+    );
+  }
 );
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
@@ -99,5 +128,5 @@ const AvatarFallback = forwardRef<ElementRef<typeof AvatarPrimitive.Fallback>, A
 );
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export { Avatar, AvatarImage, AvatarFallback };
-export type { AvatarShape };
+export { Avatar, AvatarImage, AvatarFallback, avatarSizeClass };
+export type { AvatarShape, AvatarSize };

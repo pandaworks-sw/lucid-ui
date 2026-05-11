@@ -10,7 +10,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib';
-import { Avatar, AvatarFallback, type AvatarShape } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, avatarSizeClass, type AvatarShape, type AvatarSize } from '@/components/ui/avatar';
 
 const avatarGroupVariants = cva('flex items-center', {
   variants: {
@@ -26,14 +26,7 @@ const avatarGroupVariants = cva('flex items-center', {
   },
 });
 
-const avatarSizeClass = {
-  xs: 'size-5 text-[10px]',
-  sm: 'size-7 text-xs',
-  md: 'size-9 text-sm',
-  lg: 'size-12 text-base',
-} as const;
-
-type AvatarGroupSize = keyof typeof avatarSizeClass;
+type AvatarGroupSize = AvatarSize;
 
 export interface AvatarGroupProps
   extends HTMLAttributes<HTMLDivElement>,

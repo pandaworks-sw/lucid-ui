@@ -32,6 +32,12 @@ export default function AvatarDemo() {
       <DemoSection title="Sizes">
         <div className="flex items-end gap-4">
           <div className="flex flex-col items-center gap-2">
+            <Avatar compact>
+              <AvatarFallback>CO</AvatarFallback>
+            </Avatar>
+            <span className="text-xs text-muted-foreground">Compact</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="text-xs">SM</AvatarFallback>
             </Avatar>
@@ -55,6 +61,30 @@ export default function AvatarDemo() {
             </Avatar>
             <span className="text-xs text-muted-foreground">Extra Large</span>
           </div>
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Compact"
+        code={`<Avatar compact>
+  <AvatarFallback>Alice Reyes</AvatarFallback>
+</Avatar>`}
+      >
+        <p className="text-sm text-muted-foreground">
+          Pass <code className="font-mono text-xs">compact</code> to drop to a 5x5 / 10px-text footprint without
+          juggling Tailwind size classes. Designed for inline placement in dense table rows where a default 10x10 avatar
+          would force the row height to grow.
+        </p>
+        <div className="flex items-center gap-3 pt-3">
+          <Avatar compact>
+            <AvatarFallback>Alice Reyes</AvatarFallback>
+          </Avatar>
+          <Avatar compact>
+            <AvatarFallback>Bob Kim</AvatarFallback>
+          </Avatar>
+          <Avatar compact>
+            <AvatarFallback colorize={false}>?</AvatarFallback>
+          </Avatar>
         </div>
       </DemoSection>
 

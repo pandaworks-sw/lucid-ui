@@ -52,7 +52,8 @@ Props:
 | `value` | `string[]` | required | Multi mode selected user ids. |
 | `onValueChange` | `(userIds: string[]) => void` | required | Multi mode change handler. |
 | `maxAvatarsShown` | `number` | `3` | Multi mode only. Passed to `AvatarGroup`; overflow renders as `+N`. |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Trigger avatar size. `sm` = `h-6 w-6`, `md` = `h-8 w-8`, `lg` = `h-10 w-10`. |
+| `size` | `AvatarSize` (`"xs" \| "sm" \| "md" \| "lg"`) | `"md"` | Trigger avatar size. Aligns with `Avatar` / `AvatarGroup`: `xs` = `size-5 text-[10px]`, `sm` = `size-7 text-xs`, `md` = `size-9 text-sm`, `lg` = `size-12 text-base`. |
+| `compact` | `boolean` | `false` | Shorthand for `size="xs"`. Use inside dense table rows or inline list cells where a normal avatar would push the row height up. Wins over `size` when both are set. |
 | `align` | `"start" \| "center" \| "end"` | `"start"` | Popover alignment. |
 | `searchable` | `boolean` | `users.length > 8` | Controls whether the Command search input is shown. |
 | `searchPlaceholder` | `string` | `"Search users..."` | Placeholder for the Command input. |
@@ -68,6 +69,15 @@ Trigger behavior:
 - Multi mode with selections renders an `AvatarGroup`; overflow is handled by `AvatarGroup`.
 - Multi mode without selections renders the same muted `UserCircle` fallback avatar.
 - The trigger stops click propagation so it can be used inside clickable rows.
+
+Compact / dense table rows:
+
+```tsx
+// Drops the trigger to h-5 w-5 / 10px text — won't push the row height.
+<UserPicker compact users={users} value={assigneeId} onValueChange={setAssigneeId} />
+
+<UserPicker compact mode="multi" users={users} value={reviewerIds} onValueChange={setReviewerIds} />
+```
 
 When to use UserPicker vs SelectPicker:
 

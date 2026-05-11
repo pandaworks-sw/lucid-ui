@@ -167,6 +167,26 @@ const users = [
           <p className="text-sm text-muted-foreground">{watchers.length} watchers selected</p>
         </div>
       </DemoSection>
+
+      <DemoSection
+        title="Compact (dense table rows)"
+        code={`// Trigger renders at h-5 w-5 — drops into a table row without disturbing line height.
+// 'compact' overrides 'size' when both are set.
+<UserPicker compact users={users} value={assignee} onValueChange={setAssignee} />
+
+<UserPicker compact mode="multi" users={users} value={reviewers} onValueChange={setReviewers} />`}
+      >
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <UserPicker compact users={teamUsers} value={assignee} onValueChange={setAssignee} />
+            <p className="text-sm text-muted-foreground">Single, compact</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <UserPicker compact mode="multi" users={teamUsers} value={reviewers} onValueChange={setReviewers} />
+            <p className="text-sm text-muted-foreground">Multi, compact</p>
+          </div>
+        </div>
+      </DemoSection>
     </>
   );
 }

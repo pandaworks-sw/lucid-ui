@@ -343,6 +343,22 @@ Each entry contains:
 - **details**: Avatar-trigger picker for assigning one user (single mode) or many (multi mode). Composes `Popover` + `Command` + `Avatar` + `AvatarGroup`; exposes discriminated-union `mode` props (`mode?: 'single'` with `value: string | null`, or `mode: 'multi'` with `value: string[]`); auto-shows Command search when `users.length > 8`; and uses `AvatarGroup` overflow for the multi-trigger. Replaces the hand-rolled `Select` + `Avatar` pattern for assignee, owner, collaborator, reviewer, and watcher fields.
 - **action**: optional — replace local Select + Avatar assignee controls with `UserPicker`
 
+#### avatar — `size` + `compact` props; shared size scale with AvatarGroup
+
+- **component**: Avatar, AvatarGroup
+- **change**: modified
+- **breaking**: no
+- **details**: `Avatar` now accepts `size?: 'xs' | 'sm' | 'md' | 'lg'` (xs `size-5 text-[10px]`, sm `size-7 text-xs`, md `size-9 text-sm`, lg `size-12 text-base`) — the same scale `AvatarGroup` was carrying internally. The shared map is now exported from the `avatar` module as `avatarSizeClass`, and the `AvatarSize` type is exported alongside `AvatarShape`. `AvatarGroup` imports the shared map instead of duplicating it. `compact?: boolean` on `Avatar` is a shorthand for `size="xs"` for dense surfaces (table rows, inline list cells) and wins over `size` when both are set. Omitting `size` keeps the historical `h-10 w-10` default — existing `<Avatar>` call sites are unchanged.
+- **action**: none — additive. New `size` / `compact` props are optional.
+
+#### user-picker — `size` aligns with AvatarSize; gains `compact` shorthand
+
+- **component**: UserPicker
+- **change**: modified
+- **breaking**: no
+- **details**: `size` accepts `'xs' | 'sm' | 'md' | 'lg'` (was `'sm' | 'md' | 'lg'`) and forwards directly to `Avatar` / `AvatarGroup` — no internal remap. `compact?: boolean` is the same shorthand-for-`xs` rule used on `Avatar`, intended for dense table rows. The local `AVATAR_SIZE_CLASS` / `AVATAR_GROUP_SIZE` / `COMPACT_AVATAR_GROUP_SIZE` constants are gone; the picker has one source of truth for sizing via `AvatarSize`. The previous `sm | md | lg` API keeps working, but its rendered pixel sizes now match `AvatarGroup` exactly (`sm` `size-7`, `md` `size-9`, `lg` `size-12` instead of `size-6 / size-8 / size-10`), so a single-mode trigger and a multi-mode `AvatarGroup` of the same size are visually identical.
+- **action**: none required. If you were relying on the older pixel sizes (`size-6`/`size-8`/`size-10`) for the single-mode trigger, the avatar is now 1 step larger at each token; pass `compact` (or `size="xs"`) for the smallest footprint, or wrap the picker in your own size-overriding `className` if needed.
+
 ### 2026-05-07
 
 #### timeline — new component (vertical activity feed with tone-coded dots)

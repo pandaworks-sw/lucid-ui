@@ -1,7 +1,7 @@
 import { useMemo, useState, type MouseEvent, type ReactNode, type TouchEvent, type WheelEvent } from 'react';
 import { Check, UserCircle } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage, type AvatarSize } from '@/components/ui/avatar';
 import { AvatarGroup } from '@/components/ui/avatar-group';
 import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
@@ -17,7 +17,10 @@ export interface UserPickerUser {
 
 interface UserPickerBaseProps {
   users: UserPickerUser[];
-  size?: 'sm' | 'md' | 'lg';
+  /** Trigger avatar dimensions. Matches the shared AvatarSize scale. */
+  size?: AvatarSize;
+  /** Shorthand for `size="xs"` — wins over `size` when both are set. */
+  compact?: boolean;
   align?: 'start' | 'center' | 'end';
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -44,18 +47,6 @@ interface MultiUserPickerProps extends UserPickerBaseProps {
 
 export type UserPickerProps = SingleUserPickerProps | MultiUserPickerProps;
 
-const AVATAR_SIZE_CLASS = {
-  sm: 'size-6 text-xs',
-  md: 'size-8 text-sm',
-  lg: 'size-10 text-base',
-} as const;
-
-const AVATAR_GROUP_SIZE = {
-  sm: 'xs',
-  md: 'sm',
-  lg: 'md',
-} as const;
-
 const DEFAULT_SEARCH_PLACEHOLDER = 'Search users...';
 const DEFAULT_EMPTY_MESSAGE = 'No users found.';
 const DEFAULT_SINGLE_PLACEHOLDER = 'Unassigned';
@@ -66,6 +57,7 @@ function UserPicker(props: UserPickerProps) {
   const {
     users,
     size = 'md',
+    compact = false,
     align = 'start',
     searchable,
     searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
@@ -76,6 +68,7 @@ function UserPicker(props: UserPickerProps) {
 
   const [open, setOpen] = useState(false);
   const searchIsActive = searchable !== undefined ? searchable : users.length > SEARCH_THRESHOLD;
+  const effectiveSize: AvatarSize = compact ? 'xs' : size;
 
   if (props.mode === 'multi') {
     return (
@@ -85,7 +78,7 @@ function UserPicker(props: UserPickerProps) {
         onValueChange={props.onValueChange}
         placeholder={props.placeholder ?? DEFAULT_MULTI_PLACEHOLDER}
         maxAvatarsShown={props.maxAvatarsShown ?? 3}
-        size={size}
+        size={effectiveSize}
         align={align}
         searchIsActive={searchIsActive}
         searchPlaceholder={searchPlaceholder}
@@ -105,7 +98,7 @@ function UserPicker(props: UserPickerProps) {
       onValueChange={props.onValueChange}
       allowUnassigned={props.allowUnassigned ?? true}
       placeholder={props.placeholder ?? DEFAULT_SINGLE_PLACEHOLDER}
-      size={size}
+      size={effectiveSize}
       align={align}
       searchIsActive={searchIsActive}
       searchPlaceholder={searchPlaceholder}
@@ -139,7 +132,7 @@ function SingleUserPicker({
   onValueChange: (userId: string | null) => void;
   allowUnassigned: boolean;
   placeholder: string;
-  size: NonNullable<UserPickerBaseProps['size']>;
+  size: AvatarSize;
   align: NonNullable<UserPickerBaseProps['align']>;
   searchIsActive: boolean;
   searchPlaceholder: string;
@@ -207,7 +200,7 @@ function MultiUserPicker({
   onValueChange: (userIds: string[]) => void;
   placeholder: string;
   maxAvatarsShown: number;
-  size: NonNullable<UserPickerBaseProps['size']>;
+  size: AvatarSize;
   align: NonNullable<UserPickerBaseProps['align']>;
   searchIsActive: boolean;
   searchPlaceholder: string;
@@ -234,7 +227,7 @@ function MultiUserPicker({
       title={selectedUsers.length > 0 ? selectedUsers.map((user) => user.name).join(', ') : placeholder}
       trigger={
         selectedUsers.length > 0 ? (
-          <AvatarGroup size={AVATAR_GROUP_SIZE[size]} max={maxAvatarsShown}>
+          <AvatarGroup size={size} max={maxAvatarsShown}>
             {selectedUsers.map((user) => (
               <UserAvatar key={user.id} user={user} size={size} placeholder={placeholder} />
             ))}
@@ -337,17 +330,17 @@ function UserAvatar({
   placeholder,
 }: {
   user: UserPickerUser | undefined;
-  size: NonNullable<UserPickerBaseProps['size']>;
+  size: AvatarSize;
   placeholder: string;
 }) {
   return (
-    <Avatar className={AVATAR_SIZE_CLASS[size]} title={user?.name ?? placeholder}>
+    <Avatar size={size} title={user?.name ?? placeholder}>
       {user?.imageUrl && <AvatarImage src={user.imageUrl} alt={user.name} />}
       {user ? (
         <AvatarFallback>{user.name}</AvatarFallback>
       ) : (
         <AvatarFallback colorize={false} className="bg-muted text-muted-foreground">
-          <UserCircle className="h-4 w-4" />
+          <UserCircle className={size === 'xs' ? 'h-3 w-3' : 'h-4 w-4'} />
         </AvatarFallback>
       )}
     </Avatar>
