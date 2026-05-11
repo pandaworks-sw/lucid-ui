@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { ExternalLink, Search, Sparkles } from 'lucide-react';
+import { ExternalLink, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 
@@ -15,75 +14,50 @@ interface ShowcaseSidebarProps {
 }
 
 export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSidebarProps) {
-  const [search, setSearch] = useState('');
-  const query = search.toLowerCase();
-
-  const filtered = categories
-    .map((cat) => ({
-      ...cat,
-      items: cat.items.filter(
-        (item) => item.title.toLowerCase().includes(query) || item.name.toLowerCase().includes(query)
-      ),
-    }))
-    .filter((cat) => cat.items.length > 0);
-
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
-      <div className="flex items-center gap-2 border-b px-4 py-3">
+      <div className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
         <h1 className="text-sm font-semibold tracking-tight">Lucid UI</h1>
         <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">Registry</span>
       </div>
 
-      <div className="space-y-2 px-3 pt-3">
-        <button
-          onClick={() => onSelect('ai-integration')}
-          className={cn(
-            'group flex w-full items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-left text-sm transition-colors hover:border-primary/40',
-            active === 'ai-integration' && 'border-primary/60'
-          )}
-        >
-          <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Use with AI</p>
-            <p className="text-xs text-muted-foreground group-hover:text-foreground">
-              Copy the prompt for Claude, Cursor, etc.
-            </p>
-          </div>
-          <Sparkles className="size-3.5 text-primary" />
-        </button>
-
-        <a
-          href={`${import.meta.env.BASE_URL}pure-showcase`}
-          className="group flex items-center justify-between rounded-md border bg-linear-to-br from-primary/10 via-primary/5 to-transparent px-3 py-2 text-sm transition-colors hover:border-primary/40"
-        >
-          <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Pure SaaS</p>
-            <p className="text-xs text-muted-foreground group-hover:text-foreground">
-              A full demo app using the registry
-            </p>
-          </div>
-          <ExternalLink className="size-3.5 text-muted-foreground group-hover:text-foreground" />
-        </a>
-      </div>
-
       <div className="px-3 pt-3">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search components..."
-            className="h-8 w-full rounded-md border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-          />
-        </div>
+        <ul className="space-y-0.5">
+          <li>
+            <button
+              onClick={() => onSelect('ai-integration')}
+              className={cn(
+                'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+                active === 'ai-integration'
+                  ? 'bg-primary/10 font-medium text-primary'
+                  : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+              )}
+            >
+              <Sparkles className="size-3.5 shrink-0 fill-amber-400 text-amber-500 animate-[lucid-sparkle-glow_4s_linear_infinite]" />
+              <span className="flex-1">Use with AI</span>
+            </button>
+          </li>
+          <li>
+            <a
+              href={`${import.meta.env.BASE_URL}pure-showcase`}
+              className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+            >
+              <ExternalLink className="size-3.5 shrink-0 opacity-70" />
+              <span className="flex-1">Showcase</span>
+            </a>
+          </li>
+        </ul>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-3">
-        {filtered.map((cat) => (
+        {categories.map((cat) => (
           <div key={cat.label} className="mb-4">
-            <p className="mb-1 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {cat.label}
-            </p>
+            <div className="mb-1 mt-4 flex items-center gap-2 px-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+                {cat.label}
+              </span>
+              <span aria-hidden className="h-px flex-1 bg-border" />
+            </div>
             <ul className="space-y-0.5">
               {cat.items.map((item) => (
                 <li key={item.name}>
@@ -115,9 +89,6 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
             </ul>
           </div>
         ))}
-        {filtered.length === 0 && (
-          <p className="px-2 py-4 text-center text-sm text-muted-foreground">No components found.</p>
-        )}
       </nav>
 
       <div className="flex items-center justify-between border-t px-4 py-3">

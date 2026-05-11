@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Search } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ShowcaseSidebar, type SidebarCategory } from './showcase-sidebar';
 import { ComponentPage } from './component-page';
@@ -668,6 +669,9 @@ function getHashComponent() {
 
 export default function ShowcaseApp() {
   const [active, setActive] = useState(getHashComponent);
+  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [highlight, setHighlight] = useState(0);
 
   useEffect(() => {
     const onHashChange = () => setActive(getHashComponent());
@@ -681,23 +685,101 @@ export default function ShowcaseApp() {
 
   const component = COMPONENTS.find((c) => c.name === active);
 
+  const query = search.trim().toLowerCase();
+  const matches = query
+    ? COMPONENTS.filter(
+        (c) => c.title.toLowerCase().includes(query) || c.name.toLowerCase().includes(query)
+      ).slice(0, 8)
+    : [];
+
+  const pickMatch = (name: string) => {
+    handleSelect(name);
+    setSearch('');
+    setSearchOpen(false);
+    setHighlight(0);
+  };
+
+  const showDropdown = searchOpen && matches.length > 0;
+
   return (
     <TooltipProvider>
       <div className="flex h-screen bg-background text-foreground">
         <ShowcaseSidebar categories={CATEGORIES} active={active} onSelect={handleSelect} />
-        <main className="flex-1 overflow-y-auto">
-          {active === AI_INTEGRATION_KEY ? (
-            <div className="mx-auto max-w-4xl px-8 py-8">
-              <AiIntegrationView />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <header className="flex h-12 shrink-0 items-center border-b bg-background px-4">
+            <div className="relative w-full max-w-md">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setSearchOpen(true);
+                  setHighlight(0);
+                }}
+                onFocus={() => setSearchOpen(true)}
+                onBlur={() => window.setTimeout(() => setSearchOpen(false), 120)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    setSearchOpen(false);
+                    e.currentTarget.blur();
+                  } else if (e.key === 'ArrowDown' && matches.length > 0) {
+                    e.preventDefault();
+                    setHighlight((h) => (h + 1) % matches.length);
+                  } else if (e.key === 'ArrowUp' && matches.length > 0) {
+                    e.preventDefault();
+                    setHighlight((h) => (h - 1 + matches.length) % matches.length);
+                  } else if (e.key === 'Enter' && matches.length > 0) {
+                    e.preventDefault();
+                    pickMatch(matches[highlight]?.name ?? matches[0].name);
+                  }
+                }}
+                placeholder="Search components..."
+                className="h-8 w-full rounded-md border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              />
+              {showDropdown && (
+                <ul
+                  role="listbox"
+                  className="absolute left-0 right-0 top-full z-50 mt-1 max-h-80 overflow-y-auto rounded-md border bg-popover py-1 shadow-md"
+                >
+                  {matches.map((m, i) => (
+                    <li key={m.name}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={i === highlight}
+                        onMouseEnter={() => setHighlight(i)}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          pickMatch(m.name);
+                        }}
+                        className={`flex w-full items-center justify-between gap-3 px-3 py-1.5 text-left text-sm transition-colors ${
+                          i === highlight ? 'bg-accent text-foreground' : 'text-foreground hover:bg-accent'
+                        }`}
+                      >
+                        <span className="truncate">{m.title}</span>
+                        <span className="shrink-0 text-xs text-muted-foreground">{m.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          ) : component ? (
-            <div className="mx-auto max-w-4xl px-8 py-8">
-              <ComponentPage title={component.title} description={component.description}>
-                <component.demo />
-              </ComponentPage>
-            </div>
-          ) : null}
-        </main>
+          </header>
+          <main className="flex-1 overflow-y-auto">
+            {active === AI_INTEGRATION_KEY ? (
+              <div className="mx-auto max-w-4xl px-8 py-8">
+                <AiIntegrationView />
+              </div>
+            ) : component ? (
+              <div className="mx-auto max-w-4xl px-8 py-8">
+                <ComponentPage title={component.title} description={component.description}>
+                  <component.demo />
+                </ComponentPage>
+              </div>
+            ) : null}
+          </main>
+        </div>
       </div>
     </TooltipProvider>
   );

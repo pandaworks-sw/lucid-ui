@@ -3,3 +3,8 @@
 
 @source "../../../packages/registry/registry/default/**/*.tsx";
 @source "../../../packages/registry/src/**/*.ts";
+
+@keyframes lucid-sparkle-glow {
+  0%   { filter: drop-shadow(0 0 3px currentColor) hue-rotate(0deg); }
+  100% { filter: drop-shadow(0 0 3px currentColor) hue-rotate(360deg); }
+}
