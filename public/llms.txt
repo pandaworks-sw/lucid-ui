@@ -220,6 +220,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | CodeLabel | Inline monospace label with optional copy button (`copyable` prop) | [data-display.md](docs/data-display.md) |
 | AnimatedNumber | Animated number display with easing | [data-display.md](docs/data-display.md) |
 | ExpandableText | Collapsible long text with show more/less | [data-display.md](docs/data-display.md) |
+| TruncatedLabel | Single- or multi-line label that truncates with ellipsis and shows the full text in a tooltip on hover/focus (tooltip only mounts when truncation is actually happening) | [data-display.md](docs/data-display.md) |
 
 ### Feedback
 
@@ -285,6 +286,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Animated score/metric display | AnimatedNumber |
 | Card with one progress + breakdown counts | ProgressStatCard |
 | Collapsible long text | ExpandableText |
+| Truncated label with hover-to-reveal full text | TruncatedLabel |
 | Confirmation before destructive action | AlertDialog |
 | Form modal / side panel | Dialog or Sheet |
 | Inline monospace ID with copy | CodeLabel |
@@ -334,6 +336,14 @@ Each entry contains:
 ---
 
 ### 2026-05-11
+
+#### truncated-label — new component (ellipsis label with hover-to-reveal full text)
+
+- **component**: TruncatedLabel
+- **change**: added
+- **breaking**: no
+- **details**: Single- or multi-line label that truncates with ellipsis when its text overflows the parent container and shows the full text in a `Tooltip` on hover or focus. Truncation is detected via `ResizeObserver` + `scrollWidth > clientWidth` (single line) or `scrollHeight > clientHeight` (`lines > 1`, using `-webkit-line-clamp`), so the tooltip is only mounted when truncation is actually happening. Props: `text: string`, `lines?: number` (default 1), `side` / `align` / `delayDuration` for tooltip placement, `disableTooltip?: boolean` to skip the popup even when truncated. When truncated and the tooltip is enabled, the rendered `<span>` becomes keyboard-focusable (`tabIndex={0}`, override-able by passing your own `tabIndex`) so keyboard users can trigger the popup. Requires a `<TooltipProvider>` in the tree (already at the `AppShell` root). Replaces the `<span className="truncate" title={...}>` pattern for table cells, list rows, breadcrumbs, file paths, and long contact names.
+- **action**: optional — replace local `truncate + title` spans with `TruncatedLabel` when you want a styled tooltip instead of the native browser title.
 
 #### user-picker — new component (avatar-trigger user assignment picker)
 

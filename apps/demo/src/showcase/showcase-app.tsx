@@ -63,6 +63,7 @@ import StepperDemo from './demos/stepper-demo';
 import ConnectionBannerDemo from './demos/connection-banner-demo';
 import ErrorFallbackDemo from './demos/error-fallback-demo';
 import ExpandableTextDemo from './demos/expandable-text-demo';
+import TruncatedLabelDemo from './demos/truncated-label-demo';
 import ActionButtonDemo from './demos/action-button-demo';
 import SearchInputDemo from './demos/search-input-demo';
 import AvatarGroupDemo from './demos/avatar-group-demo';
@@ -465,6 +466,13 @@ const COMPONENTS: ComponentMeta[] = [
     demo: ExpandableTextDemo,
   },
   {
+    name: 'truncated-label',
+    title: 'Truncated Label',
+    description:
+      'A single- or multi-line label that truncates with ellipsis when it overflows and shows the full text in a tooltip on hover/focus. Tooltip only appears when truncation is actually happening.',
+    demo: TruncatedLabelDemo,
+  },
+  {
     name: 'action-button',
     title: 'Action Button',
     description:
@@ -615,6 +623,7 @@ const CATEGORIES: SidebarCategory[] = [
         'stat-card',
         'table',
         'timeline',
+        'truncated-label',
       ].includes(c.name)
     ).sort((a, b) => a.title.localeCompare(b.title)),
   },

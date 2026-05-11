@@ -497,3 +497,39 @@ Props:
 - `visibleLines?: number` -- Lines shown before collapsing (default: 3)
 - `showMoreLabel?: string` -- Expand trigger label (default: "Show more")
 - `showLessLabel?: string` -- Collapse trigger label (default: "Show less")
+
+## TruncatedLabel
+
+A single- or multi-line label that truncates with ellipsis when it overflows its container, and shows the full text in a tooltip on hover or focus. The tooltip is only mounted when truncation is actually happening (detected via `ResizeObserver` + `scrollWidth` / `scrollHeight`), so short text never gets a redundant tooltip.
+
+Use for table cells, list rows, breadcrumbs, file paths, long employee/contact names, and any cramped surface where you want to preserve the full value without wrapping. Requires a `<TooltipProvider>` somewhere in the tree (already present at the `AppShell` root).
+
+```tsx
+import { TruncatedLabel } from "@/components/ui/truncated-label"
+
+// Single line — truncates with ellipsis when it overflows the parent's width
+<div className="max-w-[200px]">
+  <TruncatedLabel text="Alexandria Montgomery-Wellington, Senior Principal Strategist" />
+</div>
+
+// Multi-line clamp
+<div className="max-w-[260px]">
+  <TruncatedLabel text={longDescription} lines={3} />
+</div>
+
+// Force-disable the tooltip (e.g. on a touch-only surface)
+<TruncatedLabel text={longText} disableTooltip />
+```
+
+The component renders a `<span class="block truncate">` (or a `-webkit-box` line-clamp box when `lines > 1`), so it inherits its width from the parent. Wrap it in a width-constrained container (table cell, flex child with `min-w-0`, fixed-width div) for the truncation to engage.
+
+When the tooltip is enabled and truncation is detected, the span receives `tabIndex={0}` so keyboard users can focus it and trigger the tooltip. Pass an explicit `tabIndex` to override.
+
+Props:
+- `text: string` -- The full text to display
+- `lines?: number` -- Lines before truncation (default: 1 — single-line ellipsis; >1 uses `-webkit-line-clamp`)
+- `side?: 'top' | 'right' | 'bottom' | 'left'` -- Tooltip side (default: `'top'`)
+- `align?: 'start' | 'center' | 'end'` -- Tooltip alignment (default: `'center'`)
+- `delayDuration?: number` -- Tooltip open delay in ms (default: 200)
+- `disableTooltip?: boolean` -- Skip the tooltip even when truncated (default: false)
+- Forwards all other `HTMLAttributes<HTMLSpanElement>` to the inner `<span>`
