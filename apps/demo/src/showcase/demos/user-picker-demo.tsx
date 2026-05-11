@@ -45,6 +45,7 @@ const largeTeamUsers: UserPickerUser[] = [
 export default function UserPickerDemo() {
   const [assignee, setAssignee] = useState<string | null>(null);
   const [owner, setOwner] = useState<string | null>('maya');
+  const [selfAssignee, setSelfAssignee] = useState<string | null>(null);
   const [profileOwner, setProfileOwner] = useState<string | null>('sophia');
   const [reviewers, setReviewers] = useState<string[]>(['maya', 'amir', 'jules']);
   const [watchers, setWatchers] = useState<string[]>(['maya', 'amir', 'jules', 'nora', 'dev']);
@@ -70,6 +71,23 @@ const users = [
           <UserPicker users={teamUsers} value={assignee} onValueChange={setAssignee} />
           <p className="text-sm text-muted-foreground">
             {assignee ? `Assigned to ${teamUsers.find((user) => user.id === assignee)?.name}` : 'Unassigned'}
+          </p>
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Current User"
+        code={`<UserPicker
+  users={users}
+  value={assignee}
+  onValueChange={setAssignee}
+  currentUserId="jules"
+/>`}
+      >
+        <div className="flex items-center gap-3">
+          <UserPicker users={teamUsers} value={selfAssignee} onValueChange={setSelfAssignee} currentUserId="jules" />
+          <p className="text-sm text-muted-foreground">
+            {selfAssignee ? `Assigned to ${teamUsers.find((user) => user.id === selfAssignee)?.name}` : 'Unassigned'}
           </p>
         </div>
       </DemoSection>

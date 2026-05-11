@@ -25,6 +25,7 @@ interface UserPickerBaseProps {
   searchable?: boolean;
   searchPlaceholder?: string;
   emptyMessage?: string;
+  currentUserId?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -62,6 +63,7 @@ function UserPicker(props: UserPickerProps) {
     searchable,
     searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
     emptyMessage = DEFAULT_EMPTY_MESSAGE,
+    currentUserId,
     disabled = false,
     className,
   } = props;
@@ -83,6 +85,7 @@ function UserPicker(props: UserPickerProps) {
         searchIsActive={searchIsActive}
         searchPlaceholder={searchPlaceholder}
         emptyMessage={emptyMessage}
+        currentUserId={currentUserId}
         disabled={disabled}
         className={className}
         open={open}
@@ -103,6 +106,7 @@ function UserPicker(props: UserPickerProps) {
       searchIsActive={searchIsActive}
       searchPlaceholder={searchPlaceholder}
       emptyMessage={emptyMessage}
+      currentUserId={currentUserId}
       disabled={disabled}
       className={className}
       open={open}
@@ -122,6 +126,7 @@ function SingleUserPicker({
   searchIsActive,
   searchPlaceholder,
   emptyMessage,
+  currentUserId,
   disabled,
   className,
   open,
@@ -137,12 +142,14 @@ function SingleUserPicker({
   searchIsActive: boolean;
   searchPlaceholder: string;
   emptyMessage: string;
+  currentUserId?: string;
   disabled: boolean;
   className?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
   const selectedUser = users.find((user) => user.id === value);
+  const sortedUsers = useMemo(() => moveCurrentUserFirst(users, currentUserId), [users, currentUserId]);
 
   const handleSelect = (userId: string | null) => {
     onValueChange(userId);
@@ -168,11 +175,11 @@ function SingleUserPicker({
           <span>{placeholder}</span>
         </CommandItem>
       )}
-      {users.map((user) => (
+      {sortedUsers.map((user) => (
         <CommandItem key={user.id} value={getUserSearchValue(user)} onSelect={() => handleSelect(user.id)}>
           <Check className={cn('mr-2 h-4 w-4 shrink-0', value === user.id ? 'opacity-100' : 'opacity-0')} />
           <UserMenuAvatar user={user} />
-          <UserMenuText user={user} />
+          <UserMenuText user={user} displayName={user.id === currentUserId ? 'Me' : undefined} />
         </CommandItem>
       ))}
     </UserPickerPopover>
@@ -190,6 +197,7 @@ function MultiUserPicker({
   searchIsActive,
   searchPlaceholder,
   emptyMessage,
+  currentUserId,
   disabled,
   className,
   open,
@@ -205,12 +213,14 @@ function MultiUserPicker({
   searchIsActive: boolean;
   searchPlaceholder: string;
   emptyMessage: string;
+  currentUserId?: string;
   disabled: boolean;
   className?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
   const selectedUsers = useMemo(() => users.filter((user) => value.includes(user.id)), [users, value]);
+  const sortedUsers = useMemo(() => moveCurrentUserFirst(users, currentUserId), [users, currentUserId]);
 
   const handleToggle = (userId: string) => {
     const next = value.includes(userId) ? value.filter((id) => id !== userId) : [...value, userId];
@@ -240,7 +250,7 @@ function MultiUserPicker({
       searchPlaceholder={searchPlaceholder}
       emptyMessage={emptyMessage}
     >
-      {users.map((user) => {
+      {sortedUsers.map((user) => {
         const isSelected = value.includes(user.id);
         return (
           <CommandItem key={user.id} value={getUserSearchValue(user)} onSelect={() => handleToggle(user.id)}>
@@ -253,7 +263,7 @@ function MultiUserPicker({
               <Check className="h-3 w-3" />
             </div>
             <UserMenuAvatar user={user} />
-            <UserMenuText user={user} />
+            <UserMenuText user={user} displayName={user.id === currentUserId ? 'Me' : undefined} />
           </CommandItem>
         );
       })}
@@ -297,6 +307,8 @@ function UserPickerPopover({
           title={title}
           className={cn(
             'size-auto rounded-full p-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+            !disabled &&
+              'cursor-pointer hover:ring-2 hover:ring-ring/40 hover:ring-offset-2 hover:ring-offset-background',
             disabled && 'cursor-not-allowed opacity-50',
             className
           )}
@@ -356,15 +368,29 @@ function UserMenuAvatar({ user }: { user: UserPickerUser }) {
   );
 }
 
-function UserMenuText({ user }: { user: UserPickerUser }) {
+function UserMenuText({ user, displayName }: { user: UserPickerUser; displayName?: string }) {
   const showEmail = user.email && user.email !== user.name;
 
   return (
     <div className="flex min-w-0 flex-col">
-      <span className="truncate">{user.name}</span>
+      <span className="truncate">{displayName ?? user.name}</span>
       {showEmail && <span className="truncate text-xs text-muted-foreground">{user.email}</span>}
     </div>
   );
+}
+
+function moveCurrentUserFirst(users: UserPickerUser[], currentUserId: string | undefined) {
+  if (!currentUserId) {
+    return users;
+  }
+
+  const currentUser = users.find((user) => user.id === currentUserId);
+
+  if (!currentUser) {
+    return users;
+  }
+
+  return [currentUser, ...users.filter((user) => user.id !== currentUserId)];
 }
 
 function getUserSearchValue(user: UserPickerUser) {

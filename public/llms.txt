@@ -187,7 +187,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Switch | Toggle switch | [forms.md](docs/forms.md) |
 | Select | Static dropdown (< 10 items) | [forms.md](docs/forms.md) |
 | SelectPicker | Searchable dropdown, single/multi select | [select-picker.md](docs/select-picker.md) |
-| UserPicker | Avatar-trigger picker for assigning one user or many; searchable past 8 users | [user-picker.md](docs/user-picker.md) |
+| UserPicker | Avatar-trigger picker for assigning one user or many; searchable past 8 users; props include `users`, `mode`, `value`, `onValueChange`, `currentUserId`, `allowUnassigned`, `maxAvatarsShown`, `size`, `compact`, `searchable` | [user-picker.md](docs/user-picker.md) |
 | DatePicker | Single date picker | [forms.md](docs/forms.md) |
 | DateRangePicker | Date range picker with presets | [forms.md](docs/forms.md) |
 | Slider | Range slider | [forms.md](docs/forms.md) |
@@ -342,6 +342,22 @@ Each entry contains:
 - **breaking**: no
 - **details**: Avatar-trigger picker for assigning one user (single mode) or many (multi mode). Composes `Popover` + `Command` + `Avatar` + `AvatarGroup`; exposes discriminated-union `mode` props (`mode?: 'single'` with `value: string | null`, or `mode: 'multi'` with `value: string[]`); auto-shows Command search when `users.length > 8`; and uses `AvatarGroup` overflow for the multi-trigger. Replaces the hand-rolled `Select` + `Avatar` pattern for assignee, owner, collaborator, reviewer, and watcher fields.
 - **action**: optional — replace local Select + Avatar assignee controls with `UserPicker`
+
+#### user-picker — `currentUserId` pins and labels the active user
+
+- **component**: UserPicker
+- **change**: modified
+- **breaking**: no
+- **details**: Added optional `currentUserId?: string`. When it matches a user, that user is rendered first in the dropdown list (below the single-mode `Unassigned` row when present) and its visible menu-row label is `Me`; the trigger avatar/title and Command search value continue to use the real user name and email. Works in single and multi modes.
+- **action**: optional — pass `currentUserId` when assignment menus should make the signed-in user easy to pick
+
+#### user-picker — trigger hover affordance
+
+- **component**: UserPicker
+- **change**: modified
+- **breaking**: no
+- **details**: Enabled picker triggers now add a token-based hover ring (`hover:ring-2 hover:ring-ring/40 hover:ring-offset-2 hover:ring-offset-background`) with `cursor-pointer`, preserving the existing focus-visible ring and disabled styling. No background fill is added.
+- **action**: none required.
 
 #### avatar — `size` + `compact` props; shared size scale with AvatarGroup
 

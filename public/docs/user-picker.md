@@ -45,6 +45,7 @@ Props:
 | Prop | Type | Default | Notes |
 |------|------|---------|-------|
 | `users` | `UserPickerUser[]` | required | Options rendered in the Command menu. |
+| `currentUserId` | `string` | undefined | Pins the matching user to the top of the dropdown list and renders that row label as `Me`. The trigger remains unchanged and Command search still uses the real name and email. |
 | `mode` | `"single" \| "multi"` | `"single"` | Discriminates the value and callback types. |
 | `value` | `string \| null` | required | Single mode selected user id, or `null` for unassigned. |
 | `onValueChange` | `(userId: string \| null) => void` | required | Single mode change handler. |
