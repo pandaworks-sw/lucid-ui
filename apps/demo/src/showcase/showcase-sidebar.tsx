@@ -17,6 +17,12 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
       <div className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
+        <img
+          src={`${import.meta.env.BASE_URL}lucid-ui-logo.png`}
+          alt=""
+          aria-hidden="true"
+          className="h-7 w-7 shrink-0"
+        />
         <h1 className="text-sm font-semibold tracking-tight">Lucid UI</h1>
         <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">Registry</span>
       </div>
@@ -67,9 +73,7 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
         {categories.map((cat) => (
           <div key={cat.label} className="mb-4">
             <div className="mb-1 mt-4 flex items-center gap-2 px-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-                {cat.label}
-              </span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">{cat.label}</span>
               <span aria-hidden className="h-px flex-1 bg-border" />
             </div>
             <ul className="space-y-0.5">

@@ -338,6 +338,14 @@ Each entry contains:
 
 ### 2026-05-12
 
+#### project — logo + favicon added (no registry change)
+
+- **component**: (project asset, not a registry component)
+- **change**: added
+- **breaking**: no
+- **details**: Adds the official lucid-ui logo (transparent-background "L" mark + wordmark) at `apps/demo/public/lucid-ui-logo.png` (500×500 PNG) plus a full favicon set in the same folder: `favicon.ico` (multi-size), `favicon-16.png`, `favicon-32.png`, `favicon-48.png`, `icon-256.png`, and `apple-touch-icon.png` (180×180). The demo `<head>` registers each PNG with an explicit `sizes` attribute alongside the ICO so Chromium / Firefox / Safari each pick the sharpest variant for tab strips, bookmark bars, retina home-screens, and the iOS pinned tile. The showcase sidebar header gains an `<img>` of the mark at `h-7 w-7` next to the existing "Lucid UI" wordmark and "Registry" badge (`alt=""` + `aria-hidden="true"` because the wordmark text is the accessible name). README.md leads with a centred logo block above the H1.
+- **action**: none for consumers — the logo is a project asset, no registry exports changed. Downstream apps continue to ship their own favicon and brand assets.
+
 #### meta-edit-pill — new component (click-to-edit inline value pill)
 
 - **component**: MetaEditPill

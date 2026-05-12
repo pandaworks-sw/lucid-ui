@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="apps/demo/public/lucid-ui-logo.png" alt="Lucid UI" width="180" />
+</p>
+
 # lucid-ui
 
 Shared component library for Pandahrms frontend projects. Built with React 19, Tailwind CSS v4 (OKLCH), and Radix UI primitives.
