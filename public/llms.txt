@@ -238,7 +238,8 @@ For full API docs, props, and code examples, read the linked doc file.
 
 | Component | Description | Docs |
 |-----------|-------------|------|
-| Dialog | Modal dialog with header, content, footer | [overlay.md](docs/overlay.md) |
+| Modal | Form modal with sticky header/body/footer (sm / default / lg sizes) | [modal.md](docs/modal.md) |
+| AlertDialog | Confirmation prompt (no overlay-click dismiss) | [feedback.md](docs/feedback.md) |
 | Sheet | Slide-out panel (top, right, bottom, left) | [overlay.md](docs/overlay.md) |
 | DropdownMenu | Context/action menu | [overlay.md](docs/overlay.md) |
 | Tooltip | Hover tooltip | [overlay.md](docs/overlay.md) |
@@ -259,7 +260,7 @@ For full API docs, props, and code examples, read the linked doc file.
 
 ## Decision Guide: Which Component to Use
 
-For **variant / tone / surface / size choices** within a chosen component (e.g. which Badge tone? Modal vs Dialog vs Sheet? `default` vs `sm` Button? human → circle vs entity → square Avatar?), see [decision-guide.md](docs/decision-guide.md). The table below picks the *component*; the linked doc picks the *variant*.
+For **variant / tone / surface / size choices** within a chosen component (e.g. which Badge tone? `sm` vs `default` vs `lg` Modal? `default` vs `sm` Button? human → circle vs entity → square Avatar?), see [decision-guide.md](docs/decision-guide.md). The table below picks the *component*; the linked doc picks the *variant*.
 
 | Scenario | Component |
 |----------|-----------|
@@ -289,7 +290,8 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Collapsible long text | ExpandableText |
 | Truncated label with hover-to-reveal full text | TruncatedLabel |
 | Confirmation before destructive action | AlertDialog |
-| Form modal / side panel | Dialog or Sheet |
+| Form modal | Modal (use `size="sm"` for compact prompts) |
+| Side panel | Sheet |
 | Inline monospace ID with copy | CodeLabel |
 | Toast notifications | Sonner (toast) |
 | Status indicator | Badge |
@@ -337,6 +339,14 @@ Each entry contains:
 ---
 
 ### 2026-05-12
+
+#### modal + dialog — Dialog removed from public exports; Modal gains `size` prop (BREAKING)
+
+- **component**: Modal (gains `size`), Dialog (removed)
+- **change**: modified (Modal) + removed (Dialog)
+- **breaking**: **yes** — Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogTrigger, DialogClose, DialogOverlay, and DialogPortal are no longer exported from `@pandaworks-sw/lucid-ui`. Import sites must migrate to Modal (form prompts) or AlertDialog (confirmations).
+- **details**: `ModalContent` gains `size?: 'sm' | 'default' | 'lg'` (default `default`) so Modal can cover Dialog's old compact footprint without a className override. `sm` renders `max-w-lg` (≈ 32rem / 512px — matches the removed `Dialog`'s width), `default` renders `sm:min-w-4xl max-w-4xl` (≈ 56rem / 896px — current Modal default), `lg` renders `sm:min-w-5xl max-w-6xl` (≈ 72rem / 1152px — data-heavy modals). `ModalContentProps` and `ModalSize` are exported for type annotations; the root receives `data-slot="modal-content"` + `data-size="<size>"`. The Dialog primitive file remains internal to the package because Modal is built on top of Radix Dialog + the shared `DialogPortal` / `DialogOverlay` / `DialogTrigger` / `DialogClose` re-exports — those names are now package-private and can only be imported via the Modal API. `Sheet` and `AlertDialog` are unchanged.
+- **action**: migrate every `import { Dialog, DialogContent, ... } from '@pandaworks-sw/lucid-ui'` site. For form prompts, swap to `Modal` and pass `size="sm"` to keep the same `max-w-lg` footprint; replace `<DialogHeader><DialogTitle>...</DialogTitle><DialogDescription>...</DialogDescription></DialogHeader>` with `<ModalHeader title="..." description="..." />` and wrap body content in `<ModalBody>`. For confirmation prompts (delete, discard, etc.), migrate to `AlertDialog` instead. See [docs/modal.md](docs/modal.md) — the bottom of that file ships an old → new mapping table.
 
 #### dialog — open motion is fade + zoom from center (top-left slide removed)
 

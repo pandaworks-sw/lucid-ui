@@ -24,7 +24,6 @@ export * from '../registry/default/connection-banner';
 export * from '../registry/default/date-picker';
 export * from '../registry/default/date-range-picker';
 export * from '../registry/default/detail-page';
-export * from '../registry/default/dialog';
 export * from '../registry/default/dropdown-menu';
 export * from '../registry/default/empty-state';
 export * from '../registry/default/error-fallback';

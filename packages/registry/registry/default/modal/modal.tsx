@@ -18,25 +18,39 @@ const ModalTrigger = DialogTrigger;
 
 const ModalClose = DialogClose;
 
-const ModalContent = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed left-[50%] top-[50%] z-50 w-full sm:min-w-4xl max-w-4xl translate-x-[-50%] translate-y-[-50%] border border-border bg-background shadow-md duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-8 data-[state=closed]:slide-out-to-bottom-8 sm:rounded-lg',
-        'flex flex-col max-h-[85vh] p-0',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </DialogPrimitive.Content>
-  </DialogPortal>
-));
+type ModalSize = 'sm' | 'default' | 'lg';
+
+const modalSizeClass: Record<ModalSize, string> = {
+  sm: 'max-w-lg',
+  default: 'sm:min-w-4xl max-w-4xl',
+  lg: 'sm:min-w-5xl max-w-6xl',
+};
+
+interface ModalContentProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  size?: ModalSize;
+}
+
+const ModalContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, ModalContentProps>(
+  ({ className, children, size = 'default', ...props }, ref) => (
+    <DialogPortal>
+      <DialogOverlay />
+      <DialogPrimitive.Content
+        ref={ref}
+        data-slot="modal-content"
+        data-size={size}
+        className={cn(
+          'fixed left-[50%] top-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] border border-border bg-background shadow-md duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-8 data-[state=closed]:slide-out-to-bottom-8 sm:rounded-lg',
+          modalSizeClass[size],
+          'flex flex-col max-h-[85vh] p-0',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  )
+);
 ModalContent.displayName = 'ModalContent';
 
 interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -83,3 +97,4 @@ ModalFooter.displayName = 'ModalFooter';
 const ModalDescription = DialogDescription;
 
 export { Modal, ModalTrigger, ModalClose, ModalContent, ModalHeader, ModalDescription, ModalBody, ModalFooter };
+export type { ModalSize, ModalContentProps };

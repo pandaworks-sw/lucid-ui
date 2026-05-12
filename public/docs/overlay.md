@@ -1,33 +1,6 @@
 # Overlay Components
 
-Dialogs, sheets, menus, tooltips, and popovers.
-
-## Dialog
-
-```tsx
-import {
-  Dialog, DialogClose, DialogContent,
-  DialogDescription, DialogFooter,
-  DialogHeader, DialogTitle, DialogTrigger,
-} from "@/components/ui/dialog"
-
-<Dialog>
-  <DialogTrigger asChild>
-    <Button>Open</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Title</DialogTitle>
-      <DialogDescription>Description</DialogDescription>
-    </DialogHeader>
-    {/* Content */}
-    <DialogFooter>
-      <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
-      <Button>Save</Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-```
+Sheets, menus, tooltips, and popovers. For modal dialogs, see [modal.md](modal.md) (form modals) and AlertDialog in [feedback.md](feedback.md) (confirmation prompts).
 
 ## Sheet
 
