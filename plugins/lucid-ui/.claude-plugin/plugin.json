@@ -1,0 +1,9 @@
+{
+  "name": "lucid-ui",
+  "description": "Skills that help Claude Code consume the @pandaworks-sw/lucid-ui component library inside Pandahrms frontend projects. Loads the live catalogue and per-component docs from GitHub Pages, picks the right component for the task, and enforces the design-system rules (heading font policy, button sizing, no className identity overrides, no hand-rolled palette colors).",
+  "version": "0.1.0",
+  "author": { "name": "Pandaworks" },
+  "license": "UNLICENSED",
+  "homepage": "https://pandaworks-sw.github.io/lucid-ui",
+  "keywords": ["lucid-ui", "ui", "components", "design-system", "pandahrms", "react", "tailwind"]
+}

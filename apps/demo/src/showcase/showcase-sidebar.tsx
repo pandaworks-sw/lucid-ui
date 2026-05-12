@@ -1,4 +1,4 @@
-import { ExternalLink, Sparkles } from 'lucide-react';
+import { ExternalLink, Puzzle, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +35,20 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
             >
               <Sparkles className="size-3.5 shrink-0 fill-amber-400 text-amber-500 animate-[lucid-sparkle-glow_4s_linear_infinite]" />
               <span className="flex-1">Use with AI</span>
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => onSelect('skills')}
+              className={cn(
+                'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+                active === 'skills'
+                  ? 'bg-primary/10 font-medium text-primary'
+                  : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+              )}
+            >
+              <Puzzle className="size-3.5 shrink-0 opacity-70" />
+              <span className="flex-1">Use with Claude Code</span>
             </button>
           </li>
           <li>

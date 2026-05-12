@@ -1,0 +1,18 @@
+{
+  "name": "lucid-ui",
+  "owner": {
+    "name": "Pandaworks"
+  },
+  "metadata": {
+    "description": "Plugin marketplace for the @pandaworks-sw/lucid-ui component library",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "lucid-ui",
+      "source": "./plugins/lucid-ui",
+      "description": "Skills that help Claude Code consume the @pandaworks-sw/lucid-ui component library correctly inside Pandahrms frontend projects. Fetches the live catalogue + per-component docs from GitHub Pages, picks the right component for the task, and enforces the design-system rules.",
+      "version": "0.1.0"
+    }
+  ]
+}
