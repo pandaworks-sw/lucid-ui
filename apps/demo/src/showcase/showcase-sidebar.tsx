@@ -1,19 +1,37 @@
-import { ExternalLink, Puzzle, Sparkles } from 'lucide-react';
+import { ExternalLink, Megaphone, Puzzle, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { cn } from '@/lib/utils';
 
+const NEW_BADGE_DAYS = 14;
+
+function isNewComponent(since?: string): boolean {
+  if (!since) return false;
+  const sinceDate = new Date(`${since}T00:00:00`);
+  if (Number.isNaN(sinceDate.getTime())) return false;
+  const days = (Date.now() - sinceDate.getTime()) / (1000 * 60 * 60 * 24);
+  return days >= 0 && days <= NEW_BADGE_DAYS;
+}
+
 export interface SidebarCategory {
   label: string;
-  items: { name: string; title: string }[];
+  items: { name: string; title: string; since?: string }[];
 }
 
 interface ShowcaseSidebarProps {
   categories: SidebarCategory[];
   active: string;
   onSelect: (name: string) => void;
+  whatsNewActive?: boolean;
+  onSelectWhatsNew?: () => void;
 }
 
-export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSidebarProps) {
+export function ShowcaseSidebar({
+  categories,
+  active,
+  onSelect,
+  whatsNewActive = false,
+  onSelectWhatsNew,
+}: ShowcaseSidebarProps) {
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
       <div className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
@@ -29,6 +47,22 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
 
       <div className="px-3 pt-3">
         <ul className="space-y-0.5">
+          {onSelectWhatsNew && (
+            <li>
+              <button
+                onClick={onSelectWhatsNew}
+                className={cn(
+                  'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+                  whatsNewActive
+                    ? 'bg-primary/10 font-medium text-primary'
+                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                )}
+              >
+                <Megaphone className="size-3.5 shrink-0 text-primary" />
+                <span className="flex-1">What&apos;s new</span>
+              </button>
+            </li>
+          )}
           <li>
             <button
               onClick={() => onSelect('ai-integration')}
@@ -93,13 +127,21 @@ export function ShowcaseSidebar({ categories, active, onSelect }: ShowcaseSideba
                     <button
                       onClick={() => onSelect(item.name)}
                       className={cn(
-                        'w-full rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+                        'flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
                         active === item.name
                           ? 'bg-primary/10 font-medium text-primary'
                           : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                       )}
                     >
-                      {item.title}
+                      <span className="truncate">{item.title}</span>
+                      {isNewComponent(item.since) && (
+                        <span
+                          aria-label="New"
+                          className="shrink-0 rounded bg-primary/15 px-1.5 py-0 text-[10px] font-semibold uppercase leading-4 tracking-wide text-primary"
+                        >
+                          New
+                        </span>
+                      )}
                     </button>
                   )}
                 </li>

@@ -8,6 +8,7 @@ import { SkillsView } from './skills-view';
 
 const AI_INTEGRATION_KEY = 'ai-integration';
 const SKILLS_KEY = 'skills';
+const WHATS_NEW_KEY = 'whats-new';
 
 import ButtonDemo from './demos/button-demo';
 import InputDemo from './demos/input-demo';
@@ -84,6 +85,7 @@ import ThemeToggleDemo from './demos/theme-toggle-demo';
 import SettingsRowDemo from './demos/settings-row-demo';
 import TagInputDemo from './demos/tag-input-demo';
 import InboxMenuDemo from './demos/inbox-menu-demo';
+import { WhatsNewView } from './whats-new-view';
 import ColorsDemo from './demos/colors-demo';
 import TypographyDemo from './demos/typography-demo';
 import TonesDemo from './demos/tones-demo';
@@ -93,6 +95,10 @@ interface ComponentMeta {
   title: string;
   description: string;
   demo: React.ComponentType;
+  // ISO date (YYYY-MM-DD) when the component first shipped. Drives the "New"
+  // sidebar badge for NEW_BADGE_DAYS. Leave undefined for components that have
+  // been around a while.
+  since?: string;
 }
 
 const COMPONENTS: ComponentMeta[] = [
@@ -332,6 +338,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Icon-only dropdown that switches the app between light, dark, and system themes. Persists the choice in localStorage and follows the OS preference when set to system.',
     demo: ThemeToggleDemo,
+    since: '2026-05-14',
   },
   {
     name: 'settings-row',
@@ -339,6 +346,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Pure-layout row for settings pages: title + description + helper + control + trailing slot. Inline or stacked layout. Opt-in per-row Save / Cancel via the showSave prop; default behavior is layout-only so the parent page can own a batched save flow.',
     demo: SettingsRowDemo,
+    since: '2026-05-14',
   },
   {
     name: 'tag-input',
@@ -346,6 +354,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Free-form-and/or-allowlist multi-tag input. Type to add, Enter/comma to commit, Backspace to remove the last chip. Optional suggestions enable an autocomplete popover; allowFreeForm={false} locks to the suggestion list. Supports max, validate, custom delimiters.',
     demo: TagInputDemo,
+    since: '2026-05-14',
   },
   {
     name: 'inbox-menu',
@@ -353,6 +362,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Header dropdown notification center: Bell trigger with an unread-count Badge, a scrollable popover list of notifications, an empty state when empty, and an optional "View all" footer. Caller passes items + onMarkAllRead + onItemClick.',
     demo: InboxMenuDemo,
+    since: '2026-05-14',
   },
   {
     name: 'command',
@@ -720,6 +730,7 @@ function getHashComponent() {
   const hash = window.location.hash.replace('#/', '');
   if (hash === AI_INTEGRATION_KEY) return AI_INTEGRATION_KEY;
   if (hash === SKILLS_KEY) return SKILLS_KEY;
+  if (hash === WHATS_NEW_KEY) return WHATS_NEW_KEY;
   const allNames = COMPONENTS.map((c) => c.name);
   return allNames.includes(hash) ? hash : 'button';
 }
@@ -762,7 +773,13 @@ export default function ShowcaseApp() {
   return (
     <TooltipProvider>
       <div className="flex h-screen bg-background text-foreground">
-        <ShowcaseSidebar categories={CATEGORIES} active={active} onSelect={handleSelect} />
+        <ShowcaseSidebar
+          categories={CATEGORIES}
+          active={active}
+          onSelect={handleSelect}
+          whatsNewActive={active === WHATS_NEW_KEY}
+          onSelectWhatsNew={() => handleSelect(WHATS_NEW_KEY)}
+        />
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex h-12 shrink-0 items-center border-b bg-background px-4">
             <div className="relative w-full max-w-md">
@@ -833,6 +850,10 @@ export default function ShowcaseApp() {
             ) : active === SKILLS_KEY ? (
               <div className="mx-auto max-w-4xl px-8 py-8">
                 <SkillsView />
+              </div>
+            ) : active === WHATS_NEW_KEY ? (
+              <div className="mx-auto max-w-4xl px-8 py-8">
+                <WhatsNewView />
               </div>
             ) : component ? (
               <div className="mx-auto max-w-4xl px-8 py-8">
