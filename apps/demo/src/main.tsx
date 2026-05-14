@@ -1,9 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { applyStoredTheme } from '@/components/ui/theme-toggle';
 import './index.css';
 import ShowcaseApp from './showcase/showcase-app';
 import SaasApp from './saas/saas-app';
 import PureApp from './pure/pure-app';
+
+applyStoredTheme();
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pathname = window.location.pathname.replace(/\/$/, '');

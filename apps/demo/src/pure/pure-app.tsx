@@ -20,7 +20,7 @@ import { AppShell } from '@/components/ui/app-shell';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { RouterProvider, useRouter } from '../saas/router';
 import { StoreProvider, useStore } from '../saas/store';
 import { ProjectFormModal } from '../saas/project-form-modal';

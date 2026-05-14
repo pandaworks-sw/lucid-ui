@@ -80,6 +80,7 @@ import IconBadgeDemo from './demos/icon-badge-demo';
 import CardGroupDemo from './demos/card-group-demo';
 import InlineEditableFieldDemo from './demos/inline-editable-field-demo';
 import MetaEditPillDemo from './demos/meta-edit-pill-demo';
+import ThemeToggleDemo from './demos/theme-toggle-demo';
 import ColorsDemo from './demos/colors-demo';
 import TypographyDemo from './demos/typography-demo';
 import TonesDemo from './demos/tones-demo';
@@ -321,6 +322,13 @@ const COMPONENTS: ComponentMeta[] = [
     title: 'Dropdown Menu',
     description: 'A menu of actions or options triggered by a button.',
     demo: DropdownMenuDemo,
+  },
+  {
+    name: 'theme-toggle',
+    title: 'Theme Toggle',
+    description:
+      'Icon-only dropdown that switches the app between light, dark, and system themes. Persists the choice in localStorage and follows the OS preference when set to system.',
+    demo: ThemeToggleDemo,
   },
   {
     name: 'command',
@@ -674,7 +682,7 @@ const CATEGORIES: SidebarCategory[] = [
   },
   {
     label: 'Utilities',
-    items: COMPONENTS.filter((c) => ['pattern-background'].includes(c.name)).sort((a, b) =>
+    items: COMPONENTS.filter((c) => ['pattern-background', 'theme-toggle'].includes(c.name)).sort((a, b) =>
       a.title.localeCompare(b.title)
     ),
   },

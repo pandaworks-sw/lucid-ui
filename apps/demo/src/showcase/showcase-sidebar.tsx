@@ -1,5 +1,5 @@
 import { ExternalLink, Puzzle, Sparkles } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { cn } from '@/lib/utils';
 
 export interface SidebarCategory {

@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-14
+
+### Added
+
+- **`ThemeToggle` component.** [packages/registry/registry/default/theme-toggle/theme-toggle.tsx](packages/registry/registry/default/theme-toggle/theme-toggle.tsx) — icon-only `DropdownMenu` trigger that switches the app between three theme modes (`light` / `dark` / `system`). The active mode is reflected by the trigger icon (`Sun` / `Moon` / `Monitor`); the menu uses `DropdownMenuRadioGroup` + `DropdownMenuRadioItem` so only one mode is checked at a time. The choice is persisted to `localStorage` under a configurable key (`storageKey`, default `"lucid-theme"`) and re-applied on mount via `document.documentElement.classList.toggle('dark', …)`. When the mode is `system`, the component subscribes to `window.matchMedia('(prefers-color-scheme: dark)')` so the page also reacts live to OS preference changes. Props: `storageKey`, `align` (forwarded to `DropdownMenuContent`), and all remaining `ButtonProps` except `onClick` / `children` / `asChild` / `action` / `icon` / `loading` (those are owned by the component). Defaults: `variant="outline"`, `size="icon"`, `align="end"`. Also exports a `applyStoredTheme(storageKey?)` named helper that consumers can call once in `main.tsx` before React mounts to avoid a flash of incorrect theme. Replaces the hand-rolled 2-state `apps/demo/src/components/theme-toggle.tsx` that was being reused across the demo's three apps (showcase / saas / pure) — that file is deleted and all four call sites (`App.tsx`, `showcase-sidebar.tsx`, `saas-app.tsx`, `pure-app.tsx`) now import the registry component. Closes a `pure/` registry gap. Reference doc: [docs/theme-toggle.md](public/docs/theme-toggle.md). Non-breaking.
+
 ## 2026-05-12
 
 ### Changed

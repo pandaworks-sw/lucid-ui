@@ -170,6 +170,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Stepper | Multi-step progress (horizontal or vertical); descriptions only on current step | [layout.md](docs/layout.md) |
 | Separator | Horizontal or vertical divider | [layout.md](docs/layout.md) |
 | Breadcrumb | Navigation breadcrumb trail | [layout.md](docs/layout.md) |
+| ThemeToggle | Icon-only dropdown that switches the app between light, dark, and system themes; persists the choice in localStorage; ships an `applyStoredTheme()` helper for app-entry no-FOUC bootstrap | [theme-toggle.md](docs/theme-toggle.md) |
 
 ### Forms
 
@@ -296,6 +297,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Toast notifications | Sonner (toast) |
 | Status indicator | Badge |
 | Loading placeholder | Skeleton |
+| Light/dark/system theme switcher | ThemeToggle |
 | Full-screen loading state | LoadingPage |
 | Offline/connectivity warning | ConnectionBanner |
 | Error boundary fallback | ErrorFallback |
@@ -335,6 +337,18 @@ Each entry contains:
 - **action**: what consuming projects must do
 - **breaking**: whether this is a breaking change
 - **details**: concise description of the change
+
+---
+
+### 2026-05-14
+
+#### theme-toggle — new component (light/dark/system theme switcher)
+
+- **component**: ThemeToggle
+- **change**: added
+- **breaking**: no
+- **details**: New `ThemeToggle` ships at [packages/registry/registry/default/theme-toggle/theme-toggle.tsx](packages/registry/registry/default/theme-toggle/theme-toggle.tsx). Icon-only `DropdownMenu` trigger with three radio items — `light` (Sun), `dark` (Moon), `system` (Monitor). The active mode is reflected by the trigger icon; selecting a menu item updates `localStorage` (configurable `storageKey`, default `"lucid-theme"`) and toggles the `.dark` class on `<html>`. When the mode is `system`, the component listens for `prefers-color-scheme` changes so the page tracks the OS preference live. Props: `storageKey`, `align` (forwarded to `DropdownMenuContent`, default `"end"`), and all remaining `ButtonProps` except `onClick` / `children` / `asChild` / `action` / `icon` / `loading`. Defaults: `variant="outline"`, `size="icon"`. Also exports a named helper `applyStoredTheme(storageKey?)` that consumers can call in their `main.tsx` before React mounts to avoid a flash of incorrect theme. The demo's hand-rolled 2-state `theme-toggle.tsx` is removed; the four demo call sites (`App.tsx`, `showcase-sidebar.tsx`, `saas-app.tsx`, `pure-app.tsx`) now import the registry export, which closes the pure-showcase `ThemeToggle` registry gap.
+- **action**: optional — consumers wanting a richer in-product theme switcher can import `ThemeToggle` and (if they want no-FOUC bootstrap) call `applyStoredTheme()` in their app entry before `createRoot(...).render(<App />)`. Existing import sites are unaffected — `ThemeToggle` is a net-new export and nothing else changed.
 
 ---
 

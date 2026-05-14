@@ -65,6 +65,7 @@ export * from '../registry/default/switch';
 export * from '../registry/default/table';
 export * from '../registry/default/tabs';
 export * from '../registry/default/textarea';
+export * from '../registry/default/theme-toggle';
 export * from '../registry/default/timeline';
 export * from '../registry/default/toggle';
 export * from '../registry/default/toggle-group';

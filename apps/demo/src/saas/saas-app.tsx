@@ -26,7 +26,7 @@ import {
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { toast } from 'sonner';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { RouterProvider, useRouter } from './router';
 import { StoreProvider, useStore } from './store';
 import { Dashboard } from './dashboard';
