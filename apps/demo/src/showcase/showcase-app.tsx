@@ -82,6 +82,7 @@ import InlineEditableFieldDemo from './demos/inline-editable-field-demo';
 import MetaEditPillDemo from './demos/meta-edit-pill-demo';
 import ThemeToggleDemo from './demos/theme-toggle-demo';
 import SettingsRowDemo from './demos/settings-row-demo';
+import TagInputDemo from './demos/tag-input-demo';
 import ColorsDemo from './demos/colors-demo';
 import TypographyDemo from './demos/typography-demo';
 import TonesDemo from './demos/tones-demo';
@@ -337,6 +338,13 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Pure-layout row for settings pages: title + description + helper + control + trailing slot. Inline or stacked layout. Opt-in per-row Save / Cancel via the showSave prop; default behavior is layout-only so the parent page can own a batched save flow.',
     demo: SettingsRowDemo,
+  },
+  {
+    name: 'tag-input',
+    title: 'Tag Input',
+    description:
+      'Free-form-and/or-allowlist multi-tag input. Type to add, Enter/comma to commit, Backspace to remove the last chip. Optional suggestions enable an autocomplete popover; allowFreeForm={false} locks to the suggestion list. Supports max, validate, custom delimiters.',
+    demo: TagInputDemo,
   },
   {
     name: 'command',
@@ -625,6 +633,7 @@ const CATEGORIES: SidebarCategory[] = [
         'slider',
         'split-button',
         'switch',
+        'tag-input',
         'textarea',
       ].includes(c.name)
     ).sort((a, b) => a.title.localeCompare(b.title)),

@@ -200,6 +200,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | SelectableCard | Card-based single/multi selection | [forms.md](docs/forms.md) |
 | FilterBar | FilterButton trigger + ActiveFilters chips | [filter-bar.md](docs/filter-bar.md) |
 | SettingsRow | Pure-layout row for /settings/* pages: title + description + helper + control + trailing slot. Inline or stacked layout. Opt-in per-row Save / Cancel via `showSave` so the parent page can run a batched save flow when `showSave` is false (the default) | [settings-row.md](docs/settings-row.md) |
+| TagInput | Free-form-and/or-allowlist multi-tag input. Type + Enter/comma to commit, Backspace to remove the last chip. Optional `suggestions` opens an autocomplete popover; `allowFreeForm={false}` locks to the suggestion list. Supports `max`, `validate`, custom `delimiters` | [tag-input.md](docs/tag-input.md) |
 
 ### Data Display
 
@@ -300,6 +301,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Loading placeholder | Skeleton |
 | Light/dark/system theme switcher | ThemeToggle |
 | Settings page row (label + control + helper + optional save) | SettingsRow |
+| Multi-tag input (free-form, suggestions, or both) | TagInput |
 | Full-screen loading state | LoadingPage |
 | Offline/connectivity warning | ConnectionBanner |
 | Error boundary fallback | ErrorFallback |
@@ -343,6 +345,14 @@ Each entry contains:
 ---
 
 ### 2026-05-14
+
+#### tag-input — new component (free-form-and/or-allowlist multi-tag input)
+
+- **component**: TagInput
+- **change**: added
+- **breaking**: no
+- **details**: New `TagInput` ships at [packages/registry/registry/default/tag-input/tag-input.tsx](packages/registry/registry/default/tag-input/tag-input.tsx). Controlled `string[]` multi-tag input — the user types in an inline input, `Enter` or `,` commits a chip (configurable via `delimiters`), `Backspace` on an empty input removes the last chip. Each committed value renders as a `Badge variant="secondary"` with a built-in × remove button (`aria-label="Remove <tag>"`). Three modes coexist in one component: free-form (default), free-form + suggestions (an autocomplete popover anchored to the wrapper opens as the user types, filtered against already-committed values), and allowlist-only (`suggestions` + `allowFreeForm={false}` blocks free-form commits with an inline error). Optional `max` caps the list; optional `validate(value): string | null` blocks invalid commits with an inline error. Commas inside pasted text split into multiple tags. Duplicates and empty strings are blocked silently. Props: `value`, `onChange`, `suggestions`, `allowFreeForm`, `max`, `validate`, `delimiters`, `placeholder`, `disabled`, `className`, `name`, `id`, `aria-invalid`, `aria-describedby`. The wrapper element matches the `Input` chrome (border, shadow, focus ring, `bg-input-bg`) and receives `data-slot="tag-input"`. Built on `Badge` + `Popover` (no Command — the suggestion list is a flat `<button>` list to avoid stealing focus from the inline input).
+- **action**: optional — projects with hand-rolled "chip rows + free-form input" combos (skills, recipients, labels, dimensions) can migrate to `TagInput`. Decide between SelectPicker (`mode="multiple"`, fixed list, no free-form) vs TagInput (free-form OR mixed) using the [decision guide](docs/decision-guide.md). Net-new API, nothing else changed.
 
 #### settings-row — new component (pure-layout row for /settings/* pages)
 
