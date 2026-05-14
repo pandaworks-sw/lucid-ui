@@ -31,6 +31,7 @@ export * from '../registry/default/expandable-text';
 export * from '../registry/default/filter-bar';
 export * from '../registry/default/form';
 export * from '../registry/default/icon-badge';
+export * from '../registry/default/inbox-menu';
 export * from '../registry/default/inline-editable-field';
 export * from '../registry/default/input';
 export * from '../registry/default/label';

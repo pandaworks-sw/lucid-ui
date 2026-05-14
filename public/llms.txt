@@ -171,6 +171,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | Separator | Horizontal or vertical divider | [layout.md](docs/layout.md) |
 | Breadcrumb | Navigation breadcrumb trail | [layout.md](docs/layout.md) |
 | ThemeToggle | Icon-only dropdown that switches the app between light, dark, and system themes; persists the choice in localStorage; ships an `applyStoredTheme()` helper for app-entry no-FOUC bootstrap | [theme-toggle.md](docs/theme-toggle.md) |
+| InboxMenu | Header-level notification center. Bell trigger with an unread-count badge, scrollable popover list of notifications, optional "Mark all read" + "View all" links. Controlled via `items: InboxItem[]` + callbacks | [inbox-menu.md](docs/inbox-menu.md) |
 
 ### Forms
 
@@ -302,6 +303,7 @@ For **variant / tone / surface / size choices** within a chosen component (e.g. 
 | Light/dark/system theme switcher | ThemeToggle |
 | Settings page row (label + control + helper + optional save) | SettingsRow |
 | Multi-tag input (free-form, suggestions, or both) | TagInput |
+| Header notification center (bell + unread badge + list) | InboxMenu |
 | Full-screen loading state | LoadingPage |
 | Offline/connectivity warning | ConnectionBanner |
 | Error boundary fallback | ErrorFallback |
@@ -345,6 +347,14 @@ Each entry contains:
 ---
 
 ### 2026-05-14
+
+#### inbox-menu — new component (header notification center)
+
+- **component**: InboxMenu
+- **change**: added
+- **breaking**: no
+- **details**: New `InboxMenu` ships at [packages/registry/registry/default/inbox-menu/inbox-menu.tsx](packages/registry/registry/default/inbox-menu/inbox-menu.tsx). Header-level notification center: icon-only Bell `Button` trigger with a `destructive`-variant `Badge` overlaid on the top-right corner showing the unread count (derived from `items.filter(i => !i.read).length`, capped at `99+` via `maxBadgeCount`). The popover has three slots: a header with the `triggerLabel` ("Notifications" by default) + an optional "Mark all read" link (renders only when `onMarkAllRead` is provided AND unread > 0), a `max-h-96` divide-y scrollable list, and an optional "View all" footer (`viewAllHref` for an `<a>` or `onViewAllClick` for a `<button>`). Each `InboxItem` has `id`, `title`, optional `description` (2-line clamp), `timestamp` (pre-formatted by the caller), `read`, an optional leading visual (`avatarUrl` / `avatarFallback` OR `icon` ElementType OR a small primary dot for unread items with no visual), and an optional `href` (renders the row as an `<a>`) or `onClick`. The trigger has a dynamic `aria-label` that reflects the unread count (`"Notifications (3 unread)"`) so the visual badge can stay `aria-hidden`. When `items` is empty, the popover renders an `EmptyState` (`size="sm"`); `emptyTitle` / `emptyDescription` overridable. `disabled` blocks the popover from opening AND hides the unread badge. Built on `Popover` + `Button` + `Badge` + `Avatar` + `EmptyState` + `Separator` — no new primitives.
+- **action**: optional — projects with hand-rolled "bell + badge + dropdown list" components (App headers, ticket pages, etc.) can migrate to `InboxMenu`. The component owns no state; pass `items` from your data source and re-pass a new array on mutations. Net-new API; nothing else changed.
 
 #### tag-input — new component (free-form-and/or-allowlist multi-tag input)
 

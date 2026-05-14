@@ -83,6 +83,7 @@ import MetaEditPillDemo from './demos/meta-edit-pill-demo';
 import ThemeToggleDemo from './demos/theme-toggle-demo';
 import SettingsRowDemo from './demos/settings-row-demo';
 import TagInputDemo from './demos/tag-input-demo';
+import InboxMenuDemo from './demos/inbox-menu-demo';
 import ColorsDemo from './demos/colors-demo';
 import TypographyDemo from './demos/typography-demo';
 import TonesDemo from './demos/tones-demo';
@@ -347,6 +348,13 @@ const COMPONENTS: ComponentMeta[] = [
     demo: TagInputDemo,
   },
   {
+    name: 'inbox-menu',
+    title: 'Inbox Menu',
+    description:
+      'Header dropdown notification center: Bell trigger with an unread-count Badge, a scrollable popover list of notifications, an empty state when empty, and an optional "View all" footer. Caller passes items + onMarkAllRead + onItemClick.',
+    demo: InboxMenuDemo,
+  },
+  {
     name: 'command',
     title: 'Command',
     description: 'A command menu component built on cmdk for searchable lists and command palettes.',
@@ -602,7 +610,9 @@ const CATEGORIES: SidebarCategory[] = [
   {
     label: 'Layout',
     items: COMPONENTS.filter((c) =>
-      ['app-shell', 'card-group', 'detail-page', 'page-header', 'empty-state'].includes(c.name)
+      ['app-shell', 'card-group', 'detail-page', 'page-header', 'empty-state', 'inbox-menu', 'theme-toggle'].includes(
+        c.name
+      )
     ).sort((a, b) => a.title.localeCompare(b.title)),
   },
   {
@@ -700,7 +710,7 @@ const CATEGORIES: SidebarCategory[] = [
   },
   {
     label: 'Utilities',
-    items: COMPONENTS.filter((c) => ['pattern-background', 'theme-toggle'].includes(c.name)).sort((a, b) =>
+    items: COMPONENTS.filter((c) => ['pattern-background'].includes(c.name)).sort((a, b) =>
       a.title.localeCompare(b.title)
     ),
   },
