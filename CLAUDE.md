@@ -51,12 +51,15 @@ Changes to source components are immediately reflected in the demo — no build 
 
 ## Changelogs
 
-**Every change must be recorded in both changelogs before committing.**
+**Every change must be recorded in all three release surfaces before committing.**
 
 - `CHANGELOG.md` -- human-readable, follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
 - `public/llms.txt` -- contains a "Changelog" section at the bottom with machine-readable per-component entries (`change`, `breaking`, `details`, `action` steps) for AI agents consuming this library
+- `apps/demo/src/showcase/whats-new-view.tsx` -- the `ENTRIES` array drives the in-demo "What's new" page. Add one entry per user-visible change with `date` (today, ISO), `componentName` (kebab-case, must match the route hash), `title`, `summary` (one-paragraph plain-English description), and `kind` (`added` / `changed` / `fixed`). For brand-new components, also set `since: '<today-ISO>'` on the `ComponentMeta` entry in `apps/demo/src/showcase/showcase-app.tsx` so the sidebar "New" badge appears for the next 14 days.
 
-When committing, update both files under a dated heading for today (e.g., `## 2026-04-08`). A commit is considered a release — do not use `[Unreleased]`.
+When committing, update all three under a dated heading for today (e.g., `## 2026-04-08`). A commit is considered a release — do not use `[Unreleased]`.
+
+**Release gate:** the `/release` skill blocks the version bump until every surface above carries today's entries. Drift in any one of them stops the release — no auto-fill, no silent skip.
 
 ## Adding a Component
 

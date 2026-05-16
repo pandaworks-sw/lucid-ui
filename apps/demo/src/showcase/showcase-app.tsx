@@ -261,6 +261,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'Two-line primary cell for table rows — leading icon + eyebrow + title with a flex-wrap meta strip below. Pairs with the xs Badge size and the MetaDivider helper for dense list-style tables (tickets, projects, templates).',
     demo: TableListCellDemo,
+    since: '2026-05-16',
   },
   {
     name: 'card',

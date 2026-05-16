@@ -12,6 +12,22 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-05-16',
+    componentName: 'table-list-cell',
+    title: 'TableListCell',
+    summary:
+      'Two-line primary cell for Table rows: leading icon + eyebrow + title on the first line, optional flex-wrap meta strip below. Standardises the ticket / project / template listing row pattern. Ships with the sibling MetaDivider helper for separating meta groups.',
+    kind: 'added',
+  },
+  {
+    date: '2026-05-16',
+    componentName: 'badge',
+    title: 'Badge size variant',
+    summary:
+      'Badge gains a `size` prop (`default` | `xs`). `xs` produces a dense chip (`h-5 px-1.5 text-[11px] leading-none`) for meta strips inside table rows. Pairs with TableListCell. Existing call sites unaffected — `size` defaults to `default`.',
+    kind: 'changed',
+  },
+  {
     date: '2026-05-14',
     componentName: 'inbox-menu',
     title: 'InboxMenu',
