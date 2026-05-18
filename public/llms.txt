@@ -349,6 +349,14 @@ Each entry contains:
 
 ### 2026-05-18
 
+#### card — CardTitle default `size` flipped from `lg` to `sm` (BREAKING)
+
+- **component**: CardTitle
+- **change**: modified
+- **breaking**: yes
+- **details**: The `size` prop on `CardTitle` (`sm` | `md` | `lg`) now defaults to `sm` (16px) instead of `lg` (24px). The values themselves are unchanged. The motivation is that the SaaS-default product card title across consumers is 16px, not 24px — making `sm` the default removes the per-card `size="sm"` boilerplate. Hero / single-card surfaces that relied on the previous 24px title must now opt in explicitly with `size="lg"`. Callers that already pass `size` are unaffected. Contrast unchanged — typography only. The JSDoc on `CardTitleProps['size']` is also updated so editor hover help reflects the new default.
+- **action**: required — search consuming projects for `<CardTitle>` (and `<CardTitle className=…>`) call sites with NO `size` prop. For each, decide whether the card is a hero / single-card surface (add `size="lg"` to keep the 24px look) or a standard product card (do nothing — the new `sm` default is the SaaS norm). A quick way to find candidates: `grep -rE "<CardTitle( [^>]*)?>" --include="*.tsx"` and audit hits that do not contain `size=`.
+
 #### select-picker — new `collapseSelectedAt` threshold for multi-mode triggers
 
 - **component**: SelectPicker (mode="multiple")

@@ -13,6 +13,14 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-05-18',
+    componentName: 'card',
+    title: 'CardTitle default size flipped to sm (BREAKING)',
+    summary:
+      'CardTitle now defaults to size="sm" (16px) instead of size="lg" (24px). Matches the SaaS-default product card title used across consumers. Hero / single-card surfaces must now opt in with size="lg" to keep the previous 24px title. Callers that already pass size are unaffected.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-05-18',
     componentName: 'select-picker',
     title: 'SelectPicker collapseSelectedAt threshold',
     summary:

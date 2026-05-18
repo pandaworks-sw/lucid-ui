@@ -106,54 +106,54 @@ export default function CardDemo() {
         title="Title Sizes"
         code={`<Card>
   <CardHeader>
-    <CardTitle size="sm">Dense tile</CardTitle>
-    <CardDescription>16px — for tile-sized cards in dense grids.</CardDescription>
+    <CardTitle>Standard card</CardTitle>
+    <CardDescription>16px (default size="sm") — for product cards, dense grids, tile-sized cards.</CardDescription>
   </CardHeader>
 </Card>
 
 <Card>
   <CardHeader>
-    <CardTitle size="md">Standard card</CardTitle>
-    <CardDescription>18px — for product cards in dashboards or detail pages.</CardDescription>
+    <CardTitle size="md">Dashboard card</CardTitle>
+    <CardDescription>18px — slightly more prominent dashboard / detail page cards.</CardDescription>
   </CardHeader>
 </Card>
 
 <Card>
   <CardHeader>
-    <CardTitle>Prominent surface</CardTitle>
-    <CardDescription>24px (default size="lg") — for hero / single-card surfaces.</CardDescription>
+    <CardTitle size="lg">Hero surface</CardTitle>
+    <CardDescription>24px — for hero / single-card surfaces.</CardDescription>
   </CardHeader>
 </Card>`}
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle size="sm">Dense tile</CardTitle>
-              <CardDescription>16px — tile-sized card.</CardDescription>
+              <CardTitle>Standard card</CardTitle>
+              <CardDescription>16px — default product card.</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                Use inside a 3- or 4-up grid where titles must stay compact.
+                The SaaS-default product card size — also fits dense 3- and 4-up grids.
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle size="md">Standard card</CardTitle>
-              <CardDescription>18px — dashboard / detail page card.</CardDescription>
+              <CardTitle size="md">Dashboard card</CardTitle>
+              <CardDescription>18px — slightly more prominent.</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                The everyday product card size — sits between dense and hero.
+                Sits between the default product card and a hero card.
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Prominent surface</CardTitle>
-              <CardDescription>24px — default; for single-card / hero surfaces.</CardDescription>
+              <CardTitle size="lg">Hero surface</CardTitle>
+              <CardDescription>24px — for single-card / hero surfaces.</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">Use when the card is the page's primary subject.</p>

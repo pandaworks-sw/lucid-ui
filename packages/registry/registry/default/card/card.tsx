@@ -74,16 +74,16 @@ interface CardTitleProps extends HTMLAttributes<HTMLDivElement> {
   /** Optional trailing slot — typically a Badge or count. */
   trailing?: ReactNode;
   /**
-   * Title size scale. Defaults to `lg` (the historical 24px hero title).
-   * - `sm` 16px — dense card grids, tile-sized cards (e.g. color-tinted cards in a 4-up grid).
-   * - `md` 18px — standard product cards inside a dashboard or detail page.
-   * - `lg` 24px — prominent / single-card surfaces.
+   * Title size scale. Defaults to `sm` (16px, the SaaS-default product card title).
+   * - `sm` 16px — standard product cards, dense grids, tile-sized cards (default).
+   * - `md` 18px — slightly more prominent cards inside a dashboard or detail page.
+   * - `lg` 24px — hero / single-card surfaces (the historical 24px title).
    */
   size?: CardTitleSize;
 }
 
 const CardTitle = forwardRef<HTMLDivElement, CardTitleProps>(
-  ({ className, icon, trailing, size = 'lg', children, ...props }, ref) => {
+  ({ className, icon, trailing, size = 'sm', children, ...props }, ref) => {
     const hasAdornment = icon !== undefined || trailing !== undefined;
     return (
       <div
