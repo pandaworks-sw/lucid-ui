@@ -40,6 +40,18 @@ Props:
 - `searchPlaceholder?: string`
 - `emptyMessage?: string`
 - `disabled?: boolean`
+- `collapseSelectedAt?: number` -- Multiple-mode only. When the number of selected items exceeds this threshold, the trigger collapses to a single `{N} selected` badge instead of rendering one chip per selection. Useful for filter bars and dense forms where many selections would otherwise wrap the trigger across multiple lines. Default: undefined (always render per-item chips).
+
+```tsx
+// Collapse to "{N} selected" once more than 3 are picked
+<SelectPicker
+  mode="multiple"
+  value={skills}
+  onChange={setSkills}
+  options={options}
+  collapseSelectedAt={3}
+/>
+```
 
 When to use SelectPicker vs Select:
 - Select: < 10 static options, no search needed

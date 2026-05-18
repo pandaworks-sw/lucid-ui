@@ -75,6 +75,7 @@ export default function SelectPickerDemo() {
   const [subtitleValue, setSubtitleValue] = useState('');
   const [multipleValues, setMultipleValues] = useState<string[]>([]);
   const [multiIconValues, setMultiIconValues] = useState<string[]>([]);
+  const [collapseValues, setCollapseValues] = useState<string[]>(['react', 'typescript', 'nextjs', 'tailwind']);
 
   return (
     <>
@@ -246,6 +247,35 @@ const options = [
             onChange={setMultiIconValues}
             placeholder="Select fruits..."
             options={iconOptions}
+          />
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Collapse Selected at Threshold"
+        code={`<SelectPicker
+  mode="multiple"
+  value={values}
+  onChange={setValues}
+  placeholder="Select skills..."
+  options={options}
+  collapseSelectedAt={3}
+/>`}
+      >
+        <div className="grid w-full max-w-sm gap-1.5">
+          <p className="text-sm text-muted-foreground">
+            When the number of selected items exceeds{' '}
+            <code className="rounded bg-muted px-1 py-0.5">collapseSelectedAt</code>, the trigger replaces the per-item
+            chips with a single <span className="font-medium">{'{N} selected'}</span> badge. Useful when many selections
+            would push the trigger to wrap onto multiple lines (filter bars, dense forms).
+          </p>
+          <SelectPicker
+            mode="multiple"
+            value={collapseValues}
+            onChange={setCollapseValues}
+            placeholder="Select skills..."
+            options={skillOptions}
+            collapseSelectedAt={3}
           />
         </div>
       </DemoSection>

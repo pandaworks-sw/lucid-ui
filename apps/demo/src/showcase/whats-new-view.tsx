@@ -13,6 +13,14 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-05-18',
+    componentName: 'select-picker',
+    title: 'SelectPicker collapseSelectedAt threshold',
+    summary:
+      'Multi-mode SelectPicker gains a collapseSelectedAt prop. When the number of selected items exceeds the threshold, the trigger collapses the per-item chips into a single "{N} selected" badge — keeps filter-bar pickers on a single line once the selection count grows.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-05-18',
     componentName: 'avatar',
     title: 'Avatar transparent-PNG fix + blurred backdrop',
     summary:

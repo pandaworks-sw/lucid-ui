@@ -349,6 +349,14 @@ Each entry contains:
 
 ### 2026-05-18
 
+#### select-picker — new `collapseSelectedAt` threshold for multi-mode triggers
+
+- **component**: SelectPicker (mode="multiple")
+- **change**: modified
+- **breaking**: no
+- **details**: `MultipleSelectPickerProps` adds `collapseSelectedAt?: number`. When the number of currently-selected options is strictly greater than the threshold (e.g. `collapseSelectedAt={3}` and 4+ items are picked), the trigger replaces the per-item removable `Badge` chips with a single `Badge variant="secondary"` reading `{N} selected`. Same `rounded-sm px-1.5 py-0 text-xs font-normal` classes, so the trigger height is identical between expanded and collapsed states. The single badge has no × remove button — when the count exceeds the threshold, individual removal is done by opening the popover and toggling items off (keeps the trigger from acting like a chip-management surface at scale). Placeholder behaviour is unchanged (zero-selection state still renders the placeholder string). Single-mode behaviour is untouched. Pre-existing call sites without `collapseSelectedAt` see no visual or behavioural change. Contrast unchanged — the collapsed badge reuses the existing `secondary` variant.
+- **action**: optional — projects with multi-select pickers inside filter bars or dense forms (where many selections would otherwise wrap the trigger across multiple lines) can pass `collapseSelectedAt={3}` (or another threshold) to keep the trigger on a single line.
+
 #### avatar — bg-muted base + self-blurred ambient backdrop at md+ sizes
 
 - **component**: Avatar, AvatarImage

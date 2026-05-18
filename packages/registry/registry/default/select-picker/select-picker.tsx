@@ -42,6 +42,7 @@ interface MultipleSelectPickerProps extends SelectPickerBaseProps {
   mode: 'multiple';
   value: string[];
   onChange: (value: string[]) => void;
+  collapseSelectedAt?: number;
 }
 
 export type SelectPickerProps = SingleSelectPickerProps | MultipleSelectPickerProps;
@@ -88,6 +89,7 @@ function SelectPicker(props: SelectPickerProps) {
       className={className}
       open={open}
       onOpenChange={setOpen}
+      collapseSelectedAt={props.collapseSelectedAt}
     />
   );
 }
@@ -193,6 +195,7 @@ function MultiplePicker({
   className,
   open,
   onOpenChange,
+  collapseSelectedAt,
 }: {
   options: SelectPickerOption[];
   value: string[];
@@ -204,6 +207,7 @@ function MultiplePicker({
   className?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  collapseSelectedAt?: number;
 }) {
   const [localValue, setLocalValue] = useState(value);
 
@@ -212,6 +216,8 @@ function MultiplePicker({
   }, [value]);
 
   const selectedOptions = useMemo(() => options.filter((opt) => localValue.includes(opt.value)), [options, localValue]);
+
+  const shouldCollapse = typeof collapseSelectedAt === 'number' && selectedOptions.length > collapseSelectedAt;
 
   const handleToggle = (optionValue: string) => {
     const next = localValue.includes(optionValue)
@@ -245,7 +251,13 @@ function MultiplePicker({
           disabled={disabled}
         >
           <div className="flex flex-1 flex-wrap gap-1">
-            {selectedOptions.length > 0 ? (
+            {selectedOptions.length === 0 ? (
+              <span>{placeholder}</span>
+            ) : shouldCollapse ? (
+              <Badge variant="secondary" className="rounded-sm px-1.5 py-0 text-xs font-normal">
+                {selectedOptions.length} selected
+              </Badge>
+            ) : (
               selectedOptions.map((option) => (
                 <Badge key={option.value} variant="secondary" className="rounded-sm px-1.5 py-0 text-xs font-normal">
                   {option.icon && <span className="mr-1 shrink-0">{option.icon}</span>}
@@ -263,8 +275,6 @@ function MultiplePicker({
                   </button>
                 </Badge>
               ))
-            ) : (
-              <span>{placeholder}</span>
             )}
           </div>
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
