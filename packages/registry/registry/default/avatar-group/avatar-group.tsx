@@ -39,10 +39,10 @@ export interface AvatarGroupProps
 }
 
 // Each stacked avatar layers a 2px page-background ring (for punched-out separation
-// from neighbours) over a 1px hairline border (so the edge stays readable when the
+// from neighbours) over a 2px hairline border (so the edge stays readable when the
 // avatar content matches the page background — e.g. a dark transparent-PNG on a
 // dark surface). Together they give every circle a clean, defined boundary.
-const STACK_SEPARATION = 'border border-border/60 ring-2 ring-background';
+const STACK_SEPARATION = 'border-2 border-border/60 ring-2 ring-background';
 
 const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ className, max, size = 'sm', shape, children, ...props }, ref) => {

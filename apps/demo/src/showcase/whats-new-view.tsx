@@ -32,7 +32,7 @@ const ENTRIES: WhatsNewEntry[] = [
     componentName: 'avatar-group',
     title: 'AvatarGroup stacked separation',
     summary:
-      'Each stacked avatar (and the +N overflow tile) now carries a 1px hairline border on top of the existing 2px background ring, so neighbouring circles read as clearly separated even when the avatar content is close in tone to the page background. The group also forwards the resolved size prop to each child Avatar so the new AvatarImage blurred-backdrop layer gates correctly inside groups.',
+      'Each stacked avatar (and the +N overflow tile) now carries a 2px hairline border on top of the existing 2px background ring, so neighbouring circles read as clearly separated even when the avatar content is close in tone to the page background. The group also forwards the resolved size prop to each child Avatar so the new AvatarImage blurred-backdrop layer gates correctly inside groups.',
     kind: 'changed',
   },
   {

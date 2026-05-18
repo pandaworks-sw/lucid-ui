@@ -127,7 +127,7 @@ Props:
 - `size?: "xs" | "sm" | "md" | "lg" | "xl"` — tile size. Default `sm`.
 - `shape?: "circle" | "square"` — group-level shape; per-`Avatar` `shape` wins if set.
 
-Each child `Avatar`'s `size` and `className` are overridden with the group's size and stack-separation classes. Stacked avatars now carry both a 2px page-background ring (`ring-2 ring-background`) and a 1px hairline border (`border border-border/60`). The ring punches each circle out of its neighbour; the hairline keeps the edge readable when the avatar content is close in tone to the page background — e.g. dark transparent-PNG avatars on a dark surface. The blurred-backdrop layer from `AvatarImage` (`md`+ sizes) carries through to grouped avatars automatically.
+Each child `Avatar`'s `size` and `className` are overridden with the group's size and stack-separation classes. Stacked avatars now carry both a 2px page-background ring (`ring-2 ring-background`) and a 2px hairline border (`border-2 border-border/60`). The ring punches each circle out of its neighbour; the hairline keeps the edge readable when the avatar content is close in tone to the page background — e.g. dark transparent-PNG avatars on a dark surface. The blurred-backdrop layer from `AvatarImage` (`md`+ sizes) carries through to grouped avatars automatically.
 
 Sizing:
 
