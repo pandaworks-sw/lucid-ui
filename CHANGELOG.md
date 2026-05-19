@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-19
+
+### Fixed
+
+- **`Badge` soft variants are visibly more present on dark page / sidebar backgrounds.** [packages/registry/registry/default/badge/badge.tsx](packages/registry/registry/default/badge/badge.tsx) — the dark-mode chip bg for the `success`, `warning`, and `info` variants was bumped from `bg-X/20` to `bg-X/30`. A 20% chroma tint over `--background` (`stone-800`, `#1c2229`) and especially over `--sidebar-background` (`stone-900`, `#11161b`) produced ~1.3–1.5:1 chip-vs-page contrast — chips with chroma close to the bg luminance (most notably `success` green) faded into the surface. Bumping to 30% raises the chip silhouette to ~1.8–2.0:1 in both contexts while staying clearly "soft" (not a solid badge). Text-on-chip contrast was already comfortably above 4.5:1 with the soft-fg tokens — the more saturated bg only widens that margin. The `muted` variant also gained a dark-mode bg bump: `dark:bg-stone-600/60 dark:text-stone-200` replaces the previous `dark:text-stone-300` (the original `bg-muted` resolves to `stone-700` in dark, which sat ~1.3:1 against the page bg and effectively disappeared on the sidebar). Light-mode behavior is unchanged for every variant. Non-breaking.
+
 ## 2026-05-18
 
 ### Added

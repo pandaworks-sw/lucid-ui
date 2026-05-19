@@ -347,6 +347,18 @@ Each entry contains:
 
 ---
 
+### 2026-05-19
+
+#### badge — soft variants are visibly more present on dark page / sidebar backgrounds
+
+- **component**: Badge
+- **change**: modified
+- **breaking**: no
+- **details**: Dark-mode chip background for `variant="success" | "warning" | "info"` bumped from `bg-X/20` to `bg-X/30`. The previous 20% chroma tint over `--background` (`stone-800`, `#1c2229`) and `--sidebar-background` (`stone-900`, `#11161b`) measured ~1.3–1.5:1 chip-vs-page — chips whose chroma sits close to the bg luminance (most notably `success` green) faded into the surface. 30% lifts the silhouette to ~1.8–2.0:1 in both contexts while keeping the variant clearly "soft" (not a solid chip). Text-on-chip contrast was already well above 4.5:1 with the `--success-soft-fg` / `--warning-soft-fg` / `--info-soft-fg` tokens — the more saturated bg only widens that margin (`success-soft-fg` `#9fd0a2` over the new `bg-success/30` chip measures ~16:1). The `muted` variant also got a dark-mode lift: `dark:bg-stone-600/60 dark:text-stone-200` replaces the previous `dark:text-stone-300` (the original `bg-muted` resolved to `stone-700` in dark, ~1.3:1 against the page bg and effectively invisible against the sidebar). Light mode is unchanged for every variant. Pairs with the existing 2026-05-16 `size="xs"` variant — both fixes co-exist. Non-breaking.
+- **action**: none required — existing call sites pick up the improved dark-mode chip presence automatically. Consumers should NOT add a `className` override to recover the older subtler tint; if a project wanted an even softer chip in dark mode, raise a registry gap so the soft level can be promoted to a token instead of hand-tuned per-call.
+
+---
+
 ### 2026-05-18
 
 #### app-shell — branding gains optional `subtitle` slot

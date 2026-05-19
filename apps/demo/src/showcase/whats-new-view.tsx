@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-05-19',
+    componentName: 'badge',
+    title: 'Badge soft variants more visible in dark mode',
+    summary:
+      'The success / warning / info soft variants now use a 30% chroma tint (was 20%) in dark mode so chips no longer fade into the page or sidebar bg — the green success chip was the worst offender. The muted variant also got a dark-mode lift (stone-600 at 60% alpha + stone-200 text) so neutral chips like "closed" / "not started" read as proper chips on stone-800 / stone-900 surfaces. Light mode is unchanged.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-05-18',
     componentName: 'app-shell',
     title: 'AppShell branding subtitle',
