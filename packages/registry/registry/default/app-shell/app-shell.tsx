@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react';
 import { ChevronRight, ChevronsUpDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -247,15 +247,31 @@ function AppShell({
   maxWidth = 1400,
   linkComponent: Link = DefaultLink,
   contentClassName,
+  defaultSidebarOpen = true,
+  onSidebarOpenChange,
 }: AppShellProps) {
   const resolvedMaxWidth: CSSProperties | undefined =
     maxWidth === 'none' ? undefined : { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth };
 
   const isCompact = useIsCompactDesktop();
-  const [open, setOpen] = useState(true);
+  const [open, setOpenInternal] = useState(defaultSidebarOpen);
+  const initialMountRef = useRef(true);
+
+  const setOpen = useCallback(
+    (value: boolean) => {
+      setOpenInternal(value);
+      onSidebarOpenChange?.(value);
+    },
+    [onSidebarOpenChange]
+  );
+
   useEffect(() => {
+    if (initialMountRef.current) {
+      initialMountRef.current = false;
+      return;
+    }
     setOpen(!isCompact);
-  }, [isCompact]);
+  }, [isCompact, setOpen]);
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>

@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-05-21',
+    componentName: 'app-shell',
+    title: 'AppShell sidebar persistence hooks',
+    summary:
+      "AppShell gains two opt-in props — defaultSidebarOpen (initial open state seed) and onSidebarOpenChange (fires on every toggle, keyboard shortcut, or compact-desktop resize). Wire them to localStorage to remember the user's last sidebar state across page reloads. The compact-desktop auto-collapse now skips initial mount, so a stored false value survives a wide-screen reload. Non-breaking; existing call sites keep their open-by-default behaviour.",
+    kind: 'added',
+  },
+  {
     date: '2026-05-19',
     componentName: 'badge',
     title: 'Badge soft variants more visible in dark mode',

@@ -347,6 +347,18 @@ Each entry contains:
 
 ---
 
+### 2026-05-21
+
+#### app-shell — opt-in sidebar persistence hooks (`defaultSidebarOpen`, `onSidebarOpenChange`)
+
+- **component**: AppShell
+- **change**: modified
+- **breaking**: no
+- **details**: `AppShellProps` gains two new props: `defaultSidebarOpen?: boolean` (default `true`) seeds the initial open state of the sidebar on mount, and `onSidebarOpenChange?: (open: boolean) => void` fires on every state change — manual toggle via `SidebarTrigger`, the Cmd/Ctrl-B keyboard shortcut, and the compact-desktop auto-collapse on resize. Consumers wire these to `localStorage` (or any other store) to round-trip the user's preference across page reloads. Internally, AppShell switches from `useState(true)` to `useState(defaultSidebarOpen)`, and the existing compact-desktop `useEffect(() => setOpen(!isCompact), [isCompact])` now skips its first run via an `initialMountRef` — on later `isCompact` transitions it still forces collapse/expand for the responsive layout, but on initial mount the seeded value wins even when `isCompact` is `false`. Without this skip, the effect would unconditionally call `setOpen(true)` on every desktop reload and blow away a stored `false` value before the consumer could read it. The `setOpen` callback is wrapped to invoke `onSidebarOpenChange` on every change (toggle, shortcut, resize), keeping `localStorage` and component state in sync without consumer-side polling. `SidebarProvider` continues to receive `open` + `onOpenChange`, so the existing context (`useSidebar`, `SidebarTrigger`, mobile Sheet behaviour, icon-collapse classes) is untouched. Behaviour for callers that omit both new props is identical to the previous version (uncontrolled `useState(true)`, auto-collapse on compact-transition).
+- **action**: optional — for consumers that want the sidebar open/closed state to persist across reloads, seed `defaultSidebarOpen` from `localStorage` on first render and write to `localStorage` in `onSidebarOpenChange`. Example: `defaultSidebarOpen={typeof window === 'undefined' ? true : window.localStorage.getItem('sidebar:open') !== 'false'}` + `onSidebarOpenChange={(open) => window.localStorage.setItem('sidebar:open', String(open))}`. No action required for existing call sites that omit both props.
+
+---
+
 ### 2026-05-19
 
 #### badge — soft variants are visibly more present on dark page / sidebar backgrounds

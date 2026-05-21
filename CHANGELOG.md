@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-21
+
+### Added
+
+- **`AppShell` gains opt-in sidebar persistence hooks: `defaultSidebarOpen` + `onSidebarOpenChange`.** [packages/registry/registry/default/app-shell/app-shell-types.ts](packages/registry/registry/default/app-shell/app-shell-types.ts), [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx) — `AppShellProps` adds `defaultSidebarOpen?: boolean` (initial open state seed, default `true`) and `onSidebarOpenChange?: (open: boolean) => void` (fires on every state change: manual toggle, Cmd/Ctrl-B keyboard shortcut, or compact-desktop auto-collapse on resize). Together these let a consumer round-trip the sidebar open state through `localStorage` (or any other store) so the user's last preference survives a page reload. The internal compact-desktop auto-collapse effect (introduced 2025-09-28) now skips its first run via an `initialMountRef` — on subsequent `isCompact` transitions it still forces collapse / expand, but on initial mount the stored `defaultSidebarOpen` value is honoured even when `isCompact` is `false`. Previously, `useEffect(() => setOpen(!isCompact), [isCompact])` fired unconditionally on mount and overrode any seeded value, which would have made `localStorage` restoration impossible from the consumer side. Behaviour is identical for callers that omit both props (uncontrolled `useState(true)` default, plus auto-collapse on compact transitions). Non-breaking.
+
 ## 2026-05-19
 
 ### Fixed
