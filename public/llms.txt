@@ -179,7 +179,7 @@ For full API docs, props, and code examples, read the linked doc file.
 |-----------|-------------|------|
 | Button | Variants, action presets, icon, tooltip, loading | [button.md](docs/button.md) |
 | InlineEditableField | Display ↔ inline-edit toggle with built-in Save/Cancel + `editor` render prop receiving programmatic save/cancel + isSaving | [forms.md](docs/forms.md) |
-| MetaEditPill | Click-to-edit inline value pill (label + value-as-DropdownMenu trigger) for fixed option sets. Single mode (Priority / Severity / Module) with optional Clear, and multi mode (Platforms / Tags) backed by checkbox items. Falls back to plain text when `canEdit=false` | [meta-edit-pill.md](docs/meta-edit-pill.md) |
+| MetaEditPill | Click-to-edit inline value pill for fixed option sets or a single date. Single mode (Priority / Severity / Module) with optional Clear, multi mode (Platforms / Tags) backed by checkbox items, and date mode (Due / Starts) backed by a calendar popover. Falls back to plain text when `canEdit=false` | [meta-edit-pill.md](docs/meta-edit-pill.md) |
 | Input | Text input field | [forms.md](docs/forms.md) |
 | NumberInput | Controlled numeric input with min/max clamp, step-driven decimals, suffix, error state, arrow-key stepping | [forms.md](docs/forms.md) |
 | PasswordInput | Password field with a built-in show/hide eye toggle; forwards refs and accepts all native input props | [forms.md](docs/forms.md) |
@@ -346,6 +346,16 @@ Each entry contains:
 - **details**: concise description of the change
 
 ---
+
+### 2026-05-27
+
+#### meta-edit-pill — new `date` mode (inline date picker)
+
+- **component**: MetaEditPill
+- **change**: modified
+- **breaking**: no
+- **details**: `MetaEditPillProps` gains a third discriminant `mode: 'date'`. The new `MetaEditPillDateProps` shape carries `value: Date | null`, `onChange: (value: Date | null) => void`, optional `dateFormat?: string` (date-fns format, defaults to `'dd/MM/yyyy'`), and the same `allowClear` / `clearLabel` pair already supported on single mode. Under the hood the date branch swaps the `DropdownMenu` for a `Popover` containing the registry `Calendar` (single-date `react-day-picker` mode); the popover closes and commits in one step on selection. When `allowClear` is on and a date is set, a "Clear" button sits above the calendar inside the popover. `options` is now scoped to the single/multi shapes, so `MetaEditPillDateProps` does not accept it. The trigger button, `canEdit=false` fallback, `aria-label`, `disabled` greying, and the outer `<span ref>` are unchanged; existing single/multi call sites compile without changes.
+- **action**: none for existing call sites. To add a date pill: `<MetaEditPill label="Due" mode="date" value={dueDate} onChange={setDueDate} canEdit allowClear clearLabel="No due date" />`. Pass a `dateFormat` prop to override the default `'dd/MM/yyyy'` display (e.g. `dateFormat="MMM d, yyyy"`).
 
 ### 2026-05-21
 

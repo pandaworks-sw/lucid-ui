@@ -34,6 +34,8 @@ export default function MetaEditPillDemo() {
   const [severity, setSeverity] = useState<string | null>(null);
   const [moduleValue, setModuleValue] = useState<string | null>('hr');
   const [platforms, setPlatforms] = useState<string[]>(['web']);
+  const [dueDate, setDueDate] = useState<Date | null>(new Date(2026, 5, 15));
+  const [startDate, setStartDate] = useState<Date | null>(null);
 
   return (
     <>
@@ -104,6 +106,52 @@ const PRIORITY_OPTIONS = [
             options={PLATFORM_OPTIONS}
             canEdit
             onChange={setPlatforms}
+          />
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Date picker"
+        code={`<MetaEditPill
+  label="Due"
+  mode="date"
+  value={dueDate}
+  allowClear
+  clearLabel="No due date"
+  canEdit
+  onChange={setDueDate}
+/>
+
+<MetaEditPill
+  label="Starts"
+  mode="date"
+  value={startDate}
+  emptyText="Not scheduled"
+  canEdit
+  onChange={setStartDate}
+/>`}
+      >
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm">
+          <p className="w-full text-sm text-muted-foreground">
+            Use <code className="rounded bg-muted px-1">mode=&quot;date&quot;</code> for inline date fields (due date,
+            start date, target date). The trigger opens a calendar popover and commits on selection.
+          </p>
+          <MetaEditPill
+            label="Due"
+            mode="date"
+            value={dueDate}
+            allowClear
+            clearLabel="No due date"
+            canEdit
+            onChange={setDueDate}
+          />
+          <MetaEditPill
+            label="Starts"
+            mode="date"
+            value={startDate}
+            emptyText="Not scheduled"
+            canEdit
+            onChange={setStartDate}
           />
         </div>
       </DemoSection>

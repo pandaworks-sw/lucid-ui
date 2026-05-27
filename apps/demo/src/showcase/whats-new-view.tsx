@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-05-27',
+    componentName: 'meta-edit-pill',
+    title: 'MetaEditPill date mode',
+    summary:
+      'MetaEditPill gains a new mode="date" that opens a calendar popover instead of a dropdown. Pass value as Date | null and onChange as (value: Date | null) => void; the popover closes and commits on selection. Pair with allowClear / clearLabel to show a Clear button above the calendar, or override the display format with dateFormat (date-fns). Existing single / multi call sites compile without changes.',
+    kind: 'added',
+  },
+  {
     date: '2026-05-21',
     componentName: 'app-shell',
     title: 'AppShell sidebar persistence hooks',

@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-05-27
+
+### Added
+
+- **`MetaEditPill` gains a `date` mode that pops a calendar picker.** [packages/registry/registry/default/meta-edit-pill/meta-edit-pill.tsx](packages/registry/registry/default/meta-edit-pill/meta-edit-pill.tsx) — `MetaEditPillProps` adds a third discriminant `mode: 'date'`. The new `MetaEditPillDateProps` shape carries `value: Date | null`, `onChange: (value: Date | null) => void`, an optional `dateFormat?: string` (date-fns format, defaults to `'dd/MM/yyyy'`), plus the same `allowClear` / `clearLabel` pair already supported on single mode. Under the hood the date branch swaps the `DropdownMenu` for a `Popover` containing the registry `Calendar` (single-date `react-day-picker` mode); the popover closes and commits in one step on selection. When `allowClear` is on and a date is set, a "Clear" `Button variant="ghost" size="sm"` sits above the calendar inside the popover. The `options` prop is now scoped to the single / multi shapes, so `MetaEditPillDateProps` does not accept it. Trigger button, `canEdit=false` fallback, `aria-label`, `disabled` greying, and the outer `<span ref>` are unchanged; existing single / multi call sites compile without changes. Contrast unchanged — the new branch reuses existing tokens (`Calendar`, `Popover`, ghost `Button`), all of which already clear AA in both themes. Non-breaking.
+
 ## 2026-05-21
 
 ### Added

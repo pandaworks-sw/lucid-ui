@@ -1,9 +1,10 @@
 # MetaEditPill
 
 Inline click-to-edit value pill. Renders as `<label> <value>` where the value
-is a `DropdownMenu` trigger. Use for compact meta strips on detail pages where
-each field has a fixed option set (Priority, Severity, Module, Platforms,
-Tags, etc.).
+opens a `DropdownMenu` (single / multi modes) or a `Popover` with a calendar
+(date mode). Use for compact meta strips on detail pages where each field has
+a fixed option set or a single date (Priority, Severity, Module, Platforms,
+Tags, Due date, etc.).
 
 The component is presentational — wire `onChange` to your own mutation hook.
 When `canEdit` is false, it falls back to a static label / value pair so the
@@ -12,9 +13,10 @@ same JSX renders for read-only viewers.
 ## When to use
 
 - Detail-page meta strips — a line of "Priority High · Severity Major · Module
-  Payroll" with click-to-edit per value, like Jira / Linear inline fields.
+  Payroll · Due 15/06/2026" with click-to-edit per value, like Jira / Linear
+  inline fields.
 - Compact field rows where opening a full edit modal is too heavy for picking
-  one of a small set of choices.
+  one of a small set of choices, or for a single date.
 - Mixed read / write surfaces — flip `canEdit` from a permission check to
   reuse the same JSX.
 
@@ -22,22 +24,24 @@ Do not use it for:
 
 - Free-form text editing — reach for `InlineEditableField` instead.
 - Searchable picklists or > ~15 options — `SelectPicker` is a better fit.
+- Date ranges — use `DateRangePicker` instead.
 - Fields that need an explicit Save / Cancel step — the pill commits the
-  change on every dropdown selection.
+  change on every selection.
 
 ## Props
 
 | Prop | Type | Description |
 |------|------|------------|
 | `label` | `ReactNode` | Field name shown in front of the value (e.g. "Priority"). |
-| `mode` | `'single' \| 'multi'` | Discriminates the rest of the props. |
-| `value` | `string \| null` (single) or `string[]` (multi) | Currently selected value(s). |
-| `options` | `MetaEditPillOption[]` | `{ value, label }` pairs. |
-| `onChange` | `(value) => void` | Fires on every selection. Receives `string \| null` (single) or `string[]` (multi). |
+| `mode` | `'single' \| 'multi' \| 'date'` | Discriminates the rest of the props. |
+| `value` | `string \| null` (single) / `string[]` (multi) / `Date \| null` (date) | Currently selected value. |
+| `options` | `MetaEditPillOption[]` | **single / multi only.** `{ value, label }` pairs. |
+| `onChange` | `(value) => void` | Fires on every selection. Receives `string \| null` (single), `string[]` (multi), or `Date \| null` (date). |
 | `canEdit` | `boolean` | When false, renders plain label + value text without the dropdown trigger. |
 | `disabled` | `boolean` | Greys the trigger and blocks interaction (use while a mutation is in flight). |
-| `allowClear` | `boolean` | **single only.** Shows a "Clear" item at the top that fires `onChange(null)`. |
-| `clearLabel` | `string` | **single only.** Override the default "Clear" label (e.g. "No module"). |
+| `allowClear` | `boolean` | **single / date only.** Shows a "Clear" entry that fires `onChange(null)`. |
+| `clearLabel` | `string` | **single / date only.** Override the default "Clear" label (e.g. "No module", "No due date"). |
+| `dateFormat` | `string` | **date only.** `date-fns` format used to render the selected date. Defaults to `'dd/MM/yyyy'`. |
 | `emptyText` | `string` | Text shown when no value is selected. Defaults to `"Nil"`. |
 | `className` | `string` | className passthrough on the outer wrapper. |
 
@@ -88,6 +92,34 @@ const PLATFORM_OPTIONS = [
 />
 ```
 
+### Date
+
+```tsx
+<MetaEditPill
+  label="Due"
+  mode="date"
+  value={ticket.dueDate}
+  allowClear
+  clearLabel="No due date"
+  canEdit={canWrite}
+  disabled={updateTicket.isPending}
+  onChange={(next) => updateTicket.mutate({ dueDate: next })}
+/>
+```
+
+Pass a custom `dateFormat` to override the default `'dd/MM/yyyy'`:
+
+```tsx
+<MetaEditPill
+  label="Target"
+  mode="date"
+  value={ticket.targetDate}
+  dateFormat="MMM d, yyyy"
+  canEdit
+  onChange={setTarget}
+/>
+```
+
 ### Meta strip composition
 
 Use a flex wrapper to lay out multiple pills as a single meta line:
@@ -98,6 +130,7 @@ Use a flex wrapper to lay out multiple pills as a single meta line:
   <MetaEditPill label="Platforms" mode="multi" {...platformsProps} />
   <MetaEditPill label="Priority" mode="single" {...priorityProps} />
   <MetaEditPill label="Severity" mode="single" {...severityProps} />
+  <MetaEditPill label="Due" mode="date" {...dueProps} />
 </div>
 ```
 
@@ -111,5 +144,9 @@ Use a flex wrapper to lay out multiple pills as a single meta line:
 - Multi-select calls `event.preventDefault()` on each `onSelect` so the menu
   stays open between toggles — users can flip multiple checkboxes before
   closing the dropdown.
+- Date mode commits on selection and closes the popover. When `allowClear` is
+  on and a date is set, a "Clear" button sits above the calendar inside the
+  popover. Dates are passed through to `onChange` as JS `Date` objects (or
+  `null` when cleared).
 - The component does not manage its own loading state. Set `disabled` while
   your mutation is pending; the dropdown stays usable until then.
