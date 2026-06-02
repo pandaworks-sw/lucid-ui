@@ -60,7 +60,15 @@ export default function AlertDialogDemo() {
         </AlertDialog>
       </DemoSection>
 
-      <DemoSection title="Destructive Action">
+      <DemoSection
+        title="Destructive Action"
+        code={`// Pass variant="destructive" for irreversible actions —
+// no need to hand-roll destructive classes on the action button.
+<AlertDialogFooter>
+  <AlertDialogCancel>Cancel</AlertDialogCancel>
+  <AlertDialogAction variant="destructive">Remove</AlertDialogAction>
+</AlertDialogFooter>`}
+      >
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">Remove Item</Button>
@@ -74,7 +82,7 @@ export default function AlertDialogDemo() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Remove</AlertDialogAction>
+              <AlertDialogAction variant="destructive">Remove</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

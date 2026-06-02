@@ -85,10 +85,25 @@ function AlertDialogDescription({ className, ...props }: ComponentProps<typeof A
   );
 }
 
-function AlertDialogAction({ className, children, ...props }: ComponentProps<typeof AlertDialogPrimitive.Action>) {
+type AlertDialogActionVariant = 'default' | 'destructive';
+
+function AlertDialogAction({
+  className,
+  children,
+  variant = 'default',
+  ...props
+}: ComponentProps<typeof AlertDialogPrimitive.Action> & {
+  /**
+   * Visual tone of the confirm button. Use `destructive` for irreversible
+   * actions (delete, archive) instead of hand-rolling destructive classes.
+   */
+  variant?: AlertDialogActionVariant;
+}) {
   return (
     <AlertDialogPrimitive.Action asChild {...props}>
-      <Button className={className}>{children}</Button>
+      <Button variant={variant} className={className}>
+        {children}
+      </Button>
     </AlertDialogPrimitive.Action>
   );
 }

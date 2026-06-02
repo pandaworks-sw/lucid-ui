@@ -347,6 +347,16 @@ Each entry contains:
 
 ---
 
+### 2026-06-02
+
+#### alert-dialog — `AlertDialogAction` gains a `variant` prop
+
+- **component**: AlertDialogAction
+- **change**: modified
+- **breaking**: no
+- **details**: `AlertDialogAction` now accepts `variant?: 'default' | 'destructive'` (default `'default'`). The confirm action already wraps the registry `Button` via `asChild`; the new prop forwards directly to `Button`'s `variant`. `variant="destructive"` routes through `Button`'s AA-compliant `bg-destructive-aa` token. `className` still merges as before. Existing call sites that pass no `variant` render identically.
+- **action**: Replace hand-rolled destructive confirm buttons — `<AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>` — with `<AlertDialogAction variant="destructive">Delete</AlertDialogAction>`. Drop the className override.
+
 ### 2026-05-27
 
 #### meta-edit-pill — new `date` mode (inline date picker)

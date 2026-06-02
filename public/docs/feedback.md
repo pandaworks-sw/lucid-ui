@@ -40,11 +40,16 @@ import {
     </AlertDialogHeader>
     <AlertDialogFooter>
       <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Delete</AlertDialogAction>
+      <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
 ```
+
+`AlertDialogAction` accepts `variant?: "default" | "destructive"` (default `"default"`).
+Use `variant="destructive"` for irreversible actions (delete, archive) — it
+forwards to the underlying `Button`'s destructive tone, so you never hand-roll
+`className="bg-destructive ..."` on the action button.
 
 ## Sonner (Toast)
 

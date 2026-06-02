@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-02
+
+### Added
+
+- **`AlertDialogAction` gains a `variant` prop (`"default" | "destructive"`).** [packages/registry/registry/default/alert-dialog/alert-dialog.tsx](packages/registry/registry/default/alert-dialog/alert-dialog.tsx) — the confirm action already renders the registry `Button` via `asChild`; the new `variant` prop (default `"default"`) forwards straight to `Button`'s `variant`. Pass `variant="destructive"` for irreversible confirmations (delete, archive) so consumers stop hand-rolling `className="bg-destructive text-destructive-foreground hover:bg-destructive/90"` on the action button. This routes the destructive tone through `Button`'s AA-compliant `bg-destructive-aa` token instead of the raw `bg-destructive`, improving contrast. `className` still merges as before, so existing call sites that pass no `variant` are unchanged. Non-breaking.
+
 ## 2026-05-27
 
 ### Added
