@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-02',
+    componentName: 'alert-dialog',
+    title: 'AlertDialogAction variant prop',
+    summary:
+      'AlertDialogAction now accepts a variant prop ("default" | "destructive", default "default"). The confirm action already wraps the registry Button, so the new prop forwards straight through. Pass variant="destructive" for irreversible confirmations (delete, archive) instead of hand-rolling className="bg-destructive ..." — this routes the destructive tone through Button\'s AA-compliant bg-destructive-aa token. className still merges as before, so call sites that pass no variant render identically.',
+    kind: 'changed',
+  },
+  {
     date: '2026-05-27',
     componentName: 'meta-edit-pill',
     title: 'MetaEditPill date mode',
