@@ -202,6 +202,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | FilterBar | FilterButton trigger + ActiveFilters chips | [filter-bar.md](docs/filter-bar.md) |
 | SettingsRow | Pure-layout row for /settings/* pages: title + description + helper + control + trailing slot. Inline or stacked layout. Opt-in per-row Save / Cancel via `showSave` so the parent page can run a batched save flow when `showSave` is false (the default) | [settings-row.md](docs/settings-row.md) |
 | TagInput | Free-form-and/or-allowlist multi-tag input. Type + Enter/comma to commit, Backspace to remove the last chip. Optional `suggestions` opens an autocomplete popover; `allowFreeForm={false}` locks to the suggestion list. Supports `max`, `validate`, custom `delimiters` | [tag-input.md](docs/tag-input.md) |
+| RichTextEditor | tiptap-based rich text editor. Controlled `value`/`onChange` HTML string. Toolbar: bold, italic, bullet/numbered lists, links. Supports `placeholder`, `disabled`, `aria-invalid`. Pair with `RichTextContent` to display the stored HTML | [rich-text-editor.md](docs/rich-text-editor.md) |
 
 ### Data Display
 
@@ -215,6 +216,7 @@ For full API docs, props, and code examples, read the linked doc file.
 | AvatarGroup | Stack of overlapping Avatars with `max` overflow tile; inherits the Avatar shape; `size` accepts `xs \| sm \| md \| lg \| xl` | [data-display.md](docs/data-display.md) |
 | Calendar | Date calendar | [data-display.md](docs/data-display.md) |
 | Skeleton | Loading placeholder | [data-display.md](docs/data-display.md) |
+| RichTextContent | Read-only renderer for stored rich-text HTML. Sanitises with DOMPurify before render (untrusted statement HTML can never run a script). Typography matches `RichTextEditor` | [rich-text-editor.md](docs/rich-text-editor.md) |
 | Progress | Progress bar | [data-display.md](docs/data-display.md) |
 | StatCard | Dashboard stat tile (Card + AnimatedNumber + Badge) with delta chip | [data-display.md](docs/data-display.md) |
 | MultiStatCard | Two or more related stat metrics inside one card with dividers between cells; horizontal or vertical orientation | [data-display.md](docs/data-display.md) |
@@ -346,6 +348,24 @@ Each entry contains:
 - **details**: concise description of the change
 
 ---
+
+### 2026-06-08
+
+#### rich-text-editor — new component (tiptap rich text editor)
+
+- **component**: RichTextEditor
+- **change**: added
+- **breaking**: no
+- **details**: New `RichTextEditor` ships at [packages/registry/registry/default/rich-text-editor/rich-text-editor.tsx](packages/registry/registry/default/rich-text-editor/rich-text-editor.tsx). A controlled tiptap (v3) editor: `value` is an HTML string, `onChange(html)` fires on every edit. Toolbar uses the registry `Toggle` for bold, italic, bullet list, and numbered list, plus a `Popover` + `Input` to set/remove a link. Built on `@tiptap/react` + `@tiptap/starter-kit` (link configured `openOnClick: false`, links get `rel="noopener noreferrer nofollow" target="_blank"`) + `@tiptap/extension-placeholder`. Props: `value`, `onChange`, `placeholder`, `disabled` (read-only), `className`, `id`, `aria-invalid`, `aria-describedby`. The wrapper matches `Input` chrome (border, shadow, focus-within ring, `bg-input-bg`) and carries `data-slot="rich-text-editor"`. New runtime deps: `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `dompurify`.
+- **action**: After upgrading, run `pnpm install` so the new tiptap + dompurify deps resolve. Use `RichTextEditor` for authored rich text and `RichTextContent` to display the stored HTML.
+
+#### rich-text-content — new component (safe rich-text renderer)
+
+- **component**: RichTextContent
+- **change**: added
+- **breaking**: no
+- **details**: New `RichTextContent` ships at [packages/registry/registry/default/rich-text-content/rich-text-content.tsx](packages/registry/registry/default/rich-text-content/rich-text-content.tsx). Read-only renderer for stored rich-text HTML. The HTML is sanitised with DOMPurify (`sanitizeRichText`, allow-list of `p/br/strong/b/em/i/u/s/ul/ol/li/a/h1-3/blockquote/code/pre` + `href/target/rel`) BEFORE it reaches the DOM, so untrusted statement HTML can never run a script or inject unsafe markup. Props: `html`, `emptyFallback`, `className`. Shares the typography of `RichTextEditor` (via `richTextProseClass`) so authored and displayed text match. Carries `data-slot="rich-text-content"`.
+- **action**: Use `RichTextContent` to display any stored HTML statement. Do not render statement HTML with a bare `dangerouslySetInnerHTML` — route it through this component (or `sanitizeRichText`) so it is sanitised.
 
 ### 2026-06-02
 

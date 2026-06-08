@@ -12,6 +12,22 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-08',
+    componentName: 'rich-text-editor',
+    title: 'Rich Text Editor',
+    summary:
+      'New tiptap-based RichTextEditor: a controlled editor where value is an HTML string and onChange(html) fires on every edit. Toolbar for bold, italic, bullet and numbered lists, and links. Supports placeholder, disabled (read-only), and aria-invalid. Pair it with the new RichTextContent renderer to display the stored HTML.',
+    kind: 'added',
+  },
+  {
+    date: '2026-06-08',
+    componentName: 'rich-text-content',
+    title: 'Rich Text Content',
+    summary:
+      'New RichTextContent: a read-only renderer for stored rich-text HTML. It sanitises the HTML with DOMPurify before it reaches the DOM, so untrusted statement content can never run a script. Typography matches RichTextEditor, so authored and displayed text look identical. Use it instead of a bare dangerouslySetInnerHTML.',
+    kind: 'added',
+  },
+  {
     date: '2026-06-02',
     componentName: 'alert-dialog',
     title: 'AlertDialogAction variant prop',

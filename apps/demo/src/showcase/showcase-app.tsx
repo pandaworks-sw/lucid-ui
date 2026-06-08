@@ -85,6 +85,8 @@ import MetaEditPillDemo from './demos/meta-edit-pill-demo';
 import ThemeToggleDemo from './demos/theme-toggle-demo';
 import SettingsRowDemo from './demos/settings-row-demo';
 import TagInputDemo from './demos/tag-input-demo';
+import RichTextEditorDemo from './demos/rich-text-editor-demo';
+import RichTextContentDemo from './demos/rich-text-content-demo';
 import InboxMenuDemo from './demos/inbox-menu-demo';
 import { WhatsNewView } from './whats-new-view';
 import ColorsDemo from './demos/colors-demo';
@@ -364,6 +366,22 @@ const COMPONENTS: ComponentMeta[] = [
       'Free-form-and/or-allowlist multi-tag input. Type to add, Enter/comma to commit, Backspace to remove the last chip. Optional suggestions enable an autocomplete popover; allowFreeForm={false} locks to the suggestion list. Supports max, validate, custom delimiters.',
     demo: TagInputDemo,
     since: '2026-05-14',
+  },
+  {
+    name: 'rich-text-editor',
+    title: 'Rich Text Editor',
+    description:
+      'tiptap-based rich text editor. Controlled value/onChange of an HTML string. Toolbar for bold, italic, bullet and numbered lists, and links. Supports placeholder, disabled (read-only), and aria-invalid. Pair with Rich Text Content to display the stored HTML safely.',
+    demo: RichTextEditorDemo,
+    since: '2026-06-08',
+  },
+  {
+    name: 'rich-text-content',
+    title: 'Rich Text Content',
+    description:
+      'Read-only renderer for stored rich-text HTML. Sanitises the HTML with DOMPurify before it reaches the DOM, so untrusted statement content can never run a script. Typography matches the Rich Text Editor output.',
+    demo: RichTextContentDemo,
+    since: '2026-06-08',
   },
   {
     name: 'inbox-menu',
@@ -654,6 +672,7 @@ const CATEGORIES: SidebarCategory[] = [
         'search-input',
         'label',
         'radio-group',
+        'rich-text-editor',
         'select',
         'selectable-card',
         'select-picker',
@@ -685,6 +704,7 @@ const CATEGORIES: SidebarCategory[] = [
         'multi-stat-card',
         'progress',
         'progress-stat-card',
+        'rich-text-content',
         'skeleton',
         'stat-card',
         'table',

@@ -49,6 +49,8 @@ export * from '../registry/default/popover';
 export * from '../registry/default/progress';
 export * from '../registry/default/progress-stat-card';
 export * from '../registry/default/radio-group';
+export * from '../registry/default/rich-text-content';
+export * from '../registry/default/rich-text-editor';
 export * from '../registry/default/scroll-area';
 export * from '../registry/default/search-input';
 export * from '../registry/default/select';

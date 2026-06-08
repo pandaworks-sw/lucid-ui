@@ -4,6 +4,13 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-08
+
+### Added
+
+- **`RichTextEditor` — new tiptap-based rich text editor.** [packages/registry/registry/default/rich-text-editor/rich-text-editor.tsx](packages/registry/registry/default/rich-text-editor/rich-text-editor.tsx) — a controlled editor where `value` is an HTML string and `onChange(html)` fires on every edit. Toolbar uses the registry `Toggle` for bold, italic, bullet list, and numbered list, plus a `Popover` + `Input` to set or remove a link. Built on `@tiptap/react` + `@tiptap/starter-kit` (link configured `openOnClick: false`; links stored with `rel="noopener noreferrer nofollow" target="_blank"`) + `@tiptap/extension-placeholder`. Props: `value`, `onChange`, `placeholder`, `disabled` (read-only), `className`, `id`, `aria-invalid`, `aria-describedby`. The wrapper matches `Input` chrome (border, shadow, focus-within ring, `bg-input-bg`) and carries `data-slot="rich-text-editor"`. New runtime deps: `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `dompurify` — run `pnpm install` after upgrading. Non-breaking.
+- **`RichTextContent` — new safe renderer for stored rich-text HTML.** [packages/registry/registry/default/rich-text-content/rich-text-content.tsx](packages/registry/registry/default/rich-text-content/rich-text-content.tsx) — read-only renderer that sanitises the HTML with DOMPurify (`sanitizeRichText`, allow-list `p/br/strong/b/em/i/u/s/ul/ol/li/a/h1-3/blockquote/code/pre` + `href/target/rel`) **before** it reaches the DOM, so untrusted statement HTML can never run a script or inject unsafe markup. Props: `html`, `emptyFallback`, `className`. Shares `RichTextEditor`'s typography (`richTextProseClass`) so authored and displayed text match. Carries `data-slot="rich-text-content"`. Use this — not a bare `dangerouslySetInnerHTML` — to display any stored HTML statement. Non-breaking.
+
 ## 2026-06-02
 
 ### Added
