@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-15
+
+### Added
+
+- **`DetailPageSidebarGroup` — new sub-component that groups sidebar sections under a labelled heading.** [packages/registry/registry/default/detail-page/detail-page.tsx](packages/registry/registry/default/detail-page/detail-page.tsx) — wraps one or more `DetailPageSidebarSection`s under a small uppercase group heading (`label` prop), so a long detail-page sidebar can be split into clusters (e.g. State / Ownership / Dates / Links). The group adds `pt-5 first:pt-0` so groups separate with whitespace; inside a group the first section sits flush under the heading (`first:pt-0`) and the last section drops its divider (`last:border-b-0`), giving clean breaks without a trailing border. Props: `label` (required) plus standard `HTMLAttributes<HTMLDivElement>`; carries `data-slot="detail-page-sidebar-group"`. Contrast: the heading reuses the existing `text-muted-foreground` token already used by `DetailPageSidebarSection`'s label — no new color introduced, so the established sidebar contrast is unchanged. Heading renders in Inter per the heading-font policy. Non-breaking — existing `DetailPageSidebar` / `DetailPageSidebarSection` call sites are unaffected.
+
 ## 2026-06-08
 
 ### Added

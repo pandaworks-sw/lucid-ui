@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-15',
+    componentName: 'detail-page',
+    title: 'Detail Page sidebar groups',
+    summary:
+      'New DetailPageSidebarGroup wraps related DetailPageSidebarSections under a small uppercase heading, so a long detail-page sidebar can be split into labelled clusters (State / Ownership / Dates / Links). Groups separate with whitespace, the first section sits flush under the heading, and the last section drops its divider. The heading reuses the existing muted-foreground token, so contrast is unchanged. Existing sidebar usage is unaffected.',
+    kind: 'added',
+  },
+  {
     date: '2026-06-08',
     componentName: 'rich-text-editor',
     title: 'Rich Text Editor',

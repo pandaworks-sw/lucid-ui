@@ -9,6 +9,7 @@ import {
   DetailPageSidebar,
   DetailPageMetaItem,
   DetailPageSidebarSection,
+  DetailPageSidebarGroup,
 } from '@/components/ui/detail-page';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -281,6 +282,64 @@ import { Building2 } from "lucide-react"
               <DetailPageSidebarSection label="Relationships">
                 <p>None yet</p>
               </DetailPageSidebarSection>
+            </DetailPageSidebar>
+          </DetailPageMain>
+        </DetailPage>
+      </DemoSection>
+
+      <DemoSection title="Grouped sidebar sections">
+        <DetailPage>
+          <DetailPageHeader backHref="#" backLabel="Tickets" title="Login fails on SSO redirect" subtitle="T26060012" />
+          <DetailPageMain>
+            <DetailPageContent>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Description</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Wrap related sidebar sections in a <code>DetailPageSidebarGroup</code> to label and separate them
+                    when the sidebar grows long.
+                  </p>
+                </CardContent>
+              </Card>
+            </DetailPageContent>
+            <DetailPageSidebar>
+              <DetailPageSidebarGroup label="State">
+                <DetailPageSidebarSection
+                  label="Status"
+                  action={
+                    <button className="rounded-md p-1 hover:bg-accent">
+                      <Settings className="size-4" />
+                    </button>
+                  }
+                >
+                  <Badge variant="warning">In progress</Badge>
+                </DetailPageSidebarSection>
+                <DetailPageSidebarSection label="Dev status">
+                  <Badge variant="secondary">Ready for release</Badge>
+                </DetailPageSidebarSection>
+              </DetailPageSidebarGroup>
+
+              <DetailPageSidebarGroup label="Ownership">
+                <DetailPageSidebarSection
+                  label="Priority"
+                  action={
+                    <button className="rounded-md p-1 hover:bg-accent">
+                      <Settings className="size-4" />
+                    </button>
+                  }
+                >
+                  <Badge variant="destructive">High</Badge>
+                </DetailPageSidebarSection>
+                <DetailPageSidebarSection label="Support owner">Ahmad Razif</DetailPageSidebarSection>
+                <DetailPageSidebarSection label="Reporter">Siti Aminah</DetailPageSidebarSection>
+              </DetailPageSidebarGroup>
+
+              <DetailPageSidebarGroup label="Dates">
+                <DetailPageSidebarSection label="Created">Jun 12, 2026</DetailPageSidebarSection>
+                <DetailPageSidebarSection label="Updated">2h ago</DetailPageSidebarSection>
+              </DetailPageSidebarGroup>
             </DetailPageSidebar>
           </DetailPageMain>
         </DetailPage>

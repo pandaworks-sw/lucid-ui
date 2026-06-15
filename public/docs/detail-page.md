@@ -59,3 +59,34 @@ import { Settings } from "lucide-react"
 | `children` | `ReactNode` | — | Free-form section content |
 
 Extends `HTMLAttributes<HTMLDivElement>` — accepts `className`, `style`, etc.
+
+## DetailPageSidebarGroup
+
+Wraps one or more `DetailPageSidebarSection`s under an uppercase group heading. Use it to label and visually separate clusters of sections once the sidebar grows long (e.g. State / Ownership / Dates). Groups separate with whitespace; the last section inside a group drops its divider, and the first section sits flush under the heading.
+
+```tsx
+import {
+  DetailPageSidebar, DetailPageSidebarGroup, DetailPageSidebarSection,
+} from "@/components/ui/detail-page"
+
+<DetailPageSidebar>
+  <DetailPageSidebarGroup label="State">
+    <DetailPageSidebarSection label="Status">In progress</DetailPageSidebarSection>
+    <DetailPageSidebarSection label="Dev status">Ready for release</DetailPageSidebarSection>
+  </DetailPageSidebarGroup>
+
+  <DetailPageSidebarGroup label="Ownership">
+    <DetailPageSidebarSection label="Support owner">Ahmad Razif</DetailPageSidebarSection>
+    <DetailPageSidebarSection label="Reporter">Siti Aminah</DetailPageSidebarSection>
+  </DetailPageSidebarGroup>
+</DetailPageSidebar>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Group heading text (rendered uppercase, muted) |
+| `children` | `ReactNode` | — | The `DetailPageSidebarSection`s in this group |
+
+Extends `HTMLAttributes<HTMLDivElement>` — accepts `className`, `style`, etc. The heading reuses the same `text-muted-foreground` token as the section label, so it inherits the established sidebar contrast and renders in Inter (heading-font policy).

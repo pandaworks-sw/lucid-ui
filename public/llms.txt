@@ -349,6 +349,16 @@ Each entry contains:
 
 ---
 
+### 2026-06-15
+
+#### detail-page — new `DetailPageSidebarGroup` sub-component
+
+- **component**: DetailPageSidebarGroup
+- **change**: added
+- **breaking**: no
+- **details**: New `DetailPageSidebarGroup` ships at [packages/registry/registry/default/detail-page/detail-page.tsx](packages/registry/registry/default/detail-page/detail-page.tsx). It wraps one or more `DetailPageSidebarSection`s under a small uppercase group heading (`label` prop) so a long detail-page sidebar can be split into labelled clusters (e.g. State / Ownership / Dates / Links). Layout: the group uses `pt-5 first:pt-0` so groups separate with whitespace; inside a group the first section sits flush under the heading (`first:pt-0`) and the last section drops its divider (`last:border-b-0`). Props: `label` (required) plus standard `HTMLAttributes<HTMLDivElement>`; root carries `data-slot="detail-page-sidebar-group"`. The heading reuses the existing `text-muted-foreground` token (same as the section label) — no new color, contrast unchanged — and renders in Inter per the heading-font policy.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.17.0`. No code changes required for existing `DetailPageSidebar` / `DetailPageSidebarSection` usage. Wrap groups of sections in `DetailPageSidebarGroup` when the sidebar is long enough to benefit from labelled clusters.
+
 ### 2026-06-08
 
 #### rich-text-editor — new component (tiptap rich text editor)

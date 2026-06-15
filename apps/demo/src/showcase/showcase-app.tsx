@@ -144,6 +144,7 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'A compound layout for resource detail pages with header, 2-column grid, metadata sidebar, and copyable meta items.',
     demo: DetailPageDemo,
+    since: '2026-06-15',
   },
   {
     name: 'button',

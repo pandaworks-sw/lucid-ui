@@ -154,6 +154,22 @@ const DetailPageSidebarSection = forwardRef<HTMLDivElement, DetailPageSidebarSec
 );
 DetailPageSidebarSection.displayName = 'DetailPageSidebarSection';
 
+/* ------------------------------ Sidebar Group ----------------------------- */
+
+interface DetailPageSidebarGroupProps extends HTMLAttributes<HTMLDivElement> {
+  label: string;
+}
+
+const DetailPageSidebarGroup = forwardRef<HTMLDivElement, DetailPageSidebarGroupProps>(
+  ({ className, label, children, ...props }, ref) => (
+    <div data-slot="detail-page-sidebar-group" ref={ref} className={cn('pt-5 first:pt-0', className)} {...props}>
+      <h3 className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</h3>
+      <div>{children}</div>
+    </div>
+  )
+);
+DetailPageSidebarGroup.displayName = 'DetailPageSidebarGroup';
+
 /* -------------------------------- Exports --------------------------------- */
 
 export {
@@ -164,5 +180,11 @@ export {
   DetailPageSidebar,
   DetailPageMetaItem,
   DetailPageSidebarSection,
+  DetailPageSidebarGroup,
 };
-export type { DetailPageHeaderProps, DetailPageMetaItemProps, DetailPageSidebarSectionProps };
+export type {
+  DetailPageHeaderProps,
+  DetailPageMetaItemProps,
+  DetailPageSidebarSectionProps,
+  DetailPageSidebarGroupProps,
+};
