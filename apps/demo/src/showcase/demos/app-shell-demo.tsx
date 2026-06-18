@@ -197,10 +197,10 @@ import { Users, LayoutDashboard } from "lucide-react"
       <DemoSection title="Drill-down navigation (navMode)" code={DRILLDOWN_CODE}>
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Set <code className="text-xs">navMode="drilldown"</code> to turn nested groups into a sliding,
-            page-by-page menu. Clicking a group slides the panel to a new page that shows only that group's items, with a
-            back row to slide back. Groups can nest as deep as you need. The default (
-            <code className="text-xs">"accordion"</code>) keeps expanding children in place instead.
+            Set <code className="text-xs">navMode="drilldown"</code> to turn nested groups into a sliding, page-by-page
+            menu. Clicking a group slides the panel to a new page that shows only that group's items, with a back row to
+            slide back. Groups can nest as deep as you need. The default (<code className="text-xs">"accordion"</code>)
+            keeps expanding children in place instead.
           </p>
 
           {/*

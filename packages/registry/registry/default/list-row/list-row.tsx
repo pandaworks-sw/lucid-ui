@@ -80,7 +80,7 @@ const ListRow = forwardRef<HTMLDivElement | HTMLButtonElement, ListRowProps>(fun
           listRowVariants({
             density,
             surface,
-            interactive: inferredInteractive ? true : false,
+            interactive: inferredInteractive,
           }),
           className
         )}
@@ -99,7 +99,7 @@ const ListRow = forwardRef<HTMLDivElement | HTMLButtonElement, ListRowProps>(fun
         listRowVariants({
           density,
           surface,
-          interactive: inferredInteractive ? true : false,
+          interactive: inferredInteractive,
         }),
         className
       )}
