@@ -163,7 +163,7 @@ For full API docs, props, and code examples, read the linked doc file.
 |-----------|-------------|------|
 | AppShell | Data-driven app layout with collapsible sidebar, header, user menu | [app-shell.md](docs/app-shell.md) |
 | PageHeader | Page title, description, and action buttons | [layout.md](docs/layout.md) |
-| DetailPage | Resource detail/show page layout with sidebar | [detail-page.md](docs/detail-page.md) |
+| DetailPage | Resource detail/show page layout with header, non-carded sections, and sidebar | [detail-page.md](docs/detail-page.md) |
 | CardGroup | Responsive grid container for related cards (1–4 cols, auto-collapse, optional shared title + action) | [layout.md](docs/layout.md) |
 | EmptyState | Centered empty state with icon, title, description, action | [layout.md](docs/layout.md) |
 | Modal | Form modal with sticky header/footer, size variants | [modal.md](docs/modal.md) |
@@ -350,6 +350,22 @@ Each entry contains:
 ---
 
 ### 2026-06-18
+
+#### app-shell — `AppShell` gains a `navMode` prop (`"accordion" | "drilldown"`)
+
+- **component**: AppShell
+- **change**: modified
+- **breaking**: no
+- **details**: `AppShellProps` gains `navMode?: 'accordion' | 'drilldown'` (default `'accordion'`) at [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx). It controls how a nested navigation group (a `NavItem` that carries `items`) opens. `'accordion'` (the previous, now-default behaviour) expands a group's children in place, below the parent. `'drilldown'` slides the whole nav panel to a new "page" that shows only that group's children, with a back row to slide back — the iOS-Settings / multi-level menu pattern. Groups nest to any depth (Settings → Billing → …). On mount the panel opens straight to the level that holds the active item; the user's drill position is preserved across re-renders (the stack is built once, not reset when the inline `navigation` array reference changes). Implemented with an internal sliding stack — a `translateX` track with measured-height resize (`ResizeObserver`); off-screen levels carry the `inert` attribute so they stay out of the tab order. No new color tokens — it reuses the existing `sidebar` surface tokens, so AA contrast is unchanged in both light and dark modes; the back row renders `text-sidebar-foreground/70` over the sidebar background, matching the existing `SidebarGroupLabel`.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.19.0`. No code changes required — `navMode` defaults to `'accordion'`, so existing `AppShell` call sites render identically. Pass `navMode="drilldown"` when a deep menu tree reads better as a sliding, page-by-page menu than an in-place accordion.
+
+#### detail-page — new `DetailPageSection` sub-component + header/meta typography
+
+- **component**: DetailPageSection
+- **change**: added
+- **breaking**: no
+- **details**: New `DetailPageSection` ships at [packages/registry/registry/default/detail-page/detail-page.tsx](packages/registry/registry/default/detail-page/detail-page.tsx). It renders a `<section>` with a bold `text-lg font-semibold tracking-tight` title, an optional muted `text-sm text-muted-foreground` description, and an optional `action` slot (right-aligned), followed by free-form `children`. Use it to split the detail-page main column into labelled regions with the Vercel-style "section title + one-line description + action" type hierarchy, without wrapping every region in a `Card`. Props: `title` (required), `description`, `action`, `children`, plus standard `HTMLAttributes<HTMLDivElement>`; root carries `data-slot="detail-page-section"`. Title renders in Inter per the heading-font policy (it is not the `PageHeader`). In the same change, `DetailPageHeader`'s title moved from `text-xl` to `text-2xl` and `DetailPageMetaItem`'s value dropped `font-medium` (now regular weight) to complete the muted-label / plain-value hierarchy. No new color tokens — `text-foreground` (value/title) over `text-muted-foreground` (label/description) is unchanged, so AA contrast holds in both themes.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.19.0`. No code changes required — existing `DetailPage` / `DetailPageHeader` / `DetailPageMetaItem` call sites render the same, just with the larger title and regular-weight meta values. Use `DetailPageSection` inside `DetailPageContent` when you want non-carded sections with a title + description + action.
 
 #### app-shell — `AppShell` gains a `variant` prop (`"inset" | "sidebar"`)
 

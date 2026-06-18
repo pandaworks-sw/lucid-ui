@@ -1,5 +1,15 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react';
-import { ChevronRight, ChevronsUpDown } from 'lucide-react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
+import { ChevronLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useIsCompactDesktop } from '@/hooks/use-mobile';
@@ -127,6 +137,138 @@ function NavItemCollapsible({
   );
 }
 
+function isNavGroup(item: NavItem): boolean {
+  return item.type !== 'separator' && Array.isArray(item.items) && item.items.length > 0;
+}
+
+type DrilldownLevel = { label: string | null; items: NavItem[] };
+
+/** Indices of the groups to open so the first active item is on screen. `[]` = the active item lives at the root. */
+function pathToActive(items: NavItem[]): number[] | null {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (item.type === 'separator') continue;
+    if (item.active) return [];
+    if (isNavGroup(item)) {
+      const deeper = pathToActive(item.items!);
+      if (deeper) return [i, ...deeper];
+    }
+  }
+  return null;
+}
+
+function buildDrilldownStack(rootItems: NavItem[], path: number[]): DrilldownLevel[] {
+  const levels: DrilldownLevel[] = [{ label: null, items: rootItems }];
+  let current = rootItems;
+  for (const index of path) {
+    const group = current[index] as NavLinkItem;
+    levels.push({ label: group.label, items: group.items ?? [] });
+    current = group.items ?? [];
+  }
+  return levels;
+}
+
+function NavItemDrilldown({
+  navigation,
+  linkComponent: Link = DefaultLink,
+}: {
+  navigation: NavItem[];
+  linkComponent?: AppShellProps['linkComponent'];
+}) {
+  const handleClick = useMobileAutoClose();
+  const initialPath = useMemo(() => pathToActive(navigation) ?? [], [navigation]);
+  const [stack, setStack] = useState<DrilldownLevel[]>(() => buildDrilldownStack(navigation, initialPath));
+  const [active, setActive] = useState(() => initialPath.length);
+  const panelRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [height, setHeight] = useState<number>();
+
+  // The stack is built once on mount, opening straight to the active level. We do not
+  // reset it when the `navigation` array reference changes (consumers commonly pass an
+  // inline literal that is new every render) so the user's drill position is preserved.
+
+  // Drive the container height from the on-screen level so the panel resizes smoothly
+  // between levels of different lengths, and re-measures when the sidebar width changes.
+  useLayoutEffect(() => {
+    const el = panelRefs.current[active];
+    if (!el) return;
+    const measure = () => setHeight(el.scrollHeight);
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [active, stack]);
+
+  const push = (group: NavLinkItem) => {
+    setStack((prev) => [...prev.slice(0, active + 1), { label: group.label, items: group.items ?? [] }]);
+    setActive(active + 1);
+  };
+  const back = () => setActive((value) => Math.max(0, value - 1));
+
+  return (
+    <div
+      className="relative overflow-hidden transition-[height] duration-200 ease-out"
+      style={{ height }}
+      data-slot="sidebar-drilldown"
+    >
+      {stack.map((level, levelIndex) => {
+        const isActiveLevel = levelIndex === active;
+        return (
+          <div
+            key={levelIndex}
+            ref={(el) => {
+              panelRefs.current[levelIndex] = el;
+            }}
+            aria-hidden={!isActiveLevel}
+            inert={isActiveLevel ? undefined : true}
+            className="absolute top-0 left-0 w-full transition-transform duration-200 ease-out"
+            style={{ transform: `translateX(${(levelIndex - active) * 100}%)` }}
+          >
+            {level.label !== null && (
+              <button
+                type="button"
+                onClick={back}
+                className="mb-0.5 flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1.5 text-left text-xs font-medium text-sidebar-foreground/70 outline-hidden ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2"
+              >
+                <ChevronLeft className="size-4 shrink-0" />
+                <span className="truncate group-data-[collapsible=icon]:hidden">{level.label}</span>
+              </button>
+            )}
+            <SidebarMenu>
+              {level.items.map((item: NavItem, index: number) => {
+                if (item.type === 'separator') {
+                  return <SidebarSeparator key={`sep-${index}`} className="my-1" />;
+                }
+                if (isNavGroup(item)) {
+                  return (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton isActive={item.active} tooltip={item.label} onClick={() => push(item)}>
+                        {item.icon && <item.icon />}
+                        <span>{item.label}</span>
+                        <ChevronRight className="ml-auto" />
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                }
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton asChild isActive={item.active} tooltip={item.label}>
+                      <Link href={item.href} onClick={handleClick}>
+                        {item.icon && <item.icon />}
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function BrandingLink({
   branding,
   linkComponent: Link = DefaultLink,
@@ -248,6 +390,7 @@ function AppShell({
   linkComponent: Link = DefaultLink,
   contentClassName,
   variant = 'inset',
+  navMode = 'accordion',
   defaultSidebarOpen = true,
   onSidebarOpenChange,
 }: AppShellProps) {
@@ -289,17 +432,21 @@ function AppShell({
           <SidebarGroup>
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
-                {navigation.map((item: NavItem, index: number) =>
-                  item.type === 'separator' ? (
-                    <SidebarSeparator key={`sep-${index}`} className="my-1" />
-                  ) : item.items && item.items.length > 0 ? (
-                    <NavItemCollapsible key={item.href} item={item} linkComponent={Link} />
-                  ) : (
-                    <NavItemFlat key={item.href} item={item} linkComponent={Link} />
-                  )
-                )}
-              </SidebarMenu>
+              {navMode === 'drilldown' ? (
+                <NavItemDrilldown navigation={navigation} linkComponent={Link} />
+              ) : (
+                <SidebarMenu>
+                  {navigation.map((item: NavItem, index: number) =>
+                    item.type === 'separator' ? (
+                      <SidebarSeparator key={`sep-${index}`} className="my-1" />
+                    ) : item.items && item.items.length > 0 ? (
+                      <NavItemCollapsible key={item.href} item={item} linkComponent={Link} />
+                    ) : (
+                      <NavItemFlat key={item.href} item={item} linkComponent={Link} />
+                    )
+                  )}
+                </SidebarMenu>
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>

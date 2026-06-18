@@ -44,6 +44,7 @@ Props:
 - `header?: ReactNode` -- Content next to sidebar trigger in the top bar
 - `navbarActions?: ReactNode` -- Right-aligned actions in the top bar (search, notifications)
 - `children: ReactNode` -- Main content area
+- `navMode?: 'accordion' | 'drilldown'` -- How a nested group (a `NavItem` with `items`) opens (default: `'accordion'`). `'accordion'` expands the group's children in place, below the parent. `'drilldown'` slides the whole nav panel to a new page showing only that group's children, with a back row to slide back — good for deep menu trees (groups nest to any depth). On mount the panel opens to the level that holds the active item.
 - `variant?: 'inset' | 'sidebar'` -- Content framing (default: `'inset'`). `'inset'` floats the main content in a rounded, bordered card with a margin around it. `'sidebar'` makes the content flush to the edges — full-width / full-height, no card frame.
 - `defaultSidebarOpen?: boolean` -- Initial sidebar open state on mount (default: `true`). Pass a value read from `localStorage` (or any other store) to restore the user's last preference. The compact-desktop (768–1023px) auto-collapse still runs on screen-size transitions, but skips initial mount — so a stored `false` is honoured when the screen is already wide.
 - `onSidebarOpenChange?: (open: boolean) => void` -- Fires every time the sidebar open state changes (manual toggle, Cmd/Ctrl-B shortcut, or compact-desktop auto-collapse on resize). Use it to persist the value.
@@ -69,6 +70,39 @@ function App() {
     </AppShell>
   );
 }
+```
+
+Example — drill-down navigation (sliding, page-by-page menu):
+
+```tsx
+<AppShell
+  branding={{ name: "Acme", href: "/" }}
+  navMode="drilldown"
+  navigation={[
+    { label: "Dashboard", href: "/", icon: LayoutDashboard },
+    {
+      label: "Settings",
+      href: "/settings",
+      icon: Settings,
+      // clicking "Settings" slides to a page with these items;
+      // "Billing" carries its own items, so it slides one level deeper
+      items: [
+        { label: "General", href: "/settings/general" },
+        {
+          label: "Billing",
+          href: "/settings/billing",
+          icon: CreditCard,
+          items: [
+            { label: "Plan", href: "/settings/billing/plan" },
+            { label: "Invoices", href: "/settings/billing/invoices" },
+          ],
+        },
+      ],
+    },
+  ]}
+>
+  {children}
+</AppShell>
 ```
 
 Dependencies: sidebar, button, separator, sheet, tooltip, dropdown-menu, collapsible, avatar

@@ -12,6 +12,15 @@ export interface AppShellProps {
     subtitle?: string;
   };
   navigation: NavItem[];
+  /**
+   * How nested navigation groups (a `NavItem` that carries `items`) are presented.
+   * - `"accordion"` (default): clicking a parent expands its children in place, below it.
+   * - `"drilldown"`: clicking a parent slides the whole nav panel to a new "page" that
+   *   shows only that group's children, with a back row to slide back. Good for deep
+   *   menu trees where an in-place accordion would get long. On mount the panel opens
+   *   straight to the level that holds the active item.
+   */
+  navMode?: 'accordion' | 'drilldown';
   user?: {
     name: string;
     email?: string;

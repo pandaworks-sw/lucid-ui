@@ -14,6 +14,30 @@ const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-06-18',
     componentName: 'app-shell',
+    title: 'App Shell drill-down navigation',
+    summary:
+      'AppShell now accepts a navMode prop ("accordion" | "drilldown", default "accordion"). "accordion" keeps the current behaviour — clicking a parent expands its children in place. The new "drilldown" mode slides the whole nav panel to a new page showing only that group\'s items, with a back row to slide back — the iOS-Settings / multi-level menu pattern. Groups can nest as deep as you need, and on mount the panel opens straight to the level that holds the active item. The "accordion" default means every existing app renders identically, and no new colors are used.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-18',
+    componentName: 'detail-page',
+    title: 'Detail Page section headers',
+    summary:
+      'New DetailPageSection renders a non-carded content region with a bold title, an optional muted description, and an optional action on the right. Use it to break the detail-page main column into labelled regions with a clear type hierarchy — like the "section title + one-line description + action" pattern on Vercel-style detail pages — without wrapping every region in a Card. The title renders in Inter per the heading-font policy, and no new colors are used, so contrast is unchanged.',
+    kind: 'added',
+  },
+  {
+    date: '2026-06-18',
+    componentName: 'detail-page',
+    title: 'Detail Page typography refresh',
+    summary:
+      'The detail-page header title is now larger (text-2xl) and meta values render at regular weight instead of medium. Together this gives the muted-label / plain-value hierarchy of Vercel-style detail pages. The change is visual only — no API change — and keeps the same color tokens, so AA contrast holds in both light and dark modes.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-18',
+    componentName: 'app-shell',
     title: 'App Shell variant prop',
     summary:
       'AppShell now accepts a variant prop ("inset" | "sidebar", default "inset"). "inset" keeps the current look — the main content floats in a rounded, bordered card with a margin. The new "sidebar" value drops that frame, so the content sits flush to the edges: full-width, full-height, no card. The prop forwards straight to the inner Sidebar, the framing change is purely structural (no new colors), and the "inset" default means every existing app renders identically.',
