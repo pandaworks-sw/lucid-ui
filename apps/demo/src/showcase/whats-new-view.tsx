@@ -13,6 +13,14 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-06-18',
+    componentName: 'tabs',
+    title: 'Tabs animated sliding pill',
+    summary:
+      'The default Tabs variant is now a bordered track with a neutral pill that springs to the active tab and follows the pointer on hover, returning to the active tab on leave. The pill is decorative (aria-hidden) — active state is still driven by Radix, so keyboard behaviour is unchanged. The line variant is untouched. Adds the framer-motion runtime dependency; no API change, and active-label contrast clears AA in both themes.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-18',
     componentName: 'detail-page',
     title: 'Detail Page horizontal meta strip',
     summary:

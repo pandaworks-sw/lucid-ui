@@ -257,7 +257,7 @@ For full API docs, props, and code examples, read the linked doc file.
 
 | Component | Description | Docs |
 |-----------|-------------|------|
-| Tabs | Tab panels (pill and line variants) | [navigation.md](docs/navigation.md) |
+| Tabs | Tab panels (animated sliding-pill default + line variants) | [navigation.md](docs/navigation.md) |
 | Accordion | Collapsible sections | [navigation.md](docs/navigation.md) |
 | Collapsible | Single collapsible section | [navigation.md](docs/navigation.md) |
 | Pagination | Page navigation | [navigation.md](docs/navigation.md) |
@@ -374,6 +374,14 @@ Each entry contains:
 - **breaking**: no
 - **details**: New `DetailPageMetaBar` ships at [packages/registry/registry/default/detail-page/detail-page.tsx](packages/registry/registry/default/detail-page/detail-page.tsx). It is a wrapping flex row (`flex flex-wrap gap-x-10 gap-y-4`) that lays `DetailPageMetaItem`s out as a full-width horizontal strip under the header — the Vercel domain-detail meta row (Registrar / Age / Nameservers / CDN / …) — instead of (or alongside) the vertical sidebar. `DetailPageMetaItem` is now layout-aware through an internal `MetaLayoutContext`: the SAME component renders with dividers + vertical padding (`border-b py-3 first:pt-0 last:border-b-0`) inside `DetailPageSidebar`, and as a borderless `min-w-0` cell inside `DetailPageMetaBar` (spacing comes from the bar's flex gap). No prop change is needed at the call site — the container decides the layout. The bar wraps to multiple rows on narrow screens. Root carries `data-slot="detail-page-meta-bar"`. No new color tokens — labels stay `text-muted-foreground`, values `text-foreground`; AA contrast unchanged in both themes.
 - **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.19.0`. No code changes required — existing sidebar `DetailPageMetaItem` usage renders identically. Wrap `DetailPageMetaItem`s in `DetailPageMetaBar` (placed between `DetailPageHeader` and `DetailPageContent`) when you want the meta fields as a horizontal strip under the title.
+
+#### tabs — `default` variant gains an animated sliding pill
+
+- **component**: Tabs
+- **change**: modified
+- **breaking**: no
+- **details**: The `TabsList` `default` variant is reworked at [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx). The track is now a bordered container (`border border-border bg-transparent`, was the solid `bg-muted` fill) and a single neutral pill (`motion.div`, `bg-accent`, `rounded-md`) slides to the active tab with a spring transition (`stiffness: 450, damping: 34`). The pill also follows the pointer on hover and springs back to the active tab on `pointerleave`. Geometry is measured with `getBoundingClientRect` relative to the list (offset by `clientLeft`/`clientTop` so the track border does not shift it) and kept in sync via a `MutationObserver` on `data-state` plus a `ResizeObserver`; `useLayoutEffect` places the pill before first paint with `initial={false}` so there is no entry animation. Triggers sit at `z-10` above the `z-0` pill. The pill is `aria-hidden` and decorative — active state is still driven by Radix `data-state`, so semantics and keyboard behaviour are unchanged. The `line` variant (underline indicator) is unchanged. New runtime dependency: `framer-motion` (`^12.40.0`) — run `pnpm install` after upgrading. Contrast: active label is `text-foreground` over the `bg-accent` pill (well above 4.5:1 in both themes); inactive labels stay `text-muted-foreground`; no new color tokens were introduced. The container border uses `border-border` (full strength).
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.19.0` and run `pnpm install` to pull `framer-motion`. No code changes required — existing `Tabs` / `TabsList` (`default` and `line`) call sites render the same API; the `default` variant simply animates now.
 
 #### app-shell — `AppShell` gains a `variant` prop (`"inset" | "sidebar"`)
 

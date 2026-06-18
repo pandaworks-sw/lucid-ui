@@ -1,6 +1,15 @@
-import { type ComponentProps } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type PointerEvent as ReactPointerEvent,
+} from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { motion } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 
@@ -17,11 +26,12 @@ function Tabs({ className, orientation = 'horizontal', ...props }: ComponentProp
 }
 
 const tabsListVariants = cva(
-  'rounded-lg p-[3px] group-data-[orientation=horizontal]/tabs:h-9 data-[variant=line]:rounded-none group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col',
+  'relative rounded-lg p-[3px] group-data-[orientation=horizontal]/tabs:h-9 data-[variant=line]:rounded-none group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col',
   {
     variants: {
       variant: {
-        default: 'bg-muted',
+        // Bordered container; the neutral sliding pill marks the active tab.
+        default: 'border border-border bg-transparent',
         line: 'gap-1 bg-transparent',
       },
     },
@@ -34,15 +44,88 @@ const tabsListVariants = cva(
 function TabsList({
   className,
   variant = 'default',
+  children,
   ...props
 }: ComponentProps<typeof TabsPrimitive.List> & VariantProps<typeof tabsListVariants>) {
+  const listRef = useRef<HTMLDivElement>(null);
+  const [pill, setPill] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+
+  // Slide the neutral pill to `el`. Measured with getBoundingClientRect relative to the list (minus its
+  // border via clientLeft/clientTop) so the bordered track's border width doesn't offset the pill.
+  const setOwner = useCallback((el: HTMLElement | null) => {
+    const list = listRef.current;
+    if (!list || !el) return;
+    const lr = list.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    const next = {
+      x: er.left - lr.left - list.clientLeft,
+      y: er.top - lr.top - list.clientTop,
+      width: er.width,
+      height: er.height,
+    };
+    // Skip the state update when geometry is unchanged so observers can't loop.
+    setPill((prev) =>
+      prev && prev.x === next.x && prev.y === next.y && prev.width === next.width && prev.height === next.height
+        ? prev
+        : next
+    );
+  }, []);
+
+  const ownerToActive = useCallback(() => {
+    const el = listRef.current?.querySelector<HTMLElement>('[data-slot="tabs-trigger"][data-state="active"]');
+    setOwner(el ?? null);
+  }, [setOwner]);
+
+  // Place the pill on the active tab before first paint (initial={false} skips the entry animation).
+  useLayoutEffect(() => {
+    if (variant === 'default') ownerToActive();
+  }, [variant, ownerToActive]);
+
+  // Re-place when the active tab changes (Radix flips data-state) or the list resizes.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list || variant !== 'default') return;
+    const mo = new MutationObserver(() => ownerToActive());
+    mo.observe(list, { attributes: true, subtree: true, attributeFilter: ['data-state'] });
+    const ro = new ResizeObserver(() => ownerToActive());
+    ro.observe(list);
+    return () => {
+      mo.disconnect();
+      ro.disconnect();
+    };
+  }, [variant, ownerToActive]);
+
+  const handlePointerOver = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (variant !== 'default') return;
+    const el = (e.target as HTMLElement).closest<HTMLElement>('[data-slot="tabs-trigger"]');
+    if (el && listRef.current?.contains(el)) setOwner(el);
+  };
+  const handlePointerLeave = () => {
+    if (variant === 'default') ownerToActive();
+  };
+
   return (
     <TabsPrimitive.List
+      ref={listRef}
       data-slot="tabs-list"
       data-variant={variant}
       className={cn(tabsListVariants({ variant }), className)}
+      onPointerOver={handlePointerOver}
+      onPointerLeave={handlePointerLeave}
       {...props}
-    />
+    >
+      {variant === 'default' && pill && (
+        <motion.div
+          aria-hidden
+          data-slot="tabs-pill"
+          className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-accent"
+          initial={false}
+          animate={{ x: pill.x, y: pill.y, width: pill.width, height: pill.height }}
+          transition={{ type: 'spring', stiffness: 450, damping: 34 }}
+        />
+      )}
+      {children}
+    </TabsPrimitive.List>
   );
 }
 
@@ -51,10 +134,12 @@ function TabsTrigger({ className, ...props }: ComponentProps<typeof TabsPrimitiv
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-foreground/60 hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        'group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent',
-        'data-[state=active]:bg-background dark:data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 data-[state=active]:text-foreground',
-        'after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100',
+        "relative z-10 inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:outline-1',
+        // Inactive label color (both variants); foreground on hover and when active.
+        'text-muted-foreground hover:text-foreground data-[state=active]:text-foreground',
+        // Line variant: neutral underline indicator.
+        'after:bg-foreground after:absolute after:rounded-full after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-[3px] group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-[3px] group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100',
         className
       )}
       {...props}

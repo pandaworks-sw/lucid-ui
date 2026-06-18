@@ -4,7 +4,9 @@ Tabs, accordions, pagination, and other navigation patterns.
 
 ## Tabs
 
-Variants: `default` (pill-style), `line` (underline-style)
+Variants: `default` (animated sliding pill), `line` (underline-style)
+
+The `default` variant renders a bordered track with a neutral pill (`bg-accent`) that springs to the active tab and follows the pointer on hover, returning to the active tab on leave (spring transition, powered by `framer-motion`). The pill is purely decorative (`aria-hidden`); active state is still driven by Radix `data-state`. The `line` variant keeps its underline indicator and has no pill. Both work in `horizontal` and `vertical` orientation. No new props — the pill is automatic.
 
 ```tsx
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
@@ -18,6 +20,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
   <TabsContent value="security">Security settings</TabsContent>
 </Tabs>
 ```
+
+> Requires the `framer-motion` peer/runtime dependency (shipped as a dependency of `@pandaworks-sw/lucid-ui`).
 
 ## Accordion
 

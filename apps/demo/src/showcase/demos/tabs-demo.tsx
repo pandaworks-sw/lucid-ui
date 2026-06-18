@@ -6,9 +6,12 @@ export default function TabsDemo() {
   return (
     <div className="space-y-8">
       <DemoSection
-        title="Default Variant"
+        title="Default Variant — animated sliding pill"
         code={`import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
+// The default variant is a bordered track. A neutral pill springs to the
+// active tab and follows the pointer on hover (returns to the active tab on
+// leave). No new props — it is automatic. Use variant="line" for the underline.
 <Tabs defaultValue="account">
   <TabsList>
     <TabsTrigger value="account">Account</TabsTrigger>
@@ -23,6 +26,9 @@ export default function TabsDemo() {
 </Tabs>`}
       >
         <Tabs defaultValue="account" className="w-full max-w-md">
+          <p className="mb-4 text-sm text-muted-foreground">
+            Hover the tabs — the neutral pill follows the pointer and springs back to the active tab on leave.
+          </p>
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>
