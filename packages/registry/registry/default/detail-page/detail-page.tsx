@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes, type ReactNode, type MouseEvent } from 'react';
+import { createContext, forwardRef, useContext, type HTMLAttributes, type ReactNode, type MouseEvent } from 'react';
 import { ArrowLeft, Copy, Check } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -41,7 +41,7 @@ const DetailPageHeader = forwardRef<HTMLDivElement, DetailPageHeaderProps>(
           </div>
         )}
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
           {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
         </div>
         {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
@@ -70,6 +70,31 @@ const DetailPageContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
 ));
 DetailPageContent.displayName = 'DetailPageContent';
 
+/* -------------------------------- Section --------------------------------- */
+
+interface DetailPageSectionProps extends HTMLAttributes<HTMLDivElement> {
+  title: string;
+  description?: ReactNode;
+  action?: ReactNode;
+}
+
+const DetailPageSection = forwardRef<HTMLDivElement, DetailPageSectionProps>(
+  ({ className, title, description, action, children, ...props }, ref) => (
+    <section data-slot="detail-page-section" ref={ref} className={cn('space-y-4', className)} {...props}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 space-y-1">
+          {/* Inter, not font-display: this is a section title inside a non-PageHeader component (heading-font policy). */}
+          <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+          {description && <p className="text-sm text-muted-foreground">{description}</p>}
+        </div>
+        {action && <div className="flex items-center gap-2 shrink-0">{action}</div>}
+      </div>
+      {children}
+    </section>
+  )
+);
+DetailPageSection.displayName = 'DetailPageSection';
+
 /* -------------------------------- Sidebar --------------------------------- */
 
 const DetailPageSidebar = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
@@ -81,6 +106,32 @@ const DetailPageSidebar = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEleme
   />
 ));
 DetailPageSidebar.displayName = 'DetailPageSidebar';
+
+/* -------------------------------- Meta Bar -------------------------------- */
+
+/**
+ * Layout context for meta items. The sidebar lays them out vertically with
+ * dividers; the bar lays them out as a horizontal, wrapping strip with no
+ * dividers (spacing comes from the bar's flex gap). The same
+ * `DetailPageMetaItem` renders correctly in either container.
+ */
+const MetaLayoutContext = createContext<'sidebar' | 'bar'>('sidebar');
+
+const DetailPageMetaBar = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, children, ...props }, ref) => (
+    <MetaLayoutContext.Provider value="bar">
+      <div
+        data-slot="detail-page-meta-bar"
+        ref={ref}
+        className={cn('flex flex-wrap gap-x-10 gap-y-4', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </MetaLayoutContext.Provider>
+  )
+);
+DetailPageMetaBar.displayName = 'DetailPageMetaBar';
 
 /* ------------------------------ Meta Item --------------------------------- */
 
@@ -112,20 +163,23 @@ function CopyButton({ value, onCopyValue }: { value: string; onCopyValue?: (text
 }
 
 const DetailPageMetaItem = forwardRef<HTMLDivElement, DetailPageMetaItemProps>(
-  ({ className, label, value, copyable, onCopyValue, ...props }, ref) => (
-    <div
-      data-slot="detail-page-meta-item"
-      ref={ref}
-      className={cn('border-b py-3 first:pt-0 last:border-b-0', className)}
-      {...props}
-    >
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <div className="mt-0.5 flex items-center gap-1.5">
-        <span className="min-w-0 truncate text-sm font-medium">{value}</span>
-        {copyable && typeof value === 'string' && <CopyButton value={value} onCopyValue={onCopyValue} />}
+  ({ className, label, value, copyable, onCopyValue, ...props }, ref) => {
+    const layout = useContext(MetaLayoutContext);
+    return (
+      <div
+        data-slot="detail-page-meta-item"
+        ref={ref}
+        className={cn(layout === 'bar' ? 'min-w-0' : 'border-b py-3 first:pt-0 last:border-b-0', className)}
+        {...props}
+      >
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <div className="mt-0.5 flex items-center gap-1.5">
+          <span className="min-w-0 truncate text-sm">{value}</span>
+          {copyable && typeof value === 'string' && <CopyButton value={value} onCopyValue={onCopyValue} />}
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 );
 DetailPageMetaItem.displayName = 'DetailPageMetaItem';
 
@@ -177,13 +231,16 @@ export {
   DetailPageHeader,
   DetailPageMain,
   DetailPageContent,
+  DetailPageSection,
   DetailPageSidebar,
+  DetailPageMetaBar,
   DetailPageMetaItem,
   DetailPageSidebarSection,
   DetailPageSidebarGroup,
 };
 export type {
   DetailPageHeaderProps,
+  DetailPageSectionProps,
   DetailPageMetaItemProps,
   DetailPageSidebarSectionProps,
   DetailPageSidebarGroupProps,

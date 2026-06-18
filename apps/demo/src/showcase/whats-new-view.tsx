@@ -13,6 +13,14 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-06-18',
+    componentName: 'detail-page',
+    title: 'Detail Page horizontal meta strip',
+    summary:
+      'New DetailPageMetaBar lays DetailPageMetaItems out as a full-width horizontal strip under the header — the Vercel domain-detail meta row (Registrar / Age / Nameservers / CDN). The same DetailPageMetaItem is layout-aware: it keeps its dividers in the sidebar and renders borderless inside the bar, with spacing from the bar gap. No call-site change is needed, and the strip wraps to multiple rows on narrow screens. No new colors, so contrast is unchanged.',
+    kind: 'added',
+  },
+  {
+    date: '2026-06-18',
     componentName: 'app-shell',
     title: 'App Shell drill-down navigation',
     summary:

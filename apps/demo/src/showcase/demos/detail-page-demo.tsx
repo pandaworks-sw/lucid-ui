@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { Building2, AlertCircle, Settings } from 'lucide-react';
+import { Building2, AlertCircle, Settings, Globe, MoreHorizontal, CheckCircle2 } from 'lucide-react';
 import { DemoSection } from '@/showcase/component-page';
 import {
   DetailPage,
   DetailPageHeader,
   DetailPageMain,
   DetailPageContent,
+  DetailPageSection,
   DetailPageSidebar,
+  DetailPageMetaBar,
   DetailPageMetaItem,
   DetailPageSidebarSection,
   DetailPageSidebarGroup,
 } from '@/components/ui/detail-page';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SelectableCard } from '@/components/ui/selectable-card';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
@@ -42,6 +44,23 @@ function OrganizationDetailDemo() {
         }
       />
 
+      <DetailPageMetaBar>
+        <DetailPageMetaItem label="Org ID" value="org_3APXw...9IHNe0EhU" copyable />
+        <DetailPageMetaItem label="Slug" value="pandaworks" copyable />
+        <DetailPageMetaItem
+          label="Created by"
+          value={
+            <span className="flex items-center gap-1.5 text-destructive">
+              <AlertCircle className="size-3.5" />
+              Not assigned
+            </span>
+          }
+        />
+        <DetailPageMetaItem label="Max allowed memberships" value="Unlimited" />
+        <DetailPageMetaItem label="Created" value="Mar 3, 2026" />
+        <DetailPageMetaItem label="Updated" value="4m ago" />
+      </DetailPageMetaBar>
+
       <Tabs defaultValue="settings">
         <TabsList variant="line">
           <TabsTrigger value="profile">Profile</TabsTrigger>
@@ -50,143 +69,107 @@ function OrganizationDetailDemo() {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 
-        <DetailPageMain className="mt-6">
-          <DetailPageContent>
-            <TabsContent value="profile" className="mt-0">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile</CardTitle>
-                  <CardDescription>Organization profile information.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">Profile content goes here.</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
+        <DetailPageContent className="mt-6">
+          <TabsContent value="profile" className="mt-0">
+            <DetailPageSection title="Profile" description="Organization profile information.">
+              <p className="text-sm text-muted-foreground">Profile content goes here.</p>
+            </DetailPageSection>
+          </TabsContent>
 
-            <TabsContent value="settings" className="mt-0 space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Membership limit</CardTitle>
-                  <CardDescription>Edit Organization membership limit</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RadioGroup value={membership} onValueChange={setMembership} className="grid gap-3">
-                    <SelectableCard value="unlimited">
+          <TabsContent value="settings" className="mt-0 space-y-8">
+            <DetailPageSection title="Membership limit" description="Edit Organization membership limit">
+              <RadioGroup value={membership} onValueChange={setMembership} className="grid gap-3">
+                <SelectableCard value="unlimited">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium">Unlimited members</p>
+                      <Badge variant="outline">Add-on</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Allow this organization to have an unlimited number of members and pending invitations.
+                    </p>
+                  </div>
+                </SelectableCard>
+                <SelectableCard value="limited">
+                  <div>
+                    <p className="font-medium">Limited members</p>
+                    <p className="text-sm text-muted-foreground">
+                      Limit this organization to the following number of members, including pending invitations.
+                    </p>
+                  </div>
+                </SelectableCard>
+              </RadioGroup>
+            </DetailPageSection>
+
+            <DetailPageSection
+              title="Roles"
+              description="Manage default roles for this organization"
+              action={
+                <Select defaultValue="default">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default">Default role set</SelectItem>
+                    <SelectItem value="custom">Custom role set</SelectItem>
+                  </SelectContent>
+                </Select>
+              }
+            >
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Members</TableHead>
+                    <TableHead>Key</TableHead>
+                    <TableHead>Permissions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <div>
+                        <p className="font-medium">Admin</p>
+                        <p className="text-sm text-muted-foreground">
+                          Role with elevated permissions in the organization.
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell>0</TableCell>
+                    <TableCell className="font-mono text-sm">org:admin</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant="secondary">Manage domains</Badge>
+                        <span className="text-sm text-muted-foreground">+7 more</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="font-medium">Unlimited members</p>
-                          <Badge variant="outline">Add-on</Badge>
+                          <p className="font-medium">Member</p>
+                          <Badge variant="outline">Default role</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Allow this organization to have an unlimited number of members and pending invitations.
+                          Role with non-privileged permissions in the organization.
                         </p>
                       </div>
-                    </SelectableCard>
-                    <SelectableCard value="limited">
-                      <div>
-                        <p className="font-medium">Limited members</p>
-                        <p className="text-sm text-muted-foreground">
-                          Limit this organization to the following number of members, including pending invitations.
-                        </p>
+                    </TableCell>
+                    <TableCell>0</TableCell>
+                    <TableCell className="font-mono text-sm">org:member</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant="secondary">Read members</Badge>
+                        <span className="text-sm text-muted-foreground">+1 more</span>
                       </div>
-                    </SelectableCard>
-                  </RadioGroup>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <CardTitle>Roles</CardTitle>
-                      <CardDescription>Manage default roles for this organization</CardDescription>
-                    </div>
-                    <Select defaultValue="default">
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="default">Default role set</SelectItem>
-                        <SelectItem value="custom">Custom role set</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Members</TableHead>
-                        <TableHead>Key</TableHead>
-                        <TableHead>Permissions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">Admin</p>
-                            <p className="text-sm text-muted-foreground">
-                              Role with elevated permissions in the organization.
-                            </p>
-                          </div>
-                        </TableCell>
-                        <TableCell>0</TableCell>
-                        <TableCell className="font-mono text-sm">org:admin</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1.5">
-                            <Badge variant="secondary">Manage domains</Badge>
-                            <span className="text-sm text-muted-foreground">+7 more</span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <p className="font-medium">Member</p>
-                              <Badge variant="outline">Default role</Badge>
-                            </div>
-                            <p className="text-sm text-muted-foreground">
-                              Role with non-privileged permissions in the organization.
-                            </p>
-                          </div>
-                        </TableCell>
-                        <TableCell>0</TableCell>
-                        <TableCell className="font-mono text-sm">org:member</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1.5">
-                            <Badge variant="secondary">Read members</Badge>
-                            <span className="text-sm text-muted-foreground">+1 more</span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </DetailPageContent>
-
-          <DetailPageSidebar>
-            <DetailPageMetaItem label="Org ID" value="org_3APXw...9IHNe0EhU" copyable />
-            <DetailPageMetaItem label="Slug" value="pandaworks" copyable />
-            <DetailPageMetaItem
-              label="Created by"
-              value={
-                <span className="flex items-center gap-1.5 text-destructive">
-                  <AlertCircle className="size-3.5" />
-                  Not assigned
-                </span>
-              }
-            />
-            <DetailPageMetaItem label="Max allowed memberships" value="Unlimited" />
-            <DetailPageMetaItem label="Created" value="Mar 3, 2026" />
-            <DetailPageMetaItem label="Organization updated" value="4m ago" />
-          </DetailPageSidebar>
-        </DetailPageMain>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </DetailPageSection>
+          </TabsContent>
+        </DetailPageContent>
       </Tabs>
     </DetailPage>
   );
@@ -198,9 +181,8 @@ export default function DetailPageDemo() {
       <DemoSection
         title="Organization detail page"
         code={`import {
-  DetailPage, DetailPageHeader, DetailPageMain,
-  DetailPageContent, DetailPageSidebar,
-  DetailPageMetaItem,
+  DetailPage, DetailPageHeader, DetailPageMetaBar,
+  DetailPageMetaItem, DetailPageContent, DetailPageSection,
 } from "@/components/ui/detail-page"
 import { Building2 } from "lucide-react"
 
@@ -213,18 +195,135 @@ import { Building2 } from "lucide-react"
     subtitle="12 members"
     actions={<Button size="sm">Edit</Button>}
   />
-  <DetailPageMain>
-    <DetailPageContent>
-      {/* Main content area */}
-    </DetailPageContent>
-    <DetailPageSidebar>
-      <DetailPageMetaItem label="Created" value="Mar 3, 2026" />
-      <DetailPageMetaItem label="ID" value="org_abc123" copyable />
-    </DetailPageSidebar>
-  </DetailPageMain>
+
+  {/* Meta as a horizontal strip under the title */}
+  <DetailPageMetaBar>
+    <DetailPageMetaItem label="Org ID" value="org_abc123" copyable />
+    <DetailPageMetaItem label="Created" value="Mar 3, 2026" />
+  </DetailPageMetaBar>
+
+  <DetailPageContent>
+    <DetailPageSection
+      title="Membership limit"
+      description="Edit Organization membership limit"
+    >
+      {/* non-carded section body */}
+    </DetailPageSection>
+  </DetailPageContent>
 </DetailPage>`}
       >
         <OrganizationDetailDemo />
+      </DemoSection>
+
+      <DemoSection
+        title="Section headers (typography pattern)"
+        code={`import {
+  DetailPage, DetailPageHeader, DetailPageMetaBar,
+  DetailPageMetaItem, DetailPageContent, DetailPageSection,
+} from "@/components/ui/detail-page"
+
+<DetailPage>
+  <DetailPageHeader title="pandahrms.com" subtitle="Domain" />
+
+  {/* Horizontal meta strip under the title */}
+  <DetailPageMetaBar>
+    <DetailPageMetaItem label="Registrar" value="Third Party" />
+    <DetailPageMetaItem label="Age" value="1/3/25" />
+    <DetailPageMetaItem label="Nameservers" value="Third Party" />
+  </DetailPageMetaBar>
+
+  <DetailPageContent>
+    <DetailPageSection
+      title="Connected Projects"
+      description="Subdomains connected to projects on this team."
+      action={<Button size="sm" variant="outline">Connect</Button>}
+    >
+      {/* non-carded section body */}
+    </DetailPageSection>
+
+    <DetailPageSection
+      title="DNS Records"
+      description="DNS records point to services your domain uses."
+      action={<Button size="sm" variant="outline">Enable DNS</Button>}
+    >
+      {/* ... */}
+    </DetailPageSection>
+  </DetailPageContent>
+</DetailPage>`}
+      >
+        <DetailPage>
+          <DetailPageHeader
+            icon={<Globe className="size-6" />}
+            title="pandahrms.com"
+            subtitle="Domain"
+            actions={
+              <Button variant="outline" size="icon-sm" aria-label="More actions">
+                <MoreHorizontal className="size-4" />
+              </Button>
+            }
+          />
+          <DetailPageMetaBar>
+            <DetailPageMetaItem label="Registrar" value="Third Party" />
+            <DetailPageMetaItem label="Auto Renewal" value="Off" />
+            <DetailPageMetaItem label="Age" value="1/3/25" />
+            <DetailPageMetaItem label="Nameservers" value="Third Party" />
+            <DetailPageMetaItem
+              label="CDN"
+              value={
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="size-3.5 text-success" />
+                  Active
+                </span>
+              }
+            />
+          </DetailPageMetaBar>
+          <DetailPageContent>
+            <DetailPageSection
+              title="Connected Projects"
+              description="Subdomains that are connected to projects on this team."
+              action={
+                <Button variant="outline" size="sm">
+                  Connect
+                </Button>
+              }
+            >
+              <div className="flex items-center justify-between rounded-lg border px-4 py-3">
+                <span className="flex items-center gap-2 text-sm">
+                  <Globe className="size-4 text-muted-foreground" />
+                  monitor.pandahrms.com
+                </span>
+                <Badge variant="secondary">service-monitor-nextjs</Badge>
+              </div>
+            </DetailPageSection>
+
+            <DetailPageSection
+              title="DNS Records"
+              description="DNS records point to services your domain uses, like email or forwarding."
+              action={
+                <Button variant="outline" size="sm">
+                  Enable DNS
+                </Button>
+              }
+            >
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Value</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>@</TableCell>
+                    <TableCell>A</TableCell>
+                    <TableCell className="font-mono text-sm">76.76.21.21</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </DetailPageSection>
+          </DetailPageContent>
+        </DetailPage>
       </DemoSection>
 
       <DemoSection title="Sidebar sections (GitHub-style)">
