@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-18
+
+### Added
+
+- **`AppShell` gains a `variant` prop (`"inset" | "sidebar"`).** [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx) — controls the framing of the main content area. `"inset"` (default) floats the content in a rounded, bordered card with a margin (the existing look — `m-2 rounded-3xl border border-border/70 shadow-sm` on the inset surface). The new `"sidebar"` value drops that frame so the content sits flush to the edges — full-width / full-height, no margin, border, or rounded corners. The prop forwards straight to the inner `Sidebar` (previously hardcoded `variant="inset"`); the `SidebarInset` surface already adapts its framing off the variant, so no other change was needed. `defaultSidebarOpen`, `maxWidth`, `contentClassName`, and all other props are unchanged. No new color tokens — the framing change is purely structural (margin / radius / border), so contrast is unaffected in both light and dark modes. Default is `"inset"`, so every existing call site renders identically — non-breaking.
+
 ## 2026-06-15
 
 ### Added

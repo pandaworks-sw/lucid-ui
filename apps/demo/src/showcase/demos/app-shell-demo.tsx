@@ -21,6 +21,7 @@ import { Users, LayoutDashboard } from "lucide-react"
     ],
   }}
   header={<span>Page Title</span>}
+  variant="inset"
   maxWidth={1400}
   contentClassName="p-4"
 >
@@ -67,6 +68,12 @@ import { Users, LayoutDashboard } from "lucide-react"
             <li>
               <code className="text-xs">linkComponent</code> -- custom link component for client-side navigation (e.g.
               TanStack Router Link, Next.js Link)
+            </li>
+            <li>
+              <code className="text-xs">variant</code> -- content framing: <code className="text-xs">"inset"</code>{' '}
+              (default) floats the content in a rounded, bordered card with a margin;{' '}
+              <code className="text-xs">"sidebar"</code> makes the content flush — full-width / full-height, no card
+              frame
             </li>
             <li>
               <code className="text-xs">maxWidth</code> -- constrains the content area width (default: 1400px)

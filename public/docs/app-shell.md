@@ -44,6 +44,7 @@ Props:
 - `header?: ReactNode` -- Content next to sidebar trigger in the top bar
 - `navbarActions?: ReactNode` -- Right-aligned actions in the top bar (search, notifications)
 - `children: ReactNode` -- Main content area
+- `variant?: 'inset' | 'sidebar'` -- Content framing (default: `'inset'`). `'inset'` floats the main content in a rounded, bordered card with a margin around it. `'sidebar'` makes the content flush to the edges — full-width / full-height, no card frame.
 - `defaultSidebarOpen?: boolean` -- Initial sidebar open state on mount (default: `true`). Pass a value read from `localStorage` (or any other store) to restore the user's last preference. The compact-desktop (768–1023px) auto-collapse still runs on screen-size transitions, but skips initial mount — so a stored `false` is honoured when the screen is already wide.
 - `onSidebarOpenChange?: (open: boolean) => void` -- Fires every time the sidebar open state changes (manual toggle, Cmd/Ctrl-B shortcut, or compact-desktop auto-collapse on resize). Use it to persist the value.
 

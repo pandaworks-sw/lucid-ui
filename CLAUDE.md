@@ -75,12 +75,15 @@ When committing, update all three under a dated heading for today (e.g., `## 202
 
 ## Modifying a Component
 
+**Mandatory: every change to a UI component must update its demo page.** When you add or change a prop, variant, size, state, or behavior, that change must be shown in `apps/demo/src/showcase/demos/<component>-demo.tsx` — the live example, the prop/feature list, and the code sample must all reflect it. A registry component change is not complete until its demo page shows it. The demo apps import the registry source directly (Vite alias), so the component *code* updates live with no build — but the hand-written demo page does not advertise a new capability until you add it.
+
 1. Edit the source file in `packages/registry/registry/default/<component>/`
 2. Run `pnpm --filter @pandaworks-sw/lucid-ui build:lib` to verify the package still builds
-3. Verify in demo (`pnpm dev`)
-4. Update the component's doc file in `public/docs/` if API changed
-5. Update changelogs
-6. Commit
+3. Update the component's demo page in `apps/demo/src/showcase/demos/<component>-demo.tsx` so the new/changed behavior is shown (live example + prop list + code sample)
+4. Verify in demo (`pnpm dev`)
+5. Update the component's doc file in `public/docs/` if API changed
+6. Update changelogs
+7. Commit
 
 ## Consuming
 

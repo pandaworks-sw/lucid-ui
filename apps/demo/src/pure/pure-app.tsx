@@ -141,6 +141,7 @@ function PureShell() {
           </div>
         }
         linkComponent={ShellLink}
+        variant="sidebar"
         maxWidth={1400}
         contentClassName="p-4 md:p-6 lg:p-8"
       >

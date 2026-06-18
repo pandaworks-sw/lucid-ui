@@ -33,6 +33,12 @@ export interface AppShellProps {
   /** Override the default content area padding classes. Replaces default "p-4". */
   contentClassName?: string;
   /**
+   * Framing for the main content area.
+   * - `"inset"` (default): the content floats in a rounded, bordered card with a margin around it.
+   * - `"sidebar"`: the content is flush to the edges — full-width / full-height, no card frame.
+   */
+  variant?: 'inset' | 'sidebar';
+  /**
    * Initial sidebar open state on mount. Default: `true`. Pass a value from
    * `localStorage` (or any other store) to restore the user's last preference.
    * On compact-desktop widths (768–1023px) the sidebar still auto-collapses on

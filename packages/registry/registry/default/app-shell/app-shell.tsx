@@ -247,6 +247,7 @@ function AppShell({
   maxWidth = 1400,
   linkComponent: Link = DefaultLink,
   contentClassName,
+  variant = 'inset',
   defaultSidebarOpen = true,
   onSidebarOpenChange,
 }: AppShellProps) {
@@ -275,7 +276,7 @@ function AppShell({
 
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
-      <Sidebar variant="inset" collapsible="icon">
+      <Sidebar variant={variant} collapsible="icon">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>

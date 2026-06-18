@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-18',
+    componentName: 'app-shell',
+    title: 'App Shell variant prop',
+    summary:
+      'AppShell now accepts a variant prop ("inset" | "sidebar", default "inset"). "inset" keeps the current look — the main content floats in a rounded, bordered card with a margin. The new "sidebar" value drops that frame, so the content sits flush to the edges: full-width, full-height, no card. The prop forwards straight to the inner Sidebar, the framing change is purely structural (no new colors), and the "inset" default means every existing app renders identically.',
+    kind: 'changed',
+  },
+  {
     date: '2026-06-15',
     componentName: 'detail-page',
     title: 'Detail Page sidebar groups',

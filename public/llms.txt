@@ -349,6 +349,16 @@ Each entry contains:
 
 ---
 
+### 2026-06-18
+
+#### app-shell — `AppShell` gains a `variant` prop (`"inset" | "sidebar"`)
+
+- **component**: AppShell
+- **change**: modified
+- **breaking**: no
+- **details**: `AppShellProps` gains `variant?: 'inset' | 'sidebar'` (default `'inset'`) at [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx). It controls the framing of the main content area. `'inset'` (the previous, now-default behaviour) floats the content in a rounded, bordered card with a margin — `m-2 rounded-3xl border border-border/70 shadow-sm` on the `SidebarInset` surface. `'sidebar'` drops that frame so the content is flush to the edges: full-width / full-height, no margin, border, or rounded corners. The prop forwards directly to the inner `Sidebar` (which was hardcoded `variant="inset"`); `SidebarInset` already keys its framing classes off `peer-data-[variant=inset]`, so switching the variant is the only change required. The framing difference is purely structural (margin / radius / border) — no new color tokens, so AA contrast is unchanged in both themes.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.18.0`. No code changes required — `variant` defaults to `'inset'`, so existing `AppShell` call sites render identically. Pass `variant="sidebar"` when you want the content flush to the edges instead of inside a card frame.
+
 ### 2026-06-15
 
 #### detail-page — new `DetailPageSidebarGroup` sub-component

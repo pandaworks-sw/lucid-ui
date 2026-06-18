@@ -874,19 +874,19 @@ export default function ShowcaseApp() {
           </header>
           <main className="flex-1 overflow-y-auto">
             {active === AI_INTEGRATION_KEY ? (
-              <div className="mx-auto max-w-4xl px-8 py-8">
+              <div className="min-h-full w-full px-8 py-8">
                 <AiIntegrationView />
               </div>
             ) : active === SKILLS_KEY ? (
-              <div className="mx-auto max-w-4xl px-8 py-8">
+              <div className="min-h-full w-full px-8 py-8">
                 <SkillsView />
               </div>
             ) : active === WHATS_NEW_KEY ? (
-              <div className="mx-auto max-w-4xl px-8 py-8">
+              <div className="min-h-full w-full px-8 py-8">
                 <WhatsNewView />
               </div>
             ) : component ? (
-              <div className="mx-auto max-w-4xl px-8 py-8">
+              <div className="min-h-full w-full px-8 py-8">
                 <ComponentPage title={component.title} description={component.description}>
                   <component.demo />
                 </ComponentPage>
