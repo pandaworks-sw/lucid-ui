@@ -1,3 +1,5 @@
+import { CheckCircle2, Clock, GitBranch, Star, Zap } from 'lucide-react';
+
 import { DemoSection } from '@/showcase/component-page';
 import { Badge } from '@/components/ui/badge';
 
@@ -64,6 +66,46 @@ export default function BadgeDemo() {
       </DemoSection>
 
       <DemoSection
+        title="Colored outlines"
+        code={`// Transparent fill + tone-tinted border and text — one outline per tone.
+<Badge variant="outline-primary">Primary</Badge>
+<Badge variant="outline-secondary">Secondary</Badge>
+<Badge variant="outline-muted">Muted</Badge>
+<Badge variant="outline-success">Active</Badge>
+<Badge variant="outline-warning">On Hold</Badge>
+<Badge variant="outline-info">Planning</Badge>
+<Badge variant="outline-destructive">Rejected</Badge>
+
+// Compose with dot / icon like any other variant
+<Badge variant="outline-success" dot>Active</Badge>
+<Badge variant="outline-info" icon={Zap}>Beta</Badge>`}
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline-primary">Primary</Badge>
+          <Badge variant="outline-secondary">Secondary</Badge>
+          <Badge variant="outline-muted">Muted</Badge>
+          <Badge variant="outline-success">Active</Badge>
+          <Badge variant="outline-warning">On Hold</Badge>
+          <Badge variant="outline-info">Planning</Badge>
+          <Badge variant="outline-destructive">Rejected</Badge>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <Badge variant="outline-success" dot>
+            Active
+          </Badge>
+          <Badge variant="outline-warning" dot>
+            On Hold
+          </Badge>
+          <Badge variant="outline-info" icon={Zap}>
+            Beta
+          </Badge>
+          <Badge variant="outline-destructive" icon={Clock}>
+            Overdue
+          </Badge>
+        </div>
+      </DemoSection>
+
+      <DemoSection
         title="Semantic tones"
         code={`<Badge variant="success">Active</Badge>
 <Badge variant="warning">On Hold</Badge>
@@ -104,6 +146,39 @@ export default function BadgeDemo() {
         </div>
       </DemoSection>
 
+      <DemoSection
+        title="With icon"
+        code={`import { CheckCircle2, Clock, Star, Zap } from "lucide-react"
+
+// Pass any Lucide icon to the \`icon\` prop — it sizes to match the badge.
+<Badge variant="success" icon={CheckCircle2}>Verified</Badge>
+<Badge variant="warning" icon={Clock}>Pending</Badge>
+<Badge variant="info" icon={Zap}>Beta</Badge>
+<Badge variant="outline" icon={Star}>Featured</Badge>
+
+// Works at the smaller \`xs\` size too
+<Badge size="xs" variant="muted" icon={GitBranch}>main</Badge>`}
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="success" icon={CheckCircle2}>
+            Verified
+          </Badge>
+          <Badge variant="warning" icon={Clock}>
+            Pending
+          </Badge>
+          <Badge variant="info" icon={Zap}>
+            Beta
+          </Badge>
+          <Badge variant="outline" icon={Star}>
+            Featured
+          </Badge>
+          <Badge size="xs" variant="muted" icon={GitBranch}>
+            main
+          </Badge>
+          <Badge variant="default" icon={Star} tooltipText="Featured" />
+        </div>
+      </DemoSection>
+
       <DemoSection title="All Variants">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="default">Default</Badge>
@@ -114,6 +189,15 @@ export default function BadgeDemo() {
           <Badge variant="warning">Warning</Badge>
           <Badge variant="info">Info</Badge>
           <Badge variant="muted">Muted</Badge>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <Badge variant="outline-primary">Outline Primary</Badge>
+          <Badge variant="outline-secondary">Outline Secondary</Badge>
+          <Badge variant="outline-muted">Outline Muted</Badge>
+          <Badge variant="outline-success">Outline Success</Badge>
+          <Badge variant="outline-warning">Outline Warning</Badge>
+          <Badge variant="outline-info">Outline Info</Badge>
+          <Badge variant="outline-destructive">Outline Destructive</Badge>
         </div>
       </DemoSection>
     </>

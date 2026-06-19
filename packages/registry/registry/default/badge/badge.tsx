@@ -1,4 +1,4 @@
-import { type HTMLAttributes } from 'react';
+import { type ElementType, type HTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
@@ -17,10 +17,20 @@ const badgeVariants = cva(
         warning: 'border-transparent bg-warning/15 text-warning-soft-fg dark:bg-warning/30',
         info: 'border-transparent bg-info/15 text-info-soft-fg dark:bg-info/30',
         muted: 'border-transparent bg-muted text-muted-foreground dark:bg-stone-600/60 dark:text-stone-200',
+        // Colored outlines: transparent fill, tone-tinted border + text. Border color
+        // equals the text token, so border contrast == text contrast (>= 4.5:1, above
+        // the 3:1 non-text minimum) in both themes. Tone meaning is carried by both.
+        'outline-primary': 'border-primary text-primary',
+        'outline-secondary': 'border-secondary-foreground text-secondary-foreground',
+        'outline-muted': 'border-muted-foreground text-muted-foreground',
+        'outline-success': 'border-success-soft-fg text-success-soft-fg',
+        'outline-warning': 'border-warning-soft-fg text-warning-soft-fg',
+        'outline-info': 'border-info-soft-fg text-info-soft-fg',
+        'outline-destructive': 'border-destructive-soft-fg text-destructive-soft-fg',
       },
       size: {
-        default: 'px-2.5 py-0.5 text-xs',
-        xs: 'h-5 px-1.5 text-[11px] leading-none',
+        default: 'px-2.5 py-0.5 text-xs [&_svg]:size-3.5',
+        xs: 'h-5 px-1.5 text-[11px] leading-none [&_svg]:size-3',
       },
     },
     defaultVariants: {
@@ -41,6 +51,13 @@ const dotVariants = cva('size-1.5 shrink-0 rounded-full', {
       warning: 'bg-warning',
       info: 'bg-info',
       muted: 'bg-muted-foreground/60',
+      'outline-primary': 'bg-primary',
+      'outline-secondary': 'bg-secondary-foreground/60',
+      'outline-muted': 'bg-muted-foreground/60',
+      'outline-success': 'bg-success',
+      'outline-warning': 'bg-warning',
+      'outline-info': 'bg-info',
+      'outline-destructive': 'bg-destructive-aa',
     },
   },
   defaultVariants: {
@@ -53,14 +70,17 @@ export interface BadgeProps extends HTMLAttributes<HTMLDivElement>, VariantProps
   tooltipText?: string;
   /** Show a leading status dot tinted to match the variant. */
   dot?: boolean;
+  /** Leading icon (any Lucide icon or component). Sized to match the badge. */
+  icon?: ElementType;
 }
 
-function Badge({ className, variant, size, children, tooltipText, dot, ...props }: BadgeProps) {
+function Badge({ className, variant, size, children, tooltipText, dot, icon: Icon, ...props }: BadgeProps) {
   const label = tooltipText ?? (typeof children === 'string' ? children : undefined);
 
   const badge = (
     <div data-slot="badge" className={cn(badgeVariants({ variant, size }), className)} {...props}>
       {dot && <span aria-hidden className={cn(dotVariants({ variant }))} />}
+      {Icon && <Icon aria-hidden className="shrink-0" />}
       {children}
     </div>
   );

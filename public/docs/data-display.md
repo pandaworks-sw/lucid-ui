@@ -4,7 +4,7 @@ Components for presenting data and content.
 
 ## Badge
 
-Variants: `default`, `secondary`, `destructive`, `outline`, `success`, `warning`, `info`, `muted`.
+Variants: `default`, `secondary`, `destructive`, `outline`, `success`, `warning`, `info`, `muted`, plus the colored outline set `outline-primary`, `outline-secondary`, `outline-muted`, `outline-success`, `outline-warning`, `outline-info`, `outline-destructive`.
 
 ```tsx
 import { Badge } from "@/components/ui/badge"
@@ -19,12 +19,39 @@ import { Badge } from "@/components/ui/badge"
 <Badge variant="muted">Archived</Badge>
 ```
 
+The `outline-*` variants render a transparent chip with a tone-tinted border **and** text — an outlined counterpart to each solid/soft tone. The border color equals the text token, so border contrast tracks text contrast (≥ 4.5:1, above the 3:1 non-text minimum) in both themes:
+
+```tsx
+<Badge variant="outline-primary">Primary</Badge>
+<Badge variant="outline-success">Active</Badge>
+<Badge variant="outline-warning">On Hold</Badge>
+<Badge variant="outline-info">Planning</Badge>
+<Badge variant="outline-destructive">Rejected</Badge>
+
+// Compose with dot / icon like any other variant
+<Badge variant="outline-success" dot>Active</Badge>
+<Badge variant="outline-info" icon={Zap}>Beta</Badge>
+```
+
 Pass `dot` to render a leading status dot tinted to match the variant — useful for status pills:
 
 ```tsx
 <Badge variant="success" dot>Active</Badge>
 <Badge variant="warning" dot>On Hold</Badge>
 <Badge variant="info" dot>Planning</Badge>
+```
+
+Pass `icon` (any Lucide icon or component) to render a leading icon. The icon sizes to match the badge automatically (`size-3.5` at `default`, `size-3` at `xs`) — no manual `className` needed:
+
+```tsx
+import { CheckCircle2, Clock, Star } from "lucide-react"
+
+<Badge variant="success" icon={CheckCircle2}>Verified</Badge>
+<Badge variant="warning" icon={Clock}>Pending</Badge>
+<Badge size="xs" variant="outline" icon={Star}>Featured</Badge>
+
+// Icon-only — pair with tooltipText for an accessible label
+<Badge variant="default" icon={Star} tooltipText="Featured" />
 ```
 
 Sizes (`size` prop):
@@ -40,9 +67,10 @@ Sizes (`size` prop):
 ```
 
 Props:
-- `variant?: "default" | "secondary" | "destructive" | "outline" | "success" | "warning" | "info" | "muted"`
+- `variant?: "default" | "secondary" | "destructive" | "outline" | "success" | "warning" | "info" | "muted" | "outline-primary" | "outline-secondary" | "outline-muted" | "outline-success" | "outline-warning" | "outline-info" | "outline-destructive"`
 - `size?: "default" | "xs"` — controls height, padding, and text size; defaults to `default`
 - `dot?: boolean` — render a leading status dot tinted to match the variant
+- `icon?: ElementType` — leading icon (any Lucide icon or component); sized to match the badge automatically
 - `tooltipText?: string` — override the auto-tooltip text (defaults to the children text content when truncated)
 
 When the children text is a string, Badge wraps the chip in a Tooltip automatically so long labels stay readable when truncated.

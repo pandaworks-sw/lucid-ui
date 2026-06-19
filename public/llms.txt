@@ -349,7 +349,41 @@ Each entry contains:
 
 ---
 
+### 2026-06-19
+
+#### badge — colored outline variant for every tone
+
+- **component**: Badge
+- **change**: modified
+- **breaking**: no
+- **details**: `BadgeProps['variant']` gains seven colored outline values alongside the existing neutral `outline` at [packages/registry/registry/default/badge/badge.tsx](packages/registry/registry/default/badge/badge.tsx): `outline-primary`, `outline-secondary`, `outline-muted`, `outline-success`, `outline-warning`, `outline-info`, `outline-destructive`. Each is a transparent chip with a tone-tinted border **and** text — the outlined counterpart to each solid/soft tone. The global base reset sets `border-color: var(--color-border)` (grey) by default, so each variant explicitly sets its border color. The colored tones (`success`/`warning`/`info`/`destructive`) use the AA-safe `--*-soft-fg` token for **both** border and text, so the border color equals the text color: since the text already clears 4.5:1, the border clears the 3:1 SC 1.4.11 non-text minimum automatically in both themes (this also avoids the chroma `--warning` border, which measured only 2.78:1 on the light page bg). The greys (`primary`/`secondary`/`muted`) use `border-primary`/`text-primary`, `border-secondary-foreground`/`text-secondary-foreground`, `border-muted-foreground`/`text-muted-foreground`. Measured text-vs-page-bg contrast (light / dark): primary 15.2 / 13.3, secondary 12.0 / 13.3, muted 8.3 / 5.4, success 5.4 / 9.2, info 5.4 / 8.7, warning 5.3 / 9.8, destructive 6.6 / 8.2 — all ≥ 4.5:1. `dotVariants` is extended for the new tones (dots use the chroma fill `bg-success`/`bg-warning`/`bg-info`/`bg-destructive-aa`, and `bg-primary`/foreground-tint for the greys), so `dot` tints correctly; the `icon` prop composes as with any variant. No new color tokens were introduced.
+- **action**: Replace hand-rolled outlined status chips (a bordered span with a colored text class) with the matching variant, e.g. `<Badge variant="outline-success">Active</Badge>` or `<Badge variant="outline-destructive" icon={Clock}>Overdue</Badge>`. Use a colored outline when you want a lighter-weight status chip than the solid/soft fill. No change required for existing call sites.
+
+#### app-shell — `AppShell` gains a `sidebarPanel` prop (controlled contextual sidebar)
+
+- **component**: AppShell
+- **change**: modified
+- **breaking**: no
+- **details**: `AppShellProps` gains `sidebarPanel?: SidebarPanel | null` at [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx), where `SidebarPanel = { title: string; content: ReactNode; onBack?: () => void }` (exported from the app-shell barrel). When set, the sidebar slides from the nav list to your panel (e.g. a filter form) with an animated back row, and slides back to the nav when you clear it. It is a *controlled* slot — you drive it from your own route/state. The intended pattern makes the sidebar part of the page flow: a nav click sets both the route and `sidebarPanel`; the panel `content` edits filter state that lives above the shell; your `children` read that same state so the main content reacts (re-query / re-filter); `onBack` fires on the back row so you can set `sidebarPanel` back to `null`. AppShell owns only the swap + animation — it does **not** animate the main content (that belongs to your routing layer). Implemented by reusing the existing `drilldown` mechanic: an absolute two-pane `translateX` track inside `SidebarContent` with measured-height resize (`ResizeObserver`); the off-screen pane carries `inert` + `aria-hidden` so it stays out of the tab order, and the panel pane is a `role="group"` with `aria-label={title}` so the landmark updates for screen readers. The last non-null panel is retained while sliding out so its content does not flash. Designed for the expanded sidebar — in icon-collapsed mode the panel body is hidden and only the back affordance remains, so keep the sidebar open while a panel is active (e.g. via `defaultSidebarOpen`). No new color tokens — it reuses the existing `sidebar` surface tokens, so AA contrast is unchanged in both light and dark modes; the back row renders `text-sidebar-foreground/70` over the sidebar background (matches the existing `SidebarGroupLabel`).
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.20.0`. No code changes required — `sidebarPanel` is optional, so existing `AppShell` call sites render identically. Pass `sidebarPanel={{ title, content, onBack }}` (driven from your own route/state, with `children` reading the same state) when you want the sidebar to turn into a contextual panel — e.g. filters — that the main content reacts to. Keep the sidebar expanded while a panel is active.
+
+#### foundations — darker app background (`--background` one step darker)
+
+- **component**: Foundations (color tokens)
+- **change**: modified
+- **breaking**: no
+- **details**: The `--background` token moves one step darker in both themes at [packages/registry/src/styles.css](packages/registry/src/styles.css): dark `var(--stone-800)` `#1c2229` → `var(--stone-900)` `#11161b`; light `var(--stone-50)` `#f7f9fb` → `var(--stone-150)` `#e5ebef`. `--card` is unchanged (dark `#2c343b`, light `#ffffff`), so the page-to-card luminance step grows and `Card` / `StatCard` / inputs / popovers read as raised panels rather than near-flat regions. In dark mode the page now equals the sidebar's `stone-900` tone (sidebar + content become one dark canvas with cards floating above); dark inputs (`--input-bg` `stone-800`) also lift since they are now lighter than the page. No `--foreground`, `--card`, `--border`, or `--sidebar-*` tokens changed; no new tokens. Contrast improves or holds in both themes — dark body text `#e5ebef` on `#11161b` ≈ 15:1 (was ≈ 12.9:1), dark `--muted-foreground` ≈ 5.7:1 (was ≈ 4.9:1), light body text ≈ 12.9:1, light `--muted-foreground` ≈ 7.6:1 — all ≥ 4.5:1.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` to `^0.20.0`. No code changes required — the change is a token value only and the component API is unchanged. Expect a visibly darker page background in both light and dark mode after upgrading. If a downstream app hard-coded a matching page color (e.g. `bg-[#1c2229]`) to sit flush with the old background, switch it to the `bg-background` token so it tracks the new value.
+
 ### 2026-06-18
+
+#### badge — `Badge` gains an `icon` prop
+
+- **component**: Badge
+- **change**: modified
+- **breaking**: no
+- **details**: `BadgeProps` gains `icon?: ElementType` at [packages/registry/registry/default/badge/badge.tsx](packages/registry/registry/default/badge/badge.tsx) — pass any Lucide icon (or component) to render a leading icon, mirroring the `Button` `icon` prop. The icon sizes to match the badge automatically via new `[&_svg]:size-*` rules added to the `size` variant (`size-3.5` at `size="default"`, `size-3` at `size="xs"`), so no manual `className` on the icon is needed; the existing `gap-1` on the badge handles spacing. The icon renders `aria-hidden` + `shrink-0`, positioned after the optional status `dot` and before the children. Icon-only badges (no children) should pair with `tooltipText` for an accessible label. No new color tokens — the icon inherits the variant's text color (the `--*-soft-fg` tokens still drive the soft variants), so AA contrast is unchanged in both light and dark modes.
+- **action**: Upgrade `@pandaworks-sw/lucid-ui` and replace hand-rolled leading icons — `<Badge variant="success"><CheckCircle2 className="size-3" />Verified</Badge>` — with the prop: `<Badge variant="success" icon={CheckCircle2}>Verified</Badge>`. Drop the manual icon `className`; the badge sizes the icon for you. No change required for existing call sites that omit `icon`.
 
 #### app-shell — `AppShell` gains a `navMode` prop (`"accordion" | "drilldown"`)
 

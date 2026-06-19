@@ -151,7 +151,7 @@
     --destructive-aa: #a8392a;
 
     /* shadcn semantic tokens — light mode */
-    --background: var(--stone-50);
+    --background: var(--stone-150);
     --foreground: var(--stone-800);
     --card: #ffffff;
     --card-foreground: var(--stone-800);
@@ -198,7 +198,7 @@
     color-scheme: dark;
 
     /* shadcn semantic tokens — dark mode */
-    --background: var(--stone-800);
+    --background: var(--stone-900);
     --foreground: var(--stone-150);
     --card: var(--stone-700);
     --card-foreground: var(--stone-150);

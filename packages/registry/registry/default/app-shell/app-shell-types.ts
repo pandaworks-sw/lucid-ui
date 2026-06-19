@@ -21,6 +21,24 @@ export interface AppShellProps {
    *   straight to the level that holds the active item.
    */
   navMode?: 'accordion' | 'drilldown';
+  /**
+   * Contextual sidebar panel. When set, the sidebar slides from the nav list to
+   * this panel (e.g. a filter form) with an animated back row, and slides back
+   * to the nav when you clear it.
+   *
+   * This is a *controlled* slot — you drive it from your own route/state. The
+   * typical flow: a nav click sets both the route and `sidebarPanel`; your
+   * `children` read the same state so the main content reacts (re-query,
+   * re-filter). Clearing `sidebarPanel` (commonly inside `onBack`) slides the
+   * sidebar back to the nav. AppShell owns only the swap + animation; it does
+   * not animate the main content (that belongs to your routing layer).
+   *
+   * Designed for the expanded sidebar. In icon-collapsed mode the panel body is
+   * hidden and only the back affordance remains, so keep the sidebar open while
+   * a panel is active (e.g. via `defaultSidebarOpen`). `undefined`/`null`
+   * renders the nav exactly as before — fully backward compatible.
+   */
+  sidebarPanel?: SidebarPanel | null;
   user?: {
     name: string;
     email?: string;
@@ -61,6 +79,22 @@ export interface AppShellProps {
    * to persist the value (e.g. `localStorage.setItem('sidebar:open', String(open))`).
    */
   onSidebarOpenChange?: (open: boolean) => void;
+}
+
+export interface SidebarPanel {
+  /** Title shown in the back row at the top of the panel. */
+  title: string;
+  /**
+   * Panel body — arbitrary content (filter form, detail view, etc.). It renders
+   * in the same gutter as the nav items. Hidden when the sidebar collapses to
+   * icon mode.
+   */
+  content: ReactNode;
+  /**
+   * Fires when the user clicks the back row. Use it to clear `sidebarPanel`
+   * (set it back to `null`) so the sidebar slides back to the nav.
+   */
+  onBack?: () => void;
 }
 
 export type NavItem = NavLinkItem | NavSeparatorItem;

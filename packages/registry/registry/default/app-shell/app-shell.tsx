@@ -46,7 +46,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import type { AppShellProps, NavItem, NavLinkItem, UserAction } from '@/components/ui/app-shell-types';
+import type { AppShellProps, NavItem, NavLinkItem, SidebarPanel, UserAction } from '@/components/ui/app-shell-types';
 
 function DefaultLink({
   href,
@@ -269,6 +269,86 @@ function NavItemDrilldown({
   );
 }
 
+/**
+ * Slides the sidebar content between two panes — the nav (pane 0) and a
+ * contextual panel (pane 1) — when `panel` is set. Reuses the drilldown
+ * mechanic: an absolute two-pane `translateX` track whose container height is
+ * driven by the on-screen pane (measured + `ResizeObserver`) so it animates
+ * between panes of different heights. The off-screen pane carries `inert` +
+ * `aria-hidden` so it stays out of the tab order and the accessibility tree.
+ */
+function SidebarPanelSwitcher({ panel, children }: { panel: SidebarPanel | null; children: ReactNode }) {
+  const active = panel !== null;
+  // Retain the last non-null panel so its content stays on screen while the
+  // panel slides out after the consumer clears `sidebarPanel`.
+  const [retained, setRetained] = useState<SidebarPanel | null>(panel);
+  useEffect(() => {
+    if (panel) setRetained(panel);
+  }, [panel]);
+
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const [height, setHeight] = useState<number>();
+
+  // Drive the container height from whichever pane is on screen so it resizes
+  // smoothly between nav and panel, and re-measures when the panel body or the
+  // sidebar width changes.
+  useLayoutEffect(() => {
+    const el = active ? panelRef.current : navRef.current;
+    if (!el) return;
+    const measure = () => setHeight(el.scrollHeight);
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [active, retained]);
+
+  const shown = panel ?? retained;
+
+  return (
+    <div
+      className="relative overflow-hidden transition-[height] duration-200 ease-out"
+      style={{ height }}
+      data-slot="sidebar-panel-switcher"
+    >
+      <div
+        ref={navRef}
+        aria-hidden={active}
+        inert={active ? true : undefined}
+        className="absolute top-0 left-0 w-full transition-transform duration-200 ease-out"
+        style={{ transform: `translateX(${active ? -100 : 0}%)` }}
+      >
+        {children}
+      </div>
+      <div
+        ref={panelRef}
+        role="group"
+        aria-label={shown?.title}
+        aria-hidden={!active}
+        inert={!active ? true : undefined}
+        className="absolute top-0 left-0 w-full transition-transform duration-200 ease-out"
+        style={{ transform: `translateX(${active ? 0 : 100}%)` }}
+        data-slot="sidebar-panel"
+      >
+        {shown && (
+          <SidebarGroup>
+            <button
+              type="button"
+              onClick={shown.onBack}
+              className="mb-0.5 flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1.5 text-left text-xs font-medium text-sidebar-foreground/70 outline-hidden ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2"
+            >
+              <ChevronLeft className="size-4 shrink-0" />
+              <span className="truncate group-data-[collapsible=icon]:hidden">{shown.title}</span>
+            </button>
+            <div className="group-data-[collapsible=icon]:hidden">{shown.content}</div>
+          </SidebarGroup>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function BrandingLink({
   branding,
   linkComponent: Link = DefaultLink,
@@ -391,6 +471,7 @@ function AppShell({
   contentClassName,
   variant = 'inset',
   navMode = 'accordion',
+  sidebarPanel,
   defaultSidebarOpen = true,
   onSidebarOpenChange,
 }: AppShellProps) {
@@ -417,6 +498,29 @@ function AppShell({
     setOpen(!isCompact);
   }, [isCompact, setOpen]);
 
+  const navGroup = (
+    <SidebarGroup>
+      <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+      <SidebarGroupContent>
+        {navMode === 'drilldown' ? (
+          <NavItemDrilldown navigation={navigation} linkComponent={Link} />
+        ) : (
+          <SidebarMenu>
+            {navigation.map((item: NavItem, index: number) =>
+              item.type === 'separator' ? (
+                <SidebarSeparator key={`sep-${index}`} className="my-1" />
+              ) : item.items && item.items.length > 0 ? (
+                <NavItemCollapsible key={item.href} item={item} linkComponent={Link} />
+              ) : (
+                <NavItemFlat key={item.href} item={item} linkComponent={Link} />
+              )
+            )}
+          </SidebarMenu>
+        )}
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+
   return (
     <SidebarProvider open={open} onOpenChange={setOpen}>
       <Sidebar variant={variant} collapsible="icon">
@@ -429,26 +533,11 @@ function AppShell({
         </SidebarHeader>
 
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-            <SidebarGroupContent>
-              {navMode === 'drilldown' ? (
-                <NavItemDrilldown navigation={navigation} linkComponent={Link} />
-              ) : (
-                <SidebarMenu>
-                  {navigation.map((item: NavItem, index: number) =>
-                    item.type === 'separator' ? (
-                      <SidebarSeparator key={`sep-${index}`} className="my-1" />
-                    ) : item.items && item.items.length > 0 ? (
-                      <NavItemCollapsible key={item.href} item={item} linkComponent={Link} />
-                    ) : (
-                      <NavItemFlat key={item.href} item={item} linkComponent={Link} />
-                    )
-                  )}
-                </SidebarMenu>
-              )}
-            </SidebarGroupContent>
-          </SidebarGroup>
+          {sidebarPanel === undefined ? (
+            navGroup
+          ) : (
+            <SidebarPanelSwitcher panel={sidebarPanel ?? null}>{navGroup}</SidebarPanelSwitcher>
+          )}
         </SidebarContent>
 
         {user && (
@@ -493,5 +582,6 @@ export type {
   NavItem,
   NavLinkItem,
   NavSeparatorItem,
+  SidebarPanel,
   UserAction,
 } from '@/components/ui/app-shell-types';

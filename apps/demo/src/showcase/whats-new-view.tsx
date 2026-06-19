@@ -12,6 +12,38 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-19',
+    componentName: 'colors',
+    title: 'Darker app background',
+    summary:
+      'The app background token (--background) is now one step darker in both themes — dark goes from stone-800 to stone-900, light goes from stone-50 to stone-150. The card token is unchanged, so the gap between the page and the cards grows and cards, stat cards, inputs, and popovers lift off the page as clear raised panels instead of near-flat regions. In dark mode the page now matches the sidebar tone, so the sidebar and content read as one dark canvas with the cards floating above. No text, card, or border colors changed and no new tokens were added; body and muted text contrast stays at or above AA in both themes (it actually improves in dark mode). This is a visual change for every app that upgrades — the component API is unchanged.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-19',
+    componentName: 'badge',
+    title: 'Badge colored outlines',
+    summary:
+      'Badge now has a colored outline for every tone: outline-primary, outline-secondary, outline-muted, outline-success, outline-warning, outline-info, and outline-destructive. Each one is a transparent chip with a tone-colored border and matching text — a lighter-weight status chip than the solid or soft fill. The border uses the same AA-safe color token as the text, so both the text (≥ 4.5:1) and the border (≥ 3:1) clear WCAG contrast in light and dark mode. The dot and icon props work with the new tones too, and no existing badge changes.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-19',
+    componentName: 'app-shell',
+    title: 'App Shell contextual sidebar',
+    summary:
+      'AppShell now accepts a sidebarPanel prop ({ title, content, onBack }) that makes the sidebar part of the page flow. When you set it, the sidebar slides from the nav list to your panel — for example a filter form — with an animated back row, and slides back when you clear it. It is a controlled slot: a nav click sets the route and the panel, your panel content edits filter state, and your page content reads the same state so it reacts. AppShell only animates the swap; your routing layer handles the content. It is designed for the expanded sidebar (the panel body hides in icon mode), reuses the sidebar tokens so contrast is unchanged, and is fully backward compatible — omit it and the nav renders as before.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-18',
+    componentName: 'badge',
+    title: 'Badge icon prop',
+    summary:
+      'Badge now takes an icon prop — pass any Lucide icon (like the Button icon prop) to show a leading icon. The icon sizes itself to match the badge (smaller at the xs size), so you do not add a className to the icon. It renders after the optional status dot and is aria-hidden; for icon-only badges, pair it with tooltipText for an accessible label. No new colors, so contrast is unchanged, and existing badges render the same.',
+    kind: 'changed',
+  },
+  {
     date: '2026-06-18',
     componentName: 'tabs',
     title: 'Tabs animated sliding pill',
