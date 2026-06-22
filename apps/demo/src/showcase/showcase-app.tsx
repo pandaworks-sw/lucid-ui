@@ -102,6 +102,37 @@ interface ComponentMeta {
   // sidebar badge for NEW_BADGE_DAYS. Leave undefined for components that have
   // been around a while.
   since?: string;
+  // Copyable import line shown under the title. Set per component.
+  importLine?: string;
+  // GitHub link to the component source. Set per component.
+  sourceUrl?: string;
+}
+
+const REPO_BLOB = 'https://github.com/pandaworks-sw/lucid-ui/blob/main/packages/registry/registry/default';
+
+// Components with no single source file / no single exported symbol — skip the meta row.
+const NO_META = new Set(['colors', 'typography', 'tones', 'pattern-background', 'action-button']);
+// Export names that aren't a plain PascalCase of the kebab route name.
+const IMPORT_OVERRIDES: Record<string, string> = { sonner: 'Toaster', 'filter-bar': 'FilterButton' };
+
+function toPascal(name: string) {
+  return name
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join('');
+}
+
+// Derive the import line + GitHub source link for the title meta row. Explicit
+// values on the ComponentMeta win; otherwise derive from the (kebab) name, which
+// maps 1:1 to the registry dir and (via PascalCase + overrides) to the export.
+function resolveComponentMeta(c: ComponentMeta): { importLine?: string; sourceUrl?: string } {
+  if (c.importLine || c.sourceUrl) return { importLine: c.importLine, sourceUrl: c.sourceUrl };
+  if (NO_META.has(c.name)) return {};
+  const exportName = IMPORT_OVERRIDES[c.name] ?? toPascal(c.name);
+  return {
+    importLine: `import { ${exportName} } from '@pandaworks-sw/lucid-ui';`,
+    sourceUrl: `${REPO_BLOB}/${c.name}/${c.name}.tsx`,
+  };
 }
 
 const COMPONENTS: ComponentMeta[] = [
@@ -152,6 +183,8 @@ const COMPONENTS: ComponentMeta[] = [
     description:
       'A unified button with multiple variants, sizes, action presets, icon prop, tooltip, and loading state.',
     demo: ButtonDemo,
+    importLine: "import { Button } from '@pandaworks-sw/lucid-ui';",
+    sourceUrl: `${REPO_BLOB}/button/button.tsx`,
   },
   {
     name: 'input',
@@ -782,6 +815,7 @@ export default function ShowcaseApp() {
   }, []);
 
   const component = COMPONENTS.find((c) => c.name === active);
+  const componentMeta = component ? resolveComponentMeta(component) : undefined;
 
   const query = search.trim().toLowerCase();
   const matches = query
@@ -887,7 +921,12 @@ export default function ShowcaseApp() {
               </div>
             ) : component ? (
               <div className="min-h-full w-full px-8 py-8">
-                <ComponentPage title={component.title} description={component.description}>
+                <ComponentPage
+                  title={component.title}
+                  description={component.description}
+                  importLine={componentMeta?.importLine}
+                  sourceUrl={componentMeta?.sourceUrl}
+                >
                   <component.demo />
                 </ComponentPage>
               </div>

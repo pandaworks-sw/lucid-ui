@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const trackVariants = cva('h-1.5 w-full overflow-hidden rounded-full bg-muted', {
+const trackVariants = cva('h-1.5 w-full overflow-hidden rounded-full bg-border', {
   variants: {
     size: {
       sm: 'h-1',

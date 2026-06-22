@@ -85,7 +85,7 @@ function TopBar({ onCreateProject, onOpenPalette }: { onCreateProject: () => voi
       </button>
 
       <div className="ml-auto flex shrink-0 items-center gap-2">
-        <Button variant="brand" size="sm" className="hidden sm:inline-flex" onClick={onCreateProject}>
+        <Button size="sm" className="hidden sm:inline-flex" onClick={onCreateProject}>
           <Plus className="size-4" />
           New project
         </Button>

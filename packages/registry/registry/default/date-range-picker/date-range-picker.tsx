@@ -28,7 +28,7 @@ interface QuickSelectItem {
 
 function QuickSelectPanel({ items, onSelect }: { items: QuickSelectItem[]; onSelect: (date: Date) => void }) {
   return (
-    <div className="hidden sm:flex flex-col gap-1 border-r border-border p-3 bg-muted/50 dark:bg-muted/20 shrink-0">
+    <div className="hidden sm:flex flex-col gap-1 border-r border-border p-3 bg-input-bg/50 dark:bg-input-bg/20 shrink-0">
       <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Quick Select</div>
       {items.map((item) => (
         <Button

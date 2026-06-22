@@ -13,6 +13,30 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-06-22',
+    componentName: 'colors',
+    title: 'Dark-mode surface blends fixed across components',
+    summary:
+      'In dark mode several tokens (card, popover, muted, secondary) are the same gray, so any component that filled itself with the muted or secondary color disappeared when it sat on a card — sliders, meter bars, skeletons, avatars, empty-state icons, icon badges, table selected rows, menu separators, the tabs track, and more. Those neutral fills now use the input-background token: it is the same color as before in light mode, but one step off the card in dark mode, so they stay visible. Tracks and separators use the border token. A few selection states (calendar range and today, the toggle on-state, dialog and modal close buttons) used the accent color, which equals the page background in light mode, so they vanished on a page — those now use the input background too, and the badge and split-button "secondary" variants got the same fix. No API changes; light mode looks the same and dark mode no longer hides these surfaces. An independent second review checked every fix and the contrast ratios still pass AA.',
+    kind: 'fixed',
+  },
+  {
+    date: '2026-06-22',
+    componentName: 'button',
+    title: 'Brand (blue) button variant removed',
+    summary:
+      'The blue "brand" button variant is gone from Button and SplitButton. The neutral "default" button is now the only primary button, and the create and save action presets use it too — so those buttons are now neutral gray instead of blue. This is a breaking change: any button using variant="brand" no longer compiles. Drop the prop (it falls back to default) or pick another variant; create/save presets need no change. The brand color token itself is untouched — it still drives the ghost button hover light-up and stays available for other fills. Contrast is unchanged in both light and dark mode.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-22',
+    componentName: 'app-shell',
+    title: 'Sidebar inputs visible in light mode',
+    summary:
+      'When you put inputs inside the sidebar (a Select or Input in a sidebarPanel filter form), they used to blend into the sidebar in light mode — the field fill and the sidebar surface were the same gray, so the field looked like it had no background. The light sidebar is now one step darker (it matches the page background, like dark mode already did), so the input fill sits one step lighter and lifts off the surface. The nav hover/active highlight was darkened in step so it stays visible. Dark mode is unchanged. The placeholder text was never too light (it passes AA in both themes) — the fix was the missing fill separation. No API change; every sidebar gets the new look automatically.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-22',
     componentName: 'button',
     title: 'Ghost buttons light up on hover',
     summary:
@@ -25,6 +49,22 @@ const ENTRIES: WhatsNewEntry[] = [
     title: 'Tabs visible again in light mode',
     summary:
       'The default Tabs bar was blending into the page in light mode. After the darker app background change, the accent color and the background color became the same light gray, so the tab track and the active pill both matched the page and the whole bar vanished. The track now uses the muted surface, which is lighter than the page in light mode and a lighter inset in dark mode, so the bar reads as a clear surface in both themes and the active pill stands out against it. The active pill also gains a small shadow so it looks raised. No API change and no new colors — existing tabs get the fix automatically; text contrast stays at or above AA in both themes.',
+    kind: 'fixed',
+  },
+  {
+    date: '2026-06-22',
+    componentName: 'card',
+    title: 'Clearer card border',
+    summary:
+      'The card border is now easier to see as a panel edge. In dark mode it is a step darker so it clears the WCAG 3:1 line for component boundaries against the darker page background (the old dark border was below that line). In light mode the border is a little more visible than before but still kept soft — a fully compliant light border would be too heavy, so light mode leans on the gap between the page and the card plus the shadow to separate them. The colored gradient cards keep their own tinted borders. This is a visual change for every app that upgrades; there is no API change.',
+    kind: 'fixed',
+  },
+  {
+    date: '2026-06-22',
+    componentName: 'badge',
+    title: 'Soft badges readable on the darker page',
+    summary:
+      'The soft status badges (success, info, warning) had text that was too light to read on the new darker page background. They were tuned for white cards, but after the darker app background change they measured about 4.0:1 on the page surface — below the 4.5:1 AA minimum — which showed up on Status and Priority chips in a detail-page sidebar. The light-mode text colors are now a step darker so they pass AA both on the page background (about 4.6:1) and on white cards (about 5.4:1). The destructive soft badge already passed and dark mode already passed, so those are unchanged. The colored outline badges get a small contrast boost too. No API change and no new colors — the green, blue, and amber tones still read the same.',
     kind: 'fixed',
   },
   {

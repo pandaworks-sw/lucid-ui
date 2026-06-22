@@ -351,7 +351,7 @@ function UserAvatar({
       {user ? (
         <AvatarFallback>{user.name}</AvatarFallback>
       ) : (
-        <AvatarFallback colorize={false} className="bg-muted text-muted-foreground">
+        <AvatarFallback colorize={false} className="bg-input-bg text-muted-foreground">
           <UserCircle className={size === 'xs' ? 'h-3 w-3' : 'h-4 w-4'} />
         </AvatarFallback>
       )}

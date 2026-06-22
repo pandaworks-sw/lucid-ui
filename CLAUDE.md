@@ -119,9 +119,9 @@ For standard user actions, use the `action` prop on `Button` instead of manually
 
 | Action | Icon | Default Variant | Auto-Label |
 |--------|------|-----------------|------------|
-| `create` | Plus | brand | Create |
+| `create` | Plus | default | Create |
 | `edit` | Pencil | outline | Edit |
-| `save` | Save | brand | Save |
+| `save` | Save | default | Save |
 | `delete` | Trash2 | destructive | Delete |
 | `cancel` | X | outline | Cancel |
 | `view` | Eye | ghost | View |
@@ -212,7 +212,7 @@ Every component variant must clear these contrast minimums in **both light and d
 2. **Reusing chroma for both light and dark**. A red dark enough to clear 4.5:1 white-on-it (e.g. `#a8392a`) is too dark to use as `text-X` over a dark-mode bg. Foreground text needs **theme-specific** values.
 3. **White text on the original `--danger` (`#c8543f`)**. Measures 4.38:1 — under AA. Use `--destructive-aa` (`#a8392a`, 6.3:1) for solid red controls.
 
-> Note on Card/panel boundaries: the current Card uses `border-border/70` which sits below SC 1.4.11's 3:1 against the page bg. This is an accepted decorative gap — the card's contents (typography, internal contrast) carry the grouping, and a darker compliant border was deemed too visually heavy. If a project requires strict compliance, opt into a darker border locally rather than re-skinning the registry.
+> Note on Card/panel boundaries: the Card border is `border-stone-300 dark:border-stone-500`. **Dark** (`stone-500` `#5f6b75` vs `stone-900` page bg ≈ 3.3:1) clears SC 1.4.11's 3:1 non-text minimum. **Light** (`stone-300` `#bcc5cd` vs `stone-150` page bg ≈ 1.45:1) is an accepted decorative gap — a 3:1-compliant light border needs `stone-500`, which was judged too visually heavy for the light theme, so light keeps a soft edge and leans on the page-to-card surface step + shadow for separation. A light-theme project that needs strict compliance opts into a darker border locally. The `color` gradient variants set their own decorative tinted borders and are exempt from this gate.
 
 ### Tokens already provisioned for AA — use these
 
@@ -224,6 +224,22 @@ Defined in [packages/registry/src/styles.css](packages/registry/src/styles.css),
 | `--destructive-aa` | Solid red bg for controls with white text. Use INSTEAD of `--destructive` when the surface is a button/badge/banner with white-on-red text. |
 
 The chroma tokens (`--success`, `--info`, `--warning`, `--danger`, `--destructive`, `--border`) are intentionally untouched — they remain available for non-text fills (meter bars, dots, chart fills) where 4.5:1 doesn't apply.
+
+### Surface tokens — preventing background blends (SC 1.4.11 adjacency)
+
+Several semantic tokens share the **same value** within a theme. Two surfaces from the same group, stacked with no border/shadow/ring between them, become invisible — a "blend". Resolved values:
+
+- **Dark:** `--card` = `--popover` = `--muted` = `--secondary` = `stone-700` · `--accent` = `--border` = `--input` = `stone-600` · `--background` = `stone-900` · `--input-bg` = `stone-800`.
+- **Light:** `--background` = `--accent` = `stone-150` · `--card` = `--popover` = `#fff` · `--muted` = `--secondary` = `--input-bg` = `stone-100` · `--border` = `--input` = `stone-200`.
+
+Rules for a component's own **fill / track / chip / circle / surface** (consumers place these on a `Card`, so assume the surface behind you is `--card`):
+
+- **Never use `bg-muted` or `bg-secondary` as a solid fill with no border or shadow** — it vanishes on a card (and inside a popover) in dark mode. Use **`bg-input-bg`**: it equals `muted`/`secondary` in light (`stone-100`, so light is unchanged) but is `stone-800` in dark — one step off the `stone-700` card. The opacity form is a light-identical drop-in: `bg-muted/X` → `bg-input-bg/X`.
+- **Tracks, separators, dividers, grooves** → `bg-border` (`stone-200` light / `stone-600` dark) — contrasts on a card AND on the page in both themes.
+- **Never use `bg-accent` as a selection / active / fill state on a surface that can sit on the page background** — in light `accent` == `background` == `stone-150`, so the state disappears on a page. Use `bg-input-bg` (neutral) or a `bg-primary/N` tint (branded). `bg-accent` is fine for **hover/focus inside a popover/menu** (popover is white in light, so accent shows) and on bordered/shadowed controls.
+- Keeping `bg-secondary` on a control that carries its own `shadow`/`border` is fine (e.g. the `Button` `secondary` variant) — the edge survives even when the fill matches the card.
+
+Check before shipping a fill: if your fill token and the surface behind it land in the **same group** for either theme, switch to a token from a different group (usually `bg-input-bg`, or `bg-border` for a track).
 
 ### Workflow — when adding or modifying a component
 

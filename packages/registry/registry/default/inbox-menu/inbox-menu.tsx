@@ -107,7 +107,7 @@ const InboxMenu = forwardRef<HTMLButtonElement, InboxMenuProps>(function InboxMe
                       {item.avatarFallback && <AvatarFallback>{item.avatarFallback}</AvatarFallback>}
                     </Avatar>
                   ) : Icon ? (
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-input-bg text-muted-foreground">
                       <Icon className="h-4 w-4" />
                     </span>
                   ) : (
@@ -120,7 +120,7 @@ const InboxMenu = forwardRef<HTMLButtonElement, InboxMenuProps>(function InboxMe
                   'flex w-full items-start gap-3 px-4 py-3 text-left transition-colors',
                   'hover:bg-accent hover:text-accent-foreground',
                   'focus:bg-accent focus:text-accent-foreground focus:outline-none',
-                  !item.read && 'bg-muted/30'
+                  !item.read && 'bg-input-bg/30'
                 );
                 const body = (
                   <>

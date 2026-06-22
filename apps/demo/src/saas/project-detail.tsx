@@ -281,7 +281,7 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                       {projectTasks.length} items · {openTasks} open
                     </CardDescription>
                   </div>
-                  <Button size="sm" variant="brand" onClick={() => setTaskModal({ open: true })}>
+                  <Button size="sm" onClick={() => setTaskModal({ open: true })}>
                     <Plus className="size-4" />
                     Add task
                   </Button>
@@ -295,7 +295,7 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                       </div>
                       <p className="text-sm font-medium">No tasks yet.</p>
                       <p className="text-xs text-muted-foreground">Add the first one and start tracking.</p>
-                      <Button size="sm" variant="brand" onClick={() => setTaskModal({ open: true })}>
+                      <Button size="sm" onClick={() => setTaskModal({ open: true })}>
                         <Plus className="size-4" />
                         Add task
                       </Button>

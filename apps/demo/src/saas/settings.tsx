@@ -122,7 +122,7 @@ function ProfileSection({ defaultName, defaultEmail }: { defaultName: string; de
           >
             Reset
           </Button>
-          <Button variant="brand" action="save" onClick={() => toast.success('Profile saved')} />
+          <Button action="save" onClick={() => toast.success('Profile saved')} />
         </div>
       </CardContent>
     </Card>
@@ -168,7 +168,7 @@ function WorkspaceSection() {
           </Select>
         </div>
         <div className="flex items-center justify-end gap-2 pt-2">
-          <Button variant="brand" action="save" onClick={() => toast.success('Workspace saved')} />
+          <Button action="save" onClick={() => toast.success('Workspace saved')} />
         </div>
       </CardContent>
     </Card>
@@ -241,7 +241,7 @@ function NotificationsSection() {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <Button variant="brand" action="save" onClick={() => toast.success('Preferences saved')} />
+          <Button action="save" onClick={() => toast.success('Preferences saved')} />
         </div>
       </CardContent>
     </Card>
@@ -362,7 +362,7 @@ function ApiKeysSection() {
           <CardTitle className="text-base">API keys</CardTitle>
           <CardDescription>Used by integrations and CLI tools.</CardDescription>
         </div>
-        <Button variant="brand" size="sm" onClick={createKey}>
+        <Button size="sm" onClick={createKey}>
           <Key className="size-4" />
           New key
         </Button>

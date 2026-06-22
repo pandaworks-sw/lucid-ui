@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, ArrowRight, Heart, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DemoSection } from '@/showcase/component-page';
+import { DemoSection, ComponentSection } from '@/showcase/component-page';
 
 export default function ButtonDemo() {
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,6 @@ export default function ButtonDemo() {
       <DemoSection
         title="Variants"
         code={`<Button variant="default">Default</Button>
-<Button variant="brand">Brand</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="destructive">Destructive</Button>
@@ -20,7 +19,6 @@ export default function ButtonDemo() {
       >
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="default">Default</Button>
-          <Button variant="brand">Brand</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="outline">Outline</Button>
           <Button variant="destructive">Destructive</Button>
@@ -116,9 +114,6 @@ export default function ButtonDemo() {
       <DemoSection title="Disabled">
         <div className="flex flex-wrap items-center gap-3">
           <Button disabled>Default</Button>
-          <Button variant="brand" disabled>
-            Brand
-          </Button>
           <Button variant="secondary" disabled>
             Secondary
           </Button>
@@ -181,6 +176,54 @@ export default function ButtonDemo() {
           </Button>
         </div>
       </DemoSection>
+
+      <ComponentSection title="When to use">
+        <p>
+          Use <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">Button</code> for any action the user
+          takes — submit, save, cancel, open a dialog. Pick the <strong>variant</strong> by importance:
+        </p>
+        <ul className="ml-4 list-disc space-y-1">
+          <li>
+            <strong>default</strong> — the one primary action on a surface (Save, Create).
+          </li>
+          <li>
+            <strong>outline / secondary</strong> — supporting actions next to a primary one (Cancel, Edit).
+          </li>
+          <li>
+            <strong>ghost / link</strong> — low-emphasis or inline actions (row actions, "View").
+          </li>
+          <li>
+            <strong>destructive</strong> — only for irreversible actions (Delete). Pair it with an Alert Dialog to
+            confirm.
+          </li>
+        </ul>
+        <p>
+          Prefer the <strong>action presets</strong> over hand-picking icon + variant + label, so the same action looks
+          the same across the app. Match the <strong>size</strong> to the surrounding density, not to preference.
+        </p>
+      </ComponentSection>
+
+      <ComponentSection title="Accessibility">
+        <ul className="ml-4 list-disc space-y-1">
+          <li>
+            Every variant renders a visible <strong>focus ring</strong> on keyboard focus (
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">focus-visible:ring-2</code>), which clears
+            the WCAG 1.4.11 non-text 3:1 minimum.
+          </li>
+          <li>
+            <strong>Icon-only buttons need an accessible name.</strong> The auto-tooltip is a <em>visual</em> label only
+            — it shows the preset label on hover and focus but is not the button's accessible name. Pass{' '}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">aria-label</code> for screen readers; it
+            forwards to the underlying{' '}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">&lt;button&gt;</code>.
+          </li>
+          <li>
+            <strong>loading</strong> and <strong>disabled</strong> both set the native{' '}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">disabled</code> attribute, so the button
+            leaves the tab order and cannot be triggered twice while an action is in flight.
+          </li>
+        </ul>
+      </ComponentSection>
     </div>
   );
 }

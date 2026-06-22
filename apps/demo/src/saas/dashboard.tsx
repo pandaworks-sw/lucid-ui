@@ -130,7 +130,7 @@ export function Dashboard() {
             <Button variant="outline" size="sm" onClick={() => navigate({ name: 'reports' })}>
               View reports
             </Button>
-            <Button variant="brand" size="sm" onClick={() => navigate({ name: 'projects' })}>
+            <Button size="sm" onClick={() => navigate({ name: 'projects' })}>
               Browse projects
             </Button>
           </>

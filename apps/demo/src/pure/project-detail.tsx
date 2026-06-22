@@ -267,7 +267,7 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                       {projectTasks.length} items · {openTasks} open
                     </CardDescription>
                   </div>
-                  <Button variant="brand" onClick={() => setTaskModal({ open: true })}>
+                  <Button onClick={() => setTaskModal({ open: true })}>
                     <Plus className="size-4" />
                     Add task
                   </Button>
@@ -280,7 +280,7 @@ export function ProjectDetail({ projectId }: { projectId: string }) {
                       title="No tasks yet."
                       description="Add the first one and start tracking."
                       action={
-                        <Button variant="brand" onClick={() => setTaskModal({ open: true })}>
+                        <Button onClick={() => setTaskModal({ open: true })}>
                           <Plus className="size-4" />
                           Add task
                         </Button>

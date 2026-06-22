@@ -257,7 +257,7 @@ export function ProjectsList() {
         actions={
           <>
             <Button variant="outline" action="export" onClick={() => toast('Export queued')} />
-            <SplitButton variant="brand">
+            <SplitButton>
               <SplitButtonAction onClick={openCreate}>
                 <Plus className="size-4" />
                 New project

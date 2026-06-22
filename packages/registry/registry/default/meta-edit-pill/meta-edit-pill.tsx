@@ -150,7 +150,7 @@ const MetaEditPill = forwardRef<HTMLSpanElement, MetaEditPillProps>(function Met
       disabled={props.disabled}
       className={cn(
         '-mx-1 inline-flex items-center gap-1 rounded-sm px-1 text-muted-foreground transition-colors',
-        'hover:bg-muted/60 hover:text-foreground',
+        'hover:bg-input-bg/60 hover:text-foreground',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
         'disabled:cursor-not-allowed disabled:opacity-60'
       )}

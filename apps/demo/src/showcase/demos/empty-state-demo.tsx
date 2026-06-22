@@ -47,7 +47,7 @@ export default function EmptyStateDemo() {
           icon={<Users />}
           title="No teammates yet."
           description="Invite the first member to start assigning work."
-          action={<Button variant="brand">Invite teammate</Button>}
+          action={<Button>Invite teammate</Button>}
         />
       </DemoSection>
     </>

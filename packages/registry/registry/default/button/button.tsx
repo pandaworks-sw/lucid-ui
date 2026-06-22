@@ -45,7 +45,6 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
-        brand: 'bg-brand text-brand-foreground shadow-xs hover:shadow-sm',
         destructive: 'bg-destructive-aa text-destructive-foreground shadow-xs hover:shadow-sm',
         outline: 'border border-border bg-input-bg text-foreground shadow-xs hover:bg-muted hover:shadow-sm',
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:shadow-sm',
@@ -70,9 +69,9 @@ const buttonVariants = cva(
 );
 
 const ACTION_PRESETS: Record<ButtonAction, ActionPreset> = {
-  create: { icon: Plus, variant: 'brand', label: 'Create' },
+  create: { icon: Plus, variant: 'default', label: 'Create' },
   edit: { icon: Pencil, variant: 'outline', label: 'Edit' },
-  save: { icon: Save, variant: 'brand', label: 'Save' },
+  save: { icon: Save, variant: 'default', label: 'Save' },
   delete: { icon: Trash2, variant: 'destructive', label: 'Delete' },
   cancel: { icon: X, variant: 'outline', label: 'Cancel' },
   view: { icon: Eye, variant: 'ghost', label: 'View' },

@@ -58,10 +58,11 @@ const Avatar = forwardRef<ElementRef<typeof AvatarPrimitive.Root>, AvatarProps>(
           data-shape={shape ?? 'circle'}
           data-size={resolvedSize}
           className={cn(
-            // bg-muted gives an opaque base so a transparent-PNG avatar never
-            // bleeds the page through the avatar shape. Covered by the image
+            // bg-input-bg gives an opaque base so a transparent-PNG avatar never
+            // bleeds the page through the avatar shape, and (unlike bg-muted) it
+            // stays distinct from a Card surface in dark mode. Covered by the image
             // once loaded and by the (possibly colorized) Fallback before then.
-            'relative flex shrink-0 overflow-hidden bg-muted',
+            'relative flex shrink-0 overflow-hidden bg-input-bg',
             resolvedSize ? avatarSizeClass[resolvedSize] : 'h-10 w-10',
             shapeClass(shape),
             className
@@ -160,9 +161,9 @@ const AvatarFallback = forwardRef<ElementRef<typeof AvatarPrimitive.Fallback>, A
         className={cn(
           // Inherit the parent Avatar's rounded-* (full or md) so square avatars
           // don't show a round fallback while loading. The Root already paints
-          // bg-muted underneath, but keep it here too so the Fallback covers
+          // bg-input-bg underneath, but keep it here too so the Fallback covers
           // any backdrop-image layer that already rendered.
-          'relative z-20 flex h-full w-full items-center justify-center rounded-[inherit] bg-muted',
+          'relative z-20 flex h-full w-full items-center justify-center rounded-[inherit] bg-input-bg',
           className
         )}
         style={computedStyle}

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 const codeLabelVariants = cva(
-  'inline-flex items-center rounded-md font-mono bg-muted/40 text-foreground dark:bg-muted/25',
+  'inline-flex items-center rounded-md font-mono bg-input-bg/40 text-foreground dark:bg-input-bg/25',
   {
     variants: {
       size: {

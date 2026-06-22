@@ -116,9 +116,9 @@ export default function TypographyDemo() {
   return (
     <>
       <DemoSection title="Font families">
-        <div className="space-y-4">
+        <div className="divide-y divide-border/60">
           {FONT_FAMILIES.map((f) => (
-            <div key={f.name} className="rounded-lg border bg-background p-5">
+            <div key={f.name} className="py-5 first:pt-0 last:pb-0">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <div className={`text-2xl ${f.className}`}>{f.name}</div>
                 <div className="flex flex-col items-end gap-0.5 text-right">
@@ -136,7 +136,7 @@ export default function TypographyDemo() {
       </DemoSection>
 
       <DemoSection title="Body scale (Inter)">
-        <div className="rounded-lg border bg-background px-5">
+        <div>
           {BODY_SCALE.map((row) => (
             <TextSizeRow key={row.utility} {...row} />
           ))}
@@ -150,7 +150,7 @@ export default function TypographyDemo() {
       </DemoSection>
 
       <DemoSection title="Display scale (Comfortaa)">
-        <div className="rounded-lg border bg-background px-5">
+        <div>
           {DISPLAY_SCALE.map((row) => (
             <TextSizeRow key={row.utility} {...row} />
           ))}
@@ -163,7 +163,7 @@ export default function TypographyDemo() {
       </DemoSection>
 
       <DemoSection title="Mono scale (JetBrains Mono)">
-        <div className="rounded-lg border bg-background px-5">
+        <div>
           {MONO_SCALE.map((row) => (
             <TextSizeRow key={row.utility} {...row} />
           ))}
@@ -175,7 +175,7 @@ export default function TypographyDemo() {
       </DemoSection>
 
       <DemoSection title="Heading font policy (strict)">
-        <div className="rounded-lg border bg-background p-5 space-y-4">
+        <div className="space-y-4">
           <p className="text-sm text-foreground">
             Comfortaa is reserved for <strong>two surfaces only</strong>: the{' '}
             <span className="text-mono-sm">PageHeader</span> title (already wired internally) and the{' '}

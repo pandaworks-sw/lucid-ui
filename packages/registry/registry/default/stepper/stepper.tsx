@@ -66,7 +66,7 @@ function StepCircle({ step, isCompleted, isCurrent }: { step: Step; isCompleted:
         isCurrent &&
           !isCompleted &&
           'border-primary bg-background text-primary shadow-sm ring-2 ring-primary/25 ring-offset-1 ring-offset-background dark:ring-offset-background',
-        !isCompleted && !isCurrent && 'border-border bg-muted/30 text-muted-foreground'
+        !isCompleted && !isCurrent && 'border-border bg-input-bg/30 text-muted-foreground'
       )}
       aria-hidden
     >

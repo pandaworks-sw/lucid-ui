@@ -70,7 +70,7 @@ export function Team() {
         title="Team"
         description={`${members.length} people across ${DEPARTMENTS.length} departments.`}
         actions={
-          <Button variant="brand" size="sm" onClick={() => setInviteOpen(true)}>
+          <Button size="sm" onClick={() => setInviteOpen(true)}>
             <UserPlus className="size-4" />
             Invite member
           </Button>
@@ -356,7 +356,7 @@ function InviteSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (ope
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" variant="brand" disabled={!email}>
+            <Button type="submit" disabled={!email}>
               Send invite
             </Button>
           </SheetFooter>

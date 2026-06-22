@@ -6,12 +6,12 @@ import { cn } from '@/lib/utils';
 const iconBadgeVariants = cva('inline-flex items-center justify-center shrink-0 transition-colors', {
   variants: {
     tone: {
-      default: 'bg-muted text-muted-foreground',
+      default: 'bg-input-bg text-muted-foreground',
       info: 'bg-info/10 text-info',
       success: 'bg-success/10 text-success',
       warning: 'bg-warning/15 text-warning',
       destructive: 'bg-destructive/10 text-destructive',
-      muted: 'bg-muted text-muted-foreground',
+      muted: 'bg-input-bg text-muted-foreground',
       primary: 'bg-primary/10 text-primary',
     },
     size: {

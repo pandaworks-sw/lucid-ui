@@ -137,14 +137,15 @@
     --warning-foreground: #ffffff;
     --danger-foreground: #ffffff;
 
-    /* WCAG AA text-on-soft-bg foregrounds (Badge `bg-X/10` etc.).
+    /* WCAG AA text-on-soft-bg foregrounds (Badge `bg-X/10`/`/15` etc.).
        The chroma `--success`/`--info`/`--warning` values cannot pass 4.5:1 on tinted
        backgrounds — these darker (light) / lighter (dark) variants do.
-       Tuned for ~4.7–5.9:1 (AA with breathing room) so the chroma still reads as
-       green/blue/amber/red rather than near-black. */
-    --success-soft-fg: #377336;
-    --info-soft-fg: #2964c4;
-    --warning-soft-fg: #955b0e;
+       Tuned against the darker `--background` (stone-150) page surface, the worst
+       case: soft badges clear 4.5:1 there AND on white cards (~5.4:1). The chroma
+       still reads as green/blue/amber/red rather than near-black. */
+    --success-soft-fg: #336a32;
+    --info-soft-fg: #255bb2;
+    --warning-soft-fg: #8b550d;
     --destructive-soft-fg: #a23120;
     /* WCAG AA solid red for destructive bg-+-white-text controls (badge, button).
        White-on-#a8392a clears 4.5:1; #c8543f does not (4.38:1). */
@@ -178,11 +179,11 @@
     --chart-3: var(--info);
     --chart-4: var(--success);
     --chart-5: var(--warning);
-    --sidebar-background: var(--stone-100);
+    --sidebar-background: var(--stone-150);
     --sidebar-foreground: var(--stone-800);
     --sidebar-primary: var(--stone-800);
     --sidebar-primary-foreground: var(--stone-50);
-    --sidebar-accent: var(--stone-150);
+    --sidebar-accent: var(--stone-200);
     --sidebar-accent-foreground: var(--stone-800);
     --sidebar-border: var(--stone-200);
     --sidebar-ring: var(--panda-400);

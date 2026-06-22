@@ -84,7 +84,7 @@ export function Dashboard() {
             <Button variant="outline" onClick={() => navigate({ name: 'reports' })}>
               View reports
             </Button>
-            <Button variant="brand" onClick={() => navigate({ name: 'projects' })}>
+            <Button onClick={() => navigate({ name: 'projects' })}>
               Browse projects
             </Button>
           </>

@@ -36,7 +36,7 @@ const DetailPageHeader = forwardRef<HTMLDivElement, DetailPageHeaderProps>(
       )}
       <div className="flex items-center gap-4">
         {icon && (
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg border bg-muted/50 text-muted-foreground dark:bg-muted/20">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg border bg-input-bg/50 text-muted-foreground dark:bg-input-bg/20">
             {icon}
           </div>
         )}

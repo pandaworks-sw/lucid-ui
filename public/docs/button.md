@@ -2,7 +2,7 @@
 
 A button with action presets, icon support, auto-tooltips, and loading state. Replaces the old `ActionButton` component.
 
-Variants: `default`, `brand`, `secondary`, `outline`, `destructive`, `ghost`, `link`
+Variants: `default`, `secondary`, `outline`, `destructive`, `ghost`, `link`
 Sizes: `default`, `sm`, `lg`, `icon`, `icon-sm`, `icon-lg`
 
 Props:
@@ -18,9 +18,9 @@ Action presets (use `action` prop instead of manually setting icon + variant):
 
 | Action | Icon | Default Variant | Auto-Label |
 |--------|------|-----------------|------------|
-| `create` | Plus | brand | Create |
+| `create` | Plus | default | Create |
 | `edit` | Pencil | outline | Edit |
-| `save` | Save | brand | Save |
+| `save` | Save | default | Save |
 | `delete` | Trash2 | destructive | Delete |
 | `cancel` | X | outline | Cancel |
 | `view` | Eye | ghost | View |

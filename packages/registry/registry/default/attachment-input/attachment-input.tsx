@@ -124,8 +124,8 @@ function FileListItem({
   return (
     <div
       className={cn(
-        'group flex items-center gap-3 rounded-md border border-border bg-muted/50 px-3 py-2 text-sm transition-colors',
-        'dark:bg-muted/30'
+        'group flex items-center gap-3 rounded-md border border-border bg-input-bg/50 px-3 py-2 text-sm transition-colors',
+        'dark:bg-input-bg/30'
       )}
     >
       <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -167,8 +167,8 @@ function CompactFileChip({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-md border border-border bg-muted/60 px-2 py-0.5 text-xs text-foreground',
-        'dark:bg-muted/40'
+        'inline-flex items-center gap-1 rounded-md border border-border bg-input-bg/60 px-2 py-0.5 text-xs text-foreground',
+        'dark:bg-input-bg/40'
       )}
     >
       <Icon className="h-3 w-3 shrink-0 text-muted-foreground" />
@@ -259,12 +259,12 @@ function DropzoneArea({
       onDrop={handleDrop}
       className={cn(
         'flex w-full flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-6 py-8 text-center transition-all duration-150 ease-out',
-        'border-muted-foreground/25 bg-muted/30',
-        'hover:border-muted-foreground/40 hover:bg-muted/50',
+        'border-muted-foreground/25 bg-input-bg/30',
+        'hover:border-muted-foreground/40 hover:bg-input-bg/50',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'dark:bg-muted/10 dark:hover:bg-muted/20',
+        'dark:bg-input-bg/10 dark:hover:bg-input-bg/20',
         isDragOver && 'border-primary bg-primary/5 dark:bg-primary/10',
-        (disabled || atLimit) && 'cursor-not-allowed opacity-40 hover:border-muted-foreground/25 hover:bg-muted/30'
+        (disabled || atLimit) && 'cursor-not-allowed opacity-40 hover:border-muted-foreground/25 hover:bg-input-bg/30'
       )}
     >
       <Upload className={cn('h-8 w-8 text-muted-foreground transition-colors', isDragOver && 'text-primary')} />
@@ -300,7 +300,7 @@ function CompactTrigger({ disabled, atLimit, onClick }: { disabled?: boolean; at
       className={cn(
         'flex h-9 w-full items-center gap-2 rounded-md border border-input bg-input-bg px-3 text-sm shadow-xs transition-all duration-150 ease-out',
         'text-muted-foreground',
-        'hover:bg-muted hover:text-foreground hover:shadow-sm',
+        'hover:bg-accent hover:text-foreground hover:shadow-sm',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         (disabled || atLimit) &&
           'cursor-not-allowed opacity-40 hover:bg-input-bg hover:text-muted-foreground hover:shadow-xs'

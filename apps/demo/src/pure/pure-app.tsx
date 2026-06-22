@@ -132,7 +132,7 @@ function PureShell() {
           <div className="flex w-full items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Pure showcase — registry-only</span>
             <div className="ml-auto flex items-center gap-2">
-              <Button variant="brand" onClick={handleCreateProject}>
+              <Button onClick={handleCreateProject}>
                 <Plus className="size-4" />
                 New project
               </Button>

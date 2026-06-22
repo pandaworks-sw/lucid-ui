@@ -16,7 +16,7 @@ const emptyStateVariants = cva('flex flex-col items-center justify-center gap-3 
   },
 });
 
-const iconWrapVariants = cva('flex items-center justify-center rounded-full bg-muted text-muted-foreground', {
+const iconWrapVariants = cva('flex items-center justify-center rounded-full bg-input-bg text-muted-foreground', {
   variants: {
     size: {
       sm: 'size-10 [&_svg]:size-4',

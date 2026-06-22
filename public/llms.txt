@@ -351,6 +351,22 @@ Each entry contains:
 
 ### 2026-06-22
 
+#### button / split-button — `brand` variant removed
+
+- **component**: Button, SplitButton
+- **change**: removed
+- **breaking**: yes
+- **details**: The panda-blue `brand` variant (`bg-brand text-brand-foreground shadow-xs hover:shadow-sm`) is removed from [packages/registry/registry/default/button/button.tsx](packages/registry/registry/default/button/button.tsx) and [packages/registry/registry/default/split-button/split-button.tsx](packages/registry/registry/default/split-button/split-button.tsx) (the latter also drops its matching `dividerClasses.brand` = `border-l border-brand-foreground/20`). The neutral `default` variant (`bg-primary text-primary-foreground`) is now the only primary button. The `create` and `save` action presets, which previously resolved to `brand`, now resolve to `default`. The `--brand` / `--brand-foreground` color tokens are **untouched** — they still back the `ghost` hover light-up (`hover:text-brand`) and remain available for non-button fills. AA contrast is unchanged: `default` was already the shipped primary pairing (`--primary` / `--primary-foreground`, ≥ AA in both themes); CTAs that used `brand` now render the neutral stone primary instead of blue.
+- **action**: Replace every `<Button variant="brand">` / `<SplitButton variant="brand">` — the prop no longer type-checks. Drop it (falls back to `default`) or pick another variant. `action="create"` / `action="save"` call sites need no change (they auto-resolve to `default` now). Expect the visual shift from blue to neutral on those CTAs.
+
+#### app-shell / colors — light-mode sidebar darkened one step so inputs inside it are visible
+
+- **component**: AppShell (sidebar surface tokens)
+- **change**: modified
+- **breaking**: no
+- **details**: Two light-mode tokens move in [packages/registry/src/styles.css](packages/registry/src/styles.css): `--sidebar-background` `stone-100` (`#eff3f6`) → `stone-150` (`#e5ebef`, the same value as the page `--background`), and `--sidebar-accent` `stone-150` → `stone-200` (`#d8dfe5`). Why: the `sidebarPanel` feature (0.20.0) is the first time inputs (`Select`, `Input`, both filled by `--input-bg` = `stone-100`) live *inside* the sidebar, and the sidebar surface was the **same** `stone-100`, so the fields looked background-less in light mode — only their 1px `--input` border showed. (The placeholder text was never the problem: it measured ~7.9:1 in light and ~5.4:1 in dark, both above AA — the missing fill separation was the issue.) After the change, `--input-bg` (stone-100) is one step lighter than the sidebar (stone-150) and lifts off it, mirroring dark mode (input `stone-800` on sidebar `stone-900`). `--sidebar-accent` is darkened in step so the nav hover/active highlight stays visible against the darker sidebar. Dark-mode sidebar tokens are unchanged. Contrast holds: `--sidebar-foreground` (stone-800) on stone-150 ≈ 12:1, `--sidebar-accent-foreground` (stone-800) on stone-200 ≈ 11:1.
+- **action**: None — no API change. After upgrading, the light-mode sidebar is one step darker (now equal to the page background, so the sidebar and content read as one canvas, matching dark mode), and any `Select`/`Input` rendered inside an AppShell sidebar (e.g. a `sidebarPanel` filter form) now lifts off the surface. If you had worked around the old clash by giving sidebar inputs a custom background, you can remove that override.
+
 #### button — ghost variant lights up on hover instead of painting a background box
 
 - **component**: Button
@@ -364,8 +380,32 @@ Each entry contains:
 - **component**: Tabs
 - **change**: modified
 - **breaking**: no
-- **details**: The default `TabsList` track was `bg-transparent` and the sliding active pill was `bg-accent` at [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx). After the 0.20.0 darker-background change, light-mode `--accent` and `--background` are both `var(--stone-150)` `#e5ebef`, so the track and the active pill matched the page exactly — the whole tab bar disappeared in light mode. The track now uses `bg-muted` (light `var(--stone-100)` `#eff3f6`, dark `var(--stone-700)` `#2c343b`), which is lighter than the page in light mode and a lighter inset in dark mode, so the bar reads as a distinct surface in both themes and the active pill (`bg-accent`) contrasts against it. The pill also gains `shadow-sm` so the active tab reads as raised. No new color tokens; the active label stays `text-foreground` on `bg-accent`, inactive labels stay `text-muted-foreground` on the muted track, so AA contrast is unchanged in both themes. The `line` variant is untouched.
+- **details**: The default `TabsList` track was `bg-transparent` and the sliding active pill was `bg-accent` at [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx). After the 0.20.0 darker-background change, light-mode `--accent` and `--background` are both `var(--stone-150)` `#e5ebef`, so the track and the active pill matched the page exactly — the whole tab bar disappeared in light mode. The track now uses `bg-input-bg` (light `var(--stone-100)` `#eff3f6`, dark `var(--stone-800)` `#1c2229`), which is lighter than the page in light mode and a step off the `stone-700` card in dark mode (so a Tabs bar placed on a `Card` doesn't blend either), so the bar reads as a distinct surface everywhere and the active pill (`bg-accent`) contrasts against the inset track. The pill also gains `shadow-sm` so the active tab reads as raised. No new color tokens; the active label stays `text-foreground` on `bg-accent`, inactive labels stay `text-muted-foreground` on the muted track, so AA contrast is unchanged in both themes. The `line` variant is untouched.
 - **action**: None — no API change. After upgrading, the default Tabs bar renders with the corrected muted track automatically.
+
+#### multiple — dark-mode surface-blend audit (neutral fills no longer vanish on cards)
+
+- **component**: Slider, MeterRow, Skeleton, EmptyState, Avatar, UserPicker, IconBadge, InboxMenu, DetailPage, CodeLabel, ListRow, AttachmentInput, DateRangePicker, Stepper, MetaEditPill, Table, Tabs, Select, DropdownMenu, SplitButton, Calendar, Toggle, Dialog, Modal, Badge
+- **change**: modified
+- **breaking**: no
+- **details**: In **dark** mode `--card` = `--popover` = `--muted` = `--secondary` = `stone-700`, so any component using `bg-muted` / `bg-secondary` as its own fill with no border or shadow disappeared when placed on a `Card` (or inside a popover); in **light** mode `--accent` = `--background` = `stone-150`, so `bg-accent` selection states vanished on a page. Fix policy: neutral fills → `bg-input-bg` (light `stone-100`, identical to `muted`/`secondary` so light is unchanged; dark `stone-800`, one step off the `stone-700` card), opacity form `bg-muted/X` → `bg-input-bg/X`; tracks / separators / grooves → `bg-border`. `slider` + `meter-row` tracks and `select`/`dropdown-menu`/`split-button` separators use `bg-border`; `skeleton`, `empty-state`, `avatar`, `user-picker`, `icon-badge`, `inbox-menu`, `detail-page`, `code-label`, `list-row`, `attachment-input`, `date-range-picker`, `stepper`, `meta-edit-pill`, `table`, `tabs` use `bg-input-bg`; `calendar` range/today, `toggle` on-state, and `dialog`/`modal` close buttons move off `bg-accent` to `bg-input-bg`; `badge` + `split-button` `secondary` move to `bg-input-bg`. Verified by an independent second review with no contrast regressions (e.g. EmptyState icon `bg-input-bg`+`text-muted-foreground` 7.85:1 light / 5.37:1 dark; Calendar range-middle 14.4 / 15.2). The `--*` token values are unchanged. Intentionally left (independent edge present): Button `secondary` (shadow), Badge `muted` (dark-overridden), outline hovers, popover/dropdown/tooltip (border+shadow). The "Surface tokens — preventing background blends" rule in CLAUDE.md documents the token-collision map.
+- **action**: None — no API change. After upgrading, fills / tracks / selection states that previously blended into a `Card` (dark) or the page (light) are visible. If you overrode any of these backgrounds as a workaround, you can remove that override.
+
+#### card — darker SC 1.4.11-compliant border in dark mode; slightly stronger soft border in light
+
+- **component**: Card
+- **change**: fixed
+- **breaking**: no
+- **details**: The default border in [packages/registry/registry/default/card/card.tsx](packages/registry/registry/default/card/card.tsx) moves from `border-border/70 dark:border-border` to `border-stone-300 dark:border-stone-500`. Dark mode `stone-500` `#5f6b75` measures ≈ 3.3:1 against the `stone-900` page background, clearing the SC 1.4.11 3:1 non-text minimum (the old dark border `stone-600` was ≈ 2.1:1, below it). Light mode `stone-300` `#bcc5cd` (≈ 1.45:1 vs `stone-150` page bg) is slightly more visible than the old `border-border/70` (≈ 1.08:1) but stays an accepted decorative gap: the only light value that clears 3:1 is `stone-500`, which was too visually heavy for the light theme, so light relies on the page-to-card surface step + shadow. The `color` gradient variants keep their own decorative tinted borders. `stone-300`/`stone-500` are theme-independent scale tokens mapped via `@theme inline`.
+- **action**: None — visual change only, no API change. After upgrading, cards render with the new border automatically. A light-theme project that needs a strict 3:1 border opts into a darker border locally.
+
+#### badge — soft variant text now clears AA on the darker page background
+
+- **component**: Badge
+- **change**: fixed
+- **breaking**: no
+- **details**: The light-mode `--*-soft-fg` tokens in [packages/registry/src/styles.css](packages/registry/src/styles.css) were tuned against a white card, but the 0.20.0 darker-background change moved `--background` to `stone-150` `#e5ebef`. Soft badges (`variant="success"` / `"info"` / `"warning"`, which render `bg-X/15` + `text-X-soft-fg`) placed on that page surface — e.g. Status / Priority chips inside a `DetailPageSidebar` — measured 4.00–4.08:1, under the 4.5:1 SC 1.4.3 minimum for normal text (badge text is normal text). The three light tokens are darkened to pass on the worst-case page surface and stay above AA on white cards: `--success-soft-fg` `#377336` → `#336a32` (4.06 → 4.61:1 on page bg, 5.44:1 on white), `--info-soft-fg` `#2964c4` → `#255bb2` (4.00 → 4.61:1, 5.44:1), `--warning-soft-fg` `#955b0e` → `#8b550d` (4.08 → 4.55:1, 5.37:1). `--destructive-soft-fg` `#a23120` already passed (4.68:1) and is unchanged; the dark-mode soft-fg tokens already passed (≥4.9:1) and are unchanged. The darkened tokens also raise contrast for the `outline-success` / `outline-info` / `outline-warning` badge variants (transparent fill, soft-fg border+text). No new tokens; the chroma still reads green / blue / amber.
+- **action**: None — token-value change only. After upgrading, soft and colored-outline badges on the darker page background meet AA automatically. No call-site change.
 
 ### 2026-06-19
 

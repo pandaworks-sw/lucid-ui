@@ -13,10 +13,10 @@ const listRowVariants = cva('flex w-full items-center gap-3 text-left transition
     surface: {
       plain: '',
       bordered: 'rounded-lg border bg-card px-3',
-      muted: 'rounded-lg bg-muted/40 px-3',
+      muted: 'rounded-lg bg-input-bg/40 px-3',
     },
     interactive: {
-      true: 'cursor-pointer hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      true: 'cursor-pointer hover:bg-input-bg/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
       false: '',
     },
   },

@@ -30,8 +30,8 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        // Muted inset track so the bar stands out from the page bg; the neutral sliding pill marks the active tab.
-        default: 'border border-border bg-muted',
+        // Inset track (input-bg) so the bar stands out from the page AND from a card in dark mode; the neutral sliding pill marks the active tab.
+        default: 'border border-border bg-input-bg',
         line: 'gap-1 bg-transparent',
       },
     },

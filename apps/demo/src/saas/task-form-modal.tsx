@@ -182,7 +182,7 @@ function TaskFormBody({ projectId, task, members, onSubmit, onOpenChange }: Task
         <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
           Cancel
         </Button>
-        <Button type="submit" variant="brand" disabled={!canSubmit}>
+        <Button type="submit" disabled={!canSubmit}>
           {isEdit ? 'Save changes' : 'Create task'}
         </Button>
       </DialogFooter>
