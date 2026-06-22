@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-22',
+    componentName: 'tabs',
+    title: 'Tabs visible again in light mode',
+    summary:
+      'The default Tabs bar was blending into the page in light mode. After the darker app background change, the accent color and the background color became the same light gray, so the tab track and the active pill both matched the page and the whole bar vanished. The track now uses the muted surface, which is lighter than the page in light mode and a lighter inset in dark mode, so the bar reads as a clear surface in both themes and the active pill stands out against it. The active pill also gains a small shadow so it looks raised. No API change and no new colors — existing tabs get the fix automatically; text contrast stays at or above AA in both themes.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-06-19',
     componentName: 'colors',
     title: 'Darker app background',

@@ -349,6 +349,16 @@ Each entry contains:
 
 ---
 
+### 2026-06-22
+
+#### tabs — default variant no longer blends into the page in light mode
+
+- **component**: Tabs
+- **change**: modified
+- **breaking**: no
+- **details**: The default `TabsList` track was `bg-transparent` and the sliding active pill was `bg-accent` at [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx). After the 0.20.0 darker-background change, light-mode `--accent` and `--background` are both `var(--stone-150)` `#e5ebef`, so the track and the active pill matched the page exactly — the whole tab bar disappeared in light mode. The track now uses `bg-muted` (light `var(--stone-100)` `#eff3f6`, dark `var(--stone-700)` `#2c343b`), which is lighter than the page in light mode and a lighter inset in dark mode, so the bar reads as a distinct surface in both themes and the active pill (`bg-accent`) contrasts against it. The pill also gains `shadow-sm` so the active tab reads as raised. No new color tokens; the active label stays `text-foreground` on `bg-accent`, inactive labels stay `text-muted-foreground` on the muted track, so AA contrast is unchanged in both themes. The `line` variant is untouched.
+- **action**: None — no API change. After upgrading, the default Tabs bar renders with the corrected muted track automatically.
+
 ### 2026-06-19
 
 #### badge — colored outline variant for every tone

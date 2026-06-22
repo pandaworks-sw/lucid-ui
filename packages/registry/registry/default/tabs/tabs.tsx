@@ -30,8 +30,8 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        // Bordered container; the neutral sliding pill marks the active tab.
-        default: 'border border-border bg-transparent',
+        // Muted inset track so the bar stands out from the page bg; the neutral sliding pill marks the active tab.
+        default: 'border border-border bg-muted',
         line: 'gap-1 bg-transparent',
       },
     },
@@ -118,7 +118,7 @@ function TabsList({
         <motion.div
           aria-hidden
           data-slot="tabs-pill"
-          className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-accent"
+          className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-accent shadow-sm"
           initial={false}
           animate={{ x: pill.x, y: pill.y, width: pill.width, height: pill.height }}
           transition={{ type: 'spring', stiffness: 450, damping: 34 }}

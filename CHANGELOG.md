@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-22
+
+### Fixed
+
+- **`Tabs` default variant no longer blends into the page in light mode.** [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx) — the default track was `bg-transparent` and the sliding pill was `bg-accent`. After the 0.20.0 darker-background change, light-mode `--accent` and `--background` are both `var(--stone-150)` `#e5ebef`, so the track *and* the active pill matched the page exactly and the whole tab bar disappeared. The track now uses `bg-muted` (light `var(--stone-100)` `#eff3f6`, dark `var(--stone-700)` `#2c343b`) — lighter than the page in light mode, a lighter inset in dark — so the bar reads as a distinct surface in both themes, and the active pill (`bg-accent`) now contrasts against the muted track. The pill also gains `shadow-sm` so the active tab reads as raised. No new color tokens; the active label keeps `text-foreground` on `bg-accent` (light stone-150 / dark stone-600) and inactive labels keep `text-muted-foreground` on the muted track, so AA contrast is unchanged in both themes. Non-breaking — no API change; existing call sites render with the corrected surface automatically.
+
 ## 2026-06-19
 
 ### Added
