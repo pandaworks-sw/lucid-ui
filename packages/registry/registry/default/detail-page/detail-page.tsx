@@ -154,7 +154,7 @@ function CopyButton({ value, onCopyValue }: { value: string; onCopyValue?: (text
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+      className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-all hover:scale-110 hover:text-brand active:scale-95"
       aria-label="Copy to clipboard"
     >
       {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}

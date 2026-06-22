@@ -13,6 +13,14 @@ interface WhatsNewEntry {
 const ENTRIES: WhatsNewEntry[] = [
   {
     date: '2026-06-22',
+    componentName: 'button',
+    title: 'Ghost buttons light up on hover',
+    summary:
+      'Ghost buttons no longer paint a gray background box on hover. Instead the icon or text lights up to the brand color, and the button scales up a little. Click it and it scales down with a short animation so it feels pressed. This makes icon buttons (table actions, toolbar icons, the copy button, and the arrow buttons in Pagination and Calendar) feel lighter and cleaner. Only the ghost variant changed — outline, secondary, default, brand, and link buttons look the same. No API change, so existing ghost buttons get the new hover automatically.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-06-22',
     componentName: 'tabs',
     title: 'Tabs visible again in light mode',
     summary:

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, ArrowRight, Heart } from 'lucide-react';
+import { Mail, ArrowRight, Heart, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DemoSection } from '@/showcase/component-page';
 
@@ -26,6 +26,30 @@ export default function ButtonDemo() {
           <Button variant="destructive">Destructive</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="link">Link</Button>
+        </div>
+      </DemoSection>
+
+      <DemoSection
+        title="Ghost hover"
+        code={`{/* Ghost buttons no longer paint a background box on hover.
+   Instead the content lights up to the brand color, the button
+   scales up a little, and a click scales it down so it feels pressed. */}
+<Button variant="ghost">Ghost</Button>
+<Button variant="ghost" icon={Pencil} size="icon" tooltip="Edit" />
+<Button variant="ghost" icon={Trash2} size="icon" tooltip="Delete" />
+<Button variant="ghost" icon={MoreHorizontal} size="icon-sm" tooltip="More" />`}
+      >
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Hover a ghost button: no background box — the content lights up to the brand color and the button scales up
+            a little. Click it to feel the press (scale-down) animation.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="ghost" icon={Pencil} size="icon" tooltip="Edit" />
+            <Button variant="ghost" icon={Trash2} size="icon" tooltip="Delete" />
+            <Button variant="ghost" icon={MoreHorizontal} size="icon-sm" tooltip="More" />
+          </div>
         </div>
       </DemoSection>
 

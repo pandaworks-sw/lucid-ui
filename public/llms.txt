@@ -351,6 +351,14 @@ Each entry contains:
 
 ### 2026-06-22
 
+#### button — ghost variant lights up on hover instead of painting a background box
+
+- **component**: Button
+- **change**: modified
+- **breaking**: no
+- **details**: The `ghost` variant in [packages/registry/registry/default/button/button.tsx](packages/registry/registry/default/button/button.tsx) dropped `hover:bg-accent hover:text-accent-foreground`. On hover the content now lights up to the brand color (`hover:text-brand`; `--brand` = `panda-400`, same hue in both themes) and the button scales up a little (`hover:scale-105`); on click it scales down (`active:scale-95`) with a short transform transition (`active:transition-transform active:duration-100`, overriding the base `active:transition-none`) so it feels pressed. This affects every ghost button, including the icon-button arrows `Pagination` and `Calendar` build from the shared `buttonVariants`. SplitButton's `ghost` variant ([packages/registry/registry/default/split-button/split-button.tsx](packages/registry/registry/default/split-button/split-button.tsx)) gets the brand light-up only (no scale — it is a joined two-segment control where per-segment scaling would break the shared seam). DetailPage's copy button ([packages/registry/registry/default/detail-page/detail-page.tsx](packages/registry/registry/default/detail-page/detail-page.tsx)), a standalone icon button, gets the full treatment (`transition-all hover:scale-110 hover:text-brand active:scale-95`). `text-brand` is a transient hover color, not a resting/persistent state, so the SC 1.4.3 AA text-contrast gate does not apply; the focus-visible ring is unchanged. The `outline`, `secondary`, `default`, `brand`, and `link` variants are untouched — only `ghost` lost its hover background.
+- **action**: None — no API change. After upgrading, every ghost button (and the ghost-style icon buttons in Pagination/Calendar) adopts the light-up hover automatically. If you relied on the old ghost hover *background* as a hit-target affordance for a text ghost button, switch that button to `variant="outline"` or `variant="secondary"` instead.
+
 #### tabs — default variant no longer blends into the page in light mode
 
 - **component**: Tabs
