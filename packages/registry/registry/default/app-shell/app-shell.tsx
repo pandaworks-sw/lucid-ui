@@ -161,9 +161,13 @@ function buildDrilldownStack(rootItems: NavItem[], path: number[]): DrilldownLev
   const levels: DrilldownLevel[] = [{ label: null, items: rootItems }];
   let current = rootItems;
   for (const index of path) {
-    const group = current[index] as NavLinkItem;
-    levels.push({ label: group.label, items: group.items ?? [] });
-    current = group.items ?? [];
+    const group = current[index] as NavLinkItem | undefined;
+    // The path is held in state across navigation changes, so an index can go stale if
+    // the tree shrinks (e.g. a section drops out on a permission change). Stop drilling
+    // gracefully instead of indexing into nothing.
+    if (!group?.items) break;
+    levels.push({ label: group.label, items: group.items });
+    current = group.items;
   }
   return levels;
 }
@@ -177,19 +181,26 @@ function NavItemDrilldown({
 }) {
   const handleClick = useMobileAutoClose();
   const initialPath = useMemo(() => pathToActive(navigation) ?? [], [navigation]);
-  const [stack, setStack] = useState<DrilldownLevel[]>(() => buildDrilldownStack(navigation, initialPath));
+  // Keep only the drill PATH (indices of the opened groups) and the visible depth in
+  // state — never the materialized items. The stack is rebuilt from the LIVE `navigation`
+  // prop every render, so each item's `active` flag tracks the current route and the
+  // highlight follows client-side navigation. We seed the path once from where the active
+  // item lives and do not re-open on later navigation changes, so the user's drill
+  // position is preserved.
+  const [path, setPath] = useState<number[]>(initialPath);
   const [active, setActive] = useState(() => initialPath.length);
   const panelRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [height, setHeight] = useState<number>();
 
-  // The stack is built once on mount, opening straight to the active level. We do not
-  // reset it when the `navigation` array reference changes (consumers commonly pass an
-  // inline literal that is new every render) so the user's drill position is preserved.
+  const stack = useMemo(() => buildDrilldownStack(navigation, path), [navigation, path]);
+  // The path outlives navigation changes, so the rebuilt stack can be shorter than the
+  // depth the user had drilled to. Clamp the visible level to what the stack now has.
+  const activeLevel = Math.min(active, stack.length - 1);
 
   // Drive the container height from the on-screen level so the panel resizes smoothly
   // between levels of different lengths, and re-measures when the sidebar width changes.
   useLayoutEffect(() => {
-    const el = panelRefs.current[active];
+    const el = panelRefs.current[activeLevel];
     if (!el) return;
     const measure = () => setHeight(el.scrollHeight);
     measure();
@@ -197,11 +208,11 @@ function NavItemDrilldown({
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [active, stack]);
+  }, [activeLevel, stack]);
 
-  const push = (group: NavLinkItem) => {
-    setStack((prev) => [...prev.slice(0, active + 1), { label: group.label, items: group.items ?? [] }]);
-    setActive(active + 1);
+  const push = (groupIndex: number) => {
+    setPath((prev) => [...prev.slice(0, activeLevel), groupIndex]);
+    setActive(activeLevel + 1);
   };
   const back = () => setActive((value) => Math.max(0, value - 1));
 
@@ -212,7 +223,7 @@ function NavItemDrilldown({
       data-slot="sidebar-drilldown"
     >
       {stack.map((level, levelIndex) => {
-        const isActiveLevel = levelIndex === active;
+        const isActiveLevel = levelIndex === activeLevel;
         return (
           <div
             key={levelIndex}
@@ -222,7 +233,7 @@ function NavItemDrilldown({
             aria-hidden={!isActiveLevel}
             inert={isActiveLevel ? undefined : true}
             className="absolute top-0 left-0 w-full transition-transform duration-200 ease-out"
-            style={{ transform: `translateX(${(levelIndex - active) * 100}%)` }}
+            style={{ transform: `translateX(${(levelIndex - activeLevel) * 100}%)` }}
           >
             {level.label !== null && (
               <button
@@ -242,7 +253,7 @@ function NavItemDrilldown({
                 if (isNavGroup(item)) {
                   return (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton isActive={item.active} tooltip={item.label} onClick={() => push(item)}>
+                      <SidebarMenuButton isActive={item.active} tooltip={item.label} onClick={() => push(index)}>
                         {item.icon && <item.icon />}
                         <span>{item.label}</span>
                         <ChevronRight className="ml-auto" />

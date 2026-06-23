@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-06-23
+
+### Fixed
+
+- **`AppShell` (`drilldown` nav) — the active highlight now follows client-side navigation instead of freezing at the page that was first loaded.** [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx) — `NavItemDrilldown` used to snapshot the whole `navigation` array into a `stack` state on mount and only mutate it on drill `push`/`back`, so when the `navigation` prop changed on a route change (new `item.active` flags) the rendered items stayed frozen. The sidebar highlight then only updated on a full page reload; under client-side routing it lagged, so after navigating you'd see the *previous* page's item highlighted (e.g. land on `/customer-accounts` but "Customers" stays lit). Fix: keep only the drill **path** (the indices of the opened groups) plus the visible depth in state, and rebuild the level stack from the **live** `navigation` prop every render (`useMemo`), so each item's `active` flag always reflects the current route. The user's drill position is still preserved — the path is seeded once from where the active item lives and is not re-opened on later navigation. `buildDrilldownStack` now stops drilling gracefully if a held path index goes stale (the tree shrank), and the visible level is clamped to the rebuilt stack's depth. This supersedes the earlier "the stack is built once, not reset when the `navigation` reference changes" note on the `navMode` drilldown entry. Non-breaking — no API change; consumers that set an `active` flag per `NavItem` (the documented pattern) get a correctly-tracking highlight automatically.
+
 ## 2026-06-22
 
 ### Changed

@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-06-23',
+    componentName: 'app-shell',
+    title: 'Sidebar highlight follows navigation (drilldown nav)',
+    summary:
+      'In drilldown nav mode, the active sidebar highlight used to freeze on the page that was first loaded. It only refreshed on a full page reload, so after clicking around (client-side navigation) you would see the wrong item highlighted — often the previous page, or what looked like the next item down. The nav now rebuilds from the live navigation on every route change, so the highlighted item always matches the current page. Your drill position (which section you opened) is still kept. No API change — if you pass an active flag per nav item, this just works now.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-06-22',
     componentName: 'colors',
     title: 'Dark-mode surface blends fixed across components',
