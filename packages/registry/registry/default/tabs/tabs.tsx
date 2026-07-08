@@ -118,7 +118,11 @@ function TabsList({
         <motion.div
           aria-hidden
           data-slot="tabs-pill"
-          className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-accent shadow-sm"
+          // Raised-card pill: `bg-card` (light #fff / dark stone-700) sits one surface
+          // step off the `bg-input-bg` track in BOTH themes, with a `ring-border` edge for
+          // SC 1.4.11 non-text contrast. `bg-accent` was invisible in light (accent ==
+          // background == stone-150, only one step off the stone-100 track).
+          className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-card shadow-sm ring-1 ring-border"
           initial={false}
           animate={{ x: pill.x, y: pill.y, width: pill.width, height: pill.height }}
           transition={{ type: 'spring', stiffness: 450, damping: 34 }}

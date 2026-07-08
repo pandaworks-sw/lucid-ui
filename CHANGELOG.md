@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-07-08
+
+### Fixed
+
+- **`Tabs` (`default` variant) — the active-tab pill is now visible in light mode.** [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx) — the sliding active-tab pill used `bg-accent`, which in the light theme resolves to `stone-150` (== `--background`), only one step off the `bg-input-bg` (`stone-100`) track, so the active tab was barely distinguishable from the inactive ones (dark mode was fine — `accent` = `stone-600` on a `stone-800` track). This is exactly the failure the "Surface tokens" note warns about: `bg-accent` must not be an active/selection fill on a page-adjacent surface. The pill now uses `bg-card` (light `#fff` / dark `stone-700`) — one surface step off the `bg-input-bg` track in **both** themes — plus a `ring-1 ring-border` edge so the pill boundary clears SC 1.4.11 non-text contrast (3:1). Measured: light pill `#fff` on `stone-100` track with a `stone-200` ring reads as a raised segmented-control tile; dark pill `stone-700` on `stone-800` track stays clear. Non-breaking — no API change; every `default`-variant `Tabs` (the `line` variant is unaffected) gets the fix automatically.
+
 ## 2026-06-23
 
 ### Fixed

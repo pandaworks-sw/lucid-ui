@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-07-08',
+    componentName: 'tabs',
+    title: 'Active tab is now visible in light mode',
+    summary:
+      'The active tab in the default (pill) Tabs was barely visible in light mode — the sliding pill used a color almost identical to the tab track, so you could not tell which tab was selected. Dark mode was fine. The active pill now uses the card surface (white in light, a lighter grey in dark) with a subtle edge ring, so it reads clearly as a raised segmented-control tile in both themes and meets the WCAG non-text-contrast minimum. No API change — every default Tabs gets the fix; the line (underline) variant is unchanged.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-06-23',
     componentName: 'app-shell',
     title: 'Sidebar highlight follows navigation (drilldown nav)',

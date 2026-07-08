@@ -349,6 +349,16 @@ Each entry contains:
 
 ---
 
+### 2026-07-08
+
+#### tabs — active-tab pill now visible in light mode (`default` variant)
+
+- **component**: Tabs (`default` variant)
+- **change**: modified
+- **breaking**: no
+- **details**: The sliding active-tab pill in [packages/registry/registry/default/tabs/tabs.tsx](packages/registry/registry/default/tabs/tabs.tsx) used `bg-accent`. In the light theme `accent` == `background` == `stone-150`, only one step off the `bg-input-bg` (`stone-100`) track, so the active tab was barely visible (dark mode was fine — `accent` = `stone-600` on `stone-800`). This is the exact case the "Surface tokens" guidance flags: `bg-accent` is not a valid active/selection fill on a page-adjacent surface. The pill now uses `bg-card` (light `#fff` / dark `stone-700`), one surface step off the `bg-input-bg` track in both themes, plus a `ring-1 ring-border` edge so the pill boundary clears SC 1.4.11 (3:1) non-text contrast. The `line` variant (underline indicator) is unaffected.
+- **action**: None required. Every `default`-variant `Tabs` gets the more-visible active pill automatically after upgrading.
+
 ### 2026-06-23
 
 #### app-shell — drilldown nav active highlight now follows client-side navigation
