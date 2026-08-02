@@ -330,7 +330,10 @@ function SidebarContent({ className, ...props }: ComponentProps<'div'>) {
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        'flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden group-data-[collapsible=icon]:overflow-hidden',
+        // Icon mode keeps the horizontal clip (labels collapsing out) but must keep
+        // scrolling vertically — a rail taller than the viewport is otherwise cut off
+        // with no way to reach its last entries.
+        'flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden group-data-[collapsible=icon]:overflow-x-hidden',
         className
       )}
       {...props}

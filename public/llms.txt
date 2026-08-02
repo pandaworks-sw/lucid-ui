@@ -349,6 +349,16 @@ Each entry contains:
 
 ---
 
+### 2026-08-02
+
+#### app-shell — sidebar now scrolls when the nav is taller than the viewport
+
+- **component**: AppShell (sidebar nav — both `navMode` values, and the `sidebarPanel` track)
+- **change**: modified
+- **breaking**: no
+- **details**: `SidebarPanelSwitcher` and `NavItemDrilldown` in [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx) each render a slide track whose height is measured from its on-screen pane and pinned inline, with `overflow-hidden` to clip the off-screen pane. `overflow-hidden` sets a flex item's automatic minimum size to zero, so inside the `SidebarContent` flex column the track shrank from its measured height to the leftover free space and clipped its own tail — leaving the last nav entries both invisible and unreachable, because a track squashed to exactly the free space never overflows the scroll container and no scrollbar appears. Both tracks are now `shrink-0`, so `SidebarContent`'s existing `overflow-y-auto` gets real overflow to scroll. `SidebarContent` in [packages/registry/registry/default/app-shell/sidebar.tsx](packages/registry/registry/default/app-shell/sidebar.tsx) also narrowed its icon-mode rule from `group-data-[collapsible=icon]:overflow-hidden` to `group-data-[collapsible=icon]:overflow-x-hidden`, keeping the horizontal clip that rule exists for while letting a collapsed icon rail taller than the viewport scroll too.
+- **action**: None required. Any `AppShell` whose nav outgrows the viewport starts scrolling after upgrading. If you previously worked around this by trimming nav items or by forcing `overflow`/`height` on the sidebar from the consuming app, remove that override.
+
 ### 2026-07-08
 
 #### tabs — active-tab pill now visible in light mode (`default` variant)

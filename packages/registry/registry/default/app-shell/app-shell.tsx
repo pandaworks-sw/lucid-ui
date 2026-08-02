@@ -218,7 +218,7 @@ function NavItemDrilldown({
 
   return (
     <div
-      className="relative overflow-hidden transition-[height] duration-200 ease-out"
+      className="relative shrink-0 overflow-hidden transition-[height] duration-200 ease-out"
       style={{ height }}
       data-slot="sidebar-drilldown"
     >
@@ -287,6 +287,12 @@ function NavItemDrilldown({
  * driven by the on-screen pane (measured + `ResizeObserver`) so it animates
  * between panes of different heights. The off-screen pane carries `inert` +
  * `aria-hidden` so it stays out of the tab order and the accessibility tree.
+ *
+ * The track is `shrink-0` because `overflow-hidden` drops its automatic minimum
+ * size to zero: inside the `SidebarContent` flex column it would otherwise be
+ * squashed to the free space and silently clip its own tail, leaving the last
+ * nav entries invisible AND unreachable (a squashed track never overflows the
+ * scroll container, so no scrollbar appears).
  */
 function SidebarPanelSwitcher({ panel, children }: { panel: SidebarPanel | null; children: ReactNode }) {
   const active = panel !== null;
@@ -319,7 +325,7 @@ function SidebarPanelSwitcher({ panel, children }: { panel: SidebarPanel | null;
 
   return (
     <div
-      className="relative overflow-hidden transition-[height] duration-200 ease-out"
+      className="relative shrink-0 overflow-hidden transition-[height] duration-200 ease-out"
       style={{ height }}
       data-slot="sidebar-panel-switcher"
     >

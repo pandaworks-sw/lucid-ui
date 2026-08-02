@@ -12,6 +12,14 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-08-02',
+    componentName: 'app-shell',
+    title: 'Long sidebars scroll again',
+    summary:
+      'When an app had more nav items than fit on screen, the sidebar quietly cut off the bottom ones — and gave you no scrollbar to reach them, so those menu entries were simply gone. The cause was the sliding nav track: it clips its off-screen pane, and that let the flex layout squash it to exactly the space available instead of its real height, so it never overflowed and never scrolled. The track now keeps its real height, so the sidebar scrolls normally and every nav item is reachable. The collapsed icon-only rail scrolls too. No API change — any sidebar with a long nav starts scrolling after upgrading.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-07-08',
     componentName: 'tabs',
     title: 'Active tab is now visible in light mode',

@@ -4,6 +4,12 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-08-02
+
+### Fixed
+
+- **`AppShell` — a sidebar with more nav items than fit the viewport now scrolls instead of silently cutting off its last entries.** [packages/registry/registry/default/app-shell/app-shell.tsx](packages/registry/registry/default/app-shell/app-shell.tsx), [packages/registry/registry/default/app-shell/sidebar.tsx](packages/registry/registry/default/app-shell/sidebar.tsx) — `SidebarPanelSwitcher` and `NavItemDrilldown` both render an absolutely-positioned slide track whose height is measured from its on-screen pane and pinned inline, with `overflow-hidden` to clip the off-screen pane. `overflow-hidden` drops a flex item's automatic minimum size to zero, so inside the `SidebarContent` flex column the track was free to shrink from its measured height down to the leftover free space — and then clipped its own tail. The result was the worst of both: the last nav entries were invisible **and** unreachable, because a track squashed to exactly the free space never overflows the scroll container, so no scrollbar ever appeared. Measured on a 21-item nav at an 800px viewport: track `height: 732px` inline but `clientHeight` 656, `SidebarContent` `scrollHeight` == `clientHeight` == 656 — nothing to scroll, bottom 76px (the last two sections) gone. Both tracks are now `shrink-0`, so the measured height is honoured, `SidebarContent` overflows, and its existing `overflow-y-auto` produces a real scrollbar (`scrollHeight` 732 vs `clientHeight` 656). `SidebarContent`'s icon-mode rule also narrowed from `group-data-[collapsible=icon]:overflow-hidden` to `group-data-[collapsible=icon]:overflow-x-hidden`, which keeps the horizontal clip that rule exists for (labels collapsing out) while letting a collapsed icon rail taller than the viewport scroll as well. Non-breaking — no API change; any `AppShell` whose nav outgrows the viewport starts scrolling automatically.
+
 ## 2026-07-08
 
 ### Fixed
