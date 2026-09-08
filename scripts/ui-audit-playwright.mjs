@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { stripVTControlCharacters } from 'node:util';
 import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
@@ -39,7 +40,7 @@ async function startServer() {
   for (let attempt = 0; attempt < 150; attempt++) {
     if (startError) throw startError;
     if (vite.exitCode !== null) throw new Error(`Demo server exited: ${output}`);
-    if (output.includes('Local:')) return;
+    if (stripVTControlCharacters(output).includes('Local:')) return;
     await new Promise((resolve) => setTimeout(resolve, 200));
   }
   throw new Error(`Demo server did not start: ${output}`);
