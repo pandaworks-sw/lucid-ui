@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "build": "clean",
+  "tests": "47 pass / 0 fail; 28 browser checks pass / 0 fail",
+  "coverage": "Button and AnimatedNumber: 100% lines, 93.84% branches. Other changed files outside instrumented scope; browser and component regression coverage only.",
+  "timestamp": "2026-09-08T08:13:09Z",
+  "tree_hash": "de75ad3b06250674e9bf4b548d712d47818284b2d597cd8a0f1ffee289467ef3"
+}

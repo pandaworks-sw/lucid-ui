@@ -50,7 +50,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: steps.tag_check.outputs.exists == 'false'
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
           registry-url: https://npm.pkg.github.com
           scope: '@pandaworks-sw'
@@ -61,7 +61,19 @@ jobs:
 
       - name: Build package
         if: steps.tag_check.outputs.exists == 'false'
-        run: pnpm --filter @pandaworks-sw/lucid-ui build
+        run: pnpm build
+
+      - name: Run component regression tests
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm test
+
+      - name: Install test browser
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run browser quality checks
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm test:ui-audit
 
       - name: Extract release notes from CHANGELOG.md
         if: steps.tag_check.outputs.exists == 'false'

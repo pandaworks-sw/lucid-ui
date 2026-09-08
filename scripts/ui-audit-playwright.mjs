@@ -1,242 +1,248 @@
-import { chromium } from 'playwright';
+import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+import { chromium } from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173/lucid-ui';
-const OUT_DIR = path.resolve('artifacts/playwright-ui-audit');
+const BASE_URL = (process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:5187/lucid-ui').replace(/\/$/, '');
+const OUT_DIR = path.join(ROOT, '.playwright/screenshot/ui-audit');
+const serve = process.argv.includes('--serve');
+let vite;
+let serverClosed;
+let browser;
+const result = { checks: [], consoleErrors: [], pageErrors: [] };
 
-const serve = process.argv.includes('--serve') || process.env.PLAYWRIGHT_UI_AUDIT_SERVE === '1';
-
-let vite = null;
-
-async function waitForServer(url, timeoutMs = 90000) {
-  const deadline = Date.now() + timeoutMs;
-  while (Date.now() < deadline) {
-    try {
-      const res = await fetch(url, { signal: AbortSignal.timeout(2000) });
-      if (res.ok || res.status === 304) return;
-    } catch {
-      /* retry */
-    }
-    await new Promise((r) => setTimeout(r, 400));
+async function startServer() {
+  const url = new URL(BASE_URL);
+  assert(['127.0.0.1', 'localhost'].includes(url.hostname), '--serve requires a local URL');
+  vite = spawn(
+    'pnpm',
+    ['--filter', '@pandaworks-sw/demo', 'exec', 'vite', '--host', url.hostname, '--port', url.port, '--strictPort'],
+    { cwd: ROOT, stdio: 'pipe' }
+  );
+  serverClosed = new Promise((resolve) => vite.once('close', resolve));
+  let output = '';
+  let startError;
+  vite.on('error', (error) => {
+    startError = error;
+  });
+  vite.stdout.on('data', (data) => {
+    output += data;
+  });
+  vite.stderr.on('data', (data) => {
+    output += data;
+  });
+  // Wait for our process to bind. Never audit an unrelated server on an occupied port.
+  for (let attempt = 0; attempt < 150; attempt++) {
+    if (startError) throw startError;
+    if (vite.exitCode !== null) throw new Error(`Demo server exited: ${output}`);
+    if (output.includes('Local:')) return;
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
-  throw new Error(`Server not reachable within ${timeoutMs}ms: ${url}`);
+  throw new Error(`Demo server did not start: ${output}`);
 }
 
-function stopServer() {
-  if (!vite) return;
-  vite.kill('SIGTERM');
-  vite = null;
-}
-
-async function ensureDir(dir) {
-  await fs.mkdir(dir, { recursive: true });
-}
-
-async function snap(page, file) {
-  await page.screenshot({ path: path.join(OUT_DIR, file), fullPage: true });
+async function check(name, action) {
+  try {
+    await action();
+    result.checks.push({ name, pass: true });
+  } catch (error) {
+    result.checks.push({ name, pass: false, error: String(error) });
+  }
 }
 
 async function run() {
-  if (serve) {
-    console.log('Starting Vite demo (apps/demo) on port 5173…');
-    vite = spawn('pnpm', ['--filter', '@pandaworks-sw/demo', 'exec', 'vite', '--host', '127.0.0.1', '--port', '5173'], {
-      cwd: ROOT,
-      stdio: 'inherit',
+  if (serve) await startServer();
+  await fs.mkdir(OUT_DIR, { recursive: true });
+  browser = await chromium.launch({ headless: true });
+  for (const theme of ['light', 'dark']) {
+    const context = await browser.newContext({
+      viewport: { width: 1440, height: 1000 },
+      colorScheme: theme,
+      reducedMotion: 'reduce',
     });
-    vite.on('error', (err) => {
-      console.error(err);
+    const page = await context.newPage();
+    page.on('pageerror', (error) => result.pageErrors.push(String(error)));
+    page.on('console', (message) => {
+      if (message.type() === 'error') result.consoleErrors.push(message.text());
     });
-    await waitForServer(`${BASE_URL}/`);
-    console.log('Demo server ready.');
-  }
-
-  await ensureDir(OUT_DIR);
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1024 } });
-  const page = await context.newPage();
-
-  const findings = {
-    consoleErrors: [],
-    pageErrors: [],
-    checks: [],
-    sheetLayout: null,
-  };
-
-  page.on('console', (msg) => {
-    if (msg.type() === 'error') findings.consoleErrors.push(msg.text());
-  });
-  page.on('pageerror', (err) => findings.pageErrors.push(String(err)));
-
-  // 1) Showcase default (button)
-  await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
-  await snap(page, '01-showcase-button-light.png');
-  findings.checks.push({ check: 'showcase loads', pass: await page.getByText('Button').first().isVisible() });
-
-  // 2) Card demo depth
-  await page.goto(`${BASE_URL}/#/${'card'}`, { waitUntil: 'networkidle' });
-  await snap(page, '02-showcase-card-light.png');
-  findings.checks.push({
-    check: 'card demo visible',
-    pass: await page.getByText('Employee Overview').first().isVisible(),
-  });
-
-  // 3) Table demo
-  await page.goto(`${BASE_URL}/#/${'table'}`, { waitUntil: 'networkidle' });
-  await snap(page, '03-showcase-table-light.png');
-  findings.checks.push({
-    check: 'table demo visible',
-    pass: await page.getByRole('cell', { name: 'EMP-001' }).first().isVisible(),
-  });
-
-  // 4) Modal demo + open
-  await page.goto(`${BASE_URL}/#/${'modal'}`, { waitUntil: 'networkidle' });
-  const modalTrigger = page.getByRole('button', { name: /open modal|open/i }).first();
-  if (await modalTrigger.isVisible().catch(() => false)) {
-    await modalTrigger.click();
-  } else {
-    // fallback for unknown trigger label in demo
-    await page.getByRole('button').first().click();
-  }
-  await page.waitForTimeout(250);
-  await snap(page, '04-showcase-modal-open-light.png');
-  findings.checks.push({ check: 'modal opens', pass: await page.locator('[role="dialog"]').first().isVisible() });
-  await page.keyboard.press('Escape');
-
-  // 5) Popover demo + open
-  await page.goto(`${BASE_URL}/#/${'popover'}`, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Open Popover' }).first().click();
-  await page.waitForTimeout(200);
-  await snap(page, '05-showcase-popover-open-light.png');
-  findings.checks.push({
-    check: 'popover opens',
-    pass: await page.locator('[data-slot="popover-content"]').first().isVisible(),
-  });
-  await page.keyboard.press('Escape');
-
-  // 6) Dropdown menu demo + open
-  await page.goto(`${BASE_URL}/#/${'dropdown-menu'}`, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Open Menu' }).first().click();
-  await page.waitForTimeout(200);
-  await snap(page, '06-showcase-dropdown-open-light.png');
-  findings.checks.push({ check: 'dropdown opens', pass: await page.locator('[role="menu"]').first().isVisible() });
-  await page.keyboard.press('Escape');
-
-  // 7) Sheet — open, floating inset + radius, dismiss on Escape
-  await page.goto(`${BASE_URL}/#/sheet`, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Open right' }).click();
-  const sheetDialog = page.getByRole('dialog', { name: /Sheet from right/i });
-  await sheetDialog.waitFor({ state: 'visible', timeout: 8000 });
-  await page.waitForTimeout(100);
-  await snap(page, '11-showcase-sheet-open-light.png');
-  findings.checks.push({
-    check: 'sheet opens (dialog visible)',
-    pass: await sheetDialog.isVisible(),
-  });
-
-  const layout = await sheetDialog.evaluate((el) => {
-    const r = el.getBoundingClientRect();
-    const m = 6;
-    const insetFromViewportEdges = r.top >= m && r.right <= window.innerWidth - m && r.bottom <= window.innerHeight - m;
-    const style = window.getComputedStyle(el);
-    const radius = parseFloat(style.borderTopLeftRadius) || 0;
-    return {
-      insetFromViewportEdges,
-      borderTopLeftRadius: style.borderTopLeftRadius,
-      radiusPx: radius,
-      top: r.top,
-      right: r.right,
-      bottom: r.bottom,
-      innerWidth: window.innerWidth,
-      innerHeight: window.innerHeight,
-    };
-  });
-  findings.sheetLayout = layout;
-  findings.checks.push({
-    check: 'sheet panel inset from viewport (floating)',
-    pass: layout.insetFromViewportEdges,
-  });
-  findings.checks.push({
-    check: 'sheet panel has rounded corners (>= 12px)',
-    pass: layout.radiusPx >= 12,
-  });
-
-  await page.keyboard.press('Escape');
-  await sheetDialog.waitFor({ state: 'hidden', timeout: 8000 });
-  findings.checks.push({
-    check: 'sheet closes on Escape',
-    pass: !(await sheetDialog.isVisible().catch(() => false)),
-  });
-
-  // 8) Dark mode on showcase
-  await page.goto(`${BASE_URL}/#/${'card'}`, { waitUntil: 'networkidle' });
-  const toggles = page.getByRole('button');
-  const count = await toggles.count();
-  if (count > 0) {
-    await toggles.nth(count - 1).click();
-    await page.waitForTimeout(200);
-  }
-  await snap(page, '07-showcase-card-dark.png');
-  findings.checks.push({
-    check: 'dark mode class applied',
-    pass: await page.evaluate(() => document.documentElement.classList.contains('dark')),
-  });
-
-  // 9) SaaS dashboard
-  await page.goto(`${BASE_URL}/saas-showcase`, { waitUntil: 'networkidle' });
-  await snap(page, '08-saas-dashboard-light.png');
-  findings.checks.push({ check: 'saas page loads', pass: await page.getByText('Pandawork').first().isVisible() });
-
-  // 10) SaaS user menu depth
-  await page.getByRole('button', { name: 'Account' }).click();
-  await page.waitForTimeout(200);
-  await snap(page, '09-saas-account-menu-open-light.png');
-  findings.checks.push({ check: 'account menu opens', pass: await page.locator('[role="menu"]').first().isVisible() });
-
-  // 11) SaaS dark mode
-  const themeButtons = page.getByRole('button');
-  const themeCount = await themeButtons.count();
-  if (themeCount > 0) {
-    await themeButtons
-      .nth(themeCount - 2)
-      .click()
-      .catch(async () => {
-        await themeButtons.nth(themeCount - 1).click();
+    await check(`${theme}: button names and loading`, async () => {
+      await page.goto(`${BASE_URL}/#/button`);
+      await page.getByRole('heading', { name: 'Button', exact: true }).waitFor();
+      assert.equal(await page.getByRole('button', { name: 'Edit Atlas project', exact: true }).count(), 1);
+      assert.equal(
+        await page.getByRole('button', { name: 'Save', exact: true }).first().getAttribute('aria-busy'),
+        'true'
+      );
+      assert.equal(
+        await page.locator('html').evaluate((element) => element.classList.contains('dark')),
+        theme === 'dark'
+      );
+      await page.screenshot({ path: path.join(OUT_DIR, `button-${theme}.png`) });
+    });
+    await check(`${theme}: modal keyboard dismissal and focus return`, async () => {
+      await page.goto(`${BASE_URL}/#/modal`);
+      const trigger = page.getByRole('button', { name: 'Open Modal', exact: true }).first();
+      await trigger.click();
+      await page.getByRole('dialog', { name: 'Edit Profile', exact: true }).waitFor();
+      await page.keyboard.press('Escape');
+      await page.getByRole('dialog').waitFor({ state: 'hidden' });
+      await page.waitForFunction(() => document.activeElement?.textContent === 'Open Modal');
+      assert(await trigger.evaluate((element) => element === document.activeElement));
+    });
+    await check(`${theme}: sheet opens and closes`, async () => {
+      await page.goto(`${BASE_URL}/#/sheet`);
+      await page.getByRole('button', { name: 'Open right', exact: true }).click();
+      const sheet = page.getByRole('dialog', { name: 'Sheet from right' });
+      await sheet.waitFor();
+      await page.waitForFunction(() => {
+        const element = document.querySelector('[role="dialog"]');
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        return rect.top >= 6 && rect.right <= innerWidth - 6 && rect.bottom <= innerHeight - 6;
       });
-    await page.waitForTimeout(200);
+      assert(await sheet.evaluate((element) => Number.parseFloat(getComputedStyle(element).borderTopLeftRadius) >= 12));
+      await page.keyboard.press('Escape');
+      await page.getByRole('dialog').waitFor({ state: 'hidden' });
+    });
+    await check(`${theme}: dropdown keyboard dismissal`, async () => {
+      await page.goto(`${BASE_URL}/#/dropdown-menu`);
+      await page.getByRole('button', { name: 'Open Menu', exact: true }).click();
+      await page.getByRole('menu').waitFor();
+      await page.keyboard.press('Escape');
+      await page.getByRole('menu').waitFor({ state: 'hidden' });
+    });
+    await check(`${theme}: card and table content`, async () => {
+      await page.goto(`${BASE_URL}/#/card`);
+      await page.getByText('Employee Overview', { exact: true }).first().waitFor();
+      await page.goto(`${BASE_URL}/#/table`);
+      await page.getByRole('cell', { name: 'EMP-001', exact: true }).first().waitFor();
+    });
+    await check(`${theme}: popover opens and closes`, async () => {
+      await page.goto(`${BASE_URL}/#/popover`);
+      await page.getByRole('button', { name: 'Open Popover', exact: true }).click();
+      await page.locator('[data-slot="popover-content"]').waitFor();
+      await page.keyboard.press('Escape');
+      await page.locator('[data-slot="popover-content"]').waitFor({ state: 'hidden' });
+    });
+    await check(`${theme}: SaaS account menu`, async () => {
+      await page.goto(`${BASE_URL}/saas-showcase`);
+      await page.getByRole('button', { name: 'Account', exact: true }).click();
+      await page.getByRole('menu').waitFor();
+      await page.keyboard.press('Escape');
+      await page.getByRole('menu').waitFor({ state: 'hidden' });
+    });
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const route of ['dashboard', 'projects']) {
+        await check(`${theme} ${width}: ${route} layout`, async () => {
+          await page.goto(`${BASE_URL}/pure-showcase#/${route}`);
+          const heading = page.getByRole('heading', {
+            name: route === 'dashboard' ? 'Workspace' : 'Projects',
+            exact: true,
+          });
+          await heading.waitFor();
+          await page.screenshot({ path: path.join(OUT_DIR, `${route}-${theme}-${width}.png`) });
+          const dimensions = await page.evaluate(() => ({
+            viewport: innerWidth,
+            document: document.documentElement.scrollWidth,
+          }));
+          assert(dimensions.document <= dimensions.viewport, `${route}: horizontal page overflow at ${width}px`);
+          assert(
+            await heading.evaluate((element) => parseFloat(getComputedStyle(element).fontSize) >= 24),
+            'Page titles must be at least 24px'
+          );
+          if (route === 'projects') {
+            assert.equal(
+              await page.getByRole('button', { name: 'New project', exact: true }).count(),
+              1,
+              'Projects must have one New project action'
+            );
+            assert.equal(
+              await page.getByRole('button', { name: 'Sort projects', exact: true }).count(),
+              1,
+              'Hidden columns must remain sortable'
+            );
+            const names = () => page.locator('tbody tr td:first-child button:first-child').allTextContents();
+            const beforeSort = await names();
+            assert(beforeSort.length > 0, 'Project names must exist before checking sorting');
+            await page.getByRole('button', { name: 'Sort projects', exact: true }).click();
+            await page.getByRole('menuitem', { name: 'Progress', exact: true }).click();
+            const afterSort = await names();
+            assert.notDeepEqual(afterSort, beforeSort, 'Progress sort must change project order');
+            await page.getByRole('button', { name: 'Sort projects', exact: true }).click();
+            await page.getByRole('menuitem', { name: 'Due date', exact: true }).click();
+            assert.notDeepEqual(await names(), afterSort, 'Due date sort must change project order');
+            const actions = await page.getByRole('button', { name: 'Row actions', exact: true }).first().boundingBox();
+            assert(actions && actions.x + actions.width <= width, 'Row actions must stay in view');
+          } else {
+            assert(
+              await page
+                .locator('[data-slot="stat-card"] [data-slot="animated-number"]')
+                .first()
+                .evaluate((element) => parseFloat(getComputedStyle(element).fontSize) >= 28),
+              'Short headline metrics must be at least 28px'
+            );
+          }
+        });
+        if (width === 1440) {
+          await check(`${theme}: ${route} accessibility`, async () => {
+            const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+            const violations = scan.violations.filter(
+              (item) => item.impact === 'serious' || item.impact === 'critical'
+            );
+            assert.deepEqual(
+              violations.map((item) => ({
+                id: item.id,
+                impact: item.impact,
+                nodes: item.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })),
+              })),
+              [],
+              'No serious or critical accessibility violations'
+            );
+          });
+        }
+      }
+    }
+    await check(`${theme}: mobile component navigation`, async () => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}/#/button`);
+      await page.getByRole('heading', { name: 'Button', exact: true }).waitFor();
+      const menu = page.getByRole('button', { name: 'Browse components', exact: true });
+      assert.equal(await menu.count(), 1, 'Mobile gallery needs a component navigation control');
+      await menu.click();
+      const navigation = page.getByRole('dialog', { name: 'Components', exact: true });
+      await navigation.waitFor();
+      await navigation.getByRole('button', { name: 'Input', exact: true }).click();
+      await navigation.waitFor({ state: 'hidden' });
+      await page.getByRole('heading', { name: 'Input', exact: true }).waitFor();
+      await page.screenshot({ path: path.join(OUT_DIR, `gallery-${theme}-390.png`) });
+    });
+    await context.close();
   }
-  await snap(page, '10-saas-dashboard-dark.png');
-  findings.checks.push({
-    check: 'saas dark mode applied',
-    pass: await page.evaluate(() => document.documentElement.classList.contains('dark')),
-  });
-
-  await fs.writeFile(path.join(OUT_DIR, 'audit-results.json'), JSON.stringify(findings, null, 2), 'utf8');
-
-  await browser.close();
-
-  const failed = findings.checks.filter((c) => !c.pass);
-  if (failed.length > 0 || findings.pageErrors.length > 0) {
-    process.exitCode = 1;
-  }
-  console.log(`Saved audit artifacts to: ${OUT_DIR}`);
-  console.log(`Checks: ${findings.checks.length}, failed: ${failed.length}`);
-  console.log(`Console errors: ${findings.consoleErrors.length}, page errors: ${findings.pageErrors.length}`);
 }
 
-process.on('SIGINT', () => {
-  stopServer();
-  process.exit(130);
-});
-
-run()
-  .catch((err) => {
-    console.error(err);
-    process.exitCode = 1;
-  })
-  .finally(() => {
-    stopServer();
-  });
+try {
+  await run();
+} catch (error) {
+  result.pageErrors.push(String(error));
+} finally {
+  await browser?.close();
+  if (vite?.pid && vite.exitCode === null && vite.signalCode === null) {
+    vite.kill('SIGTERM');
+  }
+  await serverClosed;
+  await fs.mkdir(OUT_DIR, { recursive: true });
+  await fs.writeFile(path.join(OUT_DIR, 'results.json'), JSON.stringify(result, null, 2));
+}
+const failed = result.checks.filter((entry) => !entry.pass);
+process.stdout.write(
+  `${result.checks.length - failed.length} browser checks passed; ${failed.length} failed; ${result.pageErrors.length} page errors; ${result.consoleErrors.length} console errors\n`
+);
+if (failed.length || result.pageErrors.length || result.consoleErrors.length) {
+  process.stderr.write(`${JSON.stringify(result, null, 2)}\n`);
+  process.exitCode = 1;
+}

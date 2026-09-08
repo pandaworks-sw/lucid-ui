@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "build": "clean",
+  "tests": "25 pass / 0 fail; 14 browser checks pass",
+  "coverage": "Button/AnimatedNumber: lines 100%, branches 93.84%; other component tests scoped",
+  "timestamp": "2026-09-08T07:55:43.452061+00:00"
+}

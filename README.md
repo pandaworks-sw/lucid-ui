@@ -88,9 +88,20 @@ For deeper component docs, see [`public/docs/`](public/docs/).
 pnpm install          # Install dependencies
 pnpm dev              # Start demo showcase
 pnpm build            # Build npm package + demo
-pnpm lint             # Lint demo app
+pnpm lint             # Lint library and demo
+pnpm test             # Component regression tests with scoped V8 coverage
+pnpm test:ui-audit     # Chromium checks in light and dark mode
 ```
 
 ## License
 
 Private — Pandaworks Sdn Bhd
+
+## Quality checks
+
+Use Node.js 22. Install the test browser once with `pnpm exec playwright install chromium`.
+The browser audit starts its own server on port 5187 with `--strictPort`; override with
+`PLAYWRIGHT_BASE_URL=http://127.0.0.1:5190/lucid-ui` when needed. It does not reuse another app's server.
+Screenshots and results are local-only under `.playwright/screenshot/ui-audit/`.
+
+V8 coverage thresholds apply to Button and AnimatedNumber, the initial contract-test scope; they are not a claim of whole-library coverage. Search, numeric validation, and modal keyboard contracts also have regression tests. Both publish workflows run build, component tests, and browser checks before creating a release or publishing. Pull requests run the same checks.
