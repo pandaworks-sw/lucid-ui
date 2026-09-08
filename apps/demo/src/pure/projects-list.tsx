@@ -36,7 +36,7 @@ import { Progress } from '@/components/ui/progress';
 import { SearchInput } from '@/components/ui/search-input';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
   Pagination,
   PaginationContent,
@@ -279,7 +279,8 @@ export function ProjectsList() {
             <SearchInput
               value={search}
               onChange={setSearch}
-              placeholder="Search by name, key, tag..."
+              placeholder="Search projects..."
+              aria-label="Search projects"
               className="h-9 w-full sm:max-w-xs"
             />
             <div className="flex items-center gap-2">
@@ -296,18 +297,40 @@ export function ProjectsList() {
               </span>
             </div>
           </div>
-          <Tabs value={view} onValueChange={(v) => setView(v as 'table' | 'grid')}>
-            <TabsList>
-              <TabsTrigger value="table" className="gap-1">
-                <List className="size-3.5" />
-                Table
-              </TabsTrigger>
-              <TabsTrigger value="grid" className="gap-1">
-                <LayoutGrid className="size-3.5" />
-                Grid
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" aria-label="Sort projects">
+                <ArrowUpDown className="size-4" />
+                Sort
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Sort projects</DropdownMenuLabel>
+              {(['name', 'status', 'progress', 'dueDate', 'budget'] as const).map((key) => (
+                <DropdownMenuItem key={key} onSelect={() => toggleSort(key)}>
+                  {{ name: 'Name', status: 'Status', progress: 'Progress', dueDate: 'Due date', budget: 'Budget' }[key]}
+                  {sortKey === key ? (sortDir === 'asc' ? ' ↑' : ' ↓') : ''}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <ToggleGroup
+            type="single"
+            aria-label="Project view"
+            value={view}
+            onValueChange={(v) => {
+              if (v === 'table' || v === 'grid') setView(v);
+            }}
+          >
+            <ToggleGroupItem value="table" className="gap-1">
+              <List className="size-3.5" />
+              Table
+            </ToggleGroupItem>
+            <ToggleGroupItem value="grid" className="gap-1">
+              <LayoutGrid className="size-3.5" />
+              Grid
+            </ToggleGroupItem>
+          </ToggleGroup>
         </CardHeader>
         {filters.length > 0 && (
           <>
@@ -359,7 +382,7 @@ export function ProjectsList() {
         {sorted.length > PAGE_SIZE && (
           <>
             <Separator />
-            <div className="flex items-center justify-between px-6 py-3 text-sm">
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 text-sm sm:px-6">
               <p className="text-xs text-muted-foreground">
                 Showing {(currentPage - 1) * PAGE_SIZE + 1}-{Math.min(currentPage * PAGE_SIZE, sorted.length)} of{' '}
                 {sorted.length}
@@ -442,7 +465,7 @@ function TableView({
   onDelete,
 }: TableViewProps) {
   return (
-    <Table>
+    <Table className="table-fixed">
       <TableHeader>
         <TableRow>
           <TableHead>
@@ -450,24 +473,24 @@ function TableView({
               Project
             </SortHeader>
           </TableHead>
-          <TableHead className="hidden lg:table-cell">Owner & team</TableHead>
-          <TableHead className="hidden md:table-cell">
+          <TableHead className="hidden xl:table-cell w-48">Owner & team</TableHead>
+          <TableHead className="hidden md:table-cell w-28">
             <SortHeader active={sortKey === 'status'} dir={sortDir} onClick={() => onSort('status')}>
               Status
             </SortHeader>
           </TableHead>
-          <TableHead className="hidden md:table-cell">Priority</TableHead>
-          <TableHead className="w-48">
+          <TableHead className="hidden md:table-cell w-28">Priority</TableHead>
+          <TableHead className="hidden sm:table-cell w-28">
             <SortHeader active={sortKey === 'progress'} dir={sortDir} onClick={() => onSort('progress')}>
               Progress
             </SortHeader>
           </TableHead>
-          <TableHead className="hidden xl:table-cell">
+          <TableHead className="hidden 2xl:table-cell w-28">
             <SortHeader active={sortKey === 'dueDate'} dir={sortDir} onClick={() => onSort('dueDate')}>
               Due
             </SortHeader>
           </TableHead>
-          <TableHead className="hidden xl:table-cell text-right">
+          <TableHead className="hidden 2xl:table-cell w-28 text-right">
             <SortHeader
               active={sortKey === 'budget'}
               dir={sortDir}
@@ -491,12 +514,23 @@ function TableView({
               <TableCell>
                 <div className="flex items-center gap-3">
                   <ProjectTile member={owner} label={tileLabel} size="md" />
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-medium">{project.name}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex min-w-0 flex-col items-start gap-1">
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="h-auto max-w-full justify-start whitespace-normal p-0 text-left"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onOpen(project.id);
+                        }}
+                      >
+                        {project.name}
+                      </Button>
                       <CodeLabel value={project.key} size="sm" />
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                      <span className="sm:hidden">{project.progress}% complete · </span>
                       <span>{counts.total} tasks</span>
                       <span className="size-0.5 rounded-full bg-muted-foreground/50" />
                       <span>{counts.open} open</span>
@@ -510,7 +544,7 @@ function TableView({
                   </div>
                 </div>
               </TableCell>
-              <TableCell className="hidden lg:table-cell">
+              <TableCell className="hidden xl:table-cell w-48">
                 <div className="flex items-center gap-3">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{owner?.name ?? 'Unassigned'}</p>
@@ -519,25 +553,25 @@ function TableView({
                   <MemberStack members={team} size="xs" max={3} />
                 </div>
               </TableCell>
-              <TableCell className="hidden md:table-cell">
+              <TableCell className="hidden md:table-cell w-28">
                 <StatusBadge status={project.status} />
               </TableCell>
-              <TableCell className="hidden md:table-cell">
+              <TableCell className="hidden md:table-cell w-28">
                 <PriorityBadge priority={project.priority} />
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden sm:table-cell">
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>{project.progress}%</span>
                     {counts.open > 0 && <span>{counts.open} open</span>}
                   </div>
-                  <Progress value={project.progress} className="h-1.5" />
+                  <Progress aria-label={`${project.name} progress`} value={project.progress} className="h-1.5" />
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-cell text-sm text-muted-foreground">
+              <TableCell className="hidden 2xl:table-cell text-sm text-muted-foreground">
                 {formatDate(project.dueDate)}
               </TableCell>
-              <TableCell className="hidden xl:table-cell text-right text-sm tabular-nums">
+              <TableCell className="hidden 2xl:table-cell text-right text-sm tabular-nums">
                 {formatCurrency(project.budget)}
               </TableCell>
               <TableCell>
@@ -594,7 +628,7 @@ function GridView({
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                  <Button variant="ghost" size="icon-sm">
+                  <Button variant="ghost" size="icon-sm" aria-label="Row actions">
                     <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -631,7 +665,7 @@ function GridView({
                   <span>Progress</span>
                   <span className="tabular-nums">{project.progress}%</span>
                 </div>
-                <Progress value={project.progress} className="h-1.5" />
+                <Progress aria-label={`${project.name} progress`} value={project.progress} className="h-1.5" />
               </div>
               <div className="flex items-center justify-between text-xs">
                 <MemberStack members={team} size="xs" max={4} />
@@ -670,7 +704,7 @@ function RowActions({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-        <Button variant="ghost" size="icon-sm">
+        <Button variant="ghost" size="icon-sm" aria-label="Row actions">
           <MoreHorizontal className="size-4" />
           <span className="sr-only">Row actions</span>
         </Button>

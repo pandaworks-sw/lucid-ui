@@ -35,30 +35,48 @@ function AnimatedNumber({
     const startValue = prevValueRef.current;
     const endValue = value;
     const startTime = performance.now();
-    let frameId: number;
+    let frameId: number | undefined;
 
     if (startValue === endValue) return;
 
-    prevValueRef.current = endValue;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const settle = () => {
+      if (frameId !== undefined) cancelAnimationFrame(frameId);
+      prevValueRef.current = endValue;
+      setDisplayValue(endValue);
+    };
+
+    if (media.matches || duration <= 0) {
+      settle();
+      return;
+    }
+
+    const onMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) settle();
+    };
+    media.addEventListener('change', onMotionChange);
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const easeOutQuad = easeOutQuadFn(progress);
       const current = startValue + (endValue - startValue) * easeOutQuad;
+      prevValueRef.current = current;
 
       setDisplayValue(decimals > 0 ? Number(current.toFixed(decimals)) : Math.round(current));
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animate);
       } else {
+        prevValueRef.current = endValue;
         setDisplayValue(endValue);
       }
     };
 
     frameId = requestAnimationFrame(animate);
     return () => {
-      if (frameId) cancelAnimationFrame(frameId);
+      if (frameId !== undefined) cancelAnimationFrame(frameId);
+      media.removeEventListener('change', onMotionChange);
     };
   }, [value, duration, decimals]);
 

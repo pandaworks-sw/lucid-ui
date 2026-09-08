@@ -149,7 +149,7 @@ const AvatarFallback = forwardRef<ElementRef<typeof AvatarPrimitive.Fallback>, A
       if (char) {
         const hue = getAvatarHue(char);
         computedStyle = {
-          backgroundColor: `oklch(0.62 0.14 ${hue})`,
+          backgroundColor: `oklch(0.50 0.14 ${hue})`,
           color: '#ffffff',
           ...style,
         };

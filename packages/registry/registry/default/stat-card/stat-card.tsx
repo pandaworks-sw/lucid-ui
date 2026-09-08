@@ -44,18 +44,19 @@ function StatCard({
   className,
 }: StatCardProps) {
   const DeltaIcon = DELTA_ICON[deltaTone];
+  const headlineLength = getRenderedLength(value, prefix, suffix, decimals, formatter);
 
   return (
     <Card data-slot="stat-card" className={cn('relative overflow-hidden', className)}>
-      <CardHeader className="flex flex-row items-center justify-between px-4 pt-3 pb-1">
-        <CardTitle className="text-xs font-medium text-muted-foreground">{label}</CardTitle>
-        {Icon && <Icon className="size-3.5 text-muted-foreground" />}
+      <CardHeader className="flex flex-row items-center justify-between gap-3 px-5 pt-4 pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+        {Icon && <Icon className="size-4 shrink-0 text-muted-foreground" />}
       </CardHeader>
-      <CardContent className="space-y-0.5 px-4 pb-3">
+      <CardContent className="flex flex-col gap-2 px-5 pb-4">
         <div
           className={cn(
-            'min-w-0 font-semibold tracking-tight',
-            getHeadlineSizeClass(getRenderedLength(value, prefix, suffix, decimals, formatter))
+            'min-w-0 break-words font-semibold tracking-tight tabular-nums',
+            headlineLength <= 10 ? 'text-3xl' : getHeadlineSizeClass(headlineLength)
           )}
         >
           {typeof value === 'string' ? (
@@ -70,7 +71,7 @@ function StatCard({
             </>
           )}
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
           {hint && <span>{hint}</span>}
           {delta && (
             <Badge variant={DELTA_VARIANT[deltaTone]}>

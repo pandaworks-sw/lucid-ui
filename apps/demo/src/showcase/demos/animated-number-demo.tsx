@@ -72,6 +72,20 @@ export default function AnimatedNumberDemo() {
           </Button>
         </div>
       </DemoSection>
+      <DemoSection
+        title="Reduced motion and instant updates"
+        code={`<AnimatedNumber value={count} duration={0} />
+// All durations respect the system prefers-reduced-motion setting.`}
+      >
+        <div className="flex flex-wrap items-center gap-4">
+          <AnimatedNumber value={count} duration={0} className="text-3xl font-semibold tabular-nums" />
+          <Button onClick={() => setCount((current) => current + 1)}>Increase instantly</Button>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          A zero or negative duration updates immediately. Enable reduced motion in your system settings to make every
+          example update without animation, including an animation already in progress.
+        </p>
+      </DemoSection>
     </>
   );
 }

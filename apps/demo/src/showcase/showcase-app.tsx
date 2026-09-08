@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Search } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ShowcaseSidebar, type SidebarCategory } from './showcase-sidebar';
 import { ComponentPage } from './component-page';
@@ -802,6 +804,7 @@ export default function ShowcaseApp() {
   const [active, setActive] = useState(getHashComponent);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
   const [highlight, setHighlight] = useState(0);
 
   useEffect(() => {
@@ -836,20 +839,49 @@ export default function ShowcaseApp() {
 
   return (
     <TooltipProvider>
-      <div className="flex h-screen bg-background text-foreground">
-        <ShowcaseSidebar
-          categories={CATEGORIES}
-          active={active}
-          onSelect={handleSelect}
-          whatsNewActive={active === WHATS_NEW_KEY}
-          onSelectWhatsNew={() => handleSelect(WHATS_NEW_KEY)}
-        />
+      <div className="flex h-dvh bg-background text-foreground">
+        <div className="hidden h-full md:block">
+          <ShowcaseSidebar
+            categories={CATEGORIES}
+            active={active}
+            onSelect={handleSelect}
+            whatsNewActive={active === WHATS_NEW_KEY}
+            onSelectWhatsNew={() => handleSelect(WHATS_NEW_KEY)}
+          />
+        </div>
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex h-12 shrink-0 items-center border-b bg-background px-4">
+          <header className="flex h-14 shrink-0 items-center gap-3 border-b bg-background px-4">
+            <Sheet open={mobileNavigationOpen} onOpenChange={setMobileNavigationOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="Browse components" className="shrink-0 md:hidden">
+                  <Menu />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72 p-0">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Components</SheetTitle>
+                  <SheetDescription>Choose a component to view its examples and documentation.</SheetDescription>
+                </SheetHeader>
+                <ShowcaseSidebar
+                  categories={CATEGORIES}
+                  active={active}
+                  onSelect={(name) => {
+                    handleSelect(name);
+                    setMobileNavigationOpen(false);
+                  }}
+                  whatsNewActive={active === WHATS_NEW_KEY}
+                  onSelectWhatsNew={() => {
+                    handleSelect(WHATS_NEW_KEY);
+                    setMobileNavigationOpen(false);
+                  }}
+                />
+              </SheetContent>
+            </Sheet>
             <div className="relative w-full max-w-md">
               <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="search"
+                aria-label="Search components"
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -908,19 +940,19 @@ export default function ShowcaseApp() {
           </header>
           <main className="flex-1 overflow-y-auto">
             {active === AI_INTEGRATION_KEY ? (
-              <div className="min-h-full w-full px-8 py-8">
+              <div className="min-h-full w-full px-4 py-6 sm:px-8 sm:py-8">
                 <AiIntegrationView />
               </div>
             ) : active === SKILLS_KEY ? (
-              <div className="min-h-full w-full px-8 py-8">
+              <div className="min-h-full w-full px-4 py-6 sm:px-8 sm:py-8">
                 <SkillsView />
               </div>
             ) : active === WHATS_NEW_KEY ? (
-              <div className="min-h-full w-full px-8 py-8">
+              <div className="min-h-full w-full px-4 py-6 sm:px-8 sm:py-8">
                 <WhatsNewView />
               </div>
             ) : component ? (
-              <div className="min-h-full w-full px-8 py-8">
+              <div className="min-h-full w-full px-4 py-6 sm:px-8 sm:py-8">
                 <ComponentPage
                   title={component.title}
                   description={component.description}

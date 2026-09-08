@@ -67,7 +67,7 @@ export function ComponentPage({ title, description, importLine, sourceUrl, child
   }, []);
 
   return (
-    <div className="flex gap-10">
+    <div className="flex min-w-0 gap-10">
       <div ref={contentRef} className="min-w-0 flex-1 space-y-8">
         <div className="space-y-3">
           <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>

@@ -72,7 +72,7 @@ export default function StatCardDemo() {
       <DemoSection
         title="Auto-shrink for long values"
         code={`{/* Headline class steps down by rendered length */}
-{/* ≤10 → text-xl, ≤16 → text-lg, ≤24 → text-base, >24 → text-sm */}
+{/* ≤10 → text-3xl, ≤16 → text-lg, ≤24 → text-base, >24 → text-sm */}
 <StatCard label="Short" value={42} />
 <StatCard label="Medium" value="Enterprise Plus" />
 <StatCard label="Long" value={1234567890} suffix=" USD" />
@@ -84,6 +84,23 @@ export default function StatCardDemo() {
           <StatCard label="Long" value={1234567890} suffix=" USD" hint="≤24 chars" />
           <StatCard label="Very long" value="Quarterly recurring revenue projection" hint=">24 chars" />
         </div>
+      </DemoSection>
+      <DemoSection
+        title="Narrow card with a long hint"
+        code={`<StatCard label="Open tasks" value={12} hint="Across all active projects and teams" delta="+11%" deltaTone="down" />`}
+      >
+        <div className="max-w-60">
+          <StatCard
+            label="Open tasks"
+            value={12}
+            hint="Across all active projects and teams"
+            delta="+11%"
+            deltaTone="down"
+          />
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Short metrics use a 30px headline; hints and trend chips wrap rather than compete for one line.
+        </p>
       </DemoSection>
     </>
   );

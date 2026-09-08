@@ -54,6 +54,7 @@ const DRILLDOWN_NAV: NavItem[] = [
       },
     ],
   },
+  // Separators keep valid list structure for assistive technology.
   { type: 'separator' },
   { label: 'Docs', href: '#/docs', icon: FileText },
   { label: 'Help', href: '#/help', icon: HelpCircle },

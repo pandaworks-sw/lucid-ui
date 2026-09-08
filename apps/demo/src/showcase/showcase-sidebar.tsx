@@ -33,7 +33,7 @@ export function ShowcaseSidebar({
   onSelectWhatsNew,
 }: ShowcaseSidebarProps) {
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r bg-muted/30">
+    <aside className="flex h-full min-h-0 w-64 max-w-full shrink-0 flex-col border-r bg-muted/30">
       <div className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
         <img
           src={`${import.meta.env.BASE_URL}lucid-ui-logo.png`}
@@ -103,7 +103,7 @@ export function ShowcaseSidebar({
         </ul>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-3">
+      <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
         {categories.map((cat) => (
           <div key={cat.label} className="mb-4">
             <div className="mb-1 mt-4 flex items-center gap-2 px-2">

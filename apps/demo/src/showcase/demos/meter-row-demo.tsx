@@ -30,7 +30,7 @@ export default function MeterRowDemo() {
   return (
     <>
       <DemoSection
-        title="Plain labeled bars"
+        title="Plain labeled bars (labels also name the progress bars)"
         code={`<MeterRow label="Engineering" value={13} max={13} valueLabel={13} />
 <MeterRow label="Design" value={7} max={13} valueLabel={7} />`}
       >

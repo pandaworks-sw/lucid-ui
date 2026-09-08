@@ -12,6 +12,53 @@ interface WhatsNewEntry {
 
 const ENTRIES: WhatsNewEntry[] = [
   {
+    date: '2026-09-08',
+    componentName: 'avatar',
+    title: 'Clearer initials and accessible navigation',
+    summary:
+      'Avatar fills improve initial contrast. MeterRow announces its label. AppShell separators preserve valid list structure.',
+    kind: 'fixed',
+  },
+  {
+    date: '2026-09-08',
+    componentName: 'typography',
+    title: 'More readable text in both themes',
+    summary:
+      'Body text uses a clearer 12/14/16px scale. Dark supporting text, brand action text, and light focus rings now pass the tested contrast thresholds.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-09-08',
+    componentName: 'page-header',
+    title: 'Clearer page hierarchy on small screens',
+    summary: 'Page titles use 24px Comfortaa. Long titles and action groups wrap within the available width.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-09-08',
+    componentName: 'stat-card',
+    title: 'Metrics stand out without crowding their hints',
+    summary:
+      'Short metric values are larger, labels are easier to read, and hints and trend chips wrap on narrow cards.',
+    kind: 'changed',
+  },
+  {
+    date: '2026-09-08',
+    componentName: 'button',
+    title: 'Accessible icon actions and loading state',
+    summary:
+      'Native icon-only buttons use tooltip or action labels as accessible-name fallbacks. Your explicit labels take precedence. Loading exposes busy state and the spinner respects reduced motion.',
+    kind: 'fixed',
+  },
+  {
+    date: '2026-09-08',
+    componentName: 'animated-number',
+    title: 'Numbers respect reduced motion',
+    summary:
+      'Numbers settle immediately when reduced motion is enabled or duration is zero or negative. Interrupted animations continue from the displayed value.',
+    kind: 'fixed',
+  },
+  {
     date: '2026-08-02',
     componentName: 'app-shell',
     title: 'Long sidebars scroll again',

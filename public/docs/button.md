@@ -12,7 +12,7 @@ Props:
 - `action` -- Action preset that auto-resolves icon, variant, and label (see table below)
 - `icon` -- Custom icon override (any Lucide icon or ElementType). Overrides the action preset icon
 - `tooltip` -- Tooltip text. Auto-shown for icon-only sizes; falls back to preset label
-- `loading` -- Shows a Loader2 spinner, disables the button
+- `loading` -- Shows a motion-aware Loader2 spinner, disables the native button, and sets `aria-busy`.
 
 Action presets (use `action` prop instead of manually setting icon + variant):
 
@@ -103,3 +103,7 @@ Confirmation dialogs: Button does not include built-in confirmation. Wrap with `
 ```
 
 Dependencies: tooltip
+
+## Accessible names
+
+Native icon-only buttons use the tooltip text, then the action preset label, as a fallback accessible name. Explicit `aria-label` and `aria-labelledby` take precedence. Supply an explicit label for a custom icon without a tooltip/preset. Visible text labels remain unchanged. When using `asChild`, put the accessible name and disabled/loading handling on the child element.

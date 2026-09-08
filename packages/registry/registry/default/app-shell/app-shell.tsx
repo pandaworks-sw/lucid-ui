@@ -118,7 +118,9 @@ function NavItemCollapsible({
           <SidebarMenuSub>
             {item.items?.map((sub: NavItem, index: number) =>
               sub.type === 'separator' ? (
-                <SidebarSeparator key={`sep-${index}`} className="my-1" />
+                <li key={`sep-${index}`}>
+                  <SidebarSeparator className="my-1" />
+                </li>
               ) : (
                 <SidebarMenuSubItem key={sub.href}>
                   <SidebarMenuSubButton asChild isActive={sub.active}>
@@ -248,7 +250,11 @@ function NavItemDrilldown({
             <SidebarMenu>
               {level.items.map((item: NavItem, index: number) => {
                 if (item.type === 'separator') {
-                  return <SidebarSeparator key={`sep-${index}`} className="my-1" />;
+                  return (
+                    <li key={`sep-${index}`}>
+                      <SidebarSeparator className="my-1" />
+                    </li>
+                  );
                 }
                 if (isNavGroup(item)) {
                   return (
@@ -525,7 +531,9 @@ function AppShell({
           <SidebarMenu>
             {navigation.map((item: NavItem, index: number) =>
               item.type === 'separator' ? (
-                <SidebarSeparator key={`sep-${index}`} className="my-1" />
+                <li key={`sep-${index}`}>
+                  <SidebarSeparator className="my-1" />
+                </li>
               ) : item.items && item.items.length > 0 ? (
                 <NavItemCollapsible key={item.href} item={item} linkComponent={Link} />
               ) : (

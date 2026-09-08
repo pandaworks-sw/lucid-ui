@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type ReactNode } from 'react';
+import { type HTMLAttributes, type ReactNode, useId } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
@@ -59,7 +59,19 @@ function clampPct(value: number, max: number) {
   return Math.max(0, Math.min(100, (value / max) * 100));
 }
 
-function MeterRow({ className, label, value, max = 100, valueLabel, size, tone, ...props }: MeterRowProps) {
+function MeterRow({
+  className,
+  label,
+  value,
+  max = 100,
+  valueLabel,
+  size,
+  tone,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  ...props
+}: MeterRowProps) {
+  const labelId = useId();
   const pct = clampPct(value, max);
   const showLabelRow = label != null || valueLabel !== undefined;
 
@@ -67,7 +79,9 @@ function MeterRow({ className, label, value, max = 100, valueLabel, size, tone, 
     <div data-slot="meter-row" className={cn(showLabelRow && 'space-y-1', className)} {...props}>
       {showLabelRow && (
         <div className="flex items-center justify-between gap-2 text-sm">
-          <span className="min-w-0 truncate">{label}</span>
+          <span id={labelId} className="min-w-0 truncate">
+            {label}
+          </span>
           {valueLabel !== undefined && <span className="tabular-nums text-muted-foreground">{valueLabel}</span>}
         </div>
       )}
@@ -76,6 +90,8 @@ function MeterRow({ className, label, value, max = 100, valueLabel, size, tone, 
           className={cn(fillVariants({ tone }))}
           style={{ width: `${pct}%` }}
           role="progressbar"
+          aria-label={ariaLabel ?? (label == null && !ariaLabelledBy ? 'Progress' : undefined)}
+          aria-labelledby={ariaLabelledBy ?? (label != null && !ariaLabel ? labelId : undefined)}
           aria-valuenow={Math.round(pct)}
           aria-valuemin={0}
           aria-valuemax={100}

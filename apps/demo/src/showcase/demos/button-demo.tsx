@@ -203,6 +203,17 @@ export default function ButtonDemo() {
         </p>
       </ComponentSection>
 
+      <DemoSection
+        title="Accessible icon actions"
+        code={`<Button action="edit" size="icon" />
+<Button action="edit" size="icon" aria-label="Edit Atlas project" />`}
+      >
+        <div className="flex items-center gap-3">
+          <Button action="edit" size="icon" />
+          <Button action="edit" size="icon" aria-label="Edit Atlas project" />
+        </div>
+      </DemoSection>
+
       <ComponentSection title="Accessibility">
         <ul className="ml-4 list-disc space-y-1">
           <li>
@@ -211,16 +222,16 @@ export default function ButtonDemo() {
             the WCAG 1.4.11 non-text 3:1 minimum.
           </li>
           <li>
-            <strong>Icon-only buttons need an accessible name.</strong> The auto-tooltip is a <em>visual</em> label only
-            — it shows the preset label on hover and focus but is not the button's accessible name. Pass{' '}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">aria-label</code> for screen readers; it
-            forwards to the underlying{' '}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">&lt;button&gt;</code>.
+            <strong>Icon-only action buttons have an automatic accessible name.</strong> The tooltip or action preset
+            supplies it. Use <code>aria-label</code> or <code>aria-labelledby</code> for a more specific name. Custom
+            icons without a tooltip or preset still need an explicit label. With <code>asChild</code>, label the child
+            element.
           </li>
           <li>
             <strong>loading</strong> and <strong>disabled</strong> both set the native{' '}
             <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">disabled</code> attribute, so the button
-            leaves the tab order and cannot be triggered twice while an action is in flight.
+            leaves the tab order and cannot be triggered twice while an action is in flight. Loading also exposes
+            aria-busy.
           </li>
         </ul>
       </ComponentSection>

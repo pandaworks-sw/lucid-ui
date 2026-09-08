@@ -4,6 +4,26 @@ All notable changes to this repository are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-09-08
+
+### Fixed
+
+- AvatarFallback: darker generated fills improve white initial contrast. MeterRow: progress bars use visible or explicit accessible names. AppShell: separators preserve valid navigation list structure.
+- Responsive projects: sorting remains available for hidden columns; view toggles no longer reference missing tab panels.
+
+- Button: native icon-only controls use tooltip/action labels as accessible-name fallbacks, preserve explicit labels, and expose loading as `aria-busy`. Spinner animation respects reduced motion. Slotted child composition is unchanged.
+- AnimatedNumber: respect reduced motion, settle immediately for non-positive duration, and start interrupted animations from the displayed value.
+
+### Changed
+
+- PageHeader: 24px Comfortaa title and wrapping title/actions; StatCard: larger short metrics, more readable labels, and wrapping hints/trends.
+- Typography: xs 12px, sm 14px, base 16px, md 17px, lg 18px. Dark muted text now uses stone-300 (7.23:1 on card). New brand-text token separates readable action text from chroma fills; light focus ring uses panda-600 (4.09:1 on the page). Existing palette and APIs remain available; dense consumer layouts should be checked after upgrading.
+- Pure showcase: one contextual create action, responsive project columns with visible row actions, and clearer dashboard project summaries.
+
+### Added
+
+- Executable component regression tests with V8 coverage, and build/test/browser gates before package publishing.
+
 ## 2026-08-02
 
 ### Fixed

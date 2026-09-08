@@ -114,3 +114,9 @@ Sizing:
 | Onboarding hero / dedicated empty-state landing screen | `lg` (pair with `Button size="lg"` action) |
 
 Drop the icon for the densest inline variant. Match the action button's size to the EmptyState size — `sm` empty state → `sm` button; `lg` empty state → `lg` button.
+
+## Responsive page hierarchy
+
+PageHeader uses a 24px Comfortaa title. Its title column can shrink and long words wrap. Action groups wrap within the page width. Use default-size page actions. Keep one primary create action per page rather than repeating it in both the app header and page header.
+
+AppShell navigation separators preserve valid list item structure in flat, collapsible, and drilldown navigation.

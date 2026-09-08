@@ -40,7 +40,7 @@ function DepartmentChart({ projects, memberLookup }: { projects: Project[]; memb
         <CardTitle className="text-base">Team allocation</CardTitle>
         <CardDescription>Seats by department across active projects.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="flex flex-col gap-4">
         {totals.map(({ dept, count }) => (
           <MeterRow
             key={dept}
@@ -75,7 +75,7 @@ export function Dashboard() {
     .slice(0, 5);
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-8">
       <PageHeader
         title="Workspace"
         description="Snapshot of projects, tasks, and team activity across Pandawork."
@@ -84,9 +84,7 @@ export function Dashboard() {
             <Button variant="outline" onClick={() => navigate({ name: 'reports' })}>
               View reports
             </Button>
-            <Button onClick={() => navigate({ name: 'projects' })}>
-              Browse projects
-            </Button>
+            <Button onClick={() => navigate({ name: 'projects' })}>Browse projects</Button>
           </>
         }
       />
@@ -127,18 +125,18 @@ export function Dashboard() {
         />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid gap-6 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-base">Spotlight projects</CardTitle>
+              <CardTitle size="md">Spotlight projects</CardTitle>
               <CardDescription>Biggest bets currently in flight.</CardDescription>
             </div>
             <Button variant="ghost" onClick={() => navigate({ name: 'projects' })}>
               See all
             </Button>
           </CardHeader>
-          <CardContent className="space-y-0">
+          <CardContent className="flex flex-col">
             {spotlight.map((project, idx) => {
               const owner = memberById[project.ownerId];
               const teamMembers = project.memberIds.map((id) => memberById[id]).filter(Boolean);
@@ -146,27 +144,22 @@ export function Dashboard() {
               return (
                 <div key={project.id}>
                   {idx > 0 && <Separator className="my-4" />}
-                  {/* Wrapper is a div (not button) because CodeLabel renders */}
-                  {/* an internal copy button — nested buttons are invalid HTML. */}
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => navigate({ name: 'project', id: project.id })}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        navigate({ name: 'project', id: project.id });
-                      }
-                    }}
-                    className="group flex w-full cursor-pointer flex-col gap-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    <div className="flex items-start justify-between gap-4">
+                  <div className="flex w-full flex-col gap-3 text-left">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0 flex-1 space-y-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-col items-start gap-2">
                           <CodeLabel value={project.key} size="sm" />
-                          <h4 className="truncate text-sm font-semibold group-hover:text-primary">{project.name}</h4>
+                          <h4>
+                            <Button
+                              variant="link"
+                              className="h-auto whitespace-normal p-0 text-left text-base font-semibold"
+                              onClick={() => navigate({ name: 'project', id: project.id })}
+                            >
+                              {project.name}
+                            </Button>
+                          </h4>
                         </div>
-                        <p className="line-clamp-1 text-xs text-muted-foreground">{project.description}</p>
+                        <p className="line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
                       </div>
                       <div className="flex shrink-0 items-center gap-2">
                         <StatusBadge status={project.status} />
@@ -179,14 +172,14 @@ export function Dashboard() {
                           <span>Progress</span>
                           <span className="tabular-nums">{project.progress}%</span>
                         </div>
-                        <Progress value={project.progress} className="h-1.5" />
+                        <Progress aria-label={`${project.name} progress`} value={project.progress} className="h-1.5" />
                       </div>
                       <div className="hidden sm:flex shrink-0 items-center gap-3">
                         <div className="text-right">
                           <p className="text-xs text-muted-foreground">Owner</p>
                           <p className="text-xs font-medium">{owner?.name ?? '—'}</p>
                         </div>
-                        <MemberStack members={teamMembers} size="xs" max={3} />
+                        <MemberStack members={teamMembers} size="sm" max={3} />
                         <div className="text-right">
                           <p className="text-xs text-muted-foreground">Open</p>
                           <p className="text-xs font-medium tabular-nums">{openTasks}</p>

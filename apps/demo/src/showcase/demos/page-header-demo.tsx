@@ -17,8 +17,8 @@ import { Plus } from "lucide-react"
   description="Manage your team members."
   actions={
     <>
-      <Button variant="outline" size="sm">Export</Button>
-      <Button size="sm">
+      <Button variant="outline">Export</Button>
+      <Button>
         <Plus className="size-4 mr-2" />
         Add Employee
       </Button>
@@ -31,11 +31,11 @@ import { Plus } from "lucide-react"
           description="Manage your team members and their information."
           actions={
             <>
-              <Button variant="outline" size="sm">
+              <Button variant="outline">
                 <Download className="size-4 mr-2" />
                 Export
               </Button>
-              <Button size="sm">
+              <Button>
                 <Plus className="size-4 mr-2" />
                 Add Employee
               </Button>
@@ -50,11 +50,11 @@ import { Plus } from "lucide-react"
           description="Software Engineer -- Engineering Department"
           actions={
             <>
-              <Button variant="outline" size="sm">
+              <Button variant="outline">
                 <Pencil className="size-4 mr-2" />
                 Edit
               </Button>
-              <Button variant="destructive" size="sm">
+              <Button variant="destructive">
                 <Trash2 className="size-4 mr-2" />
                 Delete
               </Button>
@@ -69,6 +69,26 @@ import { Plus } from "lucide-react"
 
       <DemoSection title="With description, no actions">
         <PageHeader title="Dashboard" description="Overview of key metrics and recent activity." />
+      </DemoSection>
+      <DemoSection
+        title="Long title and wrapping actions"
+        code={`<PageHeader title="Regional workforce planning and operations" description="Review staffing across every location." actions={<><Button action="export" /><Button action="create">Add employee</Button></>} />`}
+      >
+        <div className="max-w-sm">
+          <PageHeader
+            title="Regional workforce planning and operations"
+            description="Review staffing across every location."
+            actions={
+              <>
+                <Button action="export" />
+                <Button action="create">Add employee</Button>
+              </>
+            }
+          />
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Page titles use 24px Comfortaa. Long titles and actions wrap within the available width.
+        </p>
       </DemoSection>
     </>
   );

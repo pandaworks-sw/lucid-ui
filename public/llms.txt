@@ -58,7 +58,7 @@ All tokens live in [packages/registry/src/styles.css](../packages/registry/src/s
 
 **Stone scale (cool neutrals)** — `--stone-50` `#F7F9FB` → `--stone-950` `#080B0E` (50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950). Tailwind utilities: `bg-stone-{50…950}`, `text-stone-*`, `border-stone-*`. Use directly only when you need a specific neutral step; for app surfaces prefer the semantic theme tokens.
 
-**Panda blue (brand accent)** — `--panda-50` `#E7F7FD` → `--panda-900` `#08323F` (50, 100, 200, 300, 400, 500, 600, 700, 800, 900). `--brand` and `--ring` resolve to `--panda-400` `#20B0E0`.
+**Panda blue (brand accent)** — `--panda-50` `#E7F7FD` → `--panda-900` `#08323F` (50, 100, 200, 300, 400, 500, 600, 700, 800, 900). `--brand` remains `--panda-400` `#20B0E0`. `--brand-text` uses panda-700 in light and panda-300 in dark. `--ring` uses panda-600 in light and panda-400 in dark.
 
 **Semantic chroma (non-text fills)** — used for meter bars, status dots, chart fills, icon glyphs:
 - `--success` `#4F8A52`
@@ -83,7 +83,7 @@ Each has a `--{name}-foreground: #FFFFFF` companion for solid-bg-+-white-text co
 - `--muted` (stone-100 / stone-700), `--accent` (stone-150 / stone-600)
 - `--brand` (panda-400, both modes), `--destructive` (chroma --danger, both modes)
 - `--border`, `--input` (stone-200 / stone-600); `--input-bg` (stone-100 / stone-800) — field surface for `Input`, `Textarea`, `SelectTrigger`, outline `Button`, `AttachmentInput` compact
-- `--ring` (panda-400, both modes)
+- `--ring` (panda-600 / panda-400), `--brand-text` (panda-700 / panda-300), `--muted-foreground` (stone-600 / stone-300)
 - `--chart-{1..5}` for data viz palettes
 - Sidebar mirror tokens: `--sidebar-background`, `--sidebar-foreground`, `--sidebar-primary`, `--sidebar-accent`, `--sidebar-border`, `--sidebar-ring`
 
@@ -348,6 +348,40 @@ Each entry contains:
 - **details**: concise description of the change
 
 ---
+
+### 2026-09-08
+
+- component: foundations
+  change: changed
+  breaking: false
+  details: Body scale is now xs 12px, sm 14px, base 16px, md 17px, lg 18px. Dark supporting text uses stone-300 (7.23:1 on card). Brand text uses panda-700 light / panda-300 dark. Light focus ring uses panda-600 (4.09:1 on page). The chroma brand token stays unchanged.
+  action: Recheck tightly packed layouts; use brand-text for action text and brand for decorative fills.
+- component: page-header
+  change: changed
+  breaking: false
+  details: 24px page title, shrinking title column, and wrapping action group.
+  action: No API migration. Avoid duplicate primary create actions.
+- component: stat-card
+  change: changed
+  breaking: false
+  details: Short headline metrics use text-3xl. Hint and trend wrap; long-value sizing still adapts.
+  action: No API migration; check dense grids after upgrade.
+
+- component: button
+  change: fixed
+  breaking: false
+  details: Native icon-only buttons fall back to tooltip/action accessible names. Explicit labels win. Loading sets aria-busy; spinner respects reduced motion. asChild retains child-owned semantics.
+  action: Keep explicit contextual aria-label values. Label custom icons without tooltip/action and slotted child elements.
+- component: animated-number
+  change: fixed
+  breaking: false
+  details: Reduced motion and non-positive durations settle immediately; interrupted animation resumes from the displayed value.
+  action: No migration needed.
+- component: tooling
+  change: added
+  breaking: false
+  details: Component regression tests with V8 coverage and pre-publish quality checks.
+  action: Run pnpm test and pnpm test:ui-audit before release.
 
 ### 2026-08-02
 
@@ -1543,3 +1577,5 @@ Each entry contains:
 - action:
   - Upgrade `@pandaworks-sw/ui`
   - No code changes required in consuming projects
+
+Accessibility: AvatarFallback uses darker generated hues for white initials. MeterRow uses its visible label as the progressbar accessible name; use aria-label or aria-labelledby to override it. Bare bars default to “Progress”; provide a contextual name when several bars are shown.

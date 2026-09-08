@@ -52,15 +52,15 @@ interface TextSizeProps {
 const BODY_SCALE: TextSizeProps[] = [
   {
     utility: 'text-xs',
-    meta: '11px / 1.5',
+    meta: '12px / 1.5',
     weight: '600',
-    note: 'letter-spacing 0.04em',
+    note: 'letter-spacing 0.01em',
     sample: 'Eyebrow / Badge / Caption',
   },
-  { utility: 'text-sm', meta: '13px / 1.5', weight: '500', sample: 'Secondary body, labels, helper text' },
-  { utility: 'text-base', meta: '14px / 1.55', weight: '400', sample: 'Default body copy' },
-  { utility: 'text-md', meta: '15px / 1.55', weight: '400', sample: 'Slightly emphasized body' },
-  { utility: 'text-lg', meta: '17px / 1.5', weight: '500', sample: 'Section subheading' },
+  { utility: 'text-sm', meta: '14px / 1.5', weight: '500', sample: 'Secondary body, labels, helper text' },
+  { utility: 'text-base', meta: '16px / 1.55', weight: '400', sample: 'Default body copy' },
+  { utility: 'text-md', meta: '17px / 1.55', weight: '400', sample: 'Slightly emphasized body' },
+  { utility: 'text-lg', meta: '18px / 1.5', weight: '500', sample: 'Section subheading' },
   { utility: 'text-xl', meta: '20px / 1.45', weight: '500', sample: 'Card / Dialog title' },
 ];
 

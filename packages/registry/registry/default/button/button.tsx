@@ -49,7 +49,7 @@ const buttonVariants = cva(
         outline: 'border border-border bg-input-bg text-foreground shadow-xs hover:bg-muted hover:shadow-sm',
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:shadow-sm',
         ghost:
-          'hover:text-brand hover:scale-105 active:scale-95 active:translate-y-0 active:transition-transform active:duration-100',
+          'hover:text-brand-text hover:scale-105 active:scale-95 active:translate-y-0 active:transition-transform active:duration-100',
         link: 'text-primary underline-offset-4 hover:underline active:translate-y-0 shadow-none',
       },
       size: {
@@ -114,6 +114,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const resolvedVariant = variantProp ?? preset?.variant ?? 'default';
     const ResolvedIcon = loading ? Loader2 : (iconProp ?? preset?.icon ?? null);
     const isIconOnly = ICON_SIZES.has(size);
+    const accessibleLabel =
+      isIconOnly && !props['aria-labelledby'] ? (props['aria-label'] ?? tooltip ?? preset?.label) : props['aria-label'];
 
     // Auto-label: if action set, no children, and not icon-only, use preset label
     const resolvedChildren = children ?? (!isIconOnly && preset ? preset.label : undefined);
@@ -132,8 +134,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         {...props}
+        aria-label={accessibleLabel}
+        aria-busy={loading || props['aria-busy']}
       >
-        {ResolvedIcon && <ResolvedIcon className={cn(loading && 'animate-spin')} />}
+        {ResolvedIcon && <ResolvedIcon aria-hidden="true" className={cn(loading && 'motion-safe:animate-spin')} />}
         {resolvedChildren}
       </button>
     );

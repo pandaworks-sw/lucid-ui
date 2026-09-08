@@ -469,9 +469,9 @@ Props:
 - `delta?: string` — trend chip text (e.g. `"+12%"`).
 - `deltaTone?: "up" | "down" | "flat"` — controls the trend chip's tone. `"up"` → success, `"down"` → destructive, `"flat"` → muted. Defaults to `"up"`.
 
-`StatCard` ships at a single SaaS-density size — tight padding (`px-4`), `text-xs` label, `size-3.5` icon, and a `text-xl` headline number — so multiple tiles fit comfortably on a dashboard without dominating the page. Don't override these via `className` to "go bigger"; if you need a hero number, use a plain `Card` with custom typography.
+`StatCard` uses a 14px label and a 30px short-value headline with comfortable padding (`px-5`). Hints and trend chips wrap on narrow cards. Keep the same shared component rather than overriding its typography in each app.
 
-The headline class auto-shrinks based on the rendered value length so long values still fit inside the tile: `≤10 chars → text-xl`, `≤16 → text-lg`, `≤24 → text-base`, `>24 → text-sm`. Length is computed from the string for string values, from `formatter(value)` when a formatter is provided, and from `prefix + integer digits + decimals + suffix` otherwise. The shrink is purely length-based (no measurement) — it's predictable and adds zero runtime cost, but it's a heuristic, so a wide character at a boundary may still clip in extreme cases.
+The headline auto-shrinks by rendered length: `≤10 chars → text-3xl`, `≤16 → text-lg`, `≤24 → text-base`, `>24 → text-sm`. Long values can break across lines. String, numeric, prefix/suffix, and formatter APIs are unchanged.
 
 ## MultiStatCard
 
@@ -588,7 +588,7 @@ import { AnimatedNumber } from "@/components/ui/animated-number"
 
 Props:
 - `value: number` -- Target value to animate to
-- `duration?: number` -- Animation duration in ms (default: 500)
+- `duration?: number` -- Animation duration in ms (default: 500). Zero/negative values settle immediately. The system reduced-motion preference disables animation, including when enabled mid-animation.
 - `suffix?: string` -- Text appended after the number (e.g., "%", "pts")
 - `prefix?: string` -- Text prepended before the number (e.g., "$", "RM")
 - `decimals?: number` -- Number of decimal places (default: 0)
@@ -654,3 +654,5 @@ Props:
 - `delayDuration?: number` -- Tooltip open delay in ms (default: 200)
 - `disableTooltip?: boolean` -- Skip the tooltip even when truncated (default: false)
 - Forwards all other `HTMLAttributes<HTMLSpanElement>` to the inner `<span>`
+
+Accessibility: AvatarFallback uses darker generated hues for white initials. MeterRow uses its visible label as the progressbar accessible name; use aria-label or aria-labelledby to override it. Bare bars default to “Progress”; provide a contextual name when several bars are shown.

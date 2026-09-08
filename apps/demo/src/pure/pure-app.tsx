@@ -130,12 +130,14 @@ function PureShell() {
         }}
         header={
           <div className="flex w-full items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Pure showcase — registry-only</span>
+            <span className="min-w-0 truncate text-sm font-medium text-muted-foreground">Pandawork workspace</span>
             <div className="ml-auto flex items-center gap-2">
-              <Button onClick={handleCreateProject}>
-                <Plus className="size-4" />
-                New project
-              </Button>
+              {route.name === 'dashboard' && (
+                <Button onClick={handleCreateProject}>
+                  <Plus className="size-4" />
+                  New project
+                </Button>
+              )}
               <ThemeToggle />
             </div>
           </div>

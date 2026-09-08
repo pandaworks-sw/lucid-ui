@@ -182,9 +182,9 @@ export default function AvatarDemo() {
       >
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Each fallback derives its background from the first character — A–Z map to 26 evenly spaced OKLCH hues,
-            digits and other characters fall back to a deterministic hash. This is on by default; pass{' '}
-            <code className="font-mono text-xs">colorize={'{false}'}</code> to opt out.
+            Each fallback derives its background from the first character — A–Z map to 26 evenly spaced OKLCH hues with
+            darker fills for readable white initials, digits and other characters fall back to a deterministic hash.
+            This is on by default; pass <code className="font-mono text-xs">colorize={'{false}'}</code> to opt out.
           </p>
           <div className="flex flex-wrap gap-2">
             {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((letter) => (
