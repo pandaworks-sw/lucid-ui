@@ -1,6 +1,6 @@
 // PURE SHOWCASE — registry-only helpers.
 //
-// Rules (see CLAUDE.md "Showcase Purity Rules"):
+// Rules (see AGENTS.md "Showcase Purity Rules"):
 //   - No custom UI components. Every visual element comes from @/components/ui/*.
 //   - No hardcoded Tailwind palette colors.
 //   - No inline style overrides on registry components.

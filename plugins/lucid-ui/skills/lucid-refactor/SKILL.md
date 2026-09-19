@@ -58,11 +58,11 @@ Specifically in scope:
   `src/features/<domain>/components/`) that contain UI primitives
 
 Specifically NOT in scope (common project rules -- check the project's own
-`CLAUDE.md` for exact paths):
+`AGENTS.md` (or `CLAUDE.md`) for exact paths):
 
 - Project-local UI registries (often `src/components/ui/`) -- usually owned
-  by a separate effort. NEVER edit unless the project's CLAUDE.md says you
-  may.
+  by a separate effort. NEVER edit unless the project's AGENTS.md (or
+  CLAUDE.md) says you may.
 - Vendored copies of the lucid registry (often
   `src/components/pandaworks-ui/`) -- overwritten on resync. NEVER edit.
 - Auto-generated API client types (often `src/lib/api-client/types.ts`).

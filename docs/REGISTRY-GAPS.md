@@ -4,7 +4,7 @@ Findings from rebuilding the SaaS demo (`apps/demo/src/saas/`) using only regist
 
 **How to read this:** each gap describes a place where a real-world consumer is forced to leave the registry. The "Workaround in pure" column shows what the pure-showcase ended up with; the "Fix" column proposes the registry change that would close the gap.
 
-Rebuilding rules and the audit grep commands live in `CLAUDE.md` under "Showcase Purity Rules."
+Rebuilding rules and the audit grep commands live in `AGENTS.md` under "Showcase Purity Rules."
 
 ## Status (2026-05-01)
 
