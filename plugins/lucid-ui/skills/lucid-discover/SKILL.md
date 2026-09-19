@@ -94,5 +94,5 @@ This skill triggers in **consumer frontend projects** -- Pandahrms-
 Performance, Pandahrms-Recruitment, mobile, and any other project that
 depends on `@pandaworks-sw/lucid-ui`. It does NOT trigger inside the
 lucid-ui source repo itself, since that is where new components are
-authored (governed by the local `CLAUDE.md` and the `/lucid-ui` slash
+authored (governed by the local `AGENTS.md` and the `/lucid-ui` slash
 command).
